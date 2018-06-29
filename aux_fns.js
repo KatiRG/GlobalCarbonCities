@@ -299,6 +299,7 @@ function sortByRegion(region, this_dim) {
   data_GHG.forEach(function (d) {
     if (regionsDict[d.region] === region && d[this_dim] != "") ghg_byRegion.push(d);
   });
+  console.log('ghg_byRegion: ', ghg_byRegion)
   return ghg_byRegion;
 }
 
