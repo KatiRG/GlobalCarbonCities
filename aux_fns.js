@@ -16,74 +16,75 @@ function setupData(ghg){
     //each d is a line of the csv file represented as a json object
     //use + only for integers, not floats or strings
 
-    city = d.city
-    region = d['Geographic group'] //Global Carbon Atlas regions
-    cityLocation = [ +d['lon (external)'] -360, +d['lat (external)']]
-    country = d.country
-    popn = +d['pop to use']
-    area = d['area [km2] (external)']
-    totalEmissions = d['Total City-wide Emissions (metric tonnes CO2e) (CDP)'] //[tCO2]
-    scope1 = d['s1 to use']
-    measurementYear = +d['Measurement year only (CDP)']
-    GDP = d['GDP-PPP combined'] //units of $BN USD
-    // GDP = d['GDP-PPP combined [USD]'] //units of USD
-    scope1_cap = +d['s1 per capita'] //d['s1 per capita']  //scope1/popn
-    scope1_gdp = +d['s1 per gdp [kgCO2/USD]']
-    GDP_cap = d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9)  //+d['GDP-PPP combined/cap']
-    pop_density = popn/area//[pop/km2]
-    HDD155C = +d["HDD_15.5C (FMB)"] //+d["HDD_15.5C"]
-    CDD23C = +d["CDD_23C (FMB)"] //+d["CDD_23C"]
-    diesel_price = d["diesel_price (2014)"]//+d.diesel_price
-    gas_price = +d["gasoline_price (2014)"]//+d.gasoline_price
-    HH = +d["household_size (updated)"]
-    methodology_num = +d['MethodNum'] //1-5 for 5 protocols in total
-    methodology_details = d['Methodology Details (CDP)']
+    city = d['city']
+    region = d['Region']
+    cityLocation = [ +d['Longitude (others) [degrees]'] -360, +d['Latitude (others) [degrees]']]
+    country = d.Country
+    popn = +d['Population (others)']
+    area = d['City area (others) [km2]']
+    totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
+    scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
+    measurementYear = +d['Year of emission']
+    GDP = d['GDP-PPP (others) [$BN]']
+    scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
+    scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
+    GDP_cap = d["GDP-PPP (others) [$BN]"]/d["Population (others)"]*Math.pow(10,9)
+    pop_density = +d['Population (others)']/d['City area (others) [km2]']
+    HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
+    CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
+    diesel_price = d["Diesel price 2014 (others) [USD/liter]"]
+    gas_price = +d["Gasoline price (GEA+) [USD/liter]"]
+    HH = +d["Household size (others) [people/household]"]
+    methodology_num = +d['MethodNum'] //1-6 for 6 protocols in total
+    methodology_details = d['Methodology details (CDP)']
     delta_emissions = d['Increase/Decrease from last year (CDP)'] //string
     delta_emissions_reason = d['Reason for increase/decrease in emissions (CDP)']//string
 
     //Urban Areas
-    UA_cluster = +d['Urban Area Cluster (FC)']
-    // low_BUA_1990 = +d['Low BUA - 1990 (FC)']
-    // low_BUA_2000 = +d['Low BUA - 2000 (FC)']
-    low_BUA_2014 = +d['Low BUA 2014 (FC)']
-    // high_BUA_1990 = +d['High BUA - 1990 (FC)']
-    // high_BUA_2000 = +d['High BUA - 2000 (FC)']
-    high_BUA_2014 = +d['High BUA 2014 (FC)']
-    // low_BUApc_1990 = +d['Low BUA % 1990 (FC)']
-    // low_BUApc_2000 = +d['Low BUA % 2000 (FC)']    
-    low_BUApc_2014 = +d['Low BUA % 2014 (FC)']*100
-    // high_BUApc_1990 = +d['High BUA % 1990 (FC)']
-    // high_BUApc_2000 = +d['High BUA % 2000 (FC)']
-    high_BUApc_2014 = +d['High BUA % 2014 (FC)']*100
-    // low_BUA_pdensity_1990 = +d['Low BUA pop density - 1990 (FC)']
-    // high_BUA_pdensity_1990 = +d['High BUA pop density - 1990 (FC)']
-    // low_BUA_pdensity_2000 = +d['Low BUA pop density - 2000 (FC)']
-    // high_BUA_pdensity_2000 = +d['High BUA pop density - 2000 (FC)']
-    low_BUA_pdensity_2014 = +d['Low BUA pop density 2014 (FC)']
-    high_BUA_pdensity_2014 = +d['High BUA pop density 2014 (FC)']
+    UA_cluster = +d['Urban area name (UEX)']
+    //low_BUA_1990 = +d['Low BUA - 1990 (UEX) [km2]']
+    //low_BUA_2000 = +d['Low BUA - 2000 (UEX) [km2]']
+    low_BUA_2014 = +d['Low BUA - 2014 (UEX) [km2]']
+    //high_BUA_1990 = +d['High BUA - 1990 (UEX) [km2]']
+    //high_BUA_2000 = +d['High BUA - 2000 (UEX) [km2]']
+    high_BUA_2014 = +d['High BUA - 2014 (UEX) [km2]']    
+    //low_BUApc_1990 = +d['Low BUA % - 1990 (UEX) [percent]']*100
+    //low_BUApc_2000 = +d['Low BUA % - 2000 (UEX) [percent]']
+    low_BUApc_2014 = +d['Low BUA % - 2014 (UEX) [percent]']
+    //high_BUApc_1990 = +d['High BUA % - 1990 (UEX) [percent]']*100
+    //high_BUApc_2000 = +d['High BUA % - 2000 (UEX) [percent]']*100
+    high_BUApc_2014 = +d['High BUA % - 2014 (UEX) [percent]']*100
+    //low_BUA_pdensity_1990 = +d['Low BUA population density - 1990 (UEX) [people/km2]']
+    // low_BUA_pdensity_2000 = +d['Low BUA population density - 2000 (UEX) [people/km2]']
+    low_BUA_pdensity_2014 = +d['Low BUA population density - 2014 (UEX) [people/km2]']
+    //high_BUA_pdensity_1990 = +d['High BUA population density - 1990 (UEX) [people/km2]']
+    //high_BUA_pdensity_2000 = +d['High BUA population density - 2000 (UEX) [people/km2]']
+     high_BUA_pdensity_2014 = +d['High BUA population density - 2014 (UEX) [people/km2]']
 
     //traffic and socio-economic indices
-    inrix_congestion = +d['AVERAGE CONGESTION RATE (INRIX)']
-    inrix_idx = +d['INRIX CONGESTION INDEX (INRIX)']
-    inrix_hours = +d['PEAK HOURS SPENT IN CONGESTION (INRIX)']
-    inrix_rank = +d['RANK (INRIX)']
+    inrix_congestion = +d['Average congestion rate (INRIX) [percent]']
+    inrix_idx = +d['INRIX congestion index (INRIX) [dimensionless]']
+    inrix_hours = +d['Peak hours spent in congestion (INRIX) [hours]']
+    inrix_rank = +d['Congestion rank (INRIX) [dimensionless]']
+
     tomtom_congestion = +d['Congestion Level (TomTom)']
-    tomtom_rank = +d['World Rank (TomTom)']
-    tomtom_congestion_change = +d['Congestion change (TomTom)']
-    tomtom_am_peak = +d['Morning Peak (TomTom)']
-    tomtom_pm_peak = +d['Evening Peak (TomTom)']
-    iese_human = +d['human capital (IESE)']
-    iese_cohesion = +d['social cohesion (IESE)']
-    iese_economy = +d['economy (IESE)']
-    iese_management = +d['public management (IESE)']
-    iese_gov = +d['governance (IESE)']
-    iese_env = +d['environment (IESE)']
-    iese_transport = +d['mobility and transportation (IESE)']
-    iese_urban = +d['urban planning (IESE)']
-    iese_intl = +d['international impact (IESE)']
-    iese_tech = +d['technology (IESE)']
-    iese_cimi = +d['CIMI (IESE)']
-    iese_cimi_rank = +d['CIMI Ranking (IESE)']
+    tomtom_rank = +d['Congestion rank (TomTom) [dimensionless]']
+    tomtom_congestion_change = +d['Congestion change (TomTom) [\xc3\x97 100 percent]']
+    tomtom_am_peak = +d['Morning peak (TomTom) [percent]']
+    tomtom_pm_peak = +d['Evening peak (TomTom) [percent]']
+
+    iese_human = +d['Human capital (IESE) [dimensionless]']
+    iese_cohesion = +d['Social cohesion (IESE) [dimensionless]']
+    iese_economy = +d['Economy (IESE) [dimensionless]']
+    iese_management = +d['Public management (IESE) [dimensionless]']
+    iese_gov = +d['Governance (IESE) [dimensionless]']
+    iese_env = +d['Environment (IESE) [dimensionless]']
+    iese_transport = +d['Mobility and transportation (IESE) [dimensionless]']
+    iese_urban = +d['Urban planning (IESE) [dimensionless]']
+    iese_intl = +d['International impact (IESE) [dimensionless]']
+    iese_tech = +d['Technology (IESE) [dimensionless]']
+    iese_cimi = +d['CIMI (IESE) [dimensionless]']
+    iese_cimi_rank = +d['CIMI ranking (IESE) [dimensionless]']
 
 
     idName = format_idName(d.city);
@@ -212,6 +213,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   for (idx=0; idx < geogroupArray.length; idx++) {   
     //Extract data by region
     ghg_extract = sortByRegion(geogroupArray[idx]);
+    console.log('ghg_extract: ', ghg_extract)
 
     //Sort by this_dim in descending order
     ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
@@ -255,7 +257,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
 
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerGDP] = 0.23;
-    }
+    } 
 
     //Concatenate with a gap obj in between
     if (idx % 2 == 0) {
@@ -291,11 +293,11 @@ function fn_abbr(d) {
 }
 
 function sortByRegion(region, this_dim) {
-  //console.log("region in sortByRegion: ", region)
+  console.log("region in sortByRegion: ", region)
 
   ghg_byRegion = [];
   data_GHG.forEach(function (d) {
-    if (d.region === region && d[this_dim] != "") ghg_byRegion.push(d);
+    if (regionsDict[d.region] === region && d[this_dim] != "") ghg_byRegion.push(d);
   });
   return ghg_byRegion;
 }

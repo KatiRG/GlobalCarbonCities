@@ -39,7 +39,7 @@
     <!-- header row -->
     <div class="row">     
       <div class="col-lg-7 headings" style="text-align: center; left:307px;">
-        Cities that reported emissions to the Carbon Disclosure Project
+        Distribution of 343 cities in 9 global regions
       </div>
     </div> <!-- ./header row -->
 
@@ -72,7 +72,7 @@
         <div id="barChartLegendLabel">Colour bars by: 
           <select id="d3-dropdown">
             <option value="methodology" selected="selected">Protocol</option>
-            <option value="measurement year">measurement year</option>
+            <!--<option value="measurement year">measurement year</option>
             <option value="change in emissions">change in emissions</option>
             <option value="population">population</option>
             <option value="population density">population density</option>
@@ -90,7 +90,7 @@
             <option value="high BUA density (2014)">high BUA density (2014)</option>
             <option value="Congestion rank (INRIX)">Congestion rank (INRIX)</option>
             <option value="World Rank (TomTom)">World Rank (TomTom)</option>
-            <option value="Cities in Motion Index (IESE)">Cities in Motion Index (IESE)</option>
+            <option value="Cities in Motion Index (IESE)">Cities in Motion Index (IESE)</option>-->
           </select>
           <p id="selected-dropdown"></p>
         </div>
@@ -104,21 +104,56 @@
       <div class="col-lg-2" id="barChartLegendUnits"></div>
     </div> <!-- .end row -->
 
-    <div class="row">
-      <div class="col-lg-12">
-        <div id="barChart_USAAsia"></div>
-      </div>
-    </div> <!-- .end row -->
+    <!-- ****************************************** -->
+    <!-- BAR CHARTS -->
+    <!-- ****************************************** -->
 
+    <!-- BarChart ROW1: groupEastAsia -->
     <div class="row">
       <div class="col-lg-12">
-        <!--barChart sub-row-->
+        <div id="barChart_groupEastAsia"></div>
+      </div>
+    </div> <!-- .end BarChart ROW1 -->
+
+    <!-- BarChart ROW2: groupNAmer -->
+    <div class="row">
+      <div class="col-lg-12">
         <div class="row">
-          <div id="barChart_EUCWLatAmerAfrica"></div>
+          <!--<div id="barChart_EUCWLatAmerAfrica"></div> -->
         </div>
       
       </div> <!-- .end col -->
-    </div> <!-- .end row -->
+    </div> <!-- .end BarChart ROW2 -->
+
+    <!-- BarChart ROW3: groupEurope -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div id="barChart_groupEurope"></div>
+        </div>
+      
+      </div> <!-- .end col -->
+    </div> <!-- .end BarChart ROW3 -->
+
+    <!-- BarChart ROW4: groupLatinAmer, groupSEAsia, groupSAsia -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div id="barChart_groupSouth"></div>
+        </div>
+      
+      </div> <!-- .end col -->
+    </div> <!-- .end BarChart ROW4 -->
+
+    <!-- BarChart ROW5: groupAfrica, groupOceania, groupNAfrica -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div id="barChart_groupAfricaOceania"></div>
+        </div>
+      
+      </div> <!-- .end col -->
+    </div> <!-- .end BarChart ROW5 -->
     
     <footer class="row">
       logos
@@ -331,26 +366,26 @@ d3.select("#reorderButton")
 // ----------------------------------------------------
 
 //Find data range extent for each dim (to be used to discretize into colour values)
-d3.tsv("data/cityApp_attributes.tsv", function(ghg) {  
+d3.tsv("data/d_final_app.tsv", function(ghg) {  
   dimExtentDict = {
     "methodology": 
-          d3.extent(ghg, function (d) { return d['MethodNum']; }),
-    "change in emissions": [1,5],
-    "population": [1000, 8000000],          
-    "population density": 
-          d3.extent(ghg, function (d) { return +d["pop to use"]/d["area [km2] (external)"]; }),
-    // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
-    "measurement year": [2005, 2015], 
-    "GDP/capita": [1700, 128046],
-    "diesel price": [0.5, 1.8],
-    "gas price": [0.5, 1.8],
-    "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB
-    "area": [0, 2000], 
-    "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
-    "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
-    "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
-    "Congestion rank (INRIX)": [200,700], "World Rank (TomTom)": [25, 150],
-    "Cities in Motion Index (IESE)": [40,90]
+          d3.extent(ghg, function (d) { return d['MethodNum']; })
+    // "change in emissions": [1,5],
+    // "population": [1000, 8000000],          
+    // "population density": 
+    //       d3.extent(ghg, function (d) { return +d["pop to use"]/d["area [km2] (external)"]; }),
+    // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
+    // "measurement year": [2005, 2015], 
+    // "GDP/capita": [1700, 128046],
+    // "diesel price": [0.5, 1.8],
+    // "gas price": [0.5, 1.8],
+    // "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB
+    // "area": [0, 2000], 
+    // "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
+    // "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
+    // "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
+    // "Congestion rank (INRIX)": [200,700], "World Rank (TomTom)": [25, 150],
+    // "Cities in Motion Index (IESE)": [40,90]
 
   }
 }) //end read tsv
@@ -363,13 +398,14 @@ console.log("attrFlag: ", attrFlag)
 //fn_appendRegionalLine();
 
 // d3.csv("data/Creutzig2014_dataset_wb.csv", function(ghg) {
-d3.tsv("data/cityApp_attributes.tsv", function(ghg) {
+d3.tsv("data/d_final_app.tsv", function(ghg) {
   //console.log("ghg read: ", ghg)
 
   setupData(ghg);
   drawMap();
-  emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
-  emissionsBarChart("groupEUCWLatAmerAfrica", "#barChart_EUCWLatAmerAfrica");
+  emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
+  //emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+  //emissionsBarChart("groupEUCWLatAmerAfrica", "#barChart_EUCWLatAmerAfrica");
   fn_barChartLegend();
 
 });
@@ -653,11 +689,27 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
   //Extract scaled emissions data for given region
   //Omit cities for which GDP-PPP is missing
-  var geogroupArray = geogroup_name === "groupUSAAsia" ? 
-                      ["groupUSA","gap","groupAsia"] :
-                      ["groupEurope", "gap", "groupCan", "gap",
-                      "groupOceania", "gap","groupLatinAmer", "gap", 
-                      "groupAfrica"];
+  // var geogroupArray = geogroup_name === "groupUSAAsia" ? 
+  //                     ["groupUSA","gap","groupAsia"] :
+  //                     ["groupEurope", "gap", "groupCan", "gap",
+  //                     "groupOceania", "gap","groupLatinAmer", "gap", 
+  //                     "groupAfrica"];
+
+  console.log('geogroup_name: ', geogroup_name)
+  if (geogroup_name === "groupEastAsia") {
+    geogroupArray = ["groupEastAsia"];
+  } else if (geogroup_name === groupNAmer) {
+    geogroupArray = ["groupNAmer"];
+  } else if (geogroup_name === groupEurope) {
+    geogroupArray = ["groupEurope"];
+  } else if (geogroup_name === groupSouth) {
+    geogroupArray = ["groupLatinAmer", "gap", "groupSEAsia", "gap", "groupSAsia"];
+  } else if (geogroup_name === groupAfricaOceania) {
+    geogroupArray = ["groupAfrica", "gap", "groupOceania", "gap", "groupNAfrica"];
+  }
+  console.log('geogroupArray: ', geogroupArray)
+  console.log('this_dim: ', this_dim)
+                    
   emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
 
   // Get city order of Scope/capita
@@ -665,11 +717,12 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     emissions_scaled = fn_reorderByEmissionsPerCapita(geogroup_name, emissions_scaled);
   } // end button text check
 
-  if (geogroup_name === "groupUSAAsia") {
+  if (geogroup_name === "groupEastAsia") {
     pOuter = 0.1;
     pInner = 0.27;
   }
-  else if (geogroup_name === "groupEUCWLatAmerAfrica") {
+  // else if (geogroup_name === "groupEUCWLatAmerAfrica") {
+  else {
     pOuter = 0.05;
     pInner = 0.27;
   }
