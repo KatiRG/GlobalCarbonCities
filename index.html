@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" http-equiv="encoding">
+  <meta http-equiv="content-language" content="ja">
+  <title>cityEmissions</title>
+
+  <script src="lib/d3.v4.min.js"></script>
+  <!--<script src="lib/d3-selection-multi.v0.4.min.js"></script>-->
+  <script src="lib/d3-tip.js"></script>
+
+  <!--https://github.com/d3/d3-geo-projection-->
+  <script src="https://d3js.org/d3-array.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <!--https://bl.ocks.org/mbostock/3711652-->
+  <script src="lib/topojson.v1.min.js"></script>
+
+  <!-- jquery -->
+  <script src="lib/jquery.min.js"></script>
+
+  <!-- bootstrap -->
+  <script src="lib/bootstrap.min.js"></script>
+  <link href="lib/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- custom -->
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <script src="aux_fns.js"></script>
+  <script src="globalvars.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- header row -->
+    <div class="row">     
+      <div class="col-lg-7 headings" style="text-align: center; left:307px;">
+        Cities that reported emissions to the Carbon Disclosure Project
+      </div>
+    </div> <!-- ./header row -->
+
+    <!-- 2nd row -->
+    <div class="row">
+      <div class="col-lg-2" id="mycityCardDiv"> </div>
+      <div class="col-lg-10" id="map" style="padding-left: 0px; padding-right:75px;"> </div>
+    </div>
+
+  
+
+    <!-- row for barChart title and toggle buttons -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div>
+
+        <ul class="nytg-sort" id="emissionsToggleButton">
+          <li id="gdpButton">per GDP</li>
+        </ul>
+        <ul class="nytg-sort">
+          <li id="reorderButton" style="display: none;">Re-order</li>
+        </ul>
+        
+      </div>
+    </div> <!-- .end row -->
+
+    <div class="row">
+
+      <div class="col-lg-5">
+        <div id="barChartLegendLabel">Colour bars by: 
+          <select id="d3-dropdown">
+            <option value="methodology" selected="selected">Protocol</option>
+            <option value="measurement year">measurement year</option>
+            <option value="change in emissions">change in emissions</option>
+            <option value="population">population</option>
+            <option value="population density">population density</option>
+            <option value="area">area</option>
+            <option value="GDP/capita">GDP/capita</option>
+            <option value="diesel price">diesel price</option>
+            <option value="gas price">gas price</option>
+            <option value="HDD 15.5C">HDD 15.5C</option>
+            <option value="CDD 23C">CDD 23C</option>
+            <option value="low BUA (2014)">low BUA (2014)</option>
+            <option value="low BUA % (2014)">low BUA % (2014)</option>
+            <option value="low BUA density (2014)">low BUA density (2014)</option>
+            <option value="high BUA (2014)">high BUA (2014)</option>
+            <option value="high BUA % (2014)">high BUA % (2014)</option>
+            <option value="high BUA density (2014)">high BUA density (2014)</option>
+            <option value="Congestion rank (INRIX)">Congestion rank (INRIX)</option>
+            <option value="World Rank (TomTom)">World Rank (TomTom)</option>
+            <option value="Cities in Motion Index (IESE)">Cities in Motion Index (IESE)</option>
+          </select>
+          <p id="selected-dropdown"></p>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div id="barChartLegend">
+           <svg></svg>
+        </div>
+      </div>
+      <div class="col-lg-2" id="barChartLegendUnits"></div>
+    </div> <!-- .end row -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="barChart_USAAsia"></div>
+      </div>
+    </div> <!-- .end row -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <!--barChart sub-row-->
+        <div class="row">
+          <div id="barChart_EUCWLatAmerAfrica"></div>
+        </div>
+      
+      </div> <!-- .end col -->
+    </div> <!-- .end row -->
+    
+    <footer class="row">
+      logos
+    </footer>
+
+  </div>  <!-- ./container -->
+
+
+<script>
+
+// ----------------------------------------------------
+// Setup
+// ----------------------------------------------------
+
+var container = d3.select("body").append("div")
+    .style("width",1205);
+
+// Leaflet map variables
+// ---------------------------------
+// var width = 700,
+//     height = 350; //400;
+
+var pointRadius = 5;
+
+var cityName_array = [];
+
+// Define the div for the gdpButton tooltip
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+
+// SVGs
+// ----------------------------------------------------
+// d3js World Map
+var mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
+var mapWidth = 903 - mapMargin.left - mapMargin.right,
+    mapHeight = 290 - mapMargin.top - mapMargin.bottom;
+
+//city card
+//---------
+var svgCityCard = d3.select("#mycityCardDiv").append("svg")
+    .attr("width", 273)
+    .attr("height", mapHeight);
+
+svgCityCard = d3.select("#mycityCardDiv").select("svg")
+          .append("g").attr("id", "cityCardg");
+svgCityCard.append("rect")
+    .attr("width", 200)
+    .attr("height", 300) //31
+    .attr("x", 5)
+    .attr("y", -20)
+    .attr("fill", "#4c87b5")
+    .attr("stroke", "none");
+
+//hide city card on page load
+d3.select("#cityCardg").select("rect").style("opacity", 0);
+
+var transx = 15, transy = 70;
+var deltay = 14;
+
+//setup text node for city name
+fn_setupSVGCityCard(svgCityCard, "cityCardName", "cityCardCity", transx, 30);
+
+//set up text node for country
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardCountry", transx, 46);
+
+//set up text node for Emissions
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardEmissionsLabel", transx, transy);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardEmissions", transx, transy + deltay);
+
+//set up text node for Measurement Year
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardYearLabel", transx, transy + 3*deltay);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardYear", transx, transy + 4*deltay - 2);
+
+//set up text node for Emissions Change
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardChangeLabel", transx, transy + 6*deltay);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardChange", transx, transy + 7*deltay - 2);
+
+//setup text node for protocol
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardProtocolLabel", transx, transy + 9*deltay);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardProtocol", transx, transy + 10*deltay - 2);
+
+//setup text node for selected attribute
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardAttrLabel", transx, transy + 12*deltay);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardAttr", transx, transy + 13*deltay - 2);
+
+
+// ----------------------------------------------------
+// Code
+// ----------------------------------------------------
+window.onresize = function() {
+  $(window).height();   // returns height of browser viewport
+  $(document).height(); // returns height of HTML document (same as pageHeight in screenshot)
+  $(window).width();   // returns width of browser viewport
+  $(document).width(); // returns width of HTML document (same as pageWidth in screenshot)
+}
+
+
+
+// ----------------------------------------------------
+// Buttons
+// ----------------------------------------------------
+//Attribute dropdown button
+//Default to "Protocol"
+d3.select("#d3-dropdown").node().value = "methodology";
+
+d3.select("select")
+  .on("change",function(d){
+    attrFlag = d3.select("#d3-dropdown").node().value;
+    console.log("attrFlag: ", attrFlag)
+
+    var geogroupArray = ["barChart_USAAsia", "barChart_EUCWLatAmerAfrica"];
+
+    svgBarChart = d3.select("#" + geogroupArray[0] + " .barSVG")
+    svgBarChart.selectAll("rect").attr("fill", function (d) {
+      //output the discretized colour according to selected attribute
+      if (d.city.indexOf("gap") === -1) return fn_colour_barChart(attrFlag, d[attrFlag]);
+    });
+
+    svgBarChart = d3.select("#" + geogroupArray[1] + " .barSVG")
+    svgBarChart.selectAll("rect").attr("fill", function (d) {
+      //output the discretized colour according to selected attribute
+      return fn_colour_barChart(attrFlag, d[attrFlag]);
+    });
+
+    //colour the legend squares
+    fn_updateLegend(attrFlag);
+    
+})
+
+//barChart buttons
+//select emissions to display: scaled by capita or by GDP-PPP
+d3.select("#gdpButton")
+  .on("click", function() {
+    div.style("opacity", 0); //clear tooltip
+    
+    var buttonText = (d3.select(this).text() === label_dataPerGDP) ?
+                      label_dataPerCap : label_dataPerGDP;
+
+    if (buttonText === label_dataPerGDP) {
+      d3.select("#barChartCaption").text("Per capita emissions " + dimUnits[label_dataPerCap]);
+        
+    } else {
+      d3.select("#barChartCaption").text("Emissions per unit of Gross Domestic Product " 
+        + dimUnits[label_dataPerGDP]);
+    }
+
+    d3.select(this).text(buttonText);
+
+    //Plot emissions bar charts for each geo group
+    emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+    emissionsBarChart("groupEUCWLatAmerAfrica", "#barChart_EUCWLatAmerAfrica");
+
+    //(de-)activate reorder button if "Scope1/capita" is being displayed
+    var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
+    d3.select("#reorderButton").style("display", reorderState);
+     
+  })
+  .on("mouseover", function () {
+    var dictText = emissionsToggleDict[d3.select(this).text()];
+
+    div.style("opacity", 1); //tooltip
+    div.html(function () { return dictText; })
+      .style("top", (d3.event.pageY + 16) + "px")
+      .style("left", (d3.event.pageX + 16) + "px");
+       // .style("left", 1140 + "px")
+       // .style("top", -440 + "px");
+  })
+  .on("mouseout", function () { div.style("opacity", 0); });
+
+// Re-order barChart of emissions/GDP-PPP according to emissions/capita
+d3.select("#reorderButton")
+  .on("click", function() {
+    // Toggle re-order button text for each click
+    var buttonText = (d3.select(this).text() === "Re-order") ?
+                      "orig order" : "Re-order";
+    d3.select(this).text(buttonText);
+
+    //Re-order Scope1/GDP according to Scope1/capita
+    emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+    emissionsBarChart("groupEUCWLatAmerAfrica", "#barChart_EUCWLatAmerAfrica");
+    // emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+
+     
+  })
+  .on("mouseover", function () {
+    var tooltip_text = (d3.select(this).text() === "Re-order") ? 
+                    "Re-order cities according to decreasing emissions <b>per capita</b>." :
+                    "Back to original order (decreasing emissions per GDP-PPP)."
+    div.style("opacity", 1);
+    div.html(tooltip_text)
+      .style("top", (d3.event.pageY + 16) + "px")
+      .style("left", (d3.event.pageX + 16) + "px");
+        //.style("left", 1210 + "px");
+        // .style("top", -440 + "px");
+  })
+  .on("mouseout", function () { div.style("opacity", 0); });
+
+// // Map reset button
+// d3.select("#resetButton")
+//     .on("click", resetMap);
+
+// function resetMap() {
+//     console.log("resetmap")
+// }
+
+// ----------------------------------------------------
+// Main Code
+// ----------------------------------------------------
+
+//Find data range extent for each dim (to be used to discretize into colour values)
+d3.tsv("data/cityApp_attributes.tsv", function(ghg) {  
+  dimExtentDict = {
+    "methodology": 
+          d3.extent(ghg, function (d) { return d['MethodNum']; }),
+    "change in emissions": [1,5],
+    "population": [1000, 8000000],          
+    "population density": 
+          d3.extent(ghg, function (d) { return +d["pop to use"]/d["area [km2] (external)"]; }),
+    // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
+    "measurement year": [2005, 2015], 
+    "GDP/capita": [1700, 128046],
+    "diesel price": [0.5, 1.8],
+    "gas price": [0.5, 1.8],
+    "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB
+    "area": [0, 2000], 
+    "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
+    "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
+    "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
+    "Congestion rank (INRIX)": [200,700], "World Rank (TomTom)": [25, 150],
+    "Cities in Motion Index (IESE)": [40,90]
+
+  }
+}) //end read tsv
+console.log("attrFlag: ", attrFlag)
+// console.log("dimExtentDict: ", dimExtentDict[attrFlag])
+
+
+//barChart legends
+// fn_barChartLegend();
+//fn_appendRegionalLine();
+
+// d3.csv("data/Creutzig2014_dataset_wb.csv", function(ghg) {
+d3.tsv("data/cityApp_attributes.tsv", function(ghg) {
+  //console.log("ghg read: ", ghg)
+
+  setupData(ghg);
+  drawMap();
+  emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+  emissionsBarChart("groupEUCWLatAmerAfrica", "#barChart_EUCWLatAmerAfrica");
+  fn_barChartLegend();
+
+});
+// //Customize some city names
+// data_GHG.find(x => x.city.includes("District of Columbia")).city = "D.C."
+
+// ----------------------------------------------------
+// Main Functions
+// ----------------------------------------------------
+
+
+
+function drawMap() {
+  // Map reset button
+  d3.select("#resetButton")
+      .on("click", resetMap);
+
+  //https://bl.ocks.org/mbostock/db6b4335bf1662b413e7968910104f0f
+  var zoom = d3.zoom()
+    .scaleExtent([1, 40])
+    //.translateExtent([[-100, -100], [width + 90, height + 100]])
+    .on("zoom", zoomed);
+
+  //https://bl.ocks.org/mbostock/3711652
+  // var mapHeight = 410;
+
+  var options = [
+    {name: "Natural Earth", projection: d3.geoNaturalEarth()}
+  ];
+
+  options.forEach(function(o) {      
+    o.projection.rotate([0, 0]).center([40, 0]);
+  });
+
+  var projection = options[0]
+              .projection
+              .scale(151) //141, 171
+              .translate([mapWidth/1.655, mapHeight/1.67  ]);  //1.633, 1.69
+
+  var path = d3.geoPath()
+      .projection(projection)
+      .pointRadius([3]);
+
+  var graticule = d3.geoGraticule();
+
+  var svg = d3.select("#map").append("svg")
+      .attr("width", mapWidth)
+      .attr("height", mapHeight);
+
+  svg.append("defs").append("path")
+    .datum({type: "Sphere"})
+    .attr("id", "sphere")
+    .attr("d", path);
+
+  svg.append("use")
+    .attr("class", "stroke")
+    .attr("xlink:href", "#sphere");
+    
+  svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+
+  var g = svg.append('g');
+
+  //----------------------------------------
+  //draw bottom line of map
+  svg.append("g").selectAll("line")
+  g.selectAll("line")
+    .data([0])
+    .enter().append("line")
+    .attr("class", "line")
+    .style("stroke", "#555")
+    .style("stroke-width", "1.2px")
+    .attr("x1", 80)
+    .attr("y1", 289)
+    .attr("x2", 828)
+    .attr("y2", 289);
+
+  // //draw top line of map
+  // // svg.append("g").selectAll("line")
+  // g.selectAll("line")
+  //   .data([0])
+  //   .enter().append("line")
+  //   .attr("class", "line")
+  //   .style("stroke", "#555")
+  //   .style("stroke-width", "1.2px")
+  //   .attr("x1", 301)
+  //   .attr("y1", 0)
+  //   .attr("x2", 970)
+  //   .attr("y2", 0);
+  //----------------------------------------
+ 
+  d3.json("geojson/world_countries.json", function(error, world) {
+    if (error) throw error;
+   
+    d3.json("geojson/cities_edited2.geojson", function(error, cities) {
+      if (error) throw error;
+
+
+      //world countries
+      // svg.append("g")
+      countries = g.attr("class", "countries")
+        .selectAll("path")
+          .data(world.features)
+        .enter().append("path")
+          .attr("d", path)
+          .attr("id", function (d) {
+            mapName = d.properties.name.replace(/\s/g, '_');
+            return "map" + mapName;
+          })
+          .style("fill", countryColour)
+          .style('stroke', '#555')  //#555
+          .style('stroke-width', 1.5)
+          // tooltips
+            .style('stroke-width', 1);
+            // .on('mouseover',function (d) {
+            //   //tip.show(d);
+            //   d3.select(this)
+            //     // .style("opacity", 1)
+            //     .style("stroke","#CBBF31")
+            //     .style("stroke-width",3);
+            // })
+            // .on('mouseout', function (d) {
+            //   // tip.hide(d);
+            //   //highlightElements(idName, d.country);
+            //   d3.select(this)
+            //     // .style("opacity", 0.8)
+            //     .style("stroke","white")
+            //     .style("stroke-width",0.3);
+            // });
+     
+      
+      // City markers from geojson file     
+      svg.selectAll('path')
+          .data(cities.features)
+          .enter().append('path')
+          .attr('d', path)
+          .attr("id", function (d, i) {            
+            return "city" + format_idName(d.id);
+          })
+          .attr("class", "worldcity")
+          .style("fill", function (d) {
+            // if (d.id === "Cleveland") console.log("cleveland: ", d)
+            // if (data_GHG.find(x => x.city === d.id)) {
+            //   console.log("x in fill: ", d)
+            //   console.log("x.id in fill: ", d.id)
+            //   console.log("find: ", data_GHG.find(x => x.city === d.id))
+            // }
+
+            if (data_GHG.find(x => x.city === d.id)) {
+              return regionColourMap[data_GHG.find(x => x.city === d.id).region];
+            }
+            else return "none";
+          })
+          .style("stroke", function (d) {
+            if (data_GHG.find(x => x.city === d.id)) return "#555";
+            else return "none";  
+          })
+          .on("mouseover", function (d) {
+            highlightElements(format_idName(d.properties.city));
+          })
+          .on('mouseout', function (d) {
+            resetElements();
+          });
+
+
+
+    }); // ./inner d3.json
+  }); // ./outer d3.json
+  
+  // svg.call(zoom);
+
+  var MIN = {x: -1000, y: -500},     //top-left corner
+    MAX = {x: 2000, y: 500};   //bottom-right corner
+  function zoomed() {
+
+  var transform = d3.event.transform;
+
+  console.log("transform: ", transform)
+
+   // limiting tranformation by MIN and MAX bounds
+   // transform.x = d3.max([transform.x, MIN.x]);
+   // transform.y = d3.max([transform.y, MIN.y]);
+   // transform.x = d3.min([transform.x, MAX.x]);
+   // transform.y = d3.min([transform.y, MAX.y]);
+
+   svg.attr("transform", transform);
+
+    // svg.attr("transform", d3.event.transform);  
+  
+    // path.pointRadius([0.1])
+    // console.log("path: ", path.pointRadius())
+
+    // gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
+    // gY.call(yAxis.scale(d3.event.transform.rescaleY(y)));
+  }
+
+
+  function resetMap() {
+    svg.transition()
+      .duration(750)
+      .call(zoom.transform, d3.zoomIdentity);
+  } 
+  
+
+
+} // ./drawMap()
+
+function highlightElements(idName) {
+  // console.log("idName: ", idName)
+
+  // clear any previous story first
+  d3.select("#ghgStory").text("");
+
+  //var selectedCity = data_GHG.find(x => x.idName.includes(idName));
+  var selectedCity = d3.select("#tick" + idName)
+                       ._groups[0]
+                       .map(function(d) { return d.__data__; })[0];
+  var selectedCityObj = data_GHG.find(x => x.city === selectedCity);
+
+  //Clear Previous
+  //--------------
+  resetElements();
+  //d3.select("#mycityCardg").remove();
+
+  //Display city card
+  fn_fillSVGCityCard (selectedCityObj, attrFlag);
+
+  //Highlight Current
+  //-----------------
+  d3.select("#bar" + idName)
+    .style("stroke", "#363636"); 
+
+  d3.selectAll(".bar:not(#bar" + idName + ")")
+    .style("fill-opacity", 0.1);
+
+  d3.selectAll(".node:not(#node" + idName + ")")
+    .style("fill-opacity", 0.1)
+    .style("stroke-opacity", 0.1);
+  
+  d3.selectAll(".worldcity:not(#city" + idName + ")")
+    .style("fill-opacity", 0.1)
+    .style("stroke-opacity", 0.1);
+  
+  //Dim all countries but current country  
+  var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');  
+  d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
+  d3.selectAll(".countries path:not(#map" + thisCountry + ")")
+    .style("opacity", 0.1);
+
+  d3.select("#city" + idName)
+    .attr("stroke", "black")
+    .attr("stroke-width", 2);
+
+  
+
+} // ./highlightElements()
+
+// Update region text when hovering over worldmap city
+// function updateRegionLabel(region) {
+//   d3.select("#regionLabel" + region).text(regionLabel_dict[region])
+//     // .style("margin-left", "60px");
+// }
+
+function emissionsBarChart(geogroup_name, geogroup_id) {
+  //dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
+  var reorderButton = d3.select("#reorderButton").text();  
+
+  // Remove any previous bar chart
+  d3.select(geogroup_id).select("svg").remove();
+  
+  // barChart caption in #barChartCaption div
+  this_dim = (d3.select("#gdpButton").text() === label_dataPerGDP) ?
+                      label_dataPerCap : label_dataPerGDP;
+
+  //https://bl.ocks.org/seemantk/ec245e1f4e824e685982dd5d3fbb2fcc
+  var margin = {top: 0, right: 0, bottom: 0, left: 20};
+  var width = 700 - margin.left - margin.right,
+      height = 250 - margin.top - margin.bottom;
+
+  //Extract scaled emissions data for given region
+  //Omit cities for which GDP-PPP is missing
+  var geogroupArray = geogroup_name === "groupUSAAsia" ? 
+                      ["groupUSA","gap","groupAsia"] :
+                      ["groupEurope", "gap", "groupCan", "gap",
+                      "groupOceania", "gap","groupLatinAmer", "gap", 
+                      "groupAfrica"];
+  emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
+
+  // Get city order of Scope/capita
+  if (d3.select("#reorderButton").text() === "orig order") {
+    emissions_scaled = fn_reorderByEmissionsPerCapita(geogroup_name, emissions_scaled);
+  } // end button text check
+
+  if (geogroup_name === "groupUSAAsia") {
+    pOuter = 0.1;
+    pInner = 0.27;
+  }
+  else if (geogroup_name === "groupEUCWLatAmerAfrica") {
+    pOuter = 0.05;
+    pInner = 0.27;
+  }
+  var x = d3.scaleBand()
+            .rangeRound([0, width], .1)
+            .paddingOuter(pOuter)
+            .paddingInner(pInner);
+
+  var y = d3.scaleLinear()
+            .range([height, 0]);
+
+  var xAxis = d3.axisBottom()
+    .scale(x);
+
+  var yAxis = d3.axisRight()
+    .scale(y)
+    .ticks(5)
+    .tickFormat(function(d) {
+      return this_dim === label_dataPerGDP ? (formatDecimalSci(d)*100)/100 : d;
+      // return d;
+    }); 
+
+  //https://mathisonian.com/writing/easy-responsive-svgs-with-viewbox
+  //https://jsfiddle.net/fh5kxv3k/
+  var aspectRatio = '660:241';
+  var viewBox = '0 0 ' + aspectRatio.split(':').join(' ');
+
+  //Fit barCharts responsively using viewBox
+  //NB: viewBox stretches text labels as well, so they must be fixed later by adjusting the scale
+  my_width = geogroup_id === "#barChart_EUCWLatAmerAfrica" ? "97%" : "100%";
+  var svgBarChart = d3.select(geogroup_id).append("svg").attr("class", "barSVG")
+    .attr('width', my_width)
+    .attr('height', 125) // height)
+    .attr('viewBox', viewBox)
+    .attr('viewBox', '0 0 ' +  ( width + margin.left + margin.right ) + ' ' + ( height  + margin.top + margin.bottom ) )
+    .attr('preserveAspectRatio', 'none')
+    // .attr("width", width + margin.left + margin.right)
+    // .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", function () {
+      var transx = (geogroup_id === "#barChart_EUCWLatAmerAfrica") ? 60 : margin.top;
+      return "translate(" + margin.left + "," + transx + ")";
+    });
+
+
+  x.domain(emissions_scaled.map(function (d) {
+    return d.city;
+  }));
+  y.domain([0, d3.max(emissions_scaled, function(d) {
+
+    // console.log("d[this_dim]: ", d[this_dim])
+
+    if (this_dim === label_dataPerCap) {
+      if (geogroup_name === "groupUSAAsia") same_max = 20;
+      else  same_max = 11;      
+    } else {
+      if (geogroup_name === "groupUSAAsia") same_max = 0.12; //250000;
+      else same_max = 0.2;//300000; //same_max = d[this_dim];
+      //same_max = 0.35; //0.8; //[kgCO2/USD]
+    }
+
+    return same_max;
+
+  })]);
+
+
+  // Define the div for the barChart rect tooltip
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip-bar")
+    .style("opacity", 0);
+
+  //bars
+  var bars = svgBarChart.append("g").selectAll(".bar")
+      .data(emissions_scaled)
+      .enter().append("rect")
+      .attr("class", function (d) {//keep track of original geographic group
+        return "bar" + " " + "class_" + d.region;
+      })
+      //.attr("class", "bar")
+      .attr("id", function (d) {
+        idName = format_idName(d.city);
+        return "bar" + idName;
+      })
+      .attr("x", function (d) { return x(d.city); }) //***HERE!!!!
+      .attr("width", x.bandwidth())
+      .attr("y", function (d, i) { return y(d[this_dim]); })
+      .attr("height", function(d) { return height - y(d[this_dim]); });
+
+  bars.attr("fill", function (d) {
+  //output the discretized colour according to selected attribute
+    return fn_colour_barChart(attrFlag, d[attrFlag]);
+  });
+
+  bars.on("touchmove mousemove", function (d) {
+        fn_enlargeName(geogroup_name, d.city);
+
+        idName = format_idName(d.city);
+      
+        highlightElements(idName);
+        
+        if (this_dim === "per capita") {
+          if (d.city === "Rotterdam") emissionIntensity = rotterdamEmissionsPerCap;
+          else emissionIntensity = formatDecimalSci(d[this_dim]);
+        }
+        else if (this_dim === "per GDP") {
+          if (d.city === "Kaohsiung") emissionIntensity = kaohsiungEmissionsPerGDP;
+          else if (d.city === "Taoyuan") emissionIntensity = taoyuanEmissionsPerGDP;
+          else if (d.city === "Lagos") emissionIntensity = lagosEmissionsPerGDP;
+          else emissionIntensity = formatDecimalSci(d[this_dim]);
+        }
+
+        var tipx = 50;
+        var tipy = -120;
+        div.style("opacity", 1);
+        div.html(emissionIntensity + " " + dimUnits[this_dim])
+          .style("left", d3.event.pageX + tipx + "px")
+          .style("top", d3.event.pageY + tipy + "px");
+
+      })
+      .on("mouseout", function (d) {
+        resetElements();
+        
+        d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
+          //.style("font-size", "14px")
+          .style("opacity", 0.3)
+          .attr("fill", colour_labels);
+
+        div.style("opacity", 0);
+      });
+
+
+  //x-axis
+  svgBarChart.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(-1," + height + ")")  //***HERE!!!!
+      .call(d3.axisTop(x))
+      .selectAll("text")
+        .text(function (d) { 
+          if (d.includes("gap")) return "";
+          else if (this_dim === "per GDP" 
+                   // && ! data_GHG.find(x => x.city.includes(d))['per GDP']) {
+                  && ! data_GHG.find(x => x.city === d)['per GDP']) {
+                  return ""; }
+          else return fn_abbr(d); 
+        })
+        .attr("id", function (d) {
+          idName = format_idName(d);
+          return "tick" + idName;
+        })
+        .attr("y", -61)
+        .attr("x", 25)
+        .attr("dy", 7)
+        .attr("class", "xAxisCityName")
+        .attr("transform", function (d, i) {         
+
+          if (d.includes("gap")) return "";
+        
+          else {
+
+            xscale=.6; yscale=1.8; rot=-65; xtrans=44; ytrans=-55;
+
+            thisCity = d3.select(this).attr("id").split("tick").pop();
+            thisCityGroup = d3.select("#bar" + thisCity).attr("class");
+
+            if (this_dim === "per capita") {              
+                
+             
+              fn_cityLabels_perCapita(d, i, thisCityGroup);
+
+            } else if (this_dim === "per GDP") {
+
+              if (d3.select("#reorderButton").text() === "Re-order") fn_cityLabels_perGDP(d, i, thisCityGroup);
+              else {
+                if (d === "New York City") ytrans = 5;
+                else if (d === "Austin" || d === "San Antonio") ytrans = -25;
+                else if (d === "DC") ytrans = -42;
+                else if (d === "Indianapolis") ytrans = 5;
+                else if (d === "Edmonton") ytrans = -30;
+                else if (d === "Toronto") ytrans = 0;                
+                else if (d === "Winnipeg" || d === "Montreal") ytrans = -45;
+                else ytrans = -15;
+              }
+
+            } //this_dim
+           
+            return  "scale(" + xscale + " " + yscale + ")" + 
+                    "translate(" + xtrans + " " + ytrans + ")" + "rotate(" + rot + ")" ;
+          }
+
+        })
+      .style("text-anchor", "start")  //"middle"
+      // .style("fill", function (d) {
+      //   if (d.includes("gap")) return "#565656";
+      // })
+      .on("touchmove mousemove", function (d) {
+        fn_enlargeName(geogroup_name, d);
+
+        idName = format_idName(d);
+        highlightElements(idName);
+      })
+      .on("mouseout", function (d) {
+        resetElements();
+
+        d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
+          //.style("font-size", "14px")
+          .style("opacity", 0.3);
+      });
+
+  //hide x tick mark for "gap" bar  
+  svgBarChart.selectAll("line")
+    .style("opacity", function (d) {
+      return d.includes("gap") ? 0 : 1;
+    });
+
+
+  //y-axis
+  svgBarChart.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      //.call(d3.axisRight(y).ticks(5))     
+      .selectAll("text")  
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "scale(" + .6 + " " + 1 + ")" 
+                          );
+
+  // Plot regional avg emissions [tCO2/capita] as a line over each barChart
+  //fn_appendRegionalMeans(svgBarChart, geogroup_name, this_dim, emissions_scaled, x, y);
+
+  //svg arrow for Rotterdam bar only if on emissions/capita view
+  if (geogroup_id === "#barChart_EUCWLatAmerAfrica" &&
+    d3.select("#gdpButton").text() === "per GDP") {
+    var city = ["Rotterdam"];
+    fn_arrow(geogroup_id, city);
+  } else if (geogroup_id === "#barChart_USAAsia" && 
+    d3.select("#gdpButton").text() === "per capita") {
+    var city = ["Kaohsiung","Taoyuan"];
+    fn_arrow(geogroup_id, city);
+  } else if (geogroup_id === "#barChart_EUCWLatAmerAfrica" &&
+    d3.select("#gdpButton").text() === "per capita") {
+    var city = ["Lagos"];
+    fn_arrow(geogroup_id, city);
+  }
+
+  //svg chart titles
+  fn_svgHeadings(geogroup_id);
+
+} // ./fn emissionsBarChart()
+
+
+</script>
+</body>
+</html>
