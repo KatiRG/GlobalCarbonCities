@@ -557,7 +557,9 @@ function drawMap() {
             // }
 
             if (data_GHG.find(x => x.city === d.id)) {
-              return regionColourMap[data_GHG.find(x => x.city === d.id).region];
+              var r = regionDict[data_GHG.find(x => x.city === d.id).region]
+              //return regionColourMap[data_GHG.find(x => x.city === d.id).region];
+              return regionColourMap[r];
             }
             else return "none";
           })
@@ -885,7 +887,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
             thisCity = d3.select(this).attr("id").split("tick").pop();
             thisCityGroup = d3.select("#bar" + thisCity).attr("class");
-            console.log("thisCityGroup: ", thisCityGroup)
 
             if (this_dim === "per capita") {                
              

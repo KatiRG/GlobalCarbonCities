@@ -176,6 +176,7 @@ function resetElements() {
 // Functions for map
 //----------------------------------------------
 function highlightCountry(countryName, idName, dataObj)  {
+  console.log('here: ', dataObj.find(x => x.idName.includes(idName)).region )
   var matchColour = regionColourMap[
                         dataObj.find(x => x.idName.includes(idName)).region
                       ];
