@@ -26,7 +26,8 @@ function setupData(ghg){
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
     measurementYear = +d['Year of emission']
     GDP = d['GDP-PPP (others) [$BN]']
-    scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
+    scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
+    //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
     GDP_cap = d["GDP-PPP (others) [$BN]"]/d["Population (others)"]*Math.pow(10,9)
     pop_density = +d['Population (others)']/d['City area (others) [km2]']
@@ -209,11 +210,15 @@ function highlightCountry(countryName, idName, dataObj)  {
 function fn_concat (barChartGroup, geogroupArray, this_dim) {
   objArray = [];
   count = 0; //for gap id labels
+  console.log('barChartGroup: ', barChartGroup)
+  console.log('geogroupArray: ', geogroupArray)
   
   for (idx=0; idx < geogroupArray.length; idx++) {   
     //Extract data by region
     ghg_extract = sortByRegion(geogroupArray[idx]);
     console.log('ghg_extract: ', ghg_extract)
+    console.log('')
+    console.log('this_dim: ', this_dim)
 
     //Sort by this_dim in descending order
     ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
@@ -299,7 +304,7 @@ function sortByRegion(region, this_dim) {
   data_GHG.forEach(function (d) {
     if (regionsDict[d.region] === region && d[this_dim] != "") ghg_byRegion.push(d);
   });
-  console.log('ghg_byRegion: ', ghg_byRegion)
+
   return ghg_byRegion;
 }
 
