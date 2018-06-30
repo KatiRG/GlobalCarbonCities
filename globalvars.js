@@ -41,7 +41,7 @@ var regionColourMap = {
   "groupSAsia": "green", 
   "groupAfrica": "#FFD880", 
   "groupOceania": "#EB9F9F",
-  "groupNAfrica": "#BD1550"
+  "groupNAfrica": "#A443DF"
 };
 
 

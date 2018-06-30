@@ -558,7 +558,6 @@ function drawMap() {
 
             if (data_GHG.find(x => x.city === d.id)) {
               var r = regionDict[data_GHG.find(x => x.city === d.id).region]
-              //return regionColourMap[data_GHG.find(x => x.city === d.id).region];
               return regionColourMap[r];
             }
             else return "none";
@@ -628,6 +627,10 @@ function highlightElements(idName) {
   //                      ._groups[0]
   //                      .map(function(d) { return d.__data__; })[0];
   var selectedCityObj = data_GHG.find(x => x.city === selectedCity);
+
+  if (idName === 'Amman') {
+    console.log('selectedCityObj: ', selectedCityObj)
+  }
 
   //Clear Previous
   //--------------
