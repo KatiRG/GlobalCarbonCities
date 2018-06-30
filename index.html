@@ -798,7 +798,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .data(emissions_scaled)
       .enter().append("rect")
       .attr("class", function (d) {//keep track of original geographic group
-        return "bar" + " " + "class_" + d.region;
+        return "bar" + " " + "class_" + regionDict[d.region];
       })
       //.attr("class", "bar")
       .attr("id", function (d) {
@@ -885,6 +885,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
             thisCity = d3.select(this).attr("id").split("tick").pop();
             thisCityGroup = d3.select("#bar" + thisCity).attr("class");
+            console.log("thisCityGroup: ", thisCityGroup)
 
             if (this_dim === "per capita") {                
              

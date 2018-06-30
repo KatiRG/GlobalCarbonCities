@@ -299,7 +299,7 @@ function sortByRegion(region, this_dim) {
 
   ghg_byRegion = [];
   data_GHG.forEach(function (d) {
-    if (regionsDict[d.region] === region && d[this_dim] != "") ghg_byRegion.push(d);
+    if (regionDict[d.region] === region && d[this_dim] != "") ghg_byRegion.push(d);
   });
 
   return ghg_byRegion;
@@ -497,7 +497,7 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     else if (d === "Savannah") ytrans = -75;
     else if (d === "Emeryville, CA" || d === "Knoxville") ytrans = -45 + (i*1.3);
     else ytrans = -35 + (i*1.1);
-  } else if (thisCityGroup === "bar class_groupAsia") {    
+  } else if (thisCityGroup === "bar class_groupEastAsia") {    
 
     if (d === "Incheon") {
       // ytrans = -110;
@@ -505,9 +505,14 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
     else if (d === "Kaohsiung") ytrans = -70;
     else if (d === "Yilan") ytrans = -65;
-    else if (d === "Taoyuan") ytrans = -25;
-    else if (d === "Hong Kong") ytrans = 0;
-    else ytrans = -49 + (i*1.1);
+    else if (d === "Taoyuan") ytrans = -85;
+    else if (d === "Sapporo") ytrans = -77;
+    else if (d === "Sendai") ytrans = -75;
+    else if (d === "Wonju") ytrans = -73;
+    // else if (d === "Hong Kong") ytrans = 0;
+    else {
+    ytrans = (-60 + (i*2)) * 10/i;  //-75 + (i*2)
+    }
 
   } else if (thisCityGroup === "bar class_groupEurope") {
                        

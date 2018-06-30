@@ -96,7 +96,7 @@ var choose_textArray = {
 //Dictionaries
 
 //Regions
-var regionsDict = {
+var regionDict = {
   "East Asia": "groupEastAsia" , 
   "North America": "groupNAmer" ,
   "Europe": "groupEurope", 
