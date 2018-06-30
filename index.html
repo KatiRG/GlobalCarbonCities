@@ -623,10 +623,10 @@ function highlightElements(idName) {
   // clear any previous story first
   d3.select("#ghgStory").text("");
 
-  //var selectedCity = data_GHG.find(x => x.idName.includes(idName));
-  var selectedCity = d3.select("#tick" + idName)
-                       ._groups[0]
-                       .map(function(d) { return d.__data__; })[0];
+  var selectedCity = data_GHG.find(x => x.idName.includes(idName)).city;
+  // var selectedCity = d3.select("#tick" + idName)
+  //                      ._groups[0]
+  //                      .map(function(d) { return d.__data__; })[0];
   var selectedCityObj = data_GHG.find(x => x.city === selectedCity);
 
   //Clear Previous
