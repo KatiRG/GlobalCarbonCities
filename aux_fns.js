@@ -216,9 +216,6 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   for (idx=0; idx < geogroupArray.length; idx++) {   
     //Extract data by region
     ghg_extract = sortByRegion(geogroupArray[idx]);
-    console.log('ghg_extract: ', ghg_extract)
-    console.log('')
-    console.log('this_dim: ', this_dim)
 
     //Sort by this_dim in descending order
     ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));

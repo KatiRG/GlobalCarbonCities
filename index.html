@@ -708,7 +708,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     geogroupArray = ["groupAfrica", "gap", "groupOceania", "gap", "groupNAfrica"];
   }
   console.log('geogroupArray: ', geogroupArray)
-  console.log('this_dim: ', this_dim)
                     
   emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
 
@@ -776,7 +775,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     // console.log("d[this_dim]: ", d[this_dim])
 
     if (this_dim === label_dataPerCap) {
-      if (geogroup_name === "groupUSAAsia") same_max = 20;
+      if (geogroup_name === "groupEastAsia") same_max = 8;
       else  same_max = 11;      
     } else {
       if (geogroup_name === "groupUSAAsia") same_max = 0.12; //250000;
@@ -882,13 +881,12 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         
           else {
 
-            xscale=.6; yscale=1.8; rot=-65; xtrans=44; ytrans=-55;
+            xscale=.6; yscale=1.8; rot=-65; xtrans=45; ytrans=0;
 
             thisCity = d3.select(this).attr("id").split("tick").pop();
             thisCityGroup = d3.select("#bar" + thisCity).attr("class");
 
-            if (this_dim === "per capita") {              
-                
+            if (this_dim === "per capita") {                
              
               fn_cityLabels_perCapita(d, i, thisCityGroup);
 
