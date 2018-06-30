@@ -592,7 +592,7 @@ function fn_barChartLegend() {
   
   //setup params
   var margin = {top: 7, right: 0, bottom: 0, left: 20};
-  var svg_width = 450 - margin.left - margin.right,
+  var svg_width = 480 - margin.left - margin.right,
       svg_height = 35 - margin.top - margin.bottom;
 
   var rect_dim = 15;
@@ -627,7 +627,7 @@ function fn_barChartLegend() {
                   .attr("height", rect_dim)
                   .attr("y", 5)
                   .attr("x", function (d, i) {
-                    return 41 + i * 70;
+                    return 41 + i * 80;
                   })
                   .attr("fill", function (d, i) {
                     //return colour_methodNum[i + 1];                    
@@ -642,44 +642,13 @@ function fn_barChartLegend() {
         })
         .attr("y", 10)
         .attr("x", function (d, i) {
-          var xpos = [10,63,150,215,284];
+          var xpos = [15,75,173,252,328,389];
           return xpos[i];
         })
         .attr("dy", "6px")
         .style("fill","#565656")
         .style("stroke", "none")
        .style("font-size", "11px");
-       
-        
-}
-
-//Regional line legend for barCharts
-function fn_appendRegionalLine() {
-  var regionalLine = d3.select("#barChartLegend").select("svg")
-                       .append("g");
-
-  regionalLine.selectAll("line")
-      .data([0])
-      .enter().append("line")
-      .attr("class", "line")
-      .style("stroke", "black")
-      .style("opacity", 0.7)
-      .style("stroke-width", "1.5px")
-      .attr("x1", 417)
-      .attr("y1", 12)
-      .attr("x2", 440)
-      .attr("y2", 12);
-
-  regionalLine.append("text")
-    .attr("class", "textLabels")
-    .attr("dx", 340)
-    .attr("dy", 15)
-    .text("regional mean")
-    .style("font-size", "11px")
-    .style("fill","#565656")
-    .style("stroke", "none");
-
-
 }
 
 //Append regional means as lines to barCharts

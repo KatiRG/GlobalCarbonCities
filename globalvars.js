@@ -24,14 +24,6 @@ var countryHighlightColour = "#BEC3BC";//"#718351"; //"#d3d3d3";  "#44522F"; "#7
 var colour_labels = "#636363";
 var colour_labelsHighlight = "#3d3d3d";
 
-// var regionColourMap = { 
-//   "groupEurope": "#6BACBF", //"#A6D4FF", 
-//   "groupUSA": "#C399D9", "groupCan": "green", 
-//   "groupOceania": "#EB9F9F",
-//   "groupAfrica": "#FFD880", "groupAsia": "#BD1550",
-//   "groupLatinAmer": "#F8CA00"
-// };
-
 var regionColourMap = { 
   "groupEastAsia": "#A6D4FF", 
   "groupNAmer": "#D11E48",
