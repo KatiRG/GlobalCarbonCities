@@ -125,11 +125,11 @@
       </div> <!-- .end col -->
     </div> <!-- .end BarChart ROW2 -->
 
-    <!-- BarChart ROW3: groupEurope -->
+    <!-- BarChart ROW3: groupEurope and groupSEAsia -->
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          <div id="barChart_groupEurope"></div>
+          <div id="barChart_groupEuropeSEAsia"></div>
         </div>
       
       </div> <!-- .end col -->
@@ -267,7 +267,7 @@ d3.select("select")
     console.log("attrFlag: ", attrFlag)
 
     var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
-                         "barChart_groupEurope"];
+                         "barChart_groupEuropeSEAsia"];
 
     svgBarChart = d3.select("#" + geogroupArray[0] + " .barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
@@ -308,7 +308,7 @@ d3.select("#gdpButton")
     //Plot emissions bar charts for each geo group
     emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
     emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-    emissionsBarChart("groupEurope", "#barChart_groupEurope");
+    emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
 
     //(de-)activate reorder button if "Scope1/capita" is being displayed
     var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
@@ -338,7 +338,7 @@ d3.select("#reorderButton")
     //Re-order Scope1/GDP according to Scope1/capita
     emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
     emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-    emissionsBarChart("groupEurope", "#barChart_groupEurope");
+    emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
      
   })
   .on("mouseover", function () {
@@ -367,7 +367,8 @@ d3.select("#reorderButton")
 // ----------------------------------------------------
 
 //Find data range extent for each dim (to be used to discretize into colour values)
-var fname = "data/d_final_app_343cities.tsv"
+// var fname = "data/d_final_app_343cities.tsv"
+var fname = "data/d_final_app_s1Exists_307cities.tsv"
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
     "methodology": 
@@ -406,7 +407,7 @@ d3.tsv(fname, function(ghg) {
   drawMap();
   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-  emissionsBarChart("groupEurope", "#barChart_groupEurope");
+  emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
   fn_barChartLegend();
 
 });
@@ -706,8 +707,8 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     geogroupArray = ["groupEastAsia"];
   } else if (geogroup_name === "groupNAmer") {
     geogroupArray = ["groupNAmer"];
-  } else if (geogroup_name === "groupEurope") {
-    geogroupArray = ["groupEurope"];
+  } else if (geogroup_name === "groupEuropeSEAsia") {
+    geogroupArray = ["groupEurope", "gap", "groupSEAsia"];
   } else if (geogroup_name === groupSouth) {
     geogroupArray = ["groupLatinAmer", "gap", "groupSEAsia", "gap", "groupSAsia"];
   } else if (geogroup_name === groupAfricaOceania) {
@@ -760,7 +761,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   // my_width = geogroup_id === "#barChart_groupNAmer" ? "97%" : "100%";
   if (geogroup_id === "#barChart_groupEastAsia") my_width = "100%";
   else if (geogroup_id === "#barChart_groupNAmer") my_width = "97%";
-  else if (geogroup_id === "#barChart_groupEurope") my_width = "97%";
+  else if (geogroup_id === "#barChart_groupEuropeSEAsia") my_width = "97%";
   var svgBarChart = d3.select(geogroup_id).append("svg").attr("class", "barSVG")
     .attr('width', my_width)
     .attr('height', 125) // height)
@@ -774,7 +775,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       // var transx = (geogroup_id === "#barChart_groupNAmer") ? 60 : margin.top;
       if (geogroup_id === "#barChart_groupEastAsia") transx = margin.top;
       else if (geogroup_id === "#barChart_groupNAmer") transx = 60;
-      else if (geogroup_id === "#barChart_groupEurope") transx = 60;
+      else if (geogroup_id === "#barChart_groupEuropeSEAsia") transx = 60;
 
       return "translate(" + margin.left + "," + transx + ")";
     });

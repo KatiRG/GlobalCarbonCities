@@ -164,7 +164,20 @@ var rotterdamEmissionsPerCap, kaohsiungEmissionsPerGDP, taoyuanEmissionsPerGDP,
 //   "groupLatinAmer": "Latin America"
 // };
 
-//9 regions
+//9 regions S1 exists/does not exist
+// df_final.loc[~df_final[s1].isnull(), var_geo].value_counts()
+//'East Asia', 103/102 cities
+//'North America', 76/68 cities
+//'Europe', 66/44 cities
+//'Latin America & Caribbean', 33/30 cities
+//'Southeast Asia', 22/21 cities
+//'Africa', 12/12 cities
+//'N Africa, Middle East, W Asia', 6/5 cities
+//'Oceania', 6/6 cities
+//Pairings
+//ROW1: East Asia
+//ROW2: North America
+//ROW3: Europe + Southeast Asia
 var regionLabel_dict = {
   "groupEastAsia": "East Asia", //103 cities, ROW1
   "groupNAmer": "North America", //75 cities, ROW2

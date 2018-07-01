@@ -269,15 +269,15 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     if (idx % 2 == 0) {
       objArray = objArray.concat(ghg_extract);
     } 
-    // else {
-    //   objArray = objArray.concat(
-    //     [{ "city":"gap" + barChartGroup + count,  
-    //        "region": barChartGroup,
-    //        "per capita":0, 
-    //        "per GDP": 0 }]
-    //   );
-    //   count++;
-    // }
+    else {
+      objArray = objArray.concat(
+        [{ "city":"gap" + barChartGroup + count,
+           "region": barChartGroup,
+           "per capita":0, 
+           "per GDP": 0 }]
+      );
+      count++;
+    }
   //--------------  
 
   } //.for
@@ -288,7 +288,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   if (this_dim === "per capita") {
     if (barChartGroup === "groupEastAsia") cityOrder_row1 = objArray.map(x => x["city"]);
     else if (barChartGroup === "class_groupNAmer") cityOrder_row2 = objArray.map(x => x["city"]);
-    else if (barChartGroup === "class_groupEurope") cityOrder_row3 = objArray.map(x => x["city"]);
+    else if (barChartGroup === "class_groupEuropeSEAsia") cityOrder_row3 = objArray.map(x => x["city"]);
   }
 
   return objArray;
@@ -488,7 +488,7 @@ function fn_enlargeName(geogroup_name, cityName) {
   //Enlarge city label of selected bar
   newSize="14px";
   //Need different sizes on account of the vieweBox scale stretching
-  if (geogroup_name === "groupEurope" || geogroup_name === "groupLatinAmer" ||
+  if (geogroup_name === "groupEuropeSEAsia" || geogroup_name === "groupLatinAmer" ||
       geogroup_name === "groupUSA"|| geogroup_name === "groupOceania" ) newSize = "21px";
   else if (geogroup_name === "groupAfrica") newSize = "18px";
   else if (geogroup_name === "groupAsia") newSize = "18px";
@@ -525,7 +525,7 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     ytrans = (-60 + (i*2)) * 10/i;  //-75 + (i*2)
     }
 
-  } else if (thisCityGroup === "bar class_groupEurope") {
+  } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
                        
     if (d === "Rotterdam") {// || d === "Ljubljana") {
       xtrans = 60; ytrans = 20; rot = -90;
@@ -570,7 +570,7 @@ function fn_cityLabels_perGDP (d, i, thisCityGroup) {
     else if (d === "Incheon") ytrans = -35;
     else ytrans = -75 + (i*1.5);
 
-  } else if (thisCityGroup === "bar class_groupEurope") {          
+  } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {          
       if (d === "Manchester") ytrans = -20;
       else if (d === "Warsaw" || d === "Rotterdam") ytrans = 0;
       else ytrans = 20 + (i*0.7);
