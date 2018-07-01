@@ -287,7 +287,8 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   //save cityOrder
   if (this_dim === "per capita") {
     if (barChartGroup === "groupEastAsia") cityOrder_row1 = objArray.map(x => x["city"]);
-    else cityOrder_row2 = objArray.map(x => x["city"]);
+    else if (barChartGroup === "class_groupNAmer") cityOrder_row2 = objArray.map(x => x["city"]);
+    else if (barChartGroup === "class_groupEurope") cityOrder_row3 = objArray.map(x => x["city"]);
   }
 
   return objArray;

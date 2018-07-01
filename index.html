@@ -266,7 +266,8 @@ d3.select("select")
     attrFlag = d3.select("#d3-dropdown").node().value;
     console.log("attrFlag: ", attrFlag)
 
-    var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer"];
+    var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
+                         "barChart_groupEurope"];
 
     svgBarChart = d3.select("#" + geogroupArray[0] + " .barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
@@ -307,6 +308,7 @@ d3.select("#gdpButton")
     //Plot emissions bar charts for each geo group
     emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
     emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
+    emissionsBarChart("groupEurope", "#barChart_groupEurope");
 
     //(de-)activate reorder button if "Scope1/capita" is being displayed
     var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
@@ -336,7 +338,7 @@ d3.select("#reorderButton")
     //Re-order Scope1/GDP according to Scope1/capita
     emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
     emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-
+    emissionsBarChart("groupEurope", "#barChart_groupEurope");
      
   })
   .on("mouseover", function () {
@@ -404,6 +406,7 @@ d3.tsv(fname, function(ghg) {
   drawMap();
   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
+  emissionsBarChart("groupEurope", "#barChart_groupEurope");
   fn_barChartLegend();
 
 });
@@ -703,7 +706,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     geogroupArray = ["groupEastAsia"];
   } else if (geogroup_name === "groupNAmer") {
     geogroupArray = ["groupNAmer"];
-  } else if (geogroup_name === groupEurope) {
+  } else if (geogroup_name === "groupEurope") {
     geogroupArray = ["groupEurope"];
   } else if (geogroup_name === groupSouth) {
     geogroupArray = ["groupLatinAmer", "gap", "groupSEAsia", "gap", "groupSAsia"];
@@ -754,7 +757,10 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
   //Fit barCharts responsively using viewBox
   //NB: viewBox stretches text labels as well, so they must be fixed later by adjusting the scale
-  my_width = geogroup_id === "#barChart_groupNAmer" ? "97%" : "100%";
+  // my_width = geogroup_id === "#barChart_groupNAmer" ? "97%" : "100%";
+  if (geogroup_id === "#barChart_groupEastAsia") my_width = "100%";
+  else if (geogroup_id === "#barChart_groupNAmer") my_width = "97%";
+  else if (geogroup_id === "#barChart_groupEurope") my_width = "97%";
   var svgBarChart = d3.select(geogroup_id).append("svg").attr("class", "barSVG")
     .attr('width', my_width)
     .attr('height', 125) // height)
@@ -765,7 +771,11 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     // .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", function () {
-      var transx = (geogroup_id === "#barChart_groupNAmer") ? 60 : margin.top;
+      // var transx = (geogroup_id === "#barChart_groupNAmer") ? 60 : margin.top;
+      if (geogroup_id === "#barChart_groupEastAsia") transx = margin.top;
+      else if (geogroup_id === "#barChart_groupNAmer") transx = 60;
+      else if (geogroup_id === "#barChart_groupEurope") transx = 60;
+
       return "translate(" + margin.left + "," + transx + ")";
     });
 
