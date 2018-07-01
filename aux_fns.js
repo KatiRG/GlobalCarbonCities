@@ -835,6 +835,7 @@ function fn_svgHeadings (geogroup_id) {
   //   svgTrans = [ [64, 15], [1069, 15] ]; //y=22?
   // }
 
+  console.log("geogroup_id: ", geogroup_id)
   if (geogroup_id === "#barChart_groupEastAsia") {
     numHeadings = ["East Asia"];
     svgTrans = [ [64, 15] ]; //y=22?
