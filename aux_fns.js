@@ -856,7 +856,7 @@ function fn_svgHeadings (geogroup_id) {
   } else if (geogroup_id === "#barChart_groupSouth") {
     numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
                    "N Africa & W Asia", "Oceania"];
-    svgTrans = [ [64, 61], [613, 61], [931, 61], [1070, 61], [1233, 61]];
+    svgTrans = [ [64, 61], [613, 61], [931, 61], [1109, 61], [1277, 61]];
   }  
 
 
