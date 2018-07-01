@@ -539,25 +539,13 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
       else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
     }
 
-  } else if (thisCityGroup === "bar class_groupCan") {
-    if (d === "Hamilton, ON" || d === "Windsor, ON" || d === "Edmonton") {
+  } else if (thisCityGroup === "bar class_groupSouth") {
+    if (d === "León" || d === "Toluca") {
       xtrans = 60; ytrans = 0; rot = -90;
     }
-    else if (d === "Vancouver") ytrans = -10;
-    else if (d === "North Vancouver") ytrans = 5;
-    else if (d === "Ajax") ytrans = 30;
-    else ytrans = -120 + (i*1.9);
+    else ytrans = -15 + (i*1.5);
 
-  } else if (thisCityGroup === "bar class_groupOceania") {
-    if (d === "Auckland") ytrans = -29;
-    else ytrans = -130 + (i*2.3);
-    
-  } else if (thisCityGroup === "bar class_groupLatinAmer") {
-    if (d === "Buenos Aires") ytrans = -20;
-    else if (d === "Guaratinguetá") ytrans = -15;
-    else ytrans = -110 + (i*1.9);
-    
-  } else if (thisCityGroup === "bar class_groupAfrica") ytrans = -160 + (i*2.2);
+  }
 }
 
 function fn_cityLabels_perGDP (d, i, thisCityGroup) {
