@@ -849,14 +849,14 @@ function fn_svgHeadings (geogroup_id) {
     svgTrans = [ [64, 15] ]; //y=22?
   } else if (geogroup_id === "#barChart_groupNAmer") {
     numHeadings = ["North America"];
-    svgTrans = [ [64, 15] ];
+    svgTrans = [ [61, 15] ];
   } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
     numHeadings = ["Europe", "Southeast Asia"];
-    svgTrans = [ [64, 15], [964, 15]];
+    svgTrans = [ [64, 53], [961, 53]];
   } else if (geogroup_id === "#barChart_groupSouth") {
     numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
                    "N Africa & W Asia", "Oceania"];
-    svgTrans = [ [64, 61], [613, 61], [931, 61], [1109, 61], [1277, 61]];
+    svgTrans = [ [64, 61], [578, 61], [914, 61], [1109, 61], [1277, 61]];
   }  
 
 
