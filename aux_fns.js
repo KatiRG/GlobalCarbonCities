@@ -221,67 +221,74 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     //Sort by this_dim in descending order
     ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
 
-    //Rotterdam, Kaohsiung, Taoyuan, Lagos -- special cases that do not fit on scale
-    //Reduce bar height and indicate true value graphically on the chart
-    if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {     
-      var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
+  //--------------
+    // //Rotterdam, Kaohsiung, Taoyuan, Lagos -- special cases that do not fit on scale
+    // //Reduce bar height and indicate true value graphically on the chart
+    // if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {     
+    //   var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
       
-      //Store actual value for later display. Store only once!!!
-      if (storeFlagCap === 0) {
-        rotterdamEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
-        storeFlagCap = 1;
-      }
+    //   //Store actual value for later display. Store only once!!!
+    //   if (storeFlagCap === 0) {
+    //     rotterdamEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+    //     storeFlagCap = 1;
+    //   }
       
-      //Assign a smaller value FOR SCALE PURPOSES ONLY
-      selectedCity[label_dataPerCap] = 11;
-    } else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
-      var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
-      var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
+    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
+    //   selectedCity[label_dataPerCap] = 11;
+    // } else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
+    //   var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
+    //   var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
 
-      //Store actual value for later display.Store only once!!!
-      if (storeFlagGDP === 0) {
-        kaohsiungEmissionsPerGDP = formatDecimalSci(selectedCity1[label_dataPerGDP]);
-        taoyuanEmissionsPerGDP = formatDecimalSci(selectedCity2[label_dataPerGDP]);       
-        storeFlagGDP = 1;
-      }
+    //   //Store actual value for later display.Store only once!!!
+    //   if (storeFlagGDP === 0) {
+    //     kaohsiungEmissionsPerGDP = formatDecimalSci(selectedCity1[label_dataPerGDP]);
+    //     taoyuanEmissionsPerGDP = formatDecimalSci(selectedCity2[label_dataPerGDP]);       
+    //     storeFlagGDP = 1;
+    //   }
       
-      //Assign a smaller value FOR SCALE PURPOSES ONLY
-      selectedCity1[label_dataPerGDP] = 0.114;
-      selectedCity2[label_dataPerGDP] = 0.114;    
+    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
+    //   selectedCity1[label_dataPerGDP] = 0.114;
+    //   selectedCity2[label_dataPerGDP] = 0.114;    
 
-    } else if (geogroupArray[idx] === "groupAfrica" && this_dim === "per GDP") {
-      var selectedCity = data_GHG.find(x => x.city === "Lagos");
+    // } else if (geogroupArray[idx] === "groupAfrica" && this_dim === "per GDP") {
+    //   var selectedCity = data_GHG.find(x => x.city === "Lagos");
 
-      //Store actual value for later display.Store only once!!!
-      if (storeFlagGDPAfrica === 0) {
-        lagosEmissionsPerGDP = formatDecimalSci(selectedCity[label_dataPerGDP]);
-        storeFlagGDPAfrica = 1;
-      }    
+    //   //Store actual value for later display.Store only once!!!
+    //   if (storeFlagGDPAfrica === 0) {
+    //     lagosEmissionsPerGDP = formatDecimalSci(selectedCity[label_dataPerGDP]);
+    //     storeFlagGDPAfrica = 1;
+    //   }    
 
-      //Assign a smaller value FOR SCALE PURPOSES ONLY
-      selectedCity[label_dataPerGDP] = 0.23;
-    } 
+    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
+    //   selectedCity[label_dataPerGDP] = 0.23;
+    // } 
+  //--------------
 
+  //--------------
     //Concatenate with a gap obj in between
     if (idx % 2 == 0) {
       objArray = objArray.concat(ghg_extract);
-    } else {
-      objArray = objArray.concat(
-        [{ "city":"gap" + barChartGroup + count,  
-           "region": barChartGroup,
-           "per capita":0, 
-           "per GDP": 0 }]
-      );
-      count++;
-    }
+    } 
+    // else {
+    //   objArray = objArray.concat(
+    //     [{ "city":"gap" + barChartGroup + count,  
+    //        "region": barChartGroup,
+    //        "per capita":0, 
+    //        "per GDP": 0 }]
+    //   );
+    //   count++;
+    // }
+  //--------------  
+
   } //.for
+
+  
 
   //save cityOrder
   if (this_dim === "per capita") {
-    if (barChartGroup === "groupUSAAsia") cityOrder_row1 = objArray.map(x => x["city"]);
+    if (barChartGroup === "groupEastAsia") cityOrder_row1 = objArray.map(x => x["city"]);
     else cityOrder_row2 = objArray.map(x => x["city"]);
   }
-
 
   return objArray;
 }
@@ -314,7 +321,7 @@ function fn_reorderByEmissionsPerCapita(region, emissions_perGDP) {
   //   city_order = cityOrder_row1;
   // } else city_order = cityOrder_row2;
 
-  city_order = (region === "groupUSAAsia" ? cityOrder_row1 : cityOrder_row2);
+  city_order = (region === "groupEastAsia" ? cityOrder_row1 : cityOrder_row2);
 
   //Re-order emissions_perGDP according to city_order of emissions per capita
   for (idx = 0; idx < city_order.length; idx++) {
@@ -491,13 +498,15 @@ function fn_enlargeName(geogroup_name, cityName) {
 }
 
 function fn_cityLabels_perCapita (d, i, thisCityGroup) {
-  if (thisCityGroup === "bar class_groupUSA") {    
-    if (d === "Cleveland" || d === "Las Vegas") {
+  if (thisCityGroup === "bar class_groupNAmer") {    
+    if (d === "Cleveland" || d === "Las Vegas" || d==="Savannah" ||
+        d === "Fort Collins" || d === "Hamilton, ON" || d === "Windsor, ON" ||
+        d === "Knoxville" || d === "Edmonton" || d === "Emeryville, CA" ||
+        d === "Nashville and Davidson") {
       xtrans = 60; ytrans = -5; rot = -90;
     }
-    else if (d === "Savannah") ytrans = -75;
-    else if (d === "Emeryville, CA" || d === "Knoxville") ytrans = -45 + (i*1.3);
-    else ytrans = -35 + (i*1.1);
+    // else if (d === "Emeryville, CA" || d === "Knoxville") ytrans = -45 + (i*1.3);
+    else ytrans = -85 + (i*1.3);
   } else if (thisCityGroup === "bar class_groupEastAsia") {    
 
     if (d === "Incheon") {

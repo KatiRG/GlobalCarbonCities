@@ -266,7 +266,7 @@ d3.select("select")
     attrFlag = d3.select("#d3-dropdown").node().value;
     console.log("attrFlag: ", attrFlag)
 
-    var geogroupArray = ["barChart_USAAsia", "barChart_EUCWLatAmerAfrica"];
+    var geogroupArray = ["barChart_EastAsia", "barChart_NAmer"];
 
     svgBarChart = d3.select("#" + geogroupArray[0] + " .barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
@@ -305,7 +305,7 @@ d3.select("#gdpButton")
     d3.select(this).text(buttonText);
 
     //Plot emissions bar charts for each geo group
-    emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+    emissionsBarChart("groupEastAsia", "#barChart_EastAsia");
     emissionsBarChart("groupNAmer", "#barChart_NAmer");
 
     //(de-)activate reorder button if "Scope1/capita" is being displayed
@@ -334,9 +334,8 @@ d3.select("#reorderButton")
     d3.select(this).text(buttonText);
 
     //Re-order Scope1/GDP according to Scope1/capita
-    emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
+    emissionsBarChart("groupEastAsia", "#barChart_EastAsia");
     emissionsBarChart("groupNAmer", "#barChart_NAmer");
-    // emissionsBarChart("groupUSAAsia", "#barChart_USAAsia");
 
      
   })
@@ -366,7 +365,8 @@ d3.select("#reorderButton")
 // ----------------------------------------------------
 
 //Find data range extent for each dim (to be used to discretize into colour values)
-d3.tsv("data/d_final_app.tsv", function(ghg) {  
+var fname = "data/d_final_app_343cities.tsv"
+d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
     "methodology": 
           d3.extent(ghg, function (d) { return d['MethodNum']; })
@@ -397,7 +397,7 @@ console.log("attrFlag: ", attrFlag)
 // fn_barChartLegend();
 
 // d3.csv("data/Creutzig2014_dataset_wb.csv", function(ghg) {
-d3.tsv("data/d_final_app.tsv", function(ghg) {
+d3.tsv(fname, function(ghg) {
   //console.log("ghg read: ", ghg)
 
   setupData(ghg);
@@ -754,7 +754,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
   //Fit barCharts responsively using viewBox
   //NB: viewBox stretches text labels as well, so they must be fixed later by adjusting the scale
-  my_width = geogroup_id === "#barChart_EUCWLatAmerAfrica" ? "97%" : "100%";
+  my_width = geogroup_id === "#barChart_NAmer" ? "97%" : "100%";
   var svgBarChart = d3.select(geogroup_id).append("svg").attr("class", "barSVG")
     .attr('width', my_width)
     .attr('height', 125) // height)
@@ -765,7 +765,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     // .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", function () {
-      var transx = (geogroup_id === "#barChart_EUCWLatAmerAfrica") ? 60 : margin.top;
+      var transx = (geogroup_id === "#barChart_NAmer") ? 60 : margin.top;
       return "translate(" + margin.left + "," + transx + ")";
     });
 
@@ -955,15 +955,15 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   //fn_appendRegionalMeans(svgBarChart, geogroup_name, this_dim, emissions_scaled, x, y);
 
   //svg arrow for Rotterdam bar only if on emissions/capita view
-  if (geogroup_id === "#barChart_EUCWLatAmerAfrica" &&
+  if (geogroup_id === "#barChart_Europe" &&
     d3.select("#gdpButton").text() === "per GDP") {
     var city = ["Rotterdam"];
     fn_arrow(geogroup_id, city);
-  } else if (geogroup_id === "#barChart_USAAsia" && 
+  } else if (geogroup_id === "#barChart_EastAsia" && 
     d3.select("#gdpButton").text() === "per capita") {
     var city = ["Kaohsiung","Taoyuan"];
     fn_arrow(geogroup_id, city);
-  } else if (geogroup_id === "#barChart_EUCWLatAmerAfrica" &&
+  } else if (geogroup_id === "#barChart_NAmer" &&
     d3.select("#gdpButton").text() === "per capita") {
     var city = ["Lagos"];
     fn_arrow(geogroup_id, city);
