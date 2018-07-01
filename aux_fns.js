@@ -843,6 +843,9 @@ function fn_svgHeadings (geogroup_id) {
   } else if (geogroup_id === "#barChart_groupNAmer") {
     numHeadings = ["North America"];
     svgTrans = [ [64, 15] ];
+  } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
+    numHeadings = ["Europe", "Southeast Asia"];
+    svgTrans = [ [64, 15], [964, 15]];
   }  
 
 
