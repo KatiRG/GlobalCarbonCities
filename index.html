@@ -814,7 +814,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .data(emissions_scaled)
       .enter().append("rect")
       .attr("class", function (d) {//keep track of original geographic group
-        return "bar" + " " + "class_" + regionDict[d.region];
+        return "bar" + " " + "class_" + geogroup_name; //regionDict[d.region];
       })
       //.attr("class", "bar")
       .attr("id", function (d) {

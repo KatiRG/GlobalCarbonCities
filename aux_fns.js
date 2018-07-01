@@ -499,6 +499,7 @@ function fn_enlargeName(geogroup_name, cityName) {
 }
 
 function fn_cityLabels_perCapita (d, i, thisCityGroup) {
+  console.log("thisCityGroup: ", thisCityGroup)
   if (thisCityGroup === "bar class_groupNAmer") {    
     if (d === "Cleveland" || d === "Las Vegas" || d==="Savannah" ||
         d === "Fort Collins" || d === "Hamilton, ON" || d === "Windsor, ON" ||
@@ -526,11 +527,18 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
 
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
+    console.log("d in thisCityGroup: ", d)
+    console.log("i in thisCityGroup: ", i)
                        
-    if (d === "Rotterdam") {// || d === "Ljubljana") {
+    if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
+        d === "Umeå" || d === "Quezon" || d === "Singapore" || 
+        d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
     }
-    else ytrans = -30 + (i*1.9);
+    else {
+      if (i < 45) ytrans = -60 + (i*1.9);
+      else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
+    }
 
   } else if (thisCityGroup === "bar class_groupCan") {
     if (d === "Hamilton, ON" || d === "Windsor, ON" || d === "Edmonton") {
