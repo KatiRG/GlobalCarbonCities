@@ -97,7 +97,7 @@ var regionDict = {
   "South Asia": "groupSAsia", 
   "Africa": "groupAfrica", 
   "Oceania": "groupOceania",
-  "N Africa, Middle East, W Asia": "groupNAfrica"
+  "N Africa & W Asia": "groupNAfrica"
 }
 
 //Change in emissions
@@ -171,13 +171,15 @@ var rotterdamEmissionsPerCap, kaohsiungEmissionsPerGDP, taoyuanEmissionsPerGDP,
 //'Europe', 66/44 cities
 //'Latin America & Caribbean', 33/30 cities
 //'Southeast Asia', 22/21 cities
+//'South Asia', 19/19 cities
 //'Africa', 12/12 cities
-//'N Africa, Middle East, W Asia', 6/5 cities
+//'N Africa & W Asia', 6/5 cities
 //'Oceania', 6/6 cities
 //Pairings
-//ROW1: East Asia
-//ROW2: North America
-//ROW3: Europe + Southeast Asia
+//ROW1: 'East Asia'
+//ROW2: 'North America'
+//ROW3: 'Europe' + 'Southeast Asia'
+//ROW4: 'Latin America & Caribbean' + 'South Asia' + 'Africa' + 'N Africa & W Asia' + 'Oceania'
 var regionLabel_dict = {
   "groupEastAsia": "East Asia", //103 cities, ROW1
   "groupNAmer": "North America", //75 cities, ROW2
@@ -189,7 +191,7 @@ var regionLabel_dict = {
 
   "groupAfrica": "Africa", //12 cities, ROW5
   "groupOceania": "Aus/NZ", //6 cities, also ROW5
-  "groupNAfrica": "N Africa, Middle East, W Asia" //4 cities, also ROW5
+  "groupNAfrica": "N Africa & W Asia" //4 cities, also ROW5
 };
 
 var dimUnits =  {

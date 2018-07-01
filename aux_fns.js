@@ -499,7 +499,6 @@ function fn_enlargeName(geogroup_name, cityName) {
 }
 
 function fn_cityLabels_perCapita (d, i, thisCityGroup) {
-  console.log("thisCityGroup: ", thisCityGroup)
   if (thisCityGroup === "bar class_groupNAmer") {    
     if (d === "Cleveland" || d === "Las Vegas" || d==="Savannah" ||
         d === "Fort Collins" || d === "Hamilton, ON" || d === "Windsor, ON" ||
@@ -854,6 +853,10 @@ function fn_svgHeadings (geogroup_id) {
   } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
     numHeadings = ["Europe", "Southeast Asia"];
     svgTrans = [ [64, 15], [964, 15]];
+  } else if (geogroup_id === "#barChart_groupSouth") {
+    numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
+                   "N Africa & W Asia", "Oceania"];
+    svgTrans = [ [64, 61], [613, 61], [931, 61], [1070, 61], [1233, 61]];
   }  
 
 

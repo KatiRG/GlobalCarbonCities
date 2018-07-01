@@ -145,15 +145,6 @@
       </div> <!-- .end col -->
     </div> <!-- .end BarChart ROW4 -->
 
-    <!-- BarChart ROW5: groupAfrica, groupOceania, groupNAfrica -->
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
-          <div id="barChart_groupAfricaOceania"></div>
-        </div>
-      
-      </div> <!-- .end col -->
-    </div> <!-- .end BarChart ROW5 -->
     
     <footer class="row">
       logos
@@ -309,6 +300,7 @@ d3.select("#gdpButton")
     emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
     emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
     emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
+    emissionsBarChart("groupSouth", "#barChart_groupSouth");
 
     //(de-)activate reorder button if "Scope1/capita" is being displayed
     var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
@@ -339,6 +331,7 @@ d3.select("#reorderButton")
     emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
     emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
     emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
+    emissionsBarChart("groupSouth", "#barChart_groupSouth");
      
   })
   .on("mouseover", function () {
@@ -408,6 +401,7 @@ d3.tsv(fname, function(ghg) {
   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
+  emissionsBarChart("groupSouth", "#barChart_groupSouth");
   fn_barChartLegend();
 
 });
@@ -709,10 +703,9 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     geogroupArray = ["groupNAmer"];
   } else if (geogroup_name === "groupEuropeSEAsia") {
     geogroupArray = ["groupEurope", "gap", "groupSEAsia"];
-  } else if (geogroup_name === groupSouth) {
-    geogroupArray = ["groupLatinAmer", "gap", "groupSEAsia", "gap", "groupSAsia"];
-  } else if (geogroup_name === groupAfricaOceania) {
-    geogroupArray = ["groupAfrica", "gap", "groupOceania", "gap", "groupNAfrica"];
+  } else if (geogroup_name === "groupSouth") {
+    geogroupArray = ["groupLatinAmer", "gap", "groupSAsia", "gap", "groupAfrica", "gap",
+                     "groupNAfrica", "gap", "groupOceania"];
   }
   console.log('geogroupArray: ', geogroupArray)
                     
@@ -776,6 +769,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       if (geogroup_id === "#barChart_groupEastAsia") transx = margin.top;
       else if (geogroup_id === "#barChart_groupNAmer") transx = 60;
       else if (geogroup_id === "#barChart_groupEuropeSEAsia") transx = 60;
+      else if (geogroup_id === "#barChart_groupSouth") transx = 60;
 
       return "translate(" + margin.left + "," + transx + ")";
     });
