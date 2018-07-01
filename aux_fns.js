@@ -526,9 +526,6 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
 
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
-    console.log("d in thisCityGroup: ", d)
-    console.log("i in thisCityGroup: ", i)
-                       
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
         d === "Umeå" || d === "Quezon" || d === "Singapore" || 
         d === "Phuket" || d === "Ubon Ratchathani" ) {
@@ -540,10 +537,20 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
-    if (d === "León" || d === "Toluca") {
+    console.log("d in thisCityGroup: ", d)
+    console.log("i in thisCityGroup: ", i)
+    if (d === "León" || d === "Toluca" || d === "Gandhinagar" ||
+        d === "Windhoek" || d === "eThekwini" || d === "Izmir" ||
+        d === "Auckland") {
       xtrans = 60; ytrans = 0; rot = -90;
     }
-    else ytrans = -15 + (i*1.5);
+    else {
+      if (i < 32) ytrans = -15 + (i*1.5);
+      else if (i > 32 && i < 53) ytrans = -55 + (i*1.5);
+      else if (i > 53 && i < 68) ytrans = -40 + (i-53)*5; //(-10 + ((i-53)*1.0)) * 8/(i-53);
+      else if (i > 68 && i < 76) ytrans = -1 + (i-68)*5;
+      else ytrans = -40 + (i-76)*8;
+    }
 
   }
 }
