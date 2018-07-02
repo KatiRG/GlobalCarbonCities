@@ -267,6 +267,38 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       }
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerCap] = 9.1;
+    } else if (geogroupArray[idx] === "groupEastAsia" && this_dim === "per capita") {     
+      var selectedCity = data_GHG.find(x => x.city === "Incheon");
+      
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapIncheon === 0) {
+        incheonEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapIncheon = 1;
+      }
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 9.99;
+
+      //Kaohsiung
+      var selectedCity = data_GHG.find(x => x.city === "Kaohsiung");
+      
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapKaohsiung === 0) {
+        kaohsiungEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapKaohsiung = 1;
+      }
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 9.99;
+
+      //Yilan
+      var selectedCity = data_GHG.find(x => x.city === "Yilan");
+      
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapYilan === 0) {
+        yilanEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapYilan = 1;
+      }
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 9.99;
     }
     
 
@@ -545,17 +577,12 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     else ytrans = -85 + (i*1.3);
   } else if (thisCityGroup === "bar class_groupEastAsia") {    
 
-    if (d === "Incheon") {
+    if (d === "Incheon" || d === "Kaohsiung" || d === "Yilan" ||
+        d === "Taoyuan" || d === "Sapporo" || d === "Sendai") {
       // ytrans = -110;
       xtrans = 60; ytrans = -5; rot = -90;
     }
-    else if (d === "Kaohsiung") ytrans = -70;
-    else if (d === "Yilan") ytrans = -65;
-    else if (d === "Taoyuan") ytrans = -85;
-    else if (d === "Sapporo") ytrans = -77;
-    else if (d === "Sendai") ytrans = -75;
     else if (d === "Wonju") ytrans = -73;
-    // else if (d === "Hong Kong") ytrans = 0;
     else {
     ytrans = (-60 + (i*2)) * 10/i;  //-75 + (i*2)
     }
@@ -878,7 +905,7 @@ function fn_svgHeadings (geogroup_id) {
   console.log("geogroup_id: ", geogroup_id)
   if (geogroup_id === "#barChart_groupEastAsia") {
     numHeadings = ["East Asia"];
-    svgTrans = [ [66, 15] ]; //y=22?
+    svgTrans = [ [66, -20] ]; //y=22?
   } else if (geogroup_id === "#barChart_groupNAmer") {
     numHeadings = ["North America"];
     svgTrans = [ [65, 15] ];
