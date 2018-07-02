@@ -222,46 +222,82 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
 
   //--------------
-    // //Rotterdam, Kaohsiung, Taoyuan, Lagos -- special cases that do not fit on scale
-    // //Reduce bar height and indicate true value graphically on the chart
-    // if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {     
-    //   var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
+    //Rotterdam, Kaohsiung, Taoyuan, Lagos -- special cases that do not fit on scale
+    //Reduce bar height and indicate true value graphically on the chart
+    if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {     
+      var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
       
-    //   //Store actual value for later display. Store only once!!!
-    //   if (storeFlagCap === 0) {
-    //     rotterdamEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
-    //     storeFlagCap = 1;
-    //   }
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapRotterdam === 0) {
+        rotterdamEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapRotterdam = 1;
+      }
       
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity[label_dataPerCap] = 11;
-    // } else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
-    //   var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
-    //   var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
-
-    //   //Store actual value for later display.Store only once!!!
-    //   if (storeFlagGDP === 0) {
-    //     kaohsiungEmissionsPerGDP = formatDecimalSci(selectedCity1[label_dataPerGDP]);
-    //     taoyuanEmissionsPerGDP = formatDecimalSci(selectedCity2[label_dataPerGDP]);       
-    //     storeFlagGDP = 1;
-    //   }
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 9.1;
+    } else if (geogroupArray[idx] === "groupLatinAmer" && this_dim === "per capita") {     
+      var selectedCity = data_GHG.find(x => x.city === "León");
       
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity1[label_dataPerGDP] = 0.114;
-    //   selectedCity2[label_dataPerGDP] = 0.114;    
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapLeon === 0) {
+        leonEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapLeon = 1;
+      }
+      
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 11;
+    } else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {     
+      var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
+      
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapGandhi === 0) {
+        gandhiEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapGandhi = 1;
+      }
+  
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 11;
+    } else if (geogroupArray[idx] === "groupSEAsia" && this_dim === "per capita") {     
+      var selectedCity = data_GHG.find(x => x.city === "Quezon");
+      
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapQuezon === 0) {
+        quezonEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        storeFlagCapQuezon = 1;
+      }
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 9.1;
+    }
+    
 
-    // } else if (geogroupArray[idx] === "groupAfrica" && this_dim === "per GDP") {
-    //   var selectedCity = data_GHG.find(x => x.city === "Lagos");
 
-    //   //Store actual value for later display.Store only once!!!
-    //   if (storeFlagGDPAfrica === 0) {
-    //     lagosEmissionsPerGDP = formatDecimalSci(selectedCity[label_dataPerGDP]);
-    //     storeFlagGDPAfrica = 1;
-    //   }    
+    else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
+      var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
+      var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
 
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity[label_dataPerGDP] = 0.23;
-    // } 
+      //Store actual value for later display.Store only once!!!
+      if (storeFlagGDP === 0) {
+        kaohsiungEmissionsPerGDP = formatDecimalSci(selectedCity1[label_dataPerGDP]);
+        taoyuanEmissionsPerGDP = formatDecimalSci(selectedCity2[label_dataPerGDP]);       
+        storeFlagGDP = 1;
+      }
+      
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity1[label_dataPerGDP] = 0.114;
+      selectedCity2[label_dataPerGDP] = 0.114;    
+
+    } else if (geogroupArray[idx] === "groupAfrica" && this_dim === "per GDP") {
+      var selectedCity = data_GHG.find(x => x.city === "Lagos");
+
+      //Store actual value for later display.Store only once!!!
+      if (storeFlagGDPAfrica === 0) {
+        lagosEmissionsPerGDP = formatDecimalSci(selectedCity[label_dataPerGDP]);
+        storeFlagGDPAfrica = 1;
+      }    
+
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerGDP] = 0.23;
+    } 
   //--------------
 
   //--------------
@@ -304,7 +340,6 @@ function fn_abbr(d) {
 }
 
 function sortByRegion(region, this_dim) {
-  console.log("region in sortByRegion: ", region)
 
   ghg_byRegion = [];
   data_GHG.forEach(function (d) {
@@ -537,8 +572,6 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
-    console.log("d in thisCityGroup: ", d)
-    console.log("i in thisCityGroup: ", i)
     if (d === "León" || d === "Toluca" || d === "Gandhinagar" ||
         d === "Windhoek" || d === "eThekwini" || d === "Izmir" ||
         d === "Auckland") {
@@ -732,6 +765,10 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
       xpair = [-56]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = [rotterdamEmissionsPerCap + " kgCO₂eq/USD"];
+  } else if (city[0] === "León") {
+      xpair = [-56]; ypair = [-25]; //posn of arrow and text pair    
+      xtext = [109]; ytext = [10]; //posn of text
+      emissionText = [leonEmissionsPerCap + " kgCO₂eq/USD"];
   } else if (city[0] === "Kaohsiung" && city[1] === "Taoyuan") {
     if (d3.select("#reorderButton").text() === "Re-order") {
       //bars sorted by emissions/GDP

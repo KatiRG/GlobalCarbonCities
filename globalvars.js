@@ -128,10 +128,10 @@ var emissionsToggleDict = {
 //Variables to store data
 
 //acutal Scope1 Emissions/cap or Emissions/GDP for cities that are off the scale
-var storeFlagCap = 0;
+var storeFlagCapRotterdam = 0, storeFlagCapLeon = 0, storeFlagCapGandhi = 0,storeFlagCapQuezon =0;
 var storeFlagGDP = 0, storeFlagGDPAfrica = 0;
 var rotterdamEmissionsPerCap, kaohsiungEmissionsPerGDP, taoyuanEmissionsPerGDP,
-    lagosEmissionsPerGDP;
+    lagosEmissionsPerGDP, lagosEmissionsPerCap;
 
 // //AVG REGIONAL EMISSIONS PER CAPITA
 // //TO BE VERIFIED! AVGS TAKEN FROM GCA WEBSITE
