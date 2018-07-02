@@ -689,16 +689,9 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       height = 250 - margin.top - margin.bottom;
 
   //Extract scaled emissions data for given region
-  //Omit cities for which GDP-PPP is missing
-  // var geogroupArray = geogroup_name === "groupUSAAsia" ? 
-  //                     ["groupUSA","gap","groupAsia"] :
-  //                     ["groupEurope", "gap", "groupCan", "gap",
-  //                     "groupOceania", "gap","groupLatinAmer", "gap", 
-  //                     "groupAfrica"];
-
   console.log('geogroup_name: ', geogroup_name)
   if (geogroup_name === "groupEastAsia") {
-    geogroupArray = ["groupEastAsia"];
+    geogroupArray = ["groupEastAsia", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap"];
   } else if (geogroup_name === "groupNAmer") {
     geogroupArray = ["groupNAmer", "gap", "gap", "gap","gap", "gap","gap", "gap","gap", "gap"];
   } else if (geogroup_name === "groupEuropeSEAsia") {
@@ -720,14 +713,17 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   } // end button text check
 
   if (geogroup_name === "groupEastAsia") {
-    pOuter = 0.1;
-    pInner = 0.27;
+    pOuter = 0.05;
+    pInner = 0.27; //0.1;
   }
   // else if (geogroup_name === "groupEUCWLatAmerAfrica") {
   else {
-    pOuter = 0.1; //0.05;
+    pOuter = 0.05; //0.05;
     pInner = 0.27;
   }
+
+  console.log("**************WIDTH: ", width)
+
   var x = d3.scaleBand()
             .rangeRound([0, width], .1)
             .paddingOuter(pOuter)

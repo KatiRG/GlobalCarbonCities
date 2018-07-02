@@ -878,13 +878,13 @@ function fn_svgHeadings (geogroup_id) {
   console.log("geogroup_id: ", geogroup_id)
   if (geogroup_id === "#barChart_groupEastAsia") {
     numHeadings = ["East Asia"];
-    svgTrans = [ [64, 15] ]; //y=22?
+    svgTrans = [ [66, 15] ]; //y=22?
   } else if (geogroup_id === "#barChart_groupNAmer") {
     numHeadings = ["North America"];
-    svgTrans = [ [61, 15] ];
+    svgTrans = [ [65, 15] ];
   } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
     numHeadings = ["Europe", "Southeast Asia"];
-    svgTrans = [ [64, 53], [961, 53]];
+    svgTrans = [ [60, 53], [961, 53]];
   } else if (geogroup_id === "#barChart_groupSouth") {
     numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
                    "N Africa & W Asia", "Oceania"];
