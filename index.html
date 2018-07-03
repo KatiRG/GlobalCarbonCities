@@ -848,10 +848,11 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
           else emissionIntensity = formatDecimalSci(d[this_dim]);
         }
 
+        //bar tooltip
         var tipx = 50;
         var tipy = -120;
         div.style("opacity", 1);
-        div.html(emissionIntensity + " " + dimUnits[this_dim])
+        div.html(fn_abbr(d.city) + ": " + emissionIntensity + " " + dimUnits[this_dim])
           .style("left", d3.event.pageX + tipx + "px")
           .style("top", d3.event.pageY + tipy + "px");
 
