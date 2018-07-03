@@ -99,7 +99,7 @@ function setupData(ghg){
       "region": region,
       "cityLocation": cityLocation,
       "total emissions": totalEmissions,
-      "population": popn,
+      "Population": popn,
       "population density": pop_density,
       "area": area,
       "Scope1": scope1,
@@ -548,7 +548,7 @@ function fn_updateLegend (attrFlag) {
       else if (attrFlag === "diesel price" || attrFlag === "gas price") xpos = [4,75,145,215,285];
       else if (attrFlag === "low BUA % (2014)" ||
                attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295];
-      else xpos = [4,75,145,215,285];      
+      else xpos = [3,82,162,241,321,403];      
       return xpos[i];
     });
 

@@ -73,8 +73,8 @@
           <select id="d3-dropdown">
             <option value="methodology" selected="selected">Protocol</option>
             <option value="Measurement year">Measurement year</option>
-            <!--<option value="change in emissions">change in emissions</option>
-            <option value="population">population</option>
+            <option value="Population">Population</option>
+            <!--<option value="change in emissions">change in emissions</option>            
             <option value="population density">population density</option>
             <option value="area">area</option>
             <option value="GDP/capita">GDP/capita</option>
@@ -372,9 +372,10 @@ d3.tsv(fname, function(ghg) {
           d3.extent(ghg, function (d) { 
             //console.log(d['Year of emission'])
             return d['MethodNum']; }),
-   "Measurement year": [2005, 2015]
+   "Measurement year": [2005, 2015],
+   "Population": [4000, 8000000]
     // "change in emissions": [1,5],
-    // "population": [1000, 8000000],          
+    // "Population": [1000, 8000000],          
     // "population density": 
     //       d3.extent(ghg, function (d) { return +d["pop to use"]/d["area [km2] (external)"]; }),
     // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
