@@ -578,6 +578,7 @@ function fn_enlargeName(geogroup_name, cityName) {
 }
 
 function fn_cityLabels_perCapita (d, i, thisCityGroup) {
+  if (d.includes("Sing")) console.log("!!!!!!!!!!!!!!!!!!!!!! ",d)
   if (thisCityGroup === "bar class_groupNAmer") {    
     if (d === "Cleveland" || d === "Las Vegas" || d==="Savannah" ||
         d === "Fort Collins" || d === "Hamilton, ON" || d === "Windsor, ON" ||
@@ -602,10 +603,12 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
         d === "Umeå" || d === "Lahti" || d === "Lyon" || d === "Gävle" ||
-        d === "Quezon" || d === "Singapore" || 
+        d === "Quezon" || //Singapore
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
-    }
+    } else if (d === "Singa") {
+      xtrans = 60; ytrans = 10; rot = -90;
+    } 
     else {
       if (i < 45) ytrans = -60 + (i*1.9);
       else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
