@@ -979,7 +979,12 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     city = ["Quezon"];
     fn_arrow(geogroup_id, city);
 
-  } 
+  } else if (geogroup_id === "#barChart_groupSouth" &&
+    d3.select("#gdpButton").text() === "per GDP") {    
+
+    var city = ["León"];
+    fn_arrow(geogroup_id, city);
+  }
 
   //svg chart titles
   fn_svgHeadings(geogroup_id);

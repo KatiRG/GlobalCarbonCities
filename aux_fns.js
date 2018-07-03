@@ -736,14 +736,6 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
 
   console.log('++++++++++++++++++++city length: ', city.length)
 
-  // if (city[0] === "Rotterdam") {
-  //     xpair = [-57]; ypair = [-25]; //posn of arrow
-  //     xtext = [109]; ytext = [10]; //posn of text
-  // } else if (city[0] === "Quezon") {
-  //     xpair = [392]; ypair = [-25]; //posn of arrow
-  //     xtext = [65]; ytext = [10]; //posn of text    
-  // }
-
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
     if (city[idx] === "Rotterdam") {
@@ -761,29 +753,15 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
 
       emissionText = [offscaleEmissionsDict[city[0]], 
                       offscaleEmissionsDict[city[1]],  offscaleEmissionsDict[city[2]]];
+    } else if (city[idx] === "León") {
+      xpair = [-56]; ypair = [-25]; //posn of arrow
+      xtext = [70]; ytext = [10]; //posn of text
+      emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     }
 
     //define arrow name and path
     data.push({ id:idx, name:"arrow" + city[idx], path:"M 2,2 L2,11 L10,6 L2,2" });
   }
-
-  // var data = []; 
-  // console.log("****************city: ", city[0])
-  // if (city[0] === "Incheon") {
-  //   xpair = [-56]; ypair = [-145]; //posn of arrow
-  //   xtext = [65]; ytext = [10]; //posn of text
-  // } else if (city[0] === "Kaohsiung") {
-  //   xpair = [-35]; ypair = [-145]; //posn of arrow
-  //   xtext = [55]; ytext = [-10]; //posn of text    
-  // } else if (city[0] === "Rotterdam") {
-  //   xpair = [-57]; ypair = [-25]; //posn of arrow
-  //   xtext = [109]; ytext = [10]; //posn of text
-  // } else if (city[0] === "Quezon") {
-  //   xpair = [392]; ypair = [-25]; //posn of arrow
-  //   xtext = [65]; ytext = [10]; //posn of text
-  // }
-  //define arrow name and path
-  //data.push({ id:idx, name:"arrow" + city[0], path:"M 2,2 L2,11 L10,6 L2,2" });
   
   
   appendArrowSVG(geogroup_id, data, city);
