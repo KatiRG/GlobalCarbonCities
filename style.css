@@ -281,13 +281,19 @@ div.rtooltip {
 }
 #emissionsToggleButton {
   position: absolute;
-  left: 600px; 
+  left: 800px; 
   top: 0px;
 }
 #reorderButton {
   position: absolute;
   left: 750px; 
   top: 0px;
+}
+#barChartCaption {
+  position: relative;
+  left: 380px;
+  color: #565656;
+  text-align: left;
 }
 #barChartLegendLabel {
   position: relative;
