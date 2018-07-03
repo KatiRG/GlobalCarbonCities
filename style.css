@@ -1,0 +1,412 @@
+/*https://openclassrooms.com/courses/prenez-en-main-bootstrap/une-grille*/
+
+/*--------------------------*/
+/*base elements*/
+body {
+  padding-top: 10px;
+  font-family: "Ubuntu", sans-serif;
+}
+
+[class*="col-"], footer {
+  /*background-color: lightgreen; */
+  border: 0px solid white;
+  /*border: 1px solid gray;*/
+  border-radius: 6px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid #636363;
+}
+
+ul {
+    list-style: outside none none;
+/*    margin-top: 80px;*/
+}
+
+.headings {
+  font-size: 20px;
+  padding-left: 20px;
+  color: #565656;
+  text-align: left;
+}
+
+/*--------------------------*/
+/*$(window).width();*/
+/*@media screen and (max-width: 2048px)
+{
+  div #headingCan { 
+    padding-left: 101px;
+  }
+}
+
+@media screen and (max-width: 1200px)
+{
+  div #headingCan { 
+    color:cyan;
+    padding-left: 9px;
+  }
+}
+
+@media screen and (max-width: 850px)
+{
+  div #headingCan { 
+    color:green;
+    padding-left: -400px;
+  }
+}
+
+@media screen and (max-width: 1000px)
+{
+  div #headingCan { 
+    color:blue;
+    padding-left: -400px;
+  }
+}*/
+
+/*mobile phone*/
+/*@media screen and (max-width: 420px)
+{
+    #headingCan { 
+      color:blue; 
+      padding-left: 276px;
+    }
+}*/
+
+/*--------------------------*/
+/*buttons*/
+.nytg-sort li {
+	background: none repeat scroll 0 0 #f9f9f9;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	color: #555;
+  font-weight: bold;
+	cursor: pointer;
+	float: left;
+	font-size: 12px;
+	margin: 0;
+	padding: 0px 4px;
+	border-radius: 4px 4px 4px 4px;
+}
+/*drop-down menu*/
+.dropbtn {
+  background-color: none repeat scroll 0 0 #f9f9f9;
+  border: 1px solid #ccc;
+  color: #555;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0px 4px;
+  border-radius: 4px 4px 4px 4px;
+  text-align: center;
+  margin: auto;
+  width: 70px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    width: 200px;
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: #555;
+    padding: 0px 4px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: lightgrey}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: lightgrey;
+}
+
+
+/*--------------------------*/
+/*tooltips */
+/*Used for barChart protocol legend rects */
+.d3-tip {
+  /*line-height: 1.2; */
+  height: 50px;
+  width: 350px;
+  padding: 6px;
+  background: #F7F6E4;
+  color: #555;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.d3-tip-deactive {
+  background: transparent;
+}
+.d3-tip-line {
+  height: 35px;
+  width: 111px;
+  padding: 6px;
+  background: #555;
+  color: #F7F6E4;
+  border-radius: 4px;
+  font-size: 12px;
+}
+/*Used for barChart rects */
+div.tooltip-bar {
+  position: absolute;
+  height: 40px;
+  width: 111px;
+  padding: 6px;
+  background: #8A979D;
+  color: #000;
+  border-radius: 4px;
+  border-color: #5E554D;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/*Used for toggle buttons */
+/*@-moz-document url-prefix()
+{
+div.tooltip {top: -440px; left: 1210px;}
+div.tooltip {top: 536px; left: 1130px;}
+}*/
+div.tooltip {
+  position: absolute;
+  text-align: left;
+  top: 536px;
+  left: 1030px;
+  width: 150px;
+  height: 60px;
+  padding: 6px;
+  /*font: 12px sans-serif;*/
+  font-size: 12px;
+  background: #F7F6E4;
+  color: #555;
+  border: 0px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/*to allow x-axis labels to overflow past div bd*/
+/*svg:not(:root) {
+    overflow: unset;
+}*/
+svg.barSVG {
+    overflow: unset;
+}
+
+
+div.rtooltip {
+      position: absolute;
+      text-align: left;
+      width: 190px;
+      height: 110px;
+      padding: 2px;
+      font: 8px;
+      background: #EEE4C5;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+}
+
+/*intro*/
+#infoText {
+  font-size: 14px;
+  line-height: 1.2;
+  padding-bottom: 8px;
+}
+
+/* map */
+#sphere {
+  padding-top: 0px;
+  fill: #F4F7F7;  /* #F2F4F2; #e6f3f7;   //#e6f3f7"); // "#add8e6" //"#fcfcef" */
+}
+/* #map {
+  padding-top: 40px;
+} */
+
+.stroke {
+  fill: none;
+  stroke: #555;
+  stroke-width: 1px;
+}
+.fill {
+  fill: #555;
+}
+.graticule {
+  fill: none;
+  stroke: #555;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+.land {
+  fill: #222;
+}
+.boundary {
+  fill: none;
+  stroke: #555;
+  stroke-width: .5px;
+}
+
+/*--------------------------*/
+/* bar chart */
+.headingClass { /* svg stylings */
+  font-weight: bold;
+  /*color: #565656;*/
+  font-size: 17px;
+  fill: #565656;
+}
+#emissionsToggleButton {
+  position: absolute;
+  left: 800px; 
+  top: 0px;
+}
+#reorderButton {
+  position: absolute;
+  left: 750px; 
+  top: 0px;
+}
+#barChartCaption {
+  position: relative;
+  left: 380px;
+  color: #565656;
+  text-align: left;
+}
+#barChartLegendLabel {
+  position: relative;
+  left: 235px;
+  color: #565656;
+  text-align: left;
+}
+#barChartLegend {
+  position: relative;
+  left: 60px;
+  stroke: gray;
+}
+#barChartLegendUnits {
+  text-align: left;
+  font-size: 11px;
+  padding-left: 0px;
+  left: 160px;
+  top: -2px;
+  color: #636363;
+}
+.textLabels {
+  fill: #636363;
+}
+
+.barChartTitle {
+  color: #565656;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 23px;
+  text-align: left;
+}
+.bar {
+  /*stroke: gray;*/
+}
+.zerobar { /*bar where d[attrFlag] is zero */
+  stroke: #565656;
+  /*stroke-width: 0.5;*/
+  opacity: 0.3;
+}
+.axis {
+  font: 14px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #555;
+  shape-rendering: geometricPrecision; /*crispEdges;*/
+}
+.axis text {
+  fill: #555;
+}
+.x.axis path {
+  display: none;
+}
+.xAxisCityName {
+  font-size: 16px;
+  color: #565656;
+  opacity: 0.3;
+}
+
+/*--------------------------*/
+/*Stats table*/
+#cityCardChangeReason {
+  font-size: 16px;
+  line-height: 1.2;
+  /*font-weight: bold; */
+  color: #565656;
+}
+#displayStats {
+  position: absolute;
+  margin-top: -40px;
+  margin-left: 1505px;
+}
+#displayGHGstats {
+ /* position: absolute;
+  margin-top: 4px;
+  margin-left: 819px;*/
+}
+.cityCardName {
+  font-weight: bold;
+  font-size: 17px;
+  stroke: none;
+  fill: #fff;
+  background: rgba(76, 135, 181, 0.7);
+  text-shadow: 0 0 5px #333333;
+  text-align: right;
+}
+.cityCardSubrowTitle {
+  font-weight: 700;
+  font-size: 11px;
+  stroke: none;
+  fill: #ffaa1b;
+  text-shadow: 0 0 5px #333333;
+  text-transform: uppercase;
+  text-align: right;
+}
+.cityCardSubrowInfo {
+  font-size: 11px;
+  stroke: none;
+  fill: #fff;
+  text-align: right;
+}
+
+
+
+ 
+    .style("text-transform", "uppercase")
+
+
+#ghgStory {
+  margin-top: 20px;
+}
+td, th {
+  padding: 1px 4px;
+  font-size: 14px;
+}
