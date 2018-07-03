@@ -594,7 +594,8 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
 
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
-        d === "Umeå" || d === "Quezon" || d === "Singapore" || 
+        d === "Umeå" || d === "Lahti" || d === "Lyon" || d === "Gävle" ||
+        d === "Quezon" || d === "Singapore" || 
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
     }
@@ -842,17 +843,17 @@ function fn_svgHeadings (geogroup_id) {
 
   if (geogroup_id === "#barChart_groupEastAsia") {
     numHeadings = ["East Asia"];
-    svgTrans = [ [165, -20] ]; //y=22?
+    svgTrans = [ [148, -20] ]; //y=22?
   } else if (geogroup_id === "#barChart_groupNAmer") {
     numHeadings = ["North America"];
-    svgTrans = [ [115, 15] ];
+    svgTrans = [ [148, 25] ];
   } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
     numHeadings = ["Europe", "Southeast Asia"];
-    svgTrans = [ [115, 53], [1001, 53]];
+    svgTrans = [ [148, 53], [1020, 53]];
   } else if (geogroup_id === "#barChart_groupSouth") {
     numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
                    "N Africa & W Asia", "Oceania"];
-    svgTrans = [ [115, 61], [628, 61], [964, 61], [1109, 61], [1277, 61]];
+    svgTrans = [ [148, 61], [628, 61], [964, 61], [1109, 61], [1277, 61]];
   }  
 
 
