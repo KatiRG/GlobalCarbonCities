@@ -224,18 +224,6 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   //--------------
     //Rotterdam, Kaohsiung, Taoyuan, Lagos -- special cases that do not fit on scale
     //Reduce bar height and indicate true value graphically on the chart
-    if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {
-      var cityList = ["Rotterdam", "Quezon"];
-
-      //loop through cityList to store emissions in dict
-      for (idx=0; idx < cityList.length; idx++) {
-        var selectedCity = data_GHG.find(x => x.city === cityList[idx]);
-        console.log("++++++++++++++++++ selectedCity: ", selectedCity)
-      }
-
-
-    }
-
     if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {
       var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
       
@@ -262,17 +250,17 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerCap] = 11;
     } 
-    // else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {     
-    //   var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
+    else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {     
+      var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
       
-    //   //Store actual value for later display. Store only once!!!
-    //   if (storeFlagCapGandhi === 0) {
-    //     gandhiEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
-    //     storeFlagCapGandhi = 1;
-    //   }
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity[label_dataPerCap] = 11;
-    // } 
+      //Store actual value for later display. Store only once!!!
+      if (storeFlagCapGandhi === 0) {
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
+        storeFlagCapGandhi = 1;
+      }
+      //Assign a smaller value FOR SCALE PURPOSES ONLY
+      selectedCity[label_dataPerCap] = 11;
+    } 
 
     else if (geogroupArray[idx] === "groupSEAsia" && this_dim === "per capita") {     
       var selectedCity = data_GHG.find(x => x.city === "Quezon");

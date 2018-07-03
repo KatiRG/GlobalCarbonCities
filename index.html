@@ -830,9 +830,9 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         highlightElements(idName);
         
         if (this_dim === "per capita") {
-          if (d.city === "Rotterdam") emissionIntensity = offscaleEmissionsDict["Rotterdam"];//rotterdamEmissionsPerCap;
+          if (d.city === "Rotterdam") emissionIntensity = offscaleEmissionsDict[d.city];//rotterdamEmissionsPerCap;
           else if (d.city === "León") emissionIntensity = leonEmissionsPerCap;
-          else if (d.city === "Gandhinagar") emissionIntensity = gandhiEmissionsPerCap;
+          else if (d.city === "Gandhinagar") emissionIntensity = offscaleEmissionsDict[d.city];
           else if (d.city === "Quezon") emissionIntensity = quezonEmissionsPerCap;
           else if (d.city === "Incheon") emissionIntensity = incheonEmissionsPerCap;
           else if (d.city === "Kaohsiung") emissionIntensity = kaohsiungEmissionsPerCap;
