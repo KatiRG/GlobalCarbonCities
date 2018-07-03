@@ -211,11 +211,8 @@ function highlightCountry(countryName, idName, dataObj)  {
 function fn_concat (barChartGroup, geogroupArray, this_dim) {
   objArray = [];
   count = 0; //for gap id labels
-  console.log('barChartGroup: ', barChartGroup)
-  console.log('geogroupArray: ', geogroupArray)
   
   for (idx=0; idx < geogroupArray.length; idx++) {
-    //console.log("+++++++++++++++++++++++++ geogroupArray: ", geogroupArray)
 
     //Extract data by region
     ghg_extract = sortByRegion(geogroupArray[idx]);
@@ -732,9 +729,7 @@ function fn_barChartLegend() {
 }
 
 //Create arrow + text for off-scale emissions
-function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (per GDP)
-
-  console.log('++++++++++++++++++++city length: ', city.length)
+function fn_arrow(geogroup_id, city) {//used for offscale emission values
 
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
@@ -756,6 +751,10 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
     } else if (city[idx] === "León") {
       xpair = [-56]; ypair = [-25]; //posn of arrow
       xtext = [70]; ytext = [10]; //posn of text
+      emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
+    } else if (city[idx] === "Gandhinagar") {
+      xpair = [200]; ypair = [-25]; //posn of arrow
+      xtext = [65]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     }
 
@@ -840,17 +839,7 @@ function appendArrowSVG(geogroup_id, data, city) {
 
 //Create barChart titles for each geographic region
 function fn_svgHeadings (geogroup_id) {
-  console.log('geogroup_id: ', geogroup_id)
 
-  // if (geogroup_id === "#barChart_EUCWLatAmerAfrica") {
-  //   numHeadings = ["Europe","Canada", "Australia - NZ", "Latin Amer", "Africa"];
-  //   svgTrans = [ [64, 10], [623, 10], [791, 10], [925, 10], [1259, 10] ];
-  // }else {
-  //   numHeadings = ["USA", "Asia"];
-  //   svgTrans = [ [64, 15], [1069, 15] ]; //y=22?
-  // }
-
-  console.log("geogroup_id: ", geogroup_id)
   if (geogroup_id === "#barChart_groupEastAsia") {
     numHeadings = ["East Asia"];
     svgTrans = [ [165, -20] ]; //y=22?

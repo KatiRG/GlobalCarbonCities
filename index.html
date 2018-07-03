@@ -689,7 +689,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       height = 250 - margin.top - margin.bottom;
 
   //Extract scaled emissions data for given region
-  console.log('geogroup_name: ', geogroup_name)
   if (geogroup_name === "groupEastAsia") {
     geogroupArray = ["groupEastAsia", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap"];
   } else if (geogroup_name === "groupNAmer") {
@@ -703,7 +702,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                      "groupNAfrica", "gap", "gap", "gap", "gap", "gap", 
                      "groupOceania"];
   }
-  console.log('geogroupArray: ', geogroupArray)
                     
   emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
 
@@ -983,6 +981,9 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     d3.select("#gdpButton").text() === "per GDP") {    
 
     var city = ["León"];
+    fn_arrow(geogroup_id, city);
+
+    var city = ["Gandhinagar"];
     fn_arrow(geogroup_id, city);
   }
 
