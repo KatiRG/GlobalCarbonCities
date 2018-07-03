@@ -964,23 +964,22 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   //fn_appendRegionalMeans(svgBarChart, geogroup_name, this_dim, emissions_scaled, x, y);
 
   //svg arrow for Rotterdam bar only if on emissions/capita view
-  if (geogroup_id === "#barChart_groupEuropeSEAsia" &&
+  if (geogroup_id === "#barChart_groupEastAsia" && 
     d3.select("#gdpButton").text() === "per GDP") {
+    var city = ["Incheon", "Kaohsiung", "Yilan"];
+    fn_arrow(geogroup_id, city);
+
+
+  } else if (geogroup_id === "#barChart_groupEuropeSEAsia" &&
+    d3.select("#gdpButton").text() === "per GDP") {    
+
     var city = ["Rotterdam"];
     fn_arrow(geogroup_id, city);
 
-    var city = ["Quezon"];
+    city = ["Quezon"];
     fn_arrow(geogroup_id, city);
 
-  } else if (geogroup_id === "#barChart_groupEastAsia" && 
-    d3.select("#gdpButton").text() === "per capita") {
-    var city = ["Kaohsiung","Taoyuan"];
-    fn_arrow(geogroup_id, city);
-  } else if (geogroup_id === "#barChart_groupNAmer" &&
-    d3.select("#gdpButton").text() === "per capita") {
-    var city = ["Lagos"];
-    fn_arrow(geogroup_id, city);
-  }
+  } 
 
   //svg chart titles
   fn_svgHeadings(geogroup_id);

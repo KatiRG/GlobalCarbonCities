@@ -215,7 +215,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   console.log('geogroupArray: ', geogroupArray)
   
   for (idx=0; idx < geogroupArray.length; idx++) {
-    console.log("+++++++++++++++++++++++++ geogroupArray: ", geogroupArray)
+    //console.log("+++++++++++++++++++++++++ geogroupArray: ", geogroupArray)
 
     //Extract data by region
     ghg_extract = sortByRegion(geogroupArray[idx]);
@@ -733,27 +733,58 @@ function fn_barChartLegend() {
 
 //Create arrow + text for off-scale emissions
 function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (per GDP)
-  console.log("****************city[0]: ", city[0])
 
-  emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
+  console.log('++++++++++++++++++++city length: ', city.length)
 
-  if (city[0] === "Rotterdam") {
-      xpair = [-57]; ypair = [-25]; //posn of arrow
-      xtext = [109]; ytext = [10]; //posn of text
-  } else if (city[0] === "Quezon") {
-      xpair = [392]; ypair = [-25]; //posn of arrow
-      xtext = [65]; ytext = [10]; //posn of text
-     
-  } else if (city[0] === "León") {
-      xpair = [385]; ypair = [-25]; //posn of arrow
-      xtext = [109]; ytext = [10]; //posn of text
-  }
+  // if (city[0] === "Rotterdam") {
+  //     xpair = [-57]; ypair = [-25]; //posn of arrow
+  //     xtext = [109]; ytext = [10]; //posn of text
+  // } else if (city[0] === "Quezon") {
+  //     xpair = [392]; ypair = [-25]; //posn of arrow
+  //     xtext = [65]; ytext = [10]; //posn of text    
+  // }
 
   var data = [];
-  for (idx = 0; idx < city.length; idx++) {
+  for (idx = 0; idx < city.length; idx++) {    
+    if (city[idx] === "Rotterdam") {
+      xpair = [-57]; ypair = [-25]; //posn of arrow
+      xtext = [109]; ytext = [10]; //posn of text
+      emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
+    } else if (city[idx] === "Quezon") {
+      xpair = [392]; ypair = [-25]; //posn of arrow
+      xtext = [65]; ytext = [10]; //posn of text
+      emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
+    } 
+    else if (city[0] === "Incheon" && city[1] === "Kaohsiung" && city[2] === "Yilan") {
+      xpair = [-56, -50, -44]; ypair = [-166, -162, -135]; //posn of arrow and text pair
+      xtext = [64, 105, 107]; ytext = [10, 0, 3]; //posn of text
+
+      emissionText = [offscaleEmissionsDict[city[0]], 
+                      offscaleEmissionsDict[city[1]],  offscaleEmissionsDict[city[2]]];
+    }
+
     //define arrow name and path
     data.push({ id:idx, name:"arrow" + city[idx], path:"M 2,2 L2,11 L10,6 L2,2" });
   }
+
+  // var data = []; 
+  // console.log("****************city: ", city[0])
+  // if (city[0] === "Incheon") {
+  //   xpair = [-56]; ypair = [-145]; //posn of arrow
+  //   xtext = [65]; ytext = [10]; //posn of text
+  // } else if (city[0] === "Kaohsiung") {
+  //   xpair = [-35]; ypair = [-145]; //posn of arrow
+  //   xtext = [55]; ytext = [-10]; //posn of text    
+  // } else if (city[0] === "Rotterdam") {
+  //   xpair = [-57]; ypair = [-25]; //posn of arrow
+  //   xtext = [109]; ytext = [10]; //posn of text
+  // } else if (city[0] === "Quezon") {
+  //   xpair = [392]; ypair = [-25]; //posn of arrow
+  //   xtext = [65]; ytext = [10]; //posn of text
+  // }
+  //define arrow name and path
+  //data.push({ id:idx, name:"arrow" + city[0], path:"M 2,2 L2,11 L10,6 L2,2" });
+  
   
   appendArrowSVG(geogroup_id, data, city);
 
@@ -794,7 +825,7 @@ function appendArrowSVG(geogroup_id, data, city) {
           .attr('d', function(d){ return d.path; })
           .attr('fill', function(d,i) { return "#565656"; });
 
-    ypath = [50, 80]; //arrow length
+    ypath = [50, 50, 50]; //arrow length
     var path = paths.selectAll('path')
       .data(data)
       .enter()
@@ -844,7 +875,7 @@ function fn_svgHeadings (geogroup_id) {
   console.log("geogroup_id: ", geogroup_id)
   if (geogroup_id === "#barChart_groupEastAsia") {
     numHeadings = ["East Asia"];
-    svgTrans = [ [115, -20] ]; //y=22?
+    svgTrans = [ [165, -20] ]; //y=22?
   } else if (geogroup_id === "#barChart_groupNAmer") {
     numHeadings = ["North America"];
     svgTrans = [ [115, 15] ];
