@@ -280,33 +280,33 @@ d3.select("select")
 //barChart buttons
 //select emissions to display: scaled by capita or by GDP-PPP
 d3.select("#gdpButton")
-  .on("click", function() {
-    div.style("opacity", 0); //clear tooltip
+  // .on("click", function() {
+  //   div.style("opacity", 0); //clear tooltip
     
-    var buttonText = (d3.select(this).text() === label_dataPerGDP) ?
-                      label_dataPerCap : label_dataPerGDP;
+  //   var buttonText = (d3.select(this).text() === label_dataPerGDP) ?
+  //                     label_dataPerCap : label_dataPerGDP;
 
-    if (buttonText === label_dataPerGDP) {
-      d3.select("#barChartCaption").text("Per capita emissions " + dimUnits[label_dataPerCap]);
+  //   if (buttonText === label_dataPerGDP) {
+  //     d3.select("#barChartCaption").text("Per capita emissions " + dimUnits[label_dataPerCap]);
         
-    } else {
-      d3.select("#barChartCaption").text("Emissions per unit of Gross Domestic Product " 
-        + dimUnits[label_dataPerGDP]);
-    }
+  //   } else {
+  //     d3.select("#barChartCaption").text("Emissions per unit of Gross Domestic Product " 
+  //       + dimUnits[label_dataPerGDP]);
+  //   }
 
-    d3.select(this).text(buttonText);
+  //   d3.select(this).text(buttonText);
 
-    //Plot emissions bar charts for each geo group
-    emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
-    emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-    emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
-    emissionsBarChart("groupSouth", "#barChart_groupSouth");
+  //   //Plot emissions bar charts for each geo group
+  //   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
+  //   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
+  //   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
+  //   emissionsBarChart("groupSouth", "#barChart_groupSouth");
 
-    //(de-)activate reorder button if "Scope1/capita" is being displayed
-    var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
-    d3.select("#reorderButton").style("display", reorderState);
+  //   //(de-)activate reorder button if "Scope1/capita" is being displayed
+  //   var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
+  //   d3.select("#reorderButton").style("display", reorderState);
      
-  })
+  // })
   .on("mouseover", function () {
     var dictText = emissionsToggleDict[d3.select(this).text()];
 
