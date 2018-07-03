@@ -103,7 +103,7 @@ function setupData(ghg){
       "population density": pop_density,
       "area": area,
       "Scope1": scope1,
-      "measurement year": measurementYear,
+      "Measurement year": measurementYear,
       "per capita": scope1_cap,
       "per GDP": scope1_gdp,      
       "GDP": GDP,
@@ -451,7 +451,7 @@ function fn_updateLegend (attrFlag) {
       if (attrFlag === "diesel price" || attrFlag === "gas price" ||
           attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
           attrFlag === "low BUA (2014)" || attrFlag === "high BUA (2014)" ||
-          attrFlag === "low BUA density (2014)" || attrFlag === "measurement year" ||
+          attrFlag === "low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
         console.log('idx: ', idx)
@@ -523,7 +523,7 @@ function fn_updateLegend (attrFlag) {
       } else {
         console.log("cb_values format: ", cb_values[j] )
 
-        if (attrFlag === "diesel price" || attrFlag === "gas price" || attrFlag === "measurement year") {
+        if (attrFlag === "diesel price" || attrFlag === "gas price" || attrFlag === "Measurement year") {
           firstValue = cb_values[1];
           nextValues = cb_values[j];
         } else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
@@ -541,7 +541,7 @@ function fn_updateLegend (attrFlag) {
     })
     .attr("x", function (d, i) {
       if (attrFlag === "methodology") xpos = [15,75,173,252,328,389];
-      else if (attrFlag === "measurement year") xpos = [3,83,163,245,325, 285+120];
+      else if (attrFlag === "Measurement year") xpos = [3,83,163,245,325, 285+120];
       else if (attrFlag === "change in emissions") xpos = [26,96,147,217,295];
       else if (attrFlag === "population density") xpos = [4,75,147,217,288];
       else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281];
@@ -927,15 +927,15 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   svgCityCard.select("#cityCardEmissions")
     .text(formatDecimalSci(selectedCityObj["Scope1"]/1e6) + " MtCO₂eq");
 
-  //measurement year
+  //Measurement year
   svgCityCard.select("#cityCardYearLabel").text("Measurement Year:");
   svgCityCard.select("#cityCardYear").text(function () {
-    return selectedCityObj["measurement year"];
+    return selectedCityObj["Measurement year"];
   });
 
   //change in emissions
   var changeText = selectedCityObj["change in emissions"] === "First year of calculation" ?
-      selectedCityObj["change in emissions"] : selectedCityObj["change in emissions"] + " (from measurement year)";
+      selectedCityObj["change in emissions"] : selectedCityObj["change in emissions"] + " (from Measurement year)";
   svgCityCard.select("#cityCardChangeLabel").text("Emissions Change:");
   svgCityCard.select("#cityCardChange").text(function () {
     return changeText;
@@ -949,7 +949,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
 
   //selected attribute
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
-      attrFlag != "measurement year") { //these attributes already on display
+      attrFlag != "Measurement year") { //these attributes already on display
     if (attrFlag === "gas price" || attrFlag === "diesel price") {
       attrText = attrFlag + " (national value)"; }
     else attrText = attrFlag;

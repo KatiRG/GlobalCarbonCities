@@ -72,7 +72,7 @@
         <div id="barChartLegendLabel">Colour bars by: 
           <select id="d3-dropdown">
             <option value="methodology" selected="selected">Protocol</option>
-            <option value="measurement year">measurement year</option>
+            <option value="Measurement year">Measurement year</option>
             <!--<option value="change in emissions">change in emissions</option>
             <option value="population">population</option>
             <option value="population density">population density</option>
@@ -372,7 +372,7 @@ d3.tsv(fname, function(ghg) {
           d3.extent(ghg, function (d) { 
             //console.log(d['Year of emission'])
             return d['MethodNum']; }),
-   "measurement year": [2005, 2015]
+   "Measurement year": [2005, 2015]
     // "change in emissions": [1,5],
     // "population": [1000, 8000000],          
     // "population density": 

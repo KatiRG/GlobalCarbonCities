@@ -58,7 +58,7 @@ var cb_values = [];
 
 var choose_colourArray = {
   "methodology": ["#9DD3DF","#C3BBE2","#E35B5D","#EB9F9F","#F18052","#F4DD51"],
-  "measurement year": ["#D8E6DB","#DBC28F","#CCA26A","#997E68","#6B5344","#2a211b"],
+  "Measurement year": ["#D8E6DB","#DBC28F","#CCA26A","#997E68","#6B5344","#2a211b"],
   "change in emissions": ["#53442F","#BABE98","#DBC28F","#BEC3BC","#E6E8E3"],
   "population density": ["#DED8B6","#F9C869","#5D5061","#2F274C","#6A3058"],
   "population": ["#DED8B6","#F9C869","#5D5061","#2F274C","#6A3058"],
