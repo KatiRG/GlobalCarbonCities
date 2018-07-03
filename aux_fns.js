@@ -540,7 +540,7 @@ function fn_updateLegend (attrFlag) {
       return updateText;
     })
     .attr("x", function (d, i) {
-      if (attrFlag === "methodology") xpos = [10,63,150,215,284];
+      if (attrFlag === "methodology") xpos = [15,75,173,252,328,389];
       else if (attrFlag === "measurement year") xpos = [3,83,163,245,325, 285+120];
       else if (attrFlag === "change in emissions") xpos = [26,96,147,217,295];
       else if (attrFlag === "population density") xpos = [4,75,147,217,288];
