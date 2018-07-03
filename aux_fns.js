@@ -24,7 +24,7 @@ function setupData(ghg){
     area = d['City area (others) [km2]']
     totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
-    measurementYear = +d['Year of emission']
+    measurementYear = d['Year of emission']
     GDP = d['GDP-PPP (others) [$BN]']
     scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
     //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
@@ -425,7 +425,7 @@ function fn_colour_barChart (attrFlag, attrValue) {
   } 
 }
 function fn_colourmapDim (attrFlag) {
-  //console.log("fn_colourmapDim")
+
   dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
 
   //colour map to take data value and map it to the colour of the level bin it belongs to
@@ -444,6 +444,7 @@ function fn_updateLegend (attrFlag) {
     
     console.log("delta: ", delta)
     console.log("dimExtent: ", dimExtent)
+    console.log("num_levels: ", num_levels)
 
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
@@ -453,7 +454,9 @@ function fn_updateLegend (attrFlag) {
           attrFlag === "low BUA density (2014)" || attrFlag === "measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
-        cb_values.push(dimExtent[0] + idx*delta);
+        console.log('idx: ', idx)
+        console.log('idx*delta: ', dimExtent[0] + idx*delta)
+        cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
       }
       else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
         //delta = Math.round(delta);
@@ -461,15 +464,18 @@ function fn_updateLegend (attrFlag) {
       }
       else {
         delta = Math.round(delta/1000)*1000;
+        console.log("attrFlag here: ", attrFlag)
+        console.log("delta: ", delta)
         cb_values.push(Math.round((dimExtent[0] + idx*delta)/1000)*1000);
       }
     }
     console.log("cb_values: ", cb_values)
+    console.log("choose_colourArray[attrFlag]: ", choose_colourArray[attrFlag])
 
     //colour map to take data value and map it to the colour of the level bin it belongs to
     var colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
               .domain([dimExtent[0], dimExtent[1]])
-              .range(choose_colourArray[attrFlag]);
+              .range(choose_colourArray[attrFlag]);    
   }
 
    //svg crated in fn_barChartLegend()
@@ -535,13 +541,14 @@ function fn_updateLegend (attrFlag) {
     })
     .attr("x", function (d, i) {
       if (attrFlag === "methodology") xpos = [10,63,150,215,284];
+      else if (attrFlag === "measurement year") xpos = [3,83,163,245,325, 285+120];
       else if (attrFlag === "change in emissions") xpos = [26,96,147,217,295];
       else if (attrFlag === "population density") xpos = [4,75,147,217,288];
       else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281];
       else if (attrFlag === "diesel price" || attrFlag === "gas price") xpos = [4,75,145,215,285];
       else if (attrFlag === "low BUA % (2014)" ||
                attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295];
-      else xpos = [4,75,145,215,285];
+      else xpos = [4,75,145,215,285];      
       return xpos[i];
     });
 
@@ -677,6 +684,7 @@ function fn_barChartLegend() {
 
   //colour array
   rect_colourArray = choose_colourArray[attrFlag];
+  console.log("rect_colourArray: ", rect_colourArray)
 
   //make svg
   var svgCB = d3.select("#barChartLegend").select("svg")

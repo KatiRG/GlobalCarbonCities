@@ -72,8 +72,8 @@
         <div id="barChartLegendLabel">Colour bars by: 
           <select id="d3-dropdown">
             <option value="methodology" selected="selected">Protocol</option>
-            <!--<option value="measurement year">measurement year</option>
-            <option value="change in emissions">change in emissions</option>
+            <option value="measurement year">measurement year</option>
+            <!--<option value="change in emissions">change in emissions</option>
             <option value="population">population</option>
             <option value="population density">population density</option>
             <option value="area">area</option>
@@ -257,8 +257,10 @@ d3.select("select")
     attrFlag = d3.select("#d3-dropdown").node().value;
     console.log("attrFlag: ", attrFlag)
 
-    var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
-                         "barChart_groupEuropeSEAsia"];
+    // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
+    //                      "barChart_groupEuropeSEAsia"];
+    var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer", 
+                        "barChart_groupEuropeSEAsia", "barChart_groupSouth"];
 
     svgBarChart = d3.select("#" + geogroupArray[0] + " .barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
@@ -365,13 +367,16 @@ var fname = "data/d_final_app_s1Exists_307cities.tsv"
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
     "methodology": 
-          d3.extent(ghg, function (d) { return d['MethodNum']; })
+          d3.extent(ghg, function (d) { 
+            //console.log(d['Year of emission'])
+            return d['MethodNum']; }),
+   "measurement year": [2005, 2015]
     // "change in emissions": [1,5],
     // "population": [1000, 8000000],          
     // "population density": 
     //       d3.extent(ghg, function (d) { return +d["pop to use"]/d["area [km2] (external)"]; }),
     // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
-    // "measurement year": [2005, 2015], 
+    // 
     // "GDP/capita": [1700, 128046],
     // "diesel price": [0.5, 1.8],
     // "gas price": [0.5, 1.8],
@@ -384,13 +389,12 @@ d3.tsv(fname, function(ghg) {
     // "Cities in Motion Index (IESE)": [40,90]
 
   }
+  console.log("dimExtent: ", dimExtentDict)
+  console.log("dimExtentDict: ", dimExtentDict[attrFlag])
+
 }) //end read tsv
 console.log("attrFlag: ", attrFlag)
-// console.log("dimExtentDict: ", dimExtentDict[attrFlag])
 
-
-//barChart legends
-// fn_barChartLegend();
 
 // d3.csv("data/Creutzig2014_dataset_wb.csv", function(ghg) {
 d3.tsv(fname, function(ghg) {
@@ -673,7 +677,7 @@ function highlightElements(idName) {
 // }
 
 function emissionsBarChart(geogroup_name, geogroup_id) {
-  //dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
+  dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
   var reorderButton = d3.select("#reorderButton").text();  
 
   // Remove any previous bar chart
