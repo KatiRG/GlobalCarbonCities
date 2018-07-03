@@ -224,18 +224,33 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   //--------------
     //Rotterdam, Kaohsiung, Taoyuan, Lagos -- special cases that do not fit on scale
     //Reduce bar height and indicate true value graphically on the chart
-    if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {     
+    if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {
+      var cityList = ["Rotterdam", "Quezon"];
+
+      //loop through cityList to store emissions in dict
+      for (idx=0; idx < cityList.length; idx++) {
+        var selectedCity = data_GHG.find(x => x.city === cityList[idx]);
+        console.log("++++++++++++++++++ selectedCity: ", selectedCity)
+      }
+
+
+    }
+
+    if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {
       var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapRotterdam === 0) {
-        rotterdamEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        //rotterdamEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
         storeFlagCapRotterdam = 1;
-      }
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
+      }      
       
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerCap] = 9.1;
-    } else if (geogroupArray[idx] === "groupLatinAmer" && this_dim === "per capita") {     
+    } 
+
+    else if (geogroupArray[idx] === "groupLatinAmer" && this_dim === "per capita") {     
       var selectedCity = data_GHG.find(x => x.city === "León");
       
       //Store actual value for later display. Store only once!!!
@@ -246,18 +261,20 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerCap] = 11;
-    } else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {     
-      var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
+    } 
+    // else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {     
+    //   var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
       
-      //Store actual value for later display. Store only once!!!
-      if (storeFlagCapGandhi === 0) {
-        gandhiEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
-        storeFlagCapGandhi = 1;
-      }
-  
-      //Assign a smaller value FOR SCALE PURPOSES ONLY
-      selectedCity[label_dataPerCap] = 11;
-    } else if (geogroupArray[idx] === "groupSEAsia" && this_dim === "per capita") {     
+    //   //Store actual value for later display. Store only once!!!
+    //   if (storeFlagCapGandhi === 0) {
+    //     gandhiEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+    //     storeFlagCapGandhi = 1;
+    //   }
+    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
+    //   selectedCity[label_dataPerCap] = 11;
+    // } 
+
+    else if (geogroupArray[idx] === "groupSEAsia" && this_dim === "per capita") {     
       var selectedCity = data_GHG.find(x => x.city === "Quezon");
       
       //Store actual value for later display. Store only once!!!
@@ -302,7 +319,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     }
     
 
-
+    //Scope1/GDP
     else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
       var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
       var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
@@ -329,7 +346,8 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
 
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerGDP] = 0.23;
-    } 
+    }
+
   //--------------
 
   //--------------
@@ -739,7 +757,9 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
   } else if (city[0] === "Rotterdam") {
       xpair = [-57]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [109]; ytext = [10]; //posn of text
-      emissionText = [rotterdamEmissionsPerCap]; // + " kgCO₂eq/USD"];
+      //emissionText = [rotterdamEmissionsPerCap]; // + " kgCO₂eq/USD"];
+      emissionText = offscaleEmissionsDict[city[0]];
+      
   } else if (city[0] === "Quezon") {
       xpair = [392]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [65]; ytext = [10]; //posn of text

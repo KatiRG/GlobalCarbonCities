@@ -134,27 +134,7 @@ var storeFlagGDP = 0, storeFlagGDPAfrica = 0;
 var rotterdamEmissionsPerCap, kaohsiungEmissionsPerGDP, taoyuanEmissionsPerGDP,
     lagosEmissionsPerGDP, lagosEmissionsPerCap;
 
-// //AVG REGIONAL EMISSIONS PER CAPITA
-// //TO BE VERIFIED! AVGS TAKEN FROM GCA WEBSITE
-// var regionalAvgs = {
-//   "groupUSA": 13.1,
-//   "groupCan": 13.1,
-//   "groupOceania": 11,
-//   "groupEurope": 7.5,
-//   "groupAfrica": 1.2, //***made up for now!!!***
-//   "groupAsia": 4, //***made up for now!!!***
-//   "groupLatinAmer": 2.4
-// }
-
-// var regionalAvgs_GDP = {
-//   "groupUSA": 38000,
-//   "groupCan": 38000,
-//   "groupOceania": 30000,
-//   "groupEurope": 30000,
-//   "groupAfrica": 10000,
-//   "groupAsia": 40000,
-//   "groupLatinAmer": 30000
-// }
+var offscaleEmissionsDict = {};
 
 //------------------------------------------------
 //FOR DISPLAY TEXTS
