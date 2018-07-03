@@ -243,7 +243,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapLeon === 0) {
-        leonEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
         storeFlagCapLeon = 1;
       }
       
@@ -266,8 +266,8 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       var selectedCity = data_GHG.find(x => x.city === "Quezon");
       
       //Store actual value for later display. Store only once!!!
-      if (storeFlagCapQuezon === 0) {
-        quezonEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+      if (storeFlagCapQuezon === 0) {        
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
         storeFlagCapQuezon = 1;
       }
       //Assign a smaller value FOR SCALE PURPOSES ONLY
@@ -277,7 +277,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapIncheon === 0) {
-        incheonEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
         storeFlagCapIncheon = 1;
       }
       //Assign a smaller value FOR SCALE PURPOSES ONLY
@@ -288,7 +288,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapKaohsiung === 0) {
-        kaohsiungEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
         storeFlagCapKaohsiung = 1;
       }
       //Assign a smaller value FOR SCALE PURPOSES ONLY
@@ -299,7 +299,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapYilan === 0) {
-        yilanEmissionsPerCap = formatDecimalSci(selectedCity[label_dataPerCap]);
+        offscaleEmissionsDict[selectedCity.city] = [formatDecimalSci(selectedCity[label_dataPerCap])];
         storeFlagCapYilan = 1;
       }
       //Assign a smaller value FOR SCALE PURPOSES ONLY
@@ -751,7 +751,7 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
   } else if (city[0] === "Quezon") {
       xpair = [392]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [65]; ytext = [10]; //posn of text
-      emissionText = [quezonEmissionsPerCap]; // + " kgCO₂eq/USD"];
+      emissionText = offscaleEmissionsDict[city[0]]; // + " kgCO₂eq/USD"];
   } else if (city[0] === "León") {
       xpair = [-56]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [109]; ytext = [10]; //posn of text

@@ -830,13 +830,11 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         highlightElements(idName);
         
         if (this_dim === "per capita") {
-          if (d.city === "Rotterdam") emissionIntensity = offscaleEmissionsDict[d.city];//rotterdamEmissionsPerCap;
-          else if (d.city === "León") emissionIntensity = leonEmissionsPerCap;
-          else if (d.city === "Gandhinagar") emissionIntensity = offscaleEmissionsDict[d.city];
-          else if (d.city === "Quezon") emissionIntensity = quezonEmissionsPerCap;
-          else if (d.city === "Incheon") emissionIntensity = incheonEmissionsPerCap;
-          else if (d.city === "Kaohsiung") emissionIntensity = kaohsiungEmissionsPerCap;
-          else if (d.city === "Yilan") emissionIntensity = yilanEmissionsPerCap;
+          if ( d.city === "Incheon" || d.city === "Kaohsiung" || d.city === "Yilan" ||
+               d.city === "Rotterdam" || d.city === "Quezon" ||
+               d.city === "León" || d.city === "Gandhinagar") {
+            emissionIntensity = offscaleEmissionsDict[d.city];//rotterdamEmissionsPerCap;
+          }          
           else emissionIntensity = formatDecimalSci(d[this_dim]);
         }
         else if (this_dim === "per GDP") {
