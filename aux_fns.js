@@ -723,61 +723,9 @@ function fn_barChartLegend() {
        .style("font-size", "11px");
 }
 
-//Append regional means as lines to barCharts
-function fn_appendRegionalMeans(svg, geogroup_name, this_dim, data, x, y) {
-  //data to plot
-  var regionalVar = [];
-  regionalVar[0] = this_dim === "per capita" ? 
-                    regionalAvgs[geogroup_name] : regionalAvgs_GDP[geogroup_name];
-
-  //city at x-axis endpts of horizontal line
-  var x1_city = data[0].city;
-  var x2_city = data[data.length - 1].city;
-
-  //Tooltip for lines  
-  var tool_tip = d3.tip()
-    .attr("class", "d3-tip-line")
-    .offset([-10, 0])
-    .html(function (d, i) {
-      console.log("this_dim: ", this_dim)
-      console.log("this_dim u: ", dimUnits[this_dim])
-      return (this_dim === "per capita" ? regionalVar : formatDecimalk(regionalVar[0]) )
-             + " " + dimUnits[this_dim];
-    });
-  svg.call(tool_tip);
-
-  //append line for regional mean
-  svg.append("g").selectAll("line")
-    .data(regionalVar)
-    .enter().append("line")
-    .attr("class", "line")
-    .style("stroke", "#555")
-    .style("stroke-width", "2px")
-    .attr("x1", function (d, i) { return x(x1_city); })
-    .attr("y1", function (d, i) { return y(d); })
-    .attr("x2", function (d, i) { return x(x2_city); })
-    .attr("y2", function (d, i) { return y(d); });
-
-  //make an invisible fat line and use for tooltip so that
-  //user does not have to position mouse over thin regional line
-  //with surgical precision
-  svg.append("g").selectAll("line")
-    .data(regionalVar)
-    .enter().append("line")
-    .attr("class", "line")
-    .style("stroke", "#555")
-    .style("stroke-width", "6px")
-    .style("opacity", 0)
-    .attr("x1", function (d, i) { return x(x1_city); })
-    .attr("y1", function (d, i) { return y(d); })
-    .attr("x2", function (d, i) { return x(x2_city); })
-    .attr("y2", function (d, i) { return y(d); })
-    .on('mouseover', tool_tip.show)
-    .on('mouseout', tool_tip.hide); 
-}
-
 //Create arrow + text for off-scale emissions
 function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (per GDP)
+  console.log("****************city[0]: ", city[0])
   if (city[0] === "Lagos") {
     if (d3.select("#reorderButton").text() === "Re-order") {//bars sorted by emissions/GDP          
       xpair = [544]; ypair = [-20]; //posn of arrow and text pair
@@ -789,9 +737,13 @@ function fn_arrow(geogroup_id, city) {//used for Rotterdam (per cap) and Lagos (
     }
     emissionText = [lagosEmissionsPerGDP + " kgCO₂eq/USD"];
   } else if (city[0] === "Rotterdam") {
-      xpair = [-56]; ypair = [-25]; //posn of arrow and text pair    
+      xpair = [-57]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [109]; ytext = [10]; //posn of text
-      emissionText = [rotterdamEmissionsPerCap + " kgCO₂eq/USD"];
+      emissionText = [rotterdamEmissionsPerCap]; // + " kgCO₂eq/USD"];
+  } else if (city[0] === "Quezon") {
+      xpair = [392]; ypair = [-25]; //posn of arrow and text pair    
+      xtext = [65]; ytext = [10]; //posn of text
+      emissionText = [quezonEmissionsPerCap]; // + " kgCO₂eq/USD"];
   } else if (city[0] === "León") {
       xpair = [-56]; ypair = [-25]; //posn of arrow and text pair    
       xtext = [109]; ytext = [10]; //posn of text
@@ -911,7 +863,7 @@ function fn_svgHeadings (geogroup_id) {
     svgTrans = [ [115, 15] ];
   } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
     numHeadings = ["Europe", "Southeast Asia"];
-    svgTrans = [ [115, 53], [961, 53]];
+    svgTrans = [ [115, 53], [1001, 53]];
   } else if (geogroup_id === "#barChart_groupSouth") {
     numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
                    "N Africa & W Asia", "Oceania"];
