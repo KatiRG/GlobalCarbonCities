@@ -514,8 +514,9 @@ function drawMap() {
     if (error) throw error;
    
     d3.json("geojson/cities_edited2.geojson", function(error, cities) {
+    //d3.json("geojson/our_cities.geojson", function(error, cities) {
       if (error) throw error;
-
+      console.log("cities: ", cities)
 
       //world countries
       // svg.append("g")
