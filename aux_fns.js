@@ -436,29 +436,40 @@ function fn_barChartLegend (attrFlag) {
                   .attr("fill", function (d, i) {
                     return choose_colourArray[attrFlag][i];
                   });
+
+    //Append empty text nodes to initialize
+    rects.append("text")
+         .text("")
+         .style("fill","#565656")
+         .style("stroke", "none")
+         .style("font-size", "11px");
+
   }  //end initialization of rects and their g-nodes
 
   //----------------------------------------------------------
   //Rects already exist. Update colours according to attrFlag.
 
   //define colour bar for numerical attributes
-   if (attrFlag != "methodology" || attrFlag != "none") {  
+  if (attrFlag != "methodology" || attrFlag != "none") {  
     dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
     //difference between max and min values of selected attribute
     delta = ( dimExtent[1] - dimExtent[0] )/num_levels;
     
     console.log("delta: ", delta)
     console.log("dimExtent: ", dimExtent)
+    console.log("num_levels: ", num_levels)
 
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
       if (attrFlag === "diesel price" || attrFlag === "gas price" ||
           attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
           attrFlag === "low BUA (2014)" || attrFlag === "high BUA (2014)" ||
-          attrFlag === "low BUA density (2014)" || attrFlag === "measurement year" ||
+          attrFlag === "low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
-        cb_values.push(dimExtent[0] + idx*delta);
+        console.log('idx: ', idx)
+        console.log('idx*delta: ', dimExtent[0] + idx*delta)
+        cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
       }
       else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
         //delta = Math.round(delta);
@@ -466,27 +477,75 @@ function fn_barChartLegend (attrFlag) {
       }
       else {
         delta = Math.round(delta/1000)*1000;
+        console.log("attrFlag here: ", attrFlag)
+        console.log("delta: ", delta)
         cb_values.push(Math.round((dimExtent[0] + idx*delta)/1000)*1000);
       }
     }
     console.log("cb_values: ", cb_values)
+    console.log("choose_colourArray[attrFlag]: ", choose_colourArray[attrFlag])
 
     //colour map to take data value and map it to the colour of the level bin it belongs to
     var colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
               .domain([dimExtent[0], dimExtent[1]])
-              .range(choose_colourArray[attrFlag]);
+              .range(choose_colourArray[attrFlag]); 
   } //cb_array
 
   //fill rects. Do not display any rects for "None" menu item.
   d3.select("#barChartLegend").select("svg")
     .selectAll('rect')
     .attr("fill", function (i, j) {
-      //colourmapDim(cb_values[j]);
       return choose_colourArray[attrFlag][j];
     })
     .style("display", function () {
       return (attrFlag === "none") ? "none" : "inline";
     });
+
+  //add text node to rects
+  d3.select("#barChartLegend")
+    .selectAll("text")
+    .text(function (i, j) {
+      if (attrFlag === "methodology" || attrFlag === "change in emissions") {
+        updateText = choose_textArray[attrFlag][j];
+      // } else if (attrFlag === "change in emissions") {
+      //   updateText = Object.keys(emissionsChangeDict)[j];
+      } else {
+        console.log("cb_values format: ", cb_values[j] )
+
+        if (attrFlag === "diesel price" || attrFlag === "gas price" || attrFlag === "Measurement year") {
+          firstValue = cb_values[1];
+          nextValues = cb_values[j];
+        } else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
+          firstValue = 20;
+          nextValues = cb_values[j-1];
+        } else {
+          firstValue = formatDecimalk(cb_values[1]);
+          nextValues = formatDecimalk(cb_values[j]);
+        }
+
+        if (j === 0) updateText = "< " + firstValue;
+        else updateText = "> " + nextValues;
+      }
+      return updateText;
+    })
+    .attr("y", 18)
+    .attr("x", function (d, i) {
+      if (attrFlag === "methodology") xpos = [14,74,172,251,325,386];
+      else if (attrFlag === "Measurement year") xpos = [0,80,160,240,320, 280+120];
+      else if (attrFlag === "Population") xpos = [2,81,161,241,321,402];
+      else if (attrFlag === "population density") xpos = [4,75,147,217,288,333];
+      else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281,333];
+      else if (attrFlag === "diesel price" || 
+               attrFlag === "gas price") xpos = [4,75,145,215,285,333];
+      else if (attrFlag === "low BUA % (2014)" ||
+               attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295,333];
+      else xpos = [3,82,162,241,321,403]; 
+      return xpos[i];
+    })
+    .style("display", function () {
+      return (attrFlag === "none") ? "none" : "inline";
+    });
+
   
 }
 
