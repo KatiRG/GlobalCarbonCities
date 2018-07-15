@@ -436,8 +436,9 @@ function fn_barChartLegend (attrFlag) {
                   .attr("fill", function (d, i) {
                     return choose_colourArray[attrFlag][i];
                   });
-  } 
+  }  //end initialization of rects and their g-nodes
 
+  //----------------------------------------------------------
   //Rects already exist. Update colours according to attrFlag.
 
   //define colour bar for numerical attributes
@@ -476,16 +477,15 @@ function fn_barChartLegend (attrFlag) {
               .range(choose_colourArray[attrFlag]);
   } //cb_array
 
-  //fill rects
+  //fill rects. Do not display any rects for "None" menu item.
   d3.select("#barChartLegend").select("svg")
     .selectAll('rect')
     .attr("fill", function (i, j) {
       //colourmapDim(cb_values[j]);
       return choose_colourArray[attrFlag][j];
     })
-    .attr("style", function () {
-      if (attrFlag === "none") return "none";
-      else return "inline";
+    .style("display", function () {
+      return (attrFlag === "none") ? "none" : "inline";
     });
   
 }
