@@ -306,37 +306,6 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     }
     
 
-    // //Scope1/GDP
-    // else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
-    //   var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
-    //   var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
-
-    //   //Store actual value for later display.Store only once!!!
-    //   if (storeFlagGDP === 0) {
-    //     kaohsiungEmissionsPerGDP = formatDecimalSci(selectedCity1[label_dataPerGDP]);
-    //     taoyuanEmissionsPerGDP = formatDecimalSci(selectedCity2[label_dataPerGDP]);       
-    //     storeFlagGDP = 1;
-    //   }
-      
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity1[label_dataPerGDP] = 0.114;
-    //   selectedCity2[label_dataPerGDP] = 0.114;    
-
-    // } else if (geogroupArray[idx] === "groupAfrica" && this_dim === "per GDP") {
-    //   var selectedCity = data_GHG.find(x => x.city === "Lagos");
-
-    //   //Store actual value for later display.Store only once!!!
-    //   if (storeFlagGDPAfrica === 0) {
-    //     lagosEmissionsPerGDP = formatDecimalSci(selectedCity[label_dataPerGDP]);
-    //     storeFlagGDPAfrica = 1;
-    //   }    
-
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity[label_dataPerGDP] = 0.23;
-    // }
-
-  //--------------
-
   //--------------
     //Concatenate with a gap obj in between
     if (idx % 2 == 0) {
@@ -409,7 +378,7 @@ function fn_reorderByEmissionsPerCapita(region, emissions_perGDP) {
 // barChart updates
 
 function fn_colour_barChart (attrFlag, attrValue) {
-  if (attrFlag === "none") return choose_colourArray[attrFlag];
+  if (attrFlag === "none") return choose_colourArray[attrFlag][0];
   else if (attrFlag === "methodology") {//integers from 1-5, no mapping needed
     return colour_methodNum[attrValue];
   } else if (attrFlag === "change in emissions") {
@@ -513,6 +482,10 @@ function fn_barChartLegend (attrFlag) {
     .attr("fill", function (i, j) {
       //colourmapDim(cb_values[j]);
       return choose_colourArray[attrFlag][j];
+    })
+    .attr("style", function () {
+      if (attrFlag === "none") return "none";
+      else return "inline";
     });
   
 }

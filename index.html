@@ -269,7 +269,8 @@ d3.select("select")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
       //output the discretized colour according to selected attribute
       if (d.city.indexOf("gap") === -1) {
-        return fn_colour_barChart(attrFlag, d[attrFlag]);
+        return attrFlag === "none" ? choose_colourArray[attrFlag][0] : 
+                    fn_colour_barChart(attrFlag, d[attrFlag]);
       }
     });
 
@@ -802,10 +803,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .attr("height", function(d) { return height - y(d[this_dim]); });
 
   bars.attr("fill", function (d) {
-    console.log("attrFlag in fill: ", attrFlag)
-    //if (attrFlag === "none") return choose_colourArray[attrFlag];
-    //else {//output the discretized colour according to selected attribute
-    return (attrFlag === "none") ? fn_colour_barChart(attrFlag, "") :
+    return (attrFlag === "none") ? choose_colourArray[attrFlag][0] :
                             fn_colour_barChart(attrFlag, d[attrFlag]);
   });
 
