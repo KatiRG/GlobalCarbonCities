@@ -409,9 +409,8 @@ function fn_reorderByEmissionsPerCapita(region, emissions_perGDP) {
 // barChart updates
 
 function fn_colour_barChart (attrFlag, attrValue) {
-  //console.log("fn_colour_barChart")
-  
-  if (attrFlag === "methodology") {//integers from 1-5, no mapping needed
+  if (attrFlag === "none") return choose_colourArray[attrFlag];
+  else if (attrFlag === "methodology") {//integers from 1-5, no mapping needed
     return colour_methodNum[attrValue];
   } else if (attrFlag === "change in emissions") {
     return choose_colourArray[attrFlag][ emissionsChangeDict[attrValue] ];
@@ -436,27 +435,60 @@ function fn_colourmapDim (attrFlag) {
   return colourmapDim;
 }
 function fn_updateLegend (attrFlag) {
-  console.log("fn_updateLegend")
-  if (attrFlag != "methodology") {  
+
+  //initialize legend rects SVG, g and text nodes for first menu selection
+  if (! d3.select("#barChartLegend").select("svg").attr("width")) {
+   
+    //rect SVG
+    var margin = {top: 7, right: 0, bottom: 0, left: 20};
+    var svg_width = 480 - margin.left - margin.right,
+        svg_height = 35 - margin.top - margin.bottom;
+
+    var svgCB = d3.select("#barChartLegend").select("svg")
+      .attr("width", svg_width)
+      .attr("height", svg_height)
+      .style("vertical-align", "middle");
+
+    //Create the g nodes
+    var rects = svgCB.selectAll('rect')
+            .data(choose_colourArray[attrFlag])
+            .enter()
+            .append('g');
+
+    //Append rects onto the g nodes and fill according to attrFlag
+    var rect_dim = 15;
+    var appendedRects = rects.append("rect")
+                  .attr("width", rect_dim)
+                  .attr("height", rect_dim)
+                  .attr("y", 5)
+                  .attr("x", function (d, i) {
+                    return 41 + i * 80;
+                  })
+                  .attr("fill", function (d, i) {
+                    return choose_colourArray[attrFlag][i];
+                  });
+  } 
+
+  //Rects already exist. Update colours according to attrFlag.
+
+  //define colour bar for numerical attributes
+   if (attrFlag != "methodology" || attrFlag != "none") {  
     dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
     //difference between max and min values of selected attribute
     delta = ( dimExtent[1] - dimExtent[0] )/num_levels;
     
     console.log("delta: ", delta)
     console.log("dimExtent: ", dimExtent)
-    console.log("num_levels: ", num_levels)
 
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
       if (attrFlag === "diesel price" || attrFlag === "gas price" ||
           attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
           attrFlag === "low BUA (2014)" || attrFlag === "high BUA (2014)" ||
-          attrFlag === "low BUA density (2014)" || attrFlag === "Measurement year" ||
+          attrFlag === "low BUA density (2014)" || attrFlag === "measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
-        console.log('idx: ', idx)
-        console.log('idx*delta: ', dimExtent[0] + idx*delta)
-        cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
+        cb_values.push(dimExtent[0] + idx*delta);
       }
       else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
         //delta = Math.round(delta);
@@ -464,97 +496,31 @@ function fn_updateLegend (attrFlag) {
       }
       else {
         delta = Math.round(delta/1000)*1000;
-        console.log("attrFlag here: ", attrFlag)
-        console.log("delta: ", delta)
         cb_values.push(Math.round((dimExtent[0] + idx*delta)/1000)*1000);
       }
     }
     console.log("cb_values: ", cb_values)
-    console.log("choose_colourArray[attrFlag]: ", choose_colourArray[attrFlag])
 
     //colour map to take data value and map it to the colour of the level bin it belongs to
     var colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
               .domain([dimExtent[0], dimExtent[1]])
-              .range(choose_colourArray[attrFlag]);    
-  }
+              .range(choose_colourArray[attrFlag]);
+  } //cb_array
 
-   //svg crated in fn_barChartLegend()
-  var svgCB = d3.select("#barChartLegend").select("svg");
-
-  //tooltip for legend rects  
-  var tool_tip = d3.tip()
-      .attr("class", function () {
-        // if (attrFlag === "population density" || attrFlag === "GDP/capita") {
-        if (attrFlag != "methodology") {
-          return "d3-tip-deactive";
-        }
-        else return "d3-tip";
-      })
-      .offset([-10, 0])
-      .html(function (d, i) {
-        // if (attrFlag === "population density" || attrFlag === "GDP/capita") {return "";}
-        if (attrFlag != "methodology") {return "";}
-        else {
-          return "<b>" + Object.keys(protocolDict)[i] + "</b>" + ": "
-                     + Object.values(protocolDict)[i];
-        }
-      });
-  svgCB.call(tool_tip);
-
-  //Colour legend squares
+  //fill rects
   d3.select("#barChartLegend").select("svg")
     .selectAll('rect')
     .attr("fill", function (i, j) {
       //colourmapDim(cb_values[j]);
       return choose_colourArray[attrFlag][j];
-    })
-    .on('mouseover', tool_tip.show)
-    .on('mouseout', tool_tip.hide);
-
-
-  //label the legend squares
-  d3.select("#barChartLegend")
-    .selectAll("text")
-    .text(function (i, j) {
-      if (attrFlag === "methodology" || attrFlag === "change in emissions") {
-        updateText = choose_textArray[attrFlag][j];
-      // } else if (attrFlag === "change in emissions") {
-      //   updateText = Object.keys(emissionsChangeDict)[j];
-      } else {
-        console.log("cb_values format: ", cb_values[j] )
-
-        if (attrFlag === "diesel price" || attrFlag === "gas price" || attrFlag === "Measurement year") {
-          firstValue = cb_values[1];
-          nextValues = cb_values[j];
-        } else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
-          firstValue = 20;
-          nextValues = cb_values[j-1];
-        } else {
-          firstValue = formatDecimalk(cb_values[1]);
-          nextValues = formatDecimalk(cb_values[j]);
-        }
-
-        if (j === 0) updateText = "< " + firstValue;
-        else updateText = "> " + nextValues;
-      }
-      return updateText;
-    })
-    .attr("x", function (d, i) {
-      if (attrFlag === "methodology") xpos = [15,75,173,252,328,389];
-      else if (attrFlag === "Measurement year") xpos = [3,83,163,245,325, 285+120];
-      else if (attrFlag === "change in emissions") xpos = [26,96,147,217,295];
-      else if (attrFlag === "population density") xpos = [4,75,147,217,288];
-      else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281];
-      else if (attrFlag === "diesel price" || attrFlag === "gas price") xpos = [4,75,145,215,285];
-      else if (attrFlag === "low BUA % (2014)" ||
-               attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295];
-      else xpos = [3,82,162,241,321,403];      
-      return xpos[i];
     });
 
-    //update the units displayed in the legend
-    d3.select("#barChartLegendUnits")
-      .text(function () {return dimUnits[attrFlag]});
+  //tooltip for Emission Protocol
+  if (attrFlag == "methodology") {
+    
+  }
+
+  
 }
 
 //...............................
@@ -711,6 +677,7 @@ function fn_barChartLegend() {
               .enter()
               .append('g');
 
+  //create the rects but do not display them
   var rectAttributes = rects.append("rect")
                   .attr("width", rect_dim)
                   .attr("height", rect_dim)
@@ -722,12 +689,13 @@ function fn_barChartLegend() {
                     //return colour_methodNum[i + 1];                    
                     return rect_colourArray[i];
                   })
+                  .style("display", "none")
                   .on('mouseover', tool_tip.show)
                   .on('mouseout', tool_tip.hide);
-
+           
   rects.append("text")
         .text(function (d, i) {
-          return Object.keys(protocolDict)[i];
+          return attrFlag === "none" ? "" : Object.keys(protocolDict)[i];
         })
         .attr("y", 10)
         .attr("x", function (d, i) {
@@ -738,6 +706,7 @@ function fn_barChartLegend() {
         .style("fill","#565656")
         .style("stroke", "none")
        .style("font-size", "11px");
+  
 }
 
 //Create arrow + text for off-scale emissions

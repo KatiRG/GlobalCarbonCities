@@ -71,6 +71,7 @@
       <div class="col-lg-5">
         <div id="barChartLegendLabel">Colour bars by: 
           <select id="d3-dropdown">
+            <option value="none" selected="selected">None</option>
             <option value="methodology" selected="selected">Protocol</option>
             <option value="Measurement year">Measurement year</option>
             <option value="Population">Population</option>
@@ -249,13 +250,13 @@ window.onresize = function() {
 // Buttons
 // ----------------------------------------------------
 //Attribute dropdown button
-//Default to "Protocol"
-d3.select("#d3-dropdown").node().value = "methodology";
+//Default to "None"
+d3.select("#d3-dropdown").node().value = "none";
+var attrFlag = d3.select("#d3-dropdown").node().value;
 
 d3.select("select")
   .on("change",function(d){
     attrFlag = d3.select("#d3-dropdown").node().value;
-    console.log("attrFlag: ", attrFlag)
 
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
     //                      "barChart_groupEuropeSEAsia"];
@@ -267,7 +268,9 @@ d3.select("select")
     svgBarChart = d3.selectAll(".barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
       //output the discretized colour according to selected attribute
-      if (d.city.indexOf("gap") === -1) return fn_colour_barChart(attrFlag, d[attrFlag]);
+      if (d.city.indexOf("gap") === -1) {
+        return fn_colour_barChart(attrFlag, d[attrFlag]);
+      }
     });
 
     // svgBarChart = d3.select("#" + geogroupArray[1] + " .barSVG")
@@ -277,6 +280,7 @@ d3.select("select")
     // });
 
     //colour the legend squares
+    console.log("call fn_updateLegend!!!!!!!!!!!!!!!!!!!!!!!!!")
     fn_updateLegend(attrFlag);
     
 })
@@ -285,33 +289,6 @@ d3.select("select")
 //select emissions to display: scaled by capita or by GDP-PPP ***DISABLE FOR NOW***
 d3.select("#gdpButton").style("display", "none");
 d3.select("#gdpButton")
-  // .on("click", function() {
-  //   div.style("opacity", 0); //clear tooltip
-    
-  //   var buttonText = (d3.select(this).text() === label_dataPerGDP) ?
-  //                     label_dataPerCap : label_dataPerGDP;
-
-  //   if (buttonText === label_dataPerGDP) {
-  //     d3.select("#barChartCaption").text("Per capita emissions " + dimUnits[label_dataPerCap]);
-        
-  //   } else {
-  //     d3.select("#barChartCaption").text("Emissions per unit of Gross Domestic Product " 
-  //       + dimUnits[label_dataPerGDP]);
-  //   }
-
-  //   d3.select(this).text(buttonText);
-
-  //   //Plot emissions bar charts for each geo group
-  //   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
-  //   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-  //   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
-  //   emissionsBarChart("groupSouth", "#barChart_groupSouth");
-
-  //   //(de-)activate reorder button if "Scope1/capita" is being displayed
-  //   var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
-  //   d3.select("#reorderButton").style("display", reorderState);
-     
-  // })
   .on("mouseover", function () {
     var dictText = emissionsToggleDict[d3.select(this).text()];
 
@@ -369,6 +346,7 @@ d3.select("#reorderButton")
 var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
+    "none": [0,0],
     "methodology": 
           d3.extent(ghg, function (d) { 
             //console.log(d['Year of emission'])
@@ -410,7 +388,7 @@ d3.tsv(fname, function(ghg) {
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
   emissionsBarChart("groupSouth", "#barChart_groupSouth");
-  fn_barChartLegend();
+  //fn_barChartLegend();
 
 });
 // //Customize some city names
@@ -681,7 +659,7 @@ function highlightElements(idName) {
 // }
 
 function emissionsBarChart(geogroup_name, geogroup_id) {
-  dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
+  if (attrFlag != "none") dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
   var reorderButton = d3.select("#reorderButton").text();  
 
   // Remove any previous bar chart
@@ -824,8 +802,11 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .attr("height", function(d) { return height - y(d[this_dim]); });
 
   bars.attr("fill", function (d) {
-  //output the discretized colour according to selected attribute
-    return fn_colour_barChart(attrFlag, d[attrFlag]);
+    console.log("attrFlag in fill: ", attrFlag)
+    //if (attrFlag === "none") return choose_colourArray[attrFlag];
+    //else {//output the discretized colour according to selected attribute
+    return (attrFlag === "none") ? fn_colour_barChart(attrFlag, "") :
+                            fn_colour_barChart(attrFlag, d[attrFlag]);
   });
 
   bars.on("touchmove mousemove", function (d) {
