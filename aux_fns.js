@@ -355,24 +355,6 @@ function sortByRegion(region, this_dim) {
   return ghg_byRegion;
 }
 
-function fn_reorderByEmissionsPerCapita(region, emissions_perGDP) {
-  var city_order = [];
-  var objArray = [];
-
-  // if (region === "groupUSAAsia") {
-  //   city_order = cityOrder_row1;
-  // } else city_order = cityOrder_row2;
-
-  city_order = (region === "groupEastAsia" ? cityOrder_row1 : cityOrder_row2);
-
-  //Re-order emissions_perGDP according to city_order of emissions per capita
-  for (idx = 0; idx < city_order.length; idx++) {
-    match = emissions_perGDP.filter(x => x.city === city_order[idx]); //in array form
-    if (match.length != 0) objArray.push(match[0]);
-  }
-
-  return objArray;
-}
 
 //...............................
 // barChart updates
@@ -507,8 +489,6 @@ function fn_barChartLegend (attrFlag) {
     .text(function (i, j) {
       if (attrFlag === "methodology" || attrFlag === "change in emissions") {
         updateText = choose_textArray[attrFlag][j];
-      // } else if (attrFlag === "change in emissions") {
-      //   updateText = Object.keys(emissionsChangeDict)[j];
       } else {
         console.log("cb_values format: ", cb_values[j] )
 

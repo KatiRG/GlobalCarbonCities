@@ -6,7 +6,6 @@
   <title>cityEmissions</title>
 
   <script src="lib/d3.v4.min.js"></script>
-  <!--<script src="lib/d3-selection-multi.v0.4.min.js"></script>-->
   <script src="lib/d3-tip.js"></script>
 
   <!--https://github.com/d3/d3-geo-projection-->
@@ -692,10 +691,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                     
   emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
 
-  // Get city order of Scope/capita
-  if (d3.select("#reorderButton").text() === "orig order") {
-    emissions_scaled = fn_reorderByEmissionsPerCapita(geogroup_name, emissions_scaled);
-  } // end button text check
 
   if (geogroup_name === "groupEastAsia") {
     pOuter = 0.05;
