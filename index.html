@@ -184,6 +184,17 @@ var mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
 var mapWidth = 903 - mapMargin.left - mapMargin.right,
     mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
+//barChart legend
+var margin = {top: 7, right: 0, bottom: 0, left: 20};
+var svg_width = 480 - margin.left - margin.right,
+    svg_height = 35 - margin.top - margin.bottom;
+
+var svgCB = d3.select("#barChartLegend").select("svg")
+  .attr("width", svg_width)
+  .attr("height", svg_height)
+  .style("vertical-align", "middle");
+
+
 //city card
 //---------
 var svgCityCard = d3.select("#mycityCardDiv").append("svg")
@@ -688,7 +699,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                       label_dataPerCap : label_dataPerGDP;
 
   //https://bl.ocks.org/seemantk/ec245e1f4e824e685982dd5d3fbb2fcc
-  var margin = {top: 0, right: 0, bottom: 0, left: 20};
+  var margin = {top: 0, right: 0, bottom: 10, left: 20};
   var width = 700 - margin.left - margin.right,
       height = 250 - margin.top - margin.bottom;
 

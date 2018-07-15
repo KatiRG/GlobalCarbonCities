@@ -387,51 +387,43 @@ function fn_colourmapDim (attrFlag) {
 }
 function fn_barChartLegend (attrFlag) {
 
-  //initialize legend rects SVG, g and text nodes for first menu selection
-  if (! d3.select("#barChartLegend").select("svg").attr("width")) {
-   
-    //rect SVG
-    var margin = {top: 7, right: 0, bottom: 0, left: 20};
-    var svg_width = 480 - margin.left - margin.right,
-        svg_height = 35 - margin.top - margin.bottom;
+  //initialize SVG for legend rects, their g and text nodes
+  //-------------------------------------------------------
 
-    var svgCB = d3.select("#barChartLegend").select("svg")
-      .attr("width", svg_width)
-      .attr("height", svg_height)
-      .style("vertical-align", "middle");
+  //Rect SVG defined in index.html
+  var svgCB = d3.select("#barChartLegend").select("svg")
 
-    //Create the g nodes
-    var rects = svgCB.selectAll('rect')
-            .data(choose_colourArray[attrFlag])
-            .enter()
-            .append('g');
+  //Create the g nodes
+  var rects = svgCB.selectAll('rect')
+          .data(choose_colourArray[attrFlag])
+          .enter()
+          .append('g');
 
-    //Append rects onto the g nodes and fill according to attrFlag
-    var rect_dim = 15;
-    var appendedRects = rects.append("rect")
-                  .attr("width", rect_dim)
-                  .attr("height", rect_dim)
-                  .attr("y", 5)
-                  .attr("x", function (d, i) {
-                    return 41 + i * 80;
-                  })
-                  .attr("fill", function (d, i) {
-                    return choose_colourArray[attrFlag][i];
-                  });
+  //Append rects onto the g nodes and fill according to attrFlag
+  var rect_dim = 15;
+  var appendedRects = rects.append("rect")
+                .attr("width", rect_dim)
+                .attr("height", rect_dim)
+                .attr("y", 5)
+                .attr("x", function (d, i) {
+                  return 41 + i * 80;
+                })
+                .attr("fill", function (d, i) {
+                  return choose_colourArray[attrFlag][i];
+                });
 
-    //Append empty text nodes to initialize
-    rects.append("text")
-         .text("")
-         .style("fill","#565656")
-         .style("stroke", "none")
-         .style("font-size", "11px");
+  //Fill rects. Do not display any rects for "None" menu item.
+  d3.select("#barChartLegend").select("svg")
+    .selectAll('rect')
+    .attr("fill", function (i, j) {
+      return choose_colourArray[attrFlag][j];
+    })
+    .style("display", function () {
+      return (attrFlag === "none") ? "none" : "inline";
+    });
 
-  }  //end initialization of rects and their g-nodes
 
-  //----------------------------------------------------------
-  //Rects already exist. Update colours according to attrFlag.
-
-  //define colour bar for numerical attributes
+  //define rect text labels (calculate cb_values)
   if (attrFlag != "methodology" || attrFlag != "none") {  
     dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
     //difference between max and min values of selected attribute
@@ -473,17 +465,14 @@ function fn_barChartLegend (attrFlag) {
               .range(choose_colourArray[attrFlag]); 
   } //cb_array
 
-  //fill rects. Do not display any rects for "None" menu item.
-  d3.select("#barChartLegend").select("svg")
-    .selectAll('rect')
-    .attr("fill", function (i, j) {
-      return choose_colourArray[attrFlag][j];
-    })
-    .style("display", function () {
-      return (attrFlag === "none") ? "none" : "inline";
-    });
-
-  //add text node to rects
+ 
+  //add text node to rect g
+  rects.append("text")
+       .style("fill","#565656")
+       .style("stroke", "none")
+       .style("font-size", "11px");
+  
+  //Display text in text node according to attrFlag
   d3.select("#barChartLegend")
     .selectAll("text")
     .text(function (i, j) {
