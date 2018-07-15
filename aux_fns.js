@@ -517,10 +517,39 @@ function fn_updateLegend (attrFlag) {
 
   //tooltip for Emission Protocol
   if (attrFlag == "methodology") {
-    
+
   }
 
   
+}
+
+function fn_legendRectTooltip(attrFlag) {
+  //svg crated in fn_barChartLegend()
+  var svgCB = d3.select("#barChartLegend").select("svg");
+
+  //tooltip for legend rects  
+  var tool_tip = d3.tip()
+      .attr("class", function () {
+        if (attrFlag != "methodology") {
+          return "d3-tip-deactive";
+        }
+        else return "d3-tip";
+      })
+      .offset([-10, 0])
+      .html(function (d, i) {
+        if (attrFlag != "methodology") {return "";}
+        else {
+          return "<b>" + Object.keys(protocolDict)[i] + "</b>" + ": "
+                     + Object.values(protocolDict)[i];
+        }
+      });
+  svgCB.call(tool_tip);
+
+  //select rects and call tooltip
+  d3.select("#barChartLegend").select("svg")
+    .selectAll('rect')
+    .on('mouseover', tool_tip.show)
+    .on('mouseout', tool_tip.hide);
 }
 
 //...............................
