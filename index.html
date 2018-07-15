@@ -201,7 +201,7 @@ svgCityCard.append("rect")
     .attr("stroke", "none");
 
 //hide city card on page load
-d3.select("#cityCardg").select("rect").style("opacity", 0);
+//d3.select("#cityCardg").select("rect").style("opacity", 0);
 
 var transx = 15, transy = 70;
 var deltay = 14;
@@ -232,6 +232,24 @@ fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardProtocol", trans
 fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardAttrLabel", transx, transy + 12*deltay);
 fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardAttr", transx, transy + 13*deltay - 2);
 
+//initial text
+svgCityCard.select("#cityCardCity")
+           .text("City Stats");
+svgCityCard.select("#cityCardEmissions")
+    .text("Hover over a city on the")
+    .style("font-size", "14px");
+
+svgCityCard.select("#cityCardYear")
+    .text("map or on the bar charts")
+    .style("font-size", "14px");
+
+svgCityCard.select("#cityCardChange")
+    .text("to display emission value")
+    .style("font-size", "14px");
+
+svgCityCard.select("#cityCardProtocol")
+    .text("and related ancillary data.")
+    .style("font-size", "14px");
 
 // ----------------------------------------------------
 // Code

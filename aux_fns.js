@@ -852,7 +852,8 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   d3.select("#cityCardg").select("rect").style("opacity", 1);
   
   //city name
-  svgCityCard.select("#cityCardCity").text(selectedCityObj.city);
+  svgCityCard.select("#cityCardCity").text(selectedCityObj.city)
+            .style("font-size", "11px");
 
   //country
   svgCityCard.select("#cityCardCountry").text(selectedCityObj["country"]);
@@ -871,7 +872,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   svgCityCard.select("#cityCardYearLabel").text("Measurement Year:");
   svgCityCard.select("#cityCardYear").text(function () {
     return selectedCityObj["Measurement year"];
-  });
+  }).style("font-size", "11px");
 
   //change in emissions
   var changeText = selectedCityObj["change in emissions"] === "First year of calculation" ?
@@ -879,13 +880,14 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   svgCityCard.select("#cityCardChangeLabel").text("Emissions Change:");
   svgCityCard.select("#cityCardChange").text(function () {
     return changeText;
-  });
+  }).style("font-size", "11px");
 
   //protocol
   var protocolNum = selectedCityObj["methodology"];
   svgCityCard.select("#cityCardProtocolLabel").text("Protocol:");
   svgCityCard.select("#cityCardProtocol")
-    .text(choose_textArray["methodology"][protocolNum - 1]);
+    .text(choose_textArray["methodology"][protocolNum - 1])
+    .style("font-size", "11px");
 
   //selected attribute
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
