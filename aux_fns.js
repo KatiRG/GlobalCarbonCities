@@ -434,7 +434,7 @@ function fn_colourmapDim (attrFlag) {
 
   return colourmapDim;
 }
-function fn_updateLegend (attrFlag) {
+function fn_barChartLegend (attrFlag) {
 
   //initialize legend rects SVG, g and text nodes for first menu selection
   if (! d3.select("#barChartLegend").select("svg").attr("width")) {
@@ -514,12 +514,6 @@ function fn_updateLegend (attrFlag) {
       //colourmapDim(cb_values[j]);
       return choose_colourArray[attrFlag][j];
     });
-
-  //tooltip for Emission Protocol
-  if (attrFlag == "methodology") {
-
-  }
-
   
 }
 
@@ -670,73 +664,6 @@ function fn_cityLabels_perGDP (d, i, thisCityGroup) {
 //...............................
 // create barChart SVGs
 
-//Create colour bar boxes
-function fn_barChartLegend() {
-  
-  //setup params
-  var margin = {top: 7, right: 0, bottom: 0, left: 20};
-  var svg_width = 480 - margin.left - margin.right,
-      svg_height = 35 - margin.top - margin.bottom;
-
-  var rect_dim = 15;
-
-  //colour array
-  rect_colourArray = choose_colourArray[attrFlag];
-  console.log("rect_colourArray: ", rect_colourArray)
-
-  //make svg
-  var svgCB = d3.select("#barChartLegend").select("svg")
-    .attr("width", svg_width)
-    .attr("height", svg_height)
-    .style("vertical-align", "middle");
-
-  //tooltip for legend rects  
-  var tool_tip = d3.tip()
-    .attr("class", "d3-tip")
-    .offset([-10, 0])
-    .html(function (d, i) {
-      return "<b>" + Object.keys(protocolDict)[i] + "</b>" + ": "
-                   + Object.values(protocolDict)[i];
-    });
-  svgCB.call(tool_tip);
-
- //make colourbar rects
-  var rects = svgCB.selectAll('rect')
-              .data(rect_colourArray)
-              .enter()
-              .append('g');
-
-  //create the rects but do not display them
-  var rectAttributes = rects.append("rect")
-                  .attr("width", rect_dim)
-                  .attr("height", rect_dim)
-                  .attr("y", 5)
-                  .attr("x", function (d, i) {
-                    return 41 + i * 80;
-                  })
-                  .attr("fill", function (d, i) {
-                    //return colour_methodNum[i + 1];                    
-                    return rect_colourArray[i];
-                  })
-                  .style("display", "none")
-                  .on('mouseover', tool_tip.show)
-                  .on('mouseout', tool_tip.hide);
-           
-  rects.append("text")
-        .text(function (d, i) {
-          return attrFlag === "none" ? "" : Object.keys(protocolDict)[i];
-        })
-        .attr("y", 10)
-        .attr("x", function (d, i) {
-          var xpos = [15,75,173,252,328,389];
-          return xpos[i];
-        })
-        .attr("dy", "6px")
-        .style("fill","#565656")
-        .style("stroke", "none")
-       .style("font-size", "11px");
-  
-}
 
 //Create arrow + text for off-scale emissions
 function fn_arrow(geogroup_id, city) {//used for offscale emission values

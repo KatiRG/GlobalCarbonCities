@@ -280,8 +280,8 @@ d3.select("select")
     // });
 
     //colour the legend squares
-    console.log("call fn_updateLegend!!!!!!!!!!!!!!!!!!!!!!!!!")
-    fn_updateLegend(attrFlag);
+    console.log("call fn_barChartLegend!!!!!!!!!!!!!!!!!!!!!!!!!")
+    fn_barChartLegend(attrFlag);
     fn_legendRectTooltip(attrFlag);
     
 })
@@ -389,7 +389,6 @@ d3.tsv(fname, function(ghg) {
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
   emissionsBarChart("groupSouth", "#barChart_groupSouth");
-  //fn_barChartLegend();
 
 });
 // //Customize some city names
