@@ -6,13 +6,12 @@
   <title>cityEmissions</title>
 
   <script src="lib/d3.v4.min.js"></script>
-  <!--<script src="lib/d3-selection-multi.v0.4.min.js"></script>-->
   <script src="lib/d3-tip.js"></script>
 
   <!--https://github.com/d3/d3-geo-projection-->
-  <script src="https://d3js.org/d3-array.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="lib/d3-array.v1.min.js"></script>
+  <script src="lib/d3-geo.v1.min.js"></script>
+  <script src="lib/d3-geo-projection.v2.min.js"></script>
   <!--https://bl.ocks.org/mbostock/3711652-->
   <script src="lib/topojson.v1.min.js"></script>
 
@@ -71,6 +70,7 @@
       <div class="col-lg-5">
         <div id="barChartLegendLabel">Colour bars by: 
           <select id="d3-dropdown">
+            <option value="none" selected="selected">None</option>
             <option value="methodology" selected="selected">Protocol</option>
             <option value="Measurement year">Measurement year</option>
             <option value="Population">Population</option>
@@ -184,6 +184,17 @@ var mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
 var mapWidth = 903 - mapMargin.left - mapMargin.right,
     mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
+//barChart legend
+var margin = {top: 7, right: 0, bottom: 0, left: 20};
+var svg_width = 480 - margin.left - margin.right,
+    svg_height = 35 - margin.top - margin.bottom;
+
+var svgCB = d3.select("#barChartLegend").select("svg")
+  .attr("width", svg_width)
+  .attr("height", svg_height)
+  .style("vertical-align", "middle");
+
+
 //city card
 //---------
 var svgCityCard = d3.select("#mycityCardDiv").append("svg")
@@ -201,7 +212,7 @@ svgCityCard.append("rect")
     .attr("stroke", "none");
 
 //hide city card on page load
-d3.select("#cityCardg").select("rect").style("opacity", 0);
+//d3.select("#cityCardg").select("rect").style("opacity", 0);
 
 var transx = 15, transy = 70;
 var deltay = 14;
@@ -232,6 +243,24 @@ fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardProtocol", trans
 fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardAttrLabel", transx, transy + 12*deltay);
 fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardAttr", transx, transy + 13*deltay - 2);
 
+//initial text
+svgCityCard.select("#cityCardCity")
+           .text("City Stats");
+svgCityCard.select("#cityCardEmissions")
+    .text("Hover over a city on the")
+    .style("font-size", "14px");
+
+svgCityCard.select("#cityCardYear")
+    .text("map or on the bar charts")
+    .style("font-size", "14px");
+
+svgCityCard.select("#cityCardChange")
+    .text("to display emission value")
+    .style("font-size", "14px");
+
+svgCityCard.select("#cityCardProtocol")
+    .text("and related ancillary data.")
+    .style("font-size", "14px");
 
 // ----------------------------------------------------
 // Code
@@ -249,13 +278,13 @@ window.onresize = function() {
 // Buttons
 // ----------------------------------------------------
 //Attribute dropdown button
-//Default to "Protocol"
-d3.select("#d3-dropdown").node().value = "methodology";
+//Default to "None"
+d3.select("#d3-dropdown").node().value = "none";
+var attrFlag = d3.select("#d3-dropdown").node().value;
 
 d3.select("select")
   .on("change",function(d){
     attrFlag = d3.select("#d3-dropdown").node().value;
-    console.log("attrFlag: ", attrFlag)
 
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
     //                      "barChart_groupEuropeSEAsia"];
@@ -267,7 +296,10 @@ d3.select("select")
     svgBarChart = d3.selectAll(".barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
       //output the discretized colour according to selected attribute
-      if (d.city.indexOf("gap") === -1) return fn_colour_barChart(attrFlag, d[attrFlag]);
+      if (d.city.indexOf("gap") === -1) {
+        return attrFlag === "none" ? choose_colourArray[attrFlag][0] : 
+                    fn_colour_barChart(attrFlag, d[attrFlag]);
+      }
     });
 
     // svgBarChart = d3.select("#" + geogroupArray[1] + " .barSVG")
@@ -277,40 +309,16 @@ d3.select("select")
     // });
 
     //colour the legend squares
-    fn_updateLegend(attrFlag);
+    console.log("call fn_barChartLegend!!!!!!!!!!!!!!!!!!!!!!!!!")
+    fn_barChartLegend(attrFlag);
+    fn_legendRectTooltip(attrFlag);
     
 })
 
 //barChart buttons
 //select emissions to display: scaled by capita or by GDP-PPP ***DISABLE FOR NOW***
+d3.select("#gdpButton").style("display", "none");
 d3.select("#gdpButton")
-  // .on("click", function() {
-  //   div.style("opacity", 0); //clear tooltip
-    
-  //   var buttonText = (d3.select(this).text() === label_dataPerGDP) ?
-  //                     label_dataPerCap : label_dataPerGDP;
-
-  //   if (buttonText === label_dataPerGDP) {
-  //     d3.select("#barChartCaption").text("Per capita emissions " + dimUnits[label_dataPerCap]);
-        
-  //   } else {
-  //     d3.select("#barChartCaption").text("Emissions per unit of Gross Domestic Product " 
-  //       + dimUnits[label_dataPerGDP]);
-  //   }
-
-  //   d3.select(this).text(buttonText);
-
-  //   //Plot emissions bar charts for each geo group
-  //   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
-  //   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
-  //   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
-  //   emissionsBarChart("groupSouth", "#barChart_groupSouth");
-
-  //   //(de-)activate reorder button if "Scope1/capita" is being displayed
-  //   var reorderState = (buttonText === label_dataPerCap) ? "block" : "none";
-  //   d3.select("#reorderButton").style("display", reorderState);
-     
-  // })
   .on("mouseover", function () {
     var dictText = emissionsToggleDict[d3.select(this).text()];
 
@@ -368,6 +376,7 @@ d3.select("#reorderButton")
 var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
+    "none": [0,0],
     "methodology": 
           d3.extent(ghg, function (d) { 
             //console.log(d['Year of emission'])
@@ -409,7 +418,6 @@ d3.tsv(fname, function(ghg) {
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
   emissionsBarChart("groupSouth", "#barChart_groupSouth");
-  fn_barChartLegend();
 
 });
 // //Customize some city names
@@ -505,9 +513,9 @@ function drawMap() {
   d3.json("geojson/world_countries.json", function(error, world) {
     if (error) throw error;
    
-    d3.json("geojson/cities_edited2.geojson", function(error, cities) {
+    d3.json("geojson/our_cities.geojson", function(error, cities) {
       if (error) throw error;
-
+      console.log("cities: ", cities)
 
       //world countries
       // svg.append("g")
@@ -680,7 +688,7 @@ function highlightElements(idName) {
 // }
 
 function emissionsBarChart(geogroup_name, geogroup_id) {
-  dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
+  if (attrFlag != "none") dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
   var reorderButton = d3.select("#reorderButton").text();  
 
   // Remove any previous bar chart
@@ -691,7 +699,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                       label_dataPerCap : label_dataPerGDP;
 
   //https://bl.ocks.org/seemantk/ec245e1f4e824e685982dd5d3fbb2fcc
-  var margin = {top: 0, right: 0, bottom: 0, left: 20};
+  var margin = {top: 0, right: 0, bottom: 10, left: 20};
   var width = 700 - margin.left - margin.right,
       height = 250 - margin.top - margin.bottom;
 
@@ -712,10 +720,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                     
   emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
 
-  // Get city order of Scope/capita
-  if (d3.select("#reorderButton").text() === "orig order") {
-    emissions_scaled = fn_reorderByEmissionsPerCapita(geogroup_name, emissions_scaled);
-  } // end button text check
 
   if (geogroup_name === "groupEastAsia") {
     pOuter = 0.05;
@@ -823,8 +827,8 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .attr("height", function(d) { return height - y(d[this_dim]); });
 
   bars.attr("fill", function (d) {
-  //output the discretized colour according to selected attribute
-    return fn_colour_barChart(attrFlag, d[attrFlag]);
+    return (attrFlag === "none") ? choose_colourArray[attrFlag][0] :
+                            fn_colour_barChart(attrFlag, d[attrFlag]);
   });
 
   bars.on("touchmove mousemove", function (d) {

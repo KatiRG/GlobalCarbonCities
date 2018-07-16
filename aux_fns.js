@@ -306,37 +306,6 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     }
     
 
-    // //Scope1/GDP
-    // else if (geogroupArray[idx] === "groupAsia" && this_dim === "per GDP") {      
-    //   var selectedCity1 = data_GHG.find(x => x.city === "Kaohsiung");
-    //   var selectedCity2 = data_GHG.find(x => x.city === "Taoyuan");     
-
-    //   //Store actual value for later display.Store only once!!!
-    //   if (storeFlagGDP === 0) {
-    //     kaohsiungEmissionsPerGDP = formatDecimalSci(selectedCity1[label_dataPerGDP]);
-    //     taoyuanEmissionsPerGDP = formatDecimalSci(selectedCity2[label_dataPerGDP]);       
-    //     storeFlagGDP = 1;
-    //   }
-      
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity1[label_dataPerGDP] = 0.114;
-    //   selectedCity2[label_dataPerGDP] = 0.114;    
-
-    // } else if (geogroupArray[idx] === "groupAfrica" && this_dim === "per GDP") {
-    //   var selectedCity = data_GHG.find(x => x.city === "Lagos");
-
-    //   //Store actual value for later display.Store only once!!!
-    //   if (storeFlagGDPAfrica === 0) {
-    //     lagosEmissionsPerGDP = formatDecimalSci(selectedCity[label_dataPerGDP]);
-    //     storeFlagGDPAfrica = 1;
-    //   }    
-
-    //   //Assign a smaller value FOR SCALE PURPOSES ONLY
-    //   selectedCity[label_dataPerGDP] = 0.23;
-    // }
-
-  //--------------
-
   //--------------
     //Concatenate with a gap obj in between
     if (idx % 2 == 0) {
@@ -386,32 +355,13 @@ function sortByRegion(region, this_dim) {
   return ghg_byRegion;
 }
 
-function fn_reorderByEmissionsPerCapita(region, emissions_perGDP) {
-  var city_order = [];
-  var objArray = [];
-
-  // if (region === "groupUSAAsia") {
-  //   city_order = cityOrder_row1;
-  // } else city_order = cityOrder_row2;
-
-  city_order = (region === "groupEastAsia" ? cityOrder_row1 : cityOrder_row2);
-
-  //Re-order emissions_perGDP according to city_order of emissions per capita
-  for (idx = 0; idx < city_order.length; idx++) {
-    match = emissions_perGDP.filter(x => x.city === city_order[idx]); //in array form
-    if (match.length != 0) objArray.push(match[0]);
-  }
-
-  return objArray;
-}
 
 //...............................
 // barChart updates
 
 function fn_colour_barChart (attrFlag, attrValue) {
-  //console.log("fn_colour_barChart")
-  
-  if (attrFlag === "methodology") {//integers from 1-5, no mapping needed
+  if (attrFlag === "none") return choose_colourArray[attrFlag][0];
+  else if (attrFlag === "methodology") {//integers from 1-5, no mapping needed
     return colour_methodNum[attrValue];
   } else if (attrFlag === "change in emissions") {
     return choose_colourArray[attrFlag][ emissionsChangeDict[attrValue] ];
@@ -435,9 +385,46 @@ function fn_colourmapDim (attrFlag) {
 
   return colourmapDim;
 }
-function fn_updateLegend (attrFlag) {
-  console.log("fn_updateLegend")
-  if (attrFlag != "methodology") {  
+function fn_barChartLegend (attrFlag) {
+
+  //initialize SVG for legend rects, their g and text nodes
+  //-------------------------------------------------------
+
+  //Rect SVG defined in index.html
+  var svgCB = d3.select("#barChartLegend").select("svg")
+
+  //Create the g nodes
+  var rects = svgCB.selectAll('rect')
+          .data(choose_colourArray[attrFlag])
+          .enter()
+          .append('g');
+
+  //Append rects onto the g nodes and fill according to attrFlag
+  var rect_dim = 15;
+  var appendedRects = rects.append("rect")
+                .attr("width", rect_dim)
+                .attr("height", rect_dim)
+                .attr("y", 5)
+                .attr("x", function (d, i) {
+                  return 41 + i * 80;
+                })
+                .attr("fill", function (d, i) {
+                  return choose_colourArray[attrFlag][i];
+                });
+
+  //Fill rects. Do not display any rects for "None" menu item.
+  d3.select("#barChartLegend").select("svg")
+    .selectAll('rect')
+    .attr("fill", function (i, j) {
+      return choose_colourArray[attrFlag][j];
+    })
+    .style("display", function () {
+      return (attrFlag === "none") ? "none" : "inline";
+    });
+
+
+  //define rect text labels (calculate cb_values)
+  if (attrFlag != "methodology" || attrFlag != "none") {  
     dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
     //difference between max and min values of selected attribute
     delta = ( dimExtent[1] - dimExtent[0] )/num_levels;
@@ -475,51 +462,22 @@ function fn_updateLegend (attrFlag) {
     //colour map to take data value and map it to the colour of the level bin it belongs to
     var colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
               .domain([dimExtent[0], dimExtent[1]])
-              .range(choose_colourArray[attrFlag]);    
-  }
+              .range(choose_colourArray[attrFlag]); 
+  } //cb_array
 
-   //svg crated in fn_barChartLegend()
-  var svgCB = d3.select("#barChartLegend").select("svg");
-
-  //tooltip for legend rects  
-  var tool_tip = d3.tip()
-      .attr("class", function () {
-        // if (attrFlag === "population density" || attrFlag === "GDP/capita") {
-        if (attrFlag != "methodology") {
-          return "d3-tip-deactive";
-        }
-        else return "d3-tip";
-      })
-      .offset([-10, 0])
-      .html(function (d, i) {
-        // if (attrFlag === "population density" || attrFlag === "GDP/capita") {return "";}
-        if (attrFlag != "methodology") {return "";}
-        else {
-          return "<b>" + Object.keys(protocolDict)[i] + "</b>" + ": "
-                     + Object.values(protocolDict)[i];
-        }
-      });
-  svgCB.call(tool_tip);
-
-  //Colour legend squares
-  d3.select("#barChartLegend").select("svg")
-    .selectAll('rect')
-    .attr("fill", function (i, j) {
-      //colourmapDim(cb_values[j]);
-      return choose_colourArray[attrFlag][j];
-    })
-    .on('mouseover', tool_tip.show)
-    .on('mouseout', tool_tip.hide);
-
-
-  //label the legend squares
+ 
+  //add text node to rect g
+  rects.append("text")
+       .style("fill","#565656")
+       .style("stroke", "none")
+       .style("font-size", "11px");
+  
+  //Display text in text node according to attrFlag
   d3.select("#barChartLegend")
     .selectAll("text")
     .text(function (i, j) {
       if (attrFlag === "methodology" || attrFlag === "change in emissions") {
         updateText = choose_textArray[attrFlag][j];
-      // } else if (attrFlag === "change in emissions") {
-      //   updateText = Object.keys(emissionsChangeDict)[j];
       } else {
         console.log("cb_values format: ", cb_values[j] )
 
@@ -539,22 +497,54 @@ function fn_updateLegend (attrFlag) {
       }
       return updateText;
     })
+    .attr("y", 18)
     .attr("x", function (d, i) {
-      if (attrFlag === "methodology") xpos = [15,75,173,252,328,389];
-      else if (attrFlag === "Measurement year") xpos = [3,83,163,245,325, 285+120];
-      else if (attrFlag === "change in emissions") xpos = [26,96,147,217,295];
-      else if (attrFlag === "population density") xpos = [4,75,147,217,288];
-      else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281];
-      else if (attrFlag === "diesel price" || attrFlag === "gas price") xpos = [4,75,145,215,285];
+      if (attrFlag === "methodology") xpos = [14,74,172,251,325,386];
+      else if (attrFlag === "Measurement year") xpos = [0,80,160,240,320, 280+120];
+      else if (attrFlag === "Population") xpos = [2,81,161,241,321,402];
+      else if (attrFlag === "population density") xpos = [4,75,147,217,288,333];
+      else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281,333];
+      else if (attrFlag === "diesel price" || 
+               attrFlag === "gas price") xpos = [4,75,145,215,285,333];
       else if (attrFlag === "low BUA % (2014)" ||
-               attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295];
-      else xpos = [3,82,162,241,321,403];      
+               attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295,333];
+      else xpos = [3,82,162,241,321,403]; 
       return xpos[i];
+    })
+    .style("display", function () {
+      return (attrFlag === "none") ? "none" : "inline";
     });
 
-    //update the units displayed in the legend
-    d3.select("#barChartLegendUnits")
-      .text(function () {return dimUnits[attrFlag]});
+  
+}
+
+function fn_legendRectTooltip(attrFlag) {
+  //svg crated in fn_barChartLegend()
+  var svgCB = d3.select("#barChartLegend").select("svg");
+
+  //tooltip for legend rects  
+  var tool_tip = d3.tip()
+      .attr("class", function () {
+        if (attrFlag != "methodology") {
+          return "d3-tip-deactive";
+        }
+        else return "d3-tip";
+      })
+      .offset([-10, 0])
+      .html(function (d, i) {
+        if (attrFlag != "methodology") {return "";}
+        else {
+          return "<b>" + Object.keys(protocolDict)[i] + "</b>" + ": "
+                     + Object.values(protocolDict)[i];
+        }
+      });
+  svgCB.call(tool_tip);
+
+  //select rects and call tooltip
+  d3.select("#barChartLegend").select("svg")
+    .selectAll('rect')
+    .on('mouseover', tool_tip.show)
+    .on('mouseout', tool_tip.hide);
 }
 
 //...............................
@@ -675,70 +665,6 @@ function fn_cityLabels_perGDP (d, i, thisCityGroup) {
 //...............................
 // create barChart SVGs
 
-//Create colour bar boxes
-function fn_barChartLegend() {
-  
-  //setup params
-  var margin = {top: 7, right: 0, bottom: 0, left: 20};
-  var svg_width = 480 - margin.left - margin.right,
-      svg_height = 35 - margin.top - margin.bottom;
-
-  var rect_dim = 15;
-
-  //colour array
-  rect_colourArray = choose_colourArray[attrFlag];
-  console.log("rect_colourArray: ", rect_colourArray)
-
-  //make svg
-  var svgCB = d3.select("#barChartLegend").select("svg")
-    .attr("width", svg_width)
-    .attr("height", svg_height)
-    .style("vertical-align", "middle");
-
-  //tooltip for legend rects  
-  var tool_tip = d3.tip()
-    .attr("class", "d3-tip")
-    .offset([-10, 0])
-    .html(function (d, i) {
-      return "<b>" + Object.keys(protocolDict)[i] + "</b>" + ": "
-                   + Object.values(protocolDict)[i];
-    });
-  svgCB.call(tool_tip);
-
- //make colourbar rects
-  var rects = svgCB.selectAll('rect')
-              .data(rect_colourArray)
-              .enter()
-              .append('g');
-
-  var rectAttributes = rects.append("rect")
-                  .attr("width", rect_dim)
-                  .attr("height", rect_dim)
-                  .attr("y", 5)
-                  .attr("x", function (d, i) {
-                    return 41 + i * 80;
-                  })
-                  .attr("fill", function (d, i) {
-                    //return colour_methodNum[i + 1];                    
-                    return rect_colourArray[i];
-                  })
-                  .on('mouseover', tool_tip.show)
-                  .on('mouseout', tool_tip.hide);
-
-  rects.append("text")
-        .text(function (d, i) {
-          return Object.keys(protocolDict)[i];
-        })
-        .attr("y", 10)
-        .attr("x", function (d, i) {
-          var xpos = [15,75,173,252,328,389];
-          return xpos[i];
-        })
-        .attr("dy", "6px")
-        .style("fill","#565656")
-        .style("stroke", "none")
-       .style("font-size", "11px");
-}
 
 //Create arrow + text for off-scale emissions
 function fn_arrow(geogroup_id, city) {//used for offscale emission values
@@ -915,7 +841,8 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   d3.select("#cityCardg").select("rect").style("opacity", 1);
   
   //city name
-  svgCityCard.select("#cityCardCity").text(selectedCityObj.city);
+  svgCityCard.select("#cityCardCity").text(selectedCityObj.city)
+            .style("font-size", "11px");
 
   //country
   svgCityCard.select("#cityCardCountry").text(selectedCityObj["country"]);
@@ -934,7 +861,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   svgCityCard.select("#cityCardYearLabel").text("Measurement Year:");
   svgCityCard.select("#cityCardYear").text(function () {
     return selectedCityObj["Measurement year"];
-  });
+  }).style("font-size", "11px");
 
   //change in emissions
   var changeText = selectedCityObj["change in emissions"] === "First year of calculation" ?
@@ -942,13 +869,14 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   svgCityCard.select("#cityCardChangeLabel").text("Emissions Change:");
   svgCityCard.select("#cityCardChange").text(function () {
     return changeText;
-  });
+  }).style("font-size", "11px");
 
   //protocol
   var protocolNum = selectedCityObj["methodology"];
   svgCityCard.select("#cityCardProtocolLabel").text("Protocol:");
   svgCityCard.select("#cityCardProtocol")
-    .text(choose_textArray["methodology"][protocolNum - 1]);
+    .text(choose_textArray["methodology"][protocolNum - 1])
+    .style("font-size", "11px");
 
   //selected attribute
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 

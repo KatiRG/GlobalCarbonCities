@@ -9,7 +9,7 @@ label_dataPerGDP = "per GDP";
 
 //------------------------------------------------
 //Variables to pass
-var attrFlag = "methodology"; //attribute to be used to fill barChart bars. Default "Protocol"
+//var attrFlag = "methodology"; //attribute to be used to fill barChart bars. Default "none"
 var cityOrder_row1, cityOrder_row2; //save orignal city order
 //------------------------------------------------
 //COLOURS
@@ -57,6 +57,7 @@ var num_levels = 6;  //5; //number of discrete levels
 var cb_values = [];
 
 var choose_colourArray = {
+  "none": ["#bbd4e2","#bbd4e2","#bbd4e2","#bbd4e2","#bbd4e2","#bbd4e2"],
   "methodology": ["#9DD3DF","#C3BBE2","#E35B5D","#EB9F9F","#F18052","#F4DD51"],
   "Measurement year": ["#D8E6DB","#DBC28F","#CCA26A","#997E68","#6B5344","#2a211b"],
   "change in emissions": ["#53442F","#BABE98","#DBC28F","#BEC3BC","#E6E8E3"],
