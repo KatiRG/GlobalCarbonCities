@@ -5987,17 +5987,6 @@
 	}, {
 		"geometry": {
 			"type": "Point",
-			"coordinates": [-21.933, 64.133]
-		},
-		"type": "Feature",
-		"properties": {
-			"wikipedia": "Reykjav]ík",
-			"city": "Reykjav]ík"
-		},
-		"id": "Reykjav]ík"
-	}, {
-		"geometry": {
-			"type": "Point",
 			"coordinates": [-17.433, 14.683]
 		},
 		"type": "Feature",
@@ -8005,16 +7994,6 @@
         "city": "Barreiro"
       },
 		"id": "Barreiro"
-    },{      
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-21.933, 64.133]
-      },
-      "type": "Feature",
-      "properties": {
-        "city": "Reykjavík"
-      },
-		"id": "Reykjavík"
     },{      
       "geometry": {
         "type": "Point",
