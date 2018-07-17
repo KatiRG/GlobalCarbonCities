@@ -453,7 +453,7 @@ function drawMap() {
 
   var path = d3.geoPath()
       .projection(projection)
-      .pointRadius([3]);
+      .pointRadius([3]);  //radius of city circle
 
   var graticule = d3.geoGraticule();
 
@@ -484,7 +484,10 @@ function drawMap() {
 
   var g = svg.append('g');
 
-  // g.append("defs").append("path")
+  //This makes weird shadows in the graticule
+  // g.append("defs")
+  //   // .select("path")
+  //  .append("path")
   //   .datum({type: "Sphere"})
   //   .attr("id", "sphere")
   //   .attr("d", path);
@@ -493,12 +496,24 @@ function drawMap() {
   //   .attr("class", "stroke")
   //   .attr("xlink:href", "#sphere");
     
-  // // g.append("path") //this line makes some countries disappear!
+  // // // // g.append("path") //this line makes some countries disappear!
   // g.selectAll("path")
   //   .datum(graticule)
   //   .attr("class", "graticule")
   //   .attr("d", path);
 
+  //https://gist.github.com/wboykinm/eb7fe46178c8ec7b3bd2b92218c949a9
+  g.append("path")
+      .datum({type: "Sphere"})
+      .attr("class", "sphere")
+      .attr("d", path)
+      .attr("fill", "#F4F7F7")
+      .attr("stroke", "grey");
+      
+  g.append("path")
+      .datum(graticule)
+      .attr("class", "graticule")
+      .attr("d", path);
 
   //----------------------------------------
   //draw bottom line of map
@@ -574,7 +589,7 @@ function drawMap() {
       cities = g.selectAll("path")
           .data(cities.features)
           .enter().append('path')
-          .attr('d', path.pointRadius(3))
+          .attr('d', path)
           .attr("id", function (d, i) {
             return "city" + format_idName(d.id);
           })
