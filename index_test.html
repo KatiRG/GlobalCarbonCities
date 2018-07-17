@@ -461,6 +461,8 @@ function drawMap() {
       .attr("width", mapWidth)
       .attr("height", mapHeight);
 
+  //https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
+  //https://bl.ocks.org/lorenzopub/d2d892f4a5393822f846e4f7c20202fc
   var zoom = d3.zoom()
              .on("zoom", zoomed);
 
@@ -554,11 +556,12 @@ function drawMap() {
       cities = g.selectAll("path")
           .data(cities.features)
           .enter().append('path')
-          .attr('d', path)
-          .attr("id", function (d, i) {            
+          .attr('d', path.pointRadius(3))
+          .attr("id", function (d, i) {
             return "city" + format_idName(d.id);
           })
           .attr("class", "worldcity")
+          .attr("r", 10)
           .style("fill", function (d) {
             // if (d.id === "Cleveland") console.log("cleveland: ", d)
             // if (data_GHG.find(x => x.city === d.id)) {
@@ -620,10 +623,6 @@ function highlightElements(idName) {
   //                      .map(function(d) { return d.__data__; })[0];
   var selectedCityObj = data_GHG.find(x => x.city === selectedCity);
 
-  if (idName === 'Amman') {
-    console.log('selectedCityObj: ', selectedCityObj)
-  }
-
   //Clear Previous
   //--------------
   resetElements();
@@ -648,15 +647,13 @@ function highlightElements(idName) {
     .style("fill-opacity", 0.1)
     .style("stroke-opacity", 0.1);
   
-  //Dim all countries but current country  
+  //Highlight current country  
   var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');
   d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
-  // d3.selectAll(".countries path:not(#map" + thisCountry + ")")
-  //   .style("opacity", 0.1);
 
-  // d3.select("#city" + idName)
-  //   .attr("stroke", "black")
-  //   .attr("stroke-width", 2);
+  d3.select("#city" + idName)
+    .attr("stroke", "black")
+    .attr("stroke-width", 2);
 
   
 
