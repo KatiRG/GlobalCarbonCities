@@ -517,7 +517,7 @@ function drawMap() {
 
       //world countries
       // svg.append("g")
-      countries = g.attr("class", "countries")
+      countries = g.attr("class", "mapg") //used to be class "countries"
         .selectAll("path")
           .data(world.features)
         .enter().append("path")
@@ -526,6 +526,7 @@ function drawMap() {
             mapName = d.properties.name.replace(/\s/g, '_');
             return "map" + mapName;
           })
+          .attr("class", "worldcountry")
           .style("fill", countryColour)
           .style('stroke', '#555')  //#555
           .style('stroke-width', 1.5)
@@ -549,7 +550,8 @@ function drawMap() {
      
       
       // City markers from geojson file     
-      svg.selectAll('path')
+      //svg.selectAll('path')
+      cities = g.selectAll("path")
           .data(cities.features)
           .enter().append('path')
           .attr('d', path)
@@ -595,8 +597,6 @@ function drawMap() {
   }
   svg.call(zoom);
   
-
-
 
   function resetMap() {
     svg.transition()
@@ -649,14 +649,14 @@ function highlightElements(idName) {
     .style("stroke-opacity", 0.1);
   
   //Dim all countries but current country  
-  var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');  
+  var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');
   d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
-  d3.selectAll(".countries path:not(#map" + thisCountry + ")")
-    .style("opacity", 0.1);
+  // d3.selectAll(".countries path:not(#map" + thisCountry + ")")
+  //   .style("opacity", 0.1);
 
-  d3.select("#city" + idName)
-    .attr("stroke", "black")
-    .attr("stroke-width", 2);
+  // d3.select("#city" + idName)
+  //   .attr("stroke", "black")
+  //   .attr("stroke-width", 2);
 
   
 

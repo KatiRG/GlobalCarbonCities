@@ -157,7 +157,7 @@ function resetElements() {
 
 
   //clear previously highlighted country
-  d3.selectAll(".countries").selectAll("path")
+  d3.selectAll(".worldcountry")
     .style("stroke","#555")
     .style("stroke-width", 1)
     .style("fill", countryColour)
