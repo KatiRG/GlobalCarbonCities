@@ -782,7 +782,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
         idName = format_idName(d.city);
       
-        highlightElements(idName);
+        //highlightElements(idName);
         
         if (this_dim === "per capita") {
           if ( d.city === "Incheon" || d.city === "Kaohsiung" || d.city === "Yilan" ||
@@ -791,12 +791,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
             emissionIntensity = offscaleEmissionsDict[d.city];//rotterdamEmissionsPerCap;
           }          
           else emissionIntensity = formatDecimalSci(d[this_dim]);
-        }
-        else if (this_dim === "per GDP") {
-          // if (d.city === "Kaohsiung") emissionIntensity = kaohsiungEmissionsPerGDP;
-          // else if (d.city === "Taoyuan") emissionIntensity = taoyuanEmissionsPerGDP;
-          // else if (d.city === "Lagos") emissionIntensity = lagosEmissionsPerGDP;
-          // else emissionIntensity = formatDecimalSci(d[this_dim]);
         }
 
         //bar tooltip
@@ -809,11 +803,12 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
       })
       .on("mouseout", function (d) {
-        resetElements();
+        // resetElements();
         
         d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
           //.style("font-size", "14px")
           .style("opacity", 0.3)
+          .style("font-size", "11px") //return to orig size
           .attr("fill", colour_labels);
 
         div.style("opacity", 0);
@@ -886,10 +881,10 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         fn_enlargeName(geogroup_name, d);
 
         idName = format_idName(d);
-        highlightElements(idName);
+        //highlightElements(idName);
       })
       .on("mouseout", function (d) {
-        resetElements();
+        // resetElements();
 
         d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
           //.style("font-size", "14px")
