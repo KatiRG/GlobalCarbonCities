@@ -879,6 +879,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
           //.style("font-size", "14px")
           .style("opacity", 0.3)
+          .style("font-size", "11px") //return to orig size
           .attr("fill", colour_labels);
 
         div.style("opacity", 0);
@@ -958,7 +959,8 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
 
         d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
           //.style("font-size", "14px")
-          .style("opacity", 0.3);
+          .style("opacity", 0.3)
+          .style("font-size", "11px") //return to orig size;
       });
 
   //hide x tick mark for "gap" bar  
