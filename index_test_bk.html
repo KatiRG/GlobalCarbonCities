@@ -427,6 +427,8 @@ d3.tsv(fname, function(ghg) {
 // Main Functions
 // ----------------------------------------------------
 
+
+
 function drawMap() {
   // Map reset button
   d3.select("#resetButton")
@@ -571,7 +573,6 @@ function drawMap() {
 
 
 } // ./drawMap()
-
 
 function highlightElements(idName) {
   if ( data_GHG.find(x => x.idName.includes(idName)) ) {
