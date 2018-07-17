@@ -427,12 +427,19 @@ d3.tsv(fname, function(ghg) {
 // Main Functions
 // ----------------------------------------------------
 
-
-
 function drawMap() {
   // Map reset button
   d3.select("#resetButton")
       .on("click", resetMap);
+
+  //https://bl.ocks.org/mbostock/db6b4335bf1662b413e7968910104f0f
+  var zoom = d3.zoom()
+    .scaleExtent([1, 40])
+    //.translateExtent([[-100, -100], [width + 90, height + 100]])
+    .on("zoom", zoomed);
+
+  //https://bl.ocks.org/mbostock/3711652
+  // var mapHeight = 410;
 
   var options = [
     {name: "Natural Earth", projection: d3.geoNaturalEarth()}
@@ -457,9 +464,6 @@ function drawMap() {
       .attr("width", mapWidth)
       .attr("height", mapHeight);
 
-   var zoom = d3.zoom()
-                 .on("zoom", zoomed);
-
   // svg.append("defs").append("path")
   //   .datum({type: "Sphere"})
   //   .attr("id", "sphere")
@@ -474,10 +478,9 @@ function drawMap() {
   //   .attr("class", "graticule")
   //   .attr("d", path);
 
-
   var g = svg.append('g');
 
-  g.append("defs").append("path")
+   g.append("defs").append("path")
     .datum({type: "Sphere"})
     .attr("id", "sphere")
     .attr("d", path);
@@ -490,13 +493,42 @@ function drawMap() {
    .datum(graticule)
    .attr("class", "graticule")
    .attr("d", path);
- 
+
+
+  //----------------------------------------
+  //draw bottom line of map
+  svg.append("g").selectAll("line")
+  g.selectAll("line")
+    .data([0])
+    .enter().append("line")
+    .attr("class", "line")
+    .style("stroke", "#555")
+    .style("stroke-width", "1.2px")
+    .attr("x1", 80)
+    .attr("y1", 289)
+    .attr("x2", 828)
+    .attr("y2", 289);
+
+  // //draw top line of map
+  // // svg.append("g").selectAll("line")
+  // g.selectAll("line")
+  //   .data([0])
+  //   .enter().append("line")
+  //   .attr("class", "line")
+  //   .style("stroke", "#555")
+  //   .style("stroke-width", "1.2px")
+  //   .attr("x1", 301)
+  //   .attr("y1", 0)
+  //   .attr("x2", 970)
+  //   .attr("y2", 0);
+  //----------------------------------------
  
   d3.json("geojson/world_countries.json", function(error, world) {
     if (error) throw error;
-  
-    //world countries      
-    countries = g.attr("class", "countries")
+
+    //world countries
+    // svg.append("g")
+    countries = g.attr("class", "mapg") //used to be class "countries"
       .selectAll("path")
         .data(world.features)
       .enter().append("path")
@@ -506,16 +538,31 @@ function drawMap() {
           return "map" + mapName;
         })
         .style("fill", countryColour)
-        .style('stroke', '#555')
+        .style('stroke', '#555')  //#555
         .style('stroke-width', 1.5)
         // tooltips
           .style('stroke-width', 1);
-
+          // .on('mouseover',function (d) {
+          //   //tip.show(d);
+          //   d3.select(this)
+          //     // .style("opacity", 1)
+          //     .style("stroke","#CBBF31")
+          //     .style("stroke-width",3);
+          // })
+          // .on('mouseout', function (d) {
+          //   // tip.hide(d);
+          //   //highlightElements(idName, d.country);
+          //   d3.select(this)
+          //     // .style("opacity", 0.8)
+          //     .style("stroke","white")
+          //     .style("stroke-width",0.3);
+          // });
+     
+   
     d3.json("geojson/our_cities.geojson", function(error, cities) {
       if (error) throw error;
       console.log("cities: ", cities)
 
-      
       // City markers from geojson file     
       // svg.selectAll('path')
       cities = g.selectAll("path")
@@ -523,7 +570,7 @@ function drawMap() {
         .enter().append('path')
         // .attr("class", "cities")
         .attr('d', path)
-        .attr("id", function (d, i) {            
+        .attr("id", function (d, i) {
           return "city" + format_idName(d.id);
         })
         .attr("class", "worldcity")
@@ -544,16 +591,16 @@ function drawMap() {
         .style("stroke", function (d) {
           if (data_GHG.find(x => x.city === d.id)) return "#555";
           else return "none";  
+        })
+        .on("mouseover", function (d) {
+          //highlightElements(format_idName(d.properties.city));
+        })
+        .on('mouseout', function (d) {
+          //resetElements();
         });
-        // .on("mouseover", function (d) {
-        //   highlightElements(format_idName(d.properties.city));
-        // })
-        // .on('mouseout', function (d) {
-        //   resetElements();
-        // });
-    });
-     
-  });
+
+    }); // ./inner d3.json
+  }); // ./outer d3.json
   
   function zoomed() {
     console.log("fn zoomed")
@@ -563,16 +610,14 @@ function drawMap() {
     }
   svg.call(zoom);
 
-
   function resetMap() {
     svg.transition()
       .duration(750)
       .call(zoom.transform, d3.zoomIdentity);
   } 
   
-
-
 } // ./drawMap()
+
 
 function highlightElements(idName) {
   if ( data_GHG.find(x => x.idName.includes(idName)) ) {
@@ -590,37 +635,36 @@ function highlightElements(idName) {
 
     //Clear Previous
     //--------------
-    resetElements();
-    //d3.select("#mycityCardg").remove();
-
+    //resetElements();
+    
     //Display city card
     fn_fillSVGCityCard (selectedCityObj, attrFlag);
 
     //Highlight Current
     //-----------------
-    d3.select("#bar" + idName)
-      .style("stroke", "#363636"); 
+    // d3.select("#bar" + idName)
+    //   .style("stroke", "#363636"); 
 
-    d3.selectAll(".bar:not(#bar" + idName + ")")
-      .style("fill-opacity", 0.1);
+    // d3.selectAll(".bar:not(#bar" + idName + ")")
+    //   .style("fill-opacity", 0.1);
 
-    d3.selectAll(".node:not(#node" + idName + ")")
-      .style("fill-opacity", 0.1)
-      .style("stroke-opacity", 0.1);
+    // d3.selectAll(".node:not(#node" + idName + ")")
+    //   .style("fill-opacity", 0.1)
+    //   .style("stroke-opacity", 0.1);
     
-    d3.selectAll(".worldcity:not(#city" + idName + ")")
-      .style("fill-opacity", 0.1)
-      .style("stroke-opacity", 0.1);
+    // d3.selectAll(".worldcity:not(#city" + idName + ")")
+    //   .style("fill-opacity", 0.1)
+    //   .style("stroke-opacity", 0.1);
     
     //Dim all countries but current country  
-    var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');  
-    d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
-    d3.selectAll(".countries path:not(#map" + thisCountry + ")")
-      .style("opacity", 0.1);
+    // var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');  
+    // d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
+    // d3.selectAll(".countries path:not(#map" + thisCountry + ")")
+    //   .style("opacity", 0.1);
 
-    d3.select("#city" + idName)
-      .attr("stroke", "black")
-      .attr("stroke-width", 2);
+    // d3.select("#city" + idName)
+    //   .attr("stroke", "black")
+    //   .attr("stroke-width", 2);
 
   } //end if
   else console.log("city ", idName, " not in dataset")
