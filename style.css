@@ -279,14 +279,9 @@ div.rtooltip {
   font-size: 17px;
   fill: #565656;
 }
-#emissionsToggleButton {
+#mapResetButton {
   position: absolute;
-  left: 800px; 
-  top: 0px;
-}
-#reorderButton {
-  position: absolute;
-  left: 750px; 
+  left: 310px; 
   top: 0px;
 }
 #barChartCaption {
