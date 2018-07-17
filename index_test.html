@@ -466,35 +466,53 @@ function drawMap() {
   var zoom = d3.zoom()
              .on("zoom", zoomed);
 
-  svg.append("defs").append("path")
-    .datum({type: "Sphere"})
-    .attr("id", "sphere")
-    .attr("d", path);
+  //NB: appending sphere and graticule onto svg means it won't be zoomed with the
+  //countries and cities
+  // svg.append("defs").append("path")
+  //   .datum({type: "Sphere"})
+  //   .attr("id", "sphere")
+  //   .attr("d", path);
 
-  svg.append("use")
-    .attr("class", "stroke")
-    .attr("xlink:href", "#sphere");
+  // svg.append("use")
+  //   .attr("class", "stroke")
+  //   .attr("xlink:href", "#sphere");
     
-  svg.append("path")
-    .datum(graticule)
-    .attr("class", "graticule")
-    .attr("d", path);
+  // svg.append("path")
+  //   .datum(graticule)
+  //   .attr("class", "graticule")
+  //   .attr("d", path);
 
   var g = svg.append('g');
 
+  // g.append("defs").append("path")
+  //   .datum({type: "Sphere"})
+  //   .attr("id", "sphere")
+  //   .attr("d", path);
+
+  // g.append("use")
+  //   .attr("class", "stroke")
+  //   .attr("xlink:href", "#sphere");
+    
+  // // g.append("path") //this line makes some countries disappear!
+  // g.selectAll("path")
+  //   .datum(graticule)
+  //   .attr("class", "graticule")
+  //   .attr("d", path);
+
+
   //----------------------------------------
   //draw bottom line of map
-  svg.append("g").selectAll("line")
-  g.selectAll("line")
-    .data([0])
-    .enter().append("line")
-    .attr("class", "line")
-    .style("stroke", "#555")
-    .style("stroke-width", "1.2px")
-    .attr("x1", 80)
-    .attr("y1", 289)
-    .attr("x2", 828)
-    .attr("y2", 289);
+  // svg.append("g").selectAll("line")
+  // g.selectAll("line")
+  //   .data([0])
+  //   .enter().append("line")
+  //   .attr("class", "line")
+  //   .style("stroke", "#555")
+  //   .style("stroke-width", "1.2px")
+  //   .attr("x1", 80)
+  //   .attr("y1", 289)
+  //   .attr("x2", 828)
+  //   .attr("y2", 289);
 
   // //draw top line of map
   // // svg.append("g").selectAll("line")
