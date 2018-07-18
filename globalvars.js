@@ -8,6 +8,24 @@ label_dataPerCap = "per capita";
 label_dataPerGDP = "per GDP";
 
 //------------------------------------------------
+//Map zoom fns
+//https://jsfiddle.net/aftabnack/bs79qn9d/
+function zoomed() {
+  var g = d3.select("#map").select(".mapg");
+  g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
+  g.attr('transform', d3.event.transform) // updated for d3 v4
+}
+
+const zoom = d3.zoom()
+             .on("zoom", zoomed);
+
+function resetMap() {  
+  //NB: must apply reset to svg not g
+  var svg = d3.select("#map").select("svg")
+  zoom.transform(svg, d3.zoomIdentity);
+}
+
+//------------------------------------------------
 //Variables to pass
 //var attrFlag = "methodology"; //attribute to be used to fill barChart bars. Default "none"
 var cityOrder_row1, cityOrder_row2; //save orignal city order

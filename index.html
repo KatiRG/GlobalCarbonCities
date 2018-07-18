@@ -327,9 +327,7 @@ d3.select("select")
 d3.select("#mapResetButton")
     .on("click", resetMap);
 
-function resetMap() {
-  console.log("reset map")
-}
+
 
 
 //barChart buttons
@@ -442,9 +440,11 @@ d3.tsv(fname, function(ghg) {
 
 
 function drawMap() {
-  // Map reset button
+
+  //Map reset button
   // d3.select("#resetButton")
   //     .on("click", resetMap);
+
 
 
   //https://bl.ocks.org/mbostock/3711652
@@ -475,8 +475,11 @@ function drawMap() {
 
   //https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
   //https://bl.ocks.org/lorenzopub/d2d892f4a5393822f846e4f7c20202fc
-  var zoom = d3.zoom()
-             .on("zoom", zoomed);
+  // var zoom = d3.zoom()
+  //            .on("zoom", zoomed);
+  //moved to globalvars.js
+
+  
 
   //NB: appending sphere and graticule onto svg means it won't be zoomed with the
   //countries and cities
@@ -637,24 +640,18 @@ function drawMap() {
     }); // ./inner d3.json
   }); // ./outer d3.json
 
-
-  function zoomed() {
-    console.log("fn zoomed")
-    g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
-    g.attr('transform', d3.event.transform) // updated for d3 v4
-  }
+  //moved to globalvars.js
+  // function zoomed() {
+  //   console.log("fn zoomed")
+  //   g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
+  //   g.attr('transform', d3.event.transform) // updated for d3 v4
+  // }
   svg.call(zoom);
-  
-
-  function resetMap() {
-    svg.transition()
-      .duration(750)
-      .call(zoom.transform, d3.zoomIdentity);
-  } 
-  
 
 
 } // ./drawMap()
+
+
 
 function highlightElements(idName) {
   // console.log("idName: ", idName)
