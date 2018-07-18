@@ -240,8 +240,8 @@ fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardYearLabel", tra
 fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardYear", transx, transy + 4*deltay - 2);
 
 //set up text node for Emissions Change
-fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardChangeLabel", transx, transy + 6*deltay);
-fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardChange", transx, transy + 7*deltay - 2);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardDatasetLabel", transx, transy + 6*deltay);
+fn_setupSVGCityCard(svgCityCard, "cityCardSubrowInfo", "cityCardDataset", transx, transy + 7*deltay - 2);
 
 //setup text node for protocol
 fn_setupSVGCityCard(svgCityCard, "cityCardSubrowTitle", "cityCardProtocolLabel", transx, transy + 9*deltay);
@@ -262,7 +262,7 @@ svgCityCard.select("#cityCardYear")
     .text("map or on the bar charts")
     .style("font-size", "14px");
 
-svgCityCard.select("#cityCardChange")
+svgCityCard.select("#cityCardDataset")
     .text("to display emission value")
     .style("font-size", "14px");
 

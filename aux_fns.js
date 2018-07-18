@@ -20,6 +20,7 @@ function setupData(ghg){
     region = d['Region']
     cityLocation = [ +d['Longitude (others) [degrees]'] -360, +d['Latitude (others) [degrees]']]
     country = d.Country
+    dset = d['Scope-1 source dataset']
     popn = +d['Population (others)']
     area = d['City area (others) [km2]']
     totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
@@ -99,6 +100,7 @@ function setupData(ghg){
       "region": region,
       "cityLocation": cityLocation,
       "total emissions": totalEmissions,
+      "dataset": dset,
       "Population": popn,
       "population density": pop_density,
       "area": area,
@@ -863,11 +865,15 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
     return selectedCityObj["Measurement year"];
   }).style("font-size", "11px");
 
-  //change in emissions
-  var changeText = selectedCityObj["change in emissions"] === "First year of calculation" ?
-      selectedCityObj["change in emissions"] : selectedCityObj["change in emissions"] + " (from Measurement year)";
-  svgCityCard.select("#cityCardChangeLabel").text("Emissions Change:");
-  svgCityCard.select("#cityCardChange").text(function () {
+  //dataset
+  // var changeText = selectedCityObj["change in emissions"] === "First year of calculation" ?
+  //     selectedCityObj["change in emissions"] : selectedCityObj["change in emissions"] + " (from Measurement year)";
+  if (selectedCityObj["dataset"] === "carbonn") changeText = "carbonn Climate Registry";
+  else if (selectedCityObj["dataset"] === "PKU") changeText = "Beijing University";
+  else changeText = selectedCityObj["dataset"];
+
+  svgCityCard.select("#cityCardDatasetLabel").text("Dataset:");
+  svgCityCard.select("#cityCardDataset").text(function () {
     return changeText;
   }).style("font-size", "11px");
 
@@ -880,7 +886,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
 
   //selected attribute
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
-      attrFlag != "Measurement year") { //these attributes already on display
+      attrFlag != "Measurement year" && attrFlag != "none") { //these attributes already on display
     if (attrFlag === "gas price" || attrFlag === "diesel price") {
       attrText = attrFlag + " (national value)"; }
     else attrText = attrFlag;
