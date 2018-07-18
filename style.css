@@ -240,10 +240,10 @@ div.rtooltip {
 }
 
 /* map */
-#sphere {
+/*.sphere {
   padding-top: 0px;
   fill: #F4F7F7;  /* #F2F4F2; #e6f3f7;   //#e6f3f7"); // "#add8e6" //"#fcfcef" */
-}
+/*} */
 /* #map {
   padding-top: 40px;
 } */
@@ -279,15 +279,10 @@ div.rtooltip {
   font-size: 17px;
   fill: #565656;
 }
-#emissionsToggleButton {
+#mapResetButton {
   position: absolute;
-  left: 800px; 
-  top: 0px;
-}
-#reorderButton {
-  position: absolute;
-  left: 750px; 
-  top: 0px;
+  left: 367px; 
+  top: 40px;
 }
 #barChartCaption {
   position: relative;
@@ -349,7 +344,7 @@ div.rtooltip {
   display: none;
 }
 .xAxisCityName {
-  font-size: 16px;
+  font-size: 11px;
   color: #565656;
   opacity: 0.3;
 }
