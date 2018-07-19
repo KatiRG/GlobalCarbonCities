@@ -12,7 +12,8 @@ label_dataPerGDP = "per GDP";
 //https://jsfiddle.net/aftabnack/bs79qn9d/
 function zoomed() {
   var g = d3.select("#map").select(".mapg");
-  g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
+  // g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
+  g.style('stroke-width', '${1.5 / d3.event.transform.k}px')
   g.attr('transform', d3.event.transform) // updated for d3 v4
 }
 
