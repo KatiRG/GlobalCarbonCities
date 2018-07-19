@@ -579,7 +579,7 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
       xtrans = 60; ytrans = -5; rot = -90;
     }
     // else if (d === "Emeryville, CA" || d === "Knoxville") ytrans = -45 + (i*1.3);
-    else ytrans = -85 + (i*1.3);
+    else ytrans = -60 + (i*1.3);
   } else if (thisCityGroup === "bar class_groupEastAsia") {    
 
     if (d === "Incheon" || d === "Kaohsiung" || d === "Yilan" ||
@@ -621,47 +621,6 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
 
   }
-}
-
-function fn_cityLabels_perGDP (d, i, thisCityGroup) {
-  // thisRegion = data_GHG.find(x => x.city.includes(d)).region;  
-
-  if (thisCityGroup === "bar class_groupUSA") {
-    if (d === "Las Vegas") {rot = -90; xtrans = 60; ytrans = -15;}
-    else if (d === "DC") ytrans = -40; //-3 + (i*1.6);
-    else if (d === "Nashville & Davidson") ytrans = -20; //-3 + (i*1.6);
-    //else if (d === "Cleveland") ytrans = -3 + (i*1.6);
-    else ytrans = -36 + (i*1.2);
-  } else if (thisCityGroup === "bar class_groupAsia") {
-    if (d === "Kaohsiung" || d === "Taoyuan") {
-      xtrans = 60; ytrans = -5; rot = -90;
-    }  else if (d === "Taoyuan") {rot = -65; ytrans = -25;}
-    else if (d === "Hong Kong") ytrans = -75;
-    else if (d === "Incheon") ytrans = -35;
-    else ytrans = -75 + (i*1.5);
-
-  } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {          
-      if (d === "Manchester") ytrans = -20;
-      else if (d === "Warsaw" || d === "Rotterdam") ytrans = 0;
-      else ytrans = 20 + (i*0.7);
-
-  } else if (thisCityGroup === "bar class_groupCan") {
-      if (d === "Winnipeg") ytrans = -175 + (i*3.7);
-      else if (d === "Edmonton" || d === "Calgary") ytrans = -185 + (i*4.3);      
-      else ytrans = -170 + (i*4.3);
-
-  } else if (thisCityGroup === "bar class_groupOceania") {
-      if (d === "Auckland") ytrans = -50;
-      else ytrans = -175 + (i*3.9);
-  } else if (thisCityGroup === "bar class_groupLatinAmer") {
-      if (d === "Caracas") {xtrans = 60; ytrans = -5; rot = -90;}
-      else if (d === "Santiago") ytrans = -36;
-      else ytrans = -135 + (i*2.2);
-    
-  } else if (thisCityGroup === "bar class_groupAfrica") {//ytrans = -160 + (i*2.2);
-      // xtrans = 60; ytrans = 15; rot = -90;
-      ytrans = -340 + (i*4.2);
-    }
 }
 
 //...............................
