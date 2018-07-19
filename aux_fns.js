@@ -177,30 +177,7 @@ function resetElements() {
 //----------------------------------------------
 // Functions for map
 //----------------------------------------------
-function highlightCountry(countryName, idName, dataObj)  {
-  console.log('here: ', dataObj.find(x => x.idName.includes(idName)).region )
-  var matchColour = regionColourMap[
-                        dataObj.find(x => x.idName.includes(idName)).region
-                      ];
 
-  if (countryName === "South Africa") {
-      d3.select("#mapSouth Africa")
-        .style("stroke-width", 4)
-        // .style("stroke", matchColour === "#A6D4FF" ? "blue" : matchColour);
-        .style("stroke", "#555");
-  }
-  else {
-    d3.select("#map" + countryName)
-      .style("stroke-width", 4)
-      .style("stroke", "#555")
-      .style("stroke-opacity", 1);
-      // .style("stroke", matchColour === "#A6D4FF" ? "blue" : matchColour);
-
-    // d3.selectAll(".countries")
-    //   .selectAll("path:not(#map" + countryName + ")")
-    //   .style("opacity", 0.3);
-  }
-}
 
 //----------------------------------------------
 // Functions for emissionsBarChart()
