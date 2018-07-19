@@ -32,6 +32,8 @@ var cityOrder_row1, cityOrder_row2; //save orignal city order
 //------------------------------------------------
 //COLOURS
 
+nanColour = "#E6E8E3"; //barChart fill colour for NaN values
+
 //map
 //http://www.colourlovers.com/palette/1072/rainforest
 //http://www.colourlovers.com/palette/659861/Snowy_Pine_Forest
@@ -81,7 +83,7 @@ var choose_colourArray = {
   "change in emissions": ["#53442F","#BABE98","#DBC28F","#BEC3BC","#E6E8E3"],
   "population density": ["#DED8B6","#F9C869","#5D5061","#2F274C","#6A3058"],
   "Population": ["#DED8B6","#F9C869","#5D5061","#875979","#6A3058","#2F274C"],
-  "GDP/capita": ["#E6D8CB","#E394A7","#9e9ac8","#756bb1","#54278f"],
+  "GDP-PPP/capita": ["#E6D8CB","#E394A7","#9e9ac8","#756bb1","#54278f","#3a1b64"],
   "diesel price": ["#F1F2C4","#F2EA72","#fec44f","#CDAF7B","#634414"],
   "gas price": ["#F1F2C4","#F2EA72","#fec44f","#CDAF7B","#634414"],
   "HDD 15.5C": ["#e3dded", "#c8bcdc","#74a9cf","#26ADE4","#034e7b"],
@@ -201,7 +203,7 @@ var dimUnits =  {
   "per GDP": "[kgCO₂eq/USD]",
   "Population": "",
   "population density": "per km2",
-  "GDP/capita": "(PPP) [$BN/capita]",
+  "GDP-PPP/capita": "[$BN/capita]",
   "area": "km2",
   "diesel price": "USD",
   "gas price": "USD",
