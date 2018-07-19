@@ -395,12 +395,11 @@ div.rtooltip {
 
 
  
-    .style("text-transform", "uppercase")
+.style("text-transform", "uppercase")
 
 
-#ghgStory {
-  margin-top: 20px;
-}
+
+
 td, th {
   padding: 1px 4px;
   font-size: 14px;
