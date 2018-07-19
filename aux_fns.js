@@ -21,7 +21,7 @@ function setupData(ghg){
     cityLocation = [ +d['Longitude (others) [degrees]'] -360, +d['Latitude (others) [degrees]']]
     country = d.Country
     dset = d['Scope-1 source dataset']
-    popn = +d['Population (others)']
+    popn = +d['Population (consolidated)']
     area = d['City area (others) [km2]']
     totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
@@ -30,7 +30,7 @@ function setupData(ghg){
     scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
     //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
-    GDP_cap = d["GDP-PPP/capita (others) [USD/capita]"]
+    GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
     pop_density = +d['Population (others)']/d['City area (others) [km2]']
     HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
     CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 

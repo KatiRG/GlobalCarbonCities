@@ -403,7 +403,8 @@ d3.select("#reorderButton")
 
 //Find data range extent for each dim (to be used to discretize into colour values)
 // var fname = "data/d_final_app_343cities.tsv"
-var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
+//var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
+var fname = "data/cityApp_attributes_consolidated_pruned.tsv";
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
     "none": [0,0],
