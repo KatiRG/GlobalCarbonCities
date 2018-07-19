@@ -872,7 +872,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   else if (selectedCityObj["dataset"] === "PKU") changeText = "Beijing University";
   else changeText = selectedCityObj["dataset"];
 
-  svgCityCard.select("#cityCardDatasetLabel").text("Dataset:");
+  svgCityCard.select("#cityCardDatasetLabel").text("Dataset Source:");
   svgCityCard.select("#cityCardDataset").text(function () {
     return changeText;
   }).style("font-size", "11px");
