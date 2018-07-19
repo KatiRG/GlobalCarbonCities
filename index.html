@@ -155,7 +155,18 @@
 
     
     <footer class="row">
-      logos
+      <div class="col-lg-2" id="logo_BNP" style="text-align: center; left:-43px; top:0px;">
+        <a target="_blank" href="https://group.bnpparibas/en/group/bnp-paribas-foundation"><img src="img/BNPParisbasFoundation.jpg" title="BNP Parisbas Foundation" width="75" height="75"/></a> 
+      </div>
+
+      <div class="col-lg-2" id="logo_GCP" style="text-align: center; left:250px; top:20px;"> <!-- ratio 1:2.3 -->
+        <a target="_blank" href="http://www.globalcarbonproject.org/"><img src="img/GCP.png" title="GCP" width="117" height="50"/>
+      </div>
+
+      <div class="col-lg-2" id="logo_CDP" style="text-align: center; left:590px; top:20px;"> <!-- ratio 1:2.8 -->
+        <a target="_blank" href="https://www.cdp.net/en"><img src="img/CDP.png" title="CDP" width="114" height="40"/>
+      </div>
+
     </footer>
 
   </div>  <!-- ./container -->
@@ -269,7 +280,6 @@ svgCityCard.select("#cityCardDataset")
 svgCityCard.select("#cityCardProtocol")
     .text("and related ancillary data.")
     .style("font-size", "14px");
-
 // ----------------------------------------------------
 // Code
 // ----------------------------------------------------
@@ -473,49 +483,7 @@ function drawMap() {
       .attr("width", mapWidth)
       .attr("height", mapHeight);
 
-  //https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
-  //https://bl.ocks.org/lorenzopub/d2d892f4a5393822f846e4f7c20202fc
-  // var zoom = d3.zoom()
-  //            .on("zoom", zoomed);
-  //moved to globalvars.js
-
-  
-
-  //NB: appending sphere and graticule onto svg means it won't be zoomed with the
-  //countries and cities
-  // svg.append("defs").append("path")
-  //   .datum({type: "Sphere"})
-  //   .attr("id", "sphere")
-  //   .attr("d", path);
-
-  // svg.append("use")
-  //   .attr("class", "stroke")
-  //   .attr("xlink:href", "#sphere");
-    
-  // svg.append("path")
-  //   .datum(graticule)
-  //   .attr("class", "graticule")
-  //   .attr("d", path);
-
   var g = svg.append('g');
-
-  //This makes weird shadows in the graticule
-  // g.append("defs")
-  //   // .select("path")
-  //  .append("path")
-  //   .datum({type: "Sphere"})
-  //   .attr("id", "sphere")
-  //   .attr("d", path);
-
-  // g.append("use")
-  //   .attr("class", "stroke")
-  //   .attr("xlink:href", "#sphere");
-    
-  // // // // g.append("path") //this line makes some countries disappear!
-  // g.selectAll("path")
-  //   .datum(graticule)
-  //   .attr("class", "graticule")
-  //   .attr("d", path);
 
   //https://gist.github.com/wboykinm/eb7fe46178c8ec7b3bd2b92218c949a9
   g.append("path")
@@ -529,34 +497,6 @@ function drawMap() {
       .datum(graticule)
       .attr("class", "graticule")
       .attr("d", path);
-
-  //----------------------------------------
-  //draw bottom line of map
-  // svg.append("g").selectAll("line")
-  // g.selectAll("line")
-  //   .data([0])
-  //   .enter().append("line")
-  //   .attr("class", "line")
-  //   .style("stroke", "#555")
-  //   .style("stroke-width", "1.2px")
-  //   .attr("x1", 80)
-  //   .attr("y1", 289)
-  //   .attr("x2", 828)
-  //   .attr("y2", 289);
-
-  // //draw top line of map
-  // // svg.append("g").selectAll("line")
-  // g.selectAll("line")
-  //   .data([0])
-  //   .enter().append("line")
-  //   .attr("class", "line")
-  //   .style("stroke", "#555")
-  //   .style("stroke-width", "1.2px")
-  //   .attr("x1", 301)
-  //   .attr("y1", 0)
-  //   .attr("x2", 970)
-  //   .attr("y2", 0);
-  //----------------------------------------
  
   d3.json("geojson/world_countries.json", function(error, world) {
     if (error) throw error;
@@ -640,14 +580,7 @@ function drawMap() {
     }); // ./inner d3.json
   }); // ./outer d3.json
 
-  //moved to globalvars.js
-  // function zoomed() {
-  //   console.log("fn zoomed")
-  //   g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
-  //   g.attr('transform', d3.event.transform) // updated for d3 v4
-  // }
   svg.call(zoom);
-
 
 } // ./drawMap()
 
@@ -719,7 +652,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                       label_dataPerCap : label_dataPerGDP;
 
   //https://bl.ocks.org/seemantk/ec245e1f4e824e685982dd5d3fbb2fcc
-  var margin = {top: 0, right: 0, bottom: 10, left: 20};
+  var margin = {top: 20, right: 0, bottom: 20, left: 20};
   var width = 700 - margin.left - margin.right,
       height = 250 - margin.top - margin.bottom;
 
@@ -745,7 +678,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     pOuter = 0.05;
     pInner = 0.27; //0.1;
   }
-  // else if (geogroup_name === "groupEUCWLatAmerAfrica") {
+  
   else {
     pOuter = 0.05; //0.05;
     pInner = 0.27;
