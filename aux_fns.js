@@ -811,7 +811,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   svgCityCard.select("#cityCardCountry").text(selectedCityObj["country"]);
 
   //emissions
-  svgCityCard.select("#cityCardEmissionsLabel").text("Scope 1 Emissions:")
+  svgCityCard.select("#cityCardEmissionsLabel").text("Scope-1 Emissions (see defn):")
     .style("text-decoration", "underline")
     .on("touchmove mousemove", function () {d3.select(this).style("cursor", "pointer"); })  
     .on("click", function() { 
@@ -827,15 +827,15 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   }).style("font-size", "11px");
 
   //dataset
-  // var changeText = selectedCityObj["change in emissions"] === "First year of calculation" ?
+  // var datasetText = selectedCityObj["change in emissions"] === "First year of calculation" ?
   //     selectedCityObj["change in emissions"] : selectedCityObj["change in emissions"] + " (from Measurement year)";
-  if (selectedCityObj["dataset"] === "carbonn") changeText = "carbonn Climate Registry";
-  else if (selectedCityObj["dataset"] === "PKU") changeText = "Beijing University";
-  else changeText = selectedCityObj["dataset"];
+  if (selectedCityObj["dataset"] === "carbonn") datasetText = "carbonn Climate Registry";
+  else if (selectedCityObj["dataset"] === "PKU") datasetText = "Beijing University";
+  else datasetText = selectedCityObj["dataset"];
 
   svgCityCard.select("#cityCardDatasetLabel").text("Dataset Source:");
   svgCityCard.select("#cityCardDataset").text(function () {
-    return changeText;
+    return datasetText;
   }).style("font-size", "11px");
 
   //protocol
