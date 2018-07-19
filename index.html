@@ -82,10 +82,11 @@
             <option value="methodology" selected="selected">Protocol</option>
             <option value="Measurement year">Measurement year</option>
             <option value="Population">Population</option>
+            <option value="GDP-PPP/capita">GDP-PPP/capita</option>
             <!--<option value="change in emissions">change in emissions</option>            
             <option value="population density">population density</option>
             <option value="area">area</option>
-            <option value="GDP/capita">GDP/capita</option>
+            
             <option value="diesel price">diesel price</option>
             <option value="gas price">gas price</option>
             <option value="HDD 15.5C">HDD 15.5C</option>
@@ -402,7 +403,8 @@ d3.tsv(fname, function(ghg) {
             //console.log(d['Year of emission'])
             return d['MethodNum']; }),
    "Measurement year": [2005, 2015],
-   "Population": [4000, 8000000]
+   "Population": [4000, 8000000],
+   "GDP-PPP/capita": [5000, 80000]
     // "change in emissions": [1,5],
     // "Population": [1000, 8000000],          
     // "population density": 

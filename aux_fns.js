@@ -30,7 +30,7 @@ function setupData(ghg){
     scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
     //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
-    GDP_cap = d["GDP-PPP (others) [$BN]"]/d["Population (others)"]*Math.pow(10,9)
+    GDP_cap = d["GDP-PPP/capita (others) [USD/capita]"]
     pop_density = +d['Population (others)']/d['City area (others) [km2]']
     HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
     CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
@@ -108,8 +108,8 @@ function setupData(ghg){
       "Measurement year": measurementYear,
       "per capita": scope1_cap,
       "per GDP": scope1_gdp,      
-      "GDP": GDP,
-      "GDP/capita": GDP_cap,
+      "GDP-PPP": GDP,
+      "GDP-PPP/capita": GDP_cap,
       "HDD 15.5C": HDD155C,
       "CDD 23C": CDD23C,
       "diesel price": diesel_price,
@@ -363,7 +363,7 @@ function sortByRegion(region, this_dim) {
 
 function fn_colour_barChart (attrFlag, attrValue) {
   if (attrFlag === "none") return choose_colourArray[attrFlag][0];
-  else if (attrFlag === "methodology") {//integers from 1-5, no mapping needed
+  else if (attrFlag === "methodology") {//integers from 1-6, no mapping needed
     return colour_methodNum[attrValue];
   } else if (attrFlag === "change in emissions") {
     return choose_colourArray[attrFlag][ emissionsChangeDict[attrValue] ];
@@ -373,7 +373,9 @@ function fn_colour_barChart (attrFlag, attrValue) {
 
     //plot missing data in light gray
     if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {return colourmapDim(attrValue);} //zeros are real
-    else {return attrValue === 0 ? "#E6E8E3" : colourmapDim(attrValue);}
+    else if (attrValue === 0) return nanColour;
+    else if (!attrValue) return nanColour;
+    else return colourmapDim(attrValue);
   } 
 }
 function fn_colourmapDim (attrFlag) {
@@ -843,19 +845,24 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
     .text(choose_textArray["methodology"][protocolNum - 1])
     .style("font-size", "11px");
 
-  //selected attribute
+  //selected attribute TITLE
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
       attrFlag != "Measurement year" && attrFlag != "none") { //these attributes already on display
     if (attrFlag === "gas price" || attrFlag === "diesel price") {
-      attrText = attrFlag + " (national value)"; }
+      attrText = attrFlag + " (national value)"; 
+    }
     else attrText = attrFlag;
     svgCityCard.select("#cityCardAttrLabel").text(attrText + ":");
 
-    if (attrFlag === "diesel price" || attrFlag === "gas price") attrValue = selectedCityObj[attrFlag];
-    else attrValue = formatComma(parseInt(selectedCityObj[attrFlag]));
+    //selected attribute VALUE + units
+    if (!selectedCityObj[attrFlag]) attrValue = "N/A";
+    else {
+      if (attrFlag === "diesel price" || attrFlag === "gas price") attrValue = selectedCityObj[attrFlag] + " " + dimUnits[attrFlag];
+      else attrValue = formatComma(parseInt(selectedCityObj[attrFlag])) + " " + dimUnits[attrFlag];
+    }
 
     svgCityCard.select("#cityCardAttr")
-      .text(attrValue + " " + dimUnits[attrFlag]);
+      .text(attrValue);
   }
 
 }
