@@ -23,7 +23,7 @@ function setupData(ghg){
     dset = d['Scope-1 source dataset']
     popn = +d['Population (consolidated)']
     area = d['City area (others) [km2]']
-    totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
+    //totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
     measurementYear = d['Year of emission']
     GDP = d['GDP-PPP (others) [$BN]']
@@ -99,7 +99,7 @@ function setupData(ghg){
       "country": country,
       "region": region,
       "cityLocation": cityLocation,
-      "total emissions": totalEmissions,
+      //"total emissions": totalEmissions,
       "dataset": dset,
       "Population": popn,
       "population density": pop_density,
