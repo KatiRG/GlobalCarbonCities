@@ -651,8 +651,11 @@ function highlightElements(idName) {
     .style("fill-opacity", 0.1)
     .style("stroke-opacity", 0.1);
   
-  //Highlight current country  
-  var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');
+  //Highlight current country
+  //does not work in IE
+  // var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');
+  var thisCountry = data_GHG.filter(function (d) { return d.idName === idName })[0].country.replace(/\s/g, '_');
+  
   d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
 
   d3.select("#city" + idName)
