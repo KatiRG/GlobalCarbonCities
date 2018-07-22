@@ -208,7 +208,9 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     //Special cases that do not fit on scale
     //Reduce bar height and indicate true value graphically on the chart
     if (geogroupArray[idx] === "groupEurope" && this_dim === "per capita") {
-      var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
+      //does not work in IE
+      // var selectedCity = data_GHG.find(x => x.city === "Rotterdam");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "Rotterdam" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapRotterdam === 0) {
