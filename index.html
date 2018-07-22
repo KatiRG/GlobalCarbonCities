@@ -588,7 +588,12 @@ function drawMap() {
 
           })
           .style("stroke", function (d) {
-            if (data_GHG.find(x => x.city === d.id)) return "#555";
+            //does not work in IE
+            // if (data_GHG.find(x => x.city === d.id)) return "#555";
+            var cityMatch = d.id;
+            if (data_GHG.filter(function (d) { return d.city === cityMatch })[0]) {
+              return "#555";
+            }
             else return "none";  
           })
           .on("mouseover", function (d) {
