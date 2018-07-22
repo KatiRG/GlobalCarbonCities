@@ -612,17 +612,17 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
     if (city[idx] === "Rotterdam") {
-      xpair = [-57]; ypair = [-25]; //posn of arrow
+      xpair = [-56]; ypair = [-25]; //posn of arrow
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Quezon") {
-      xpair = [392]; ypair = [-25]; //posn of arrow
+      xpair = [385]; ypair = [-25]; //posn of arrow
       xtext = [65]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } 
     else if (city[0] === "Incheon" && city[1] === "Kaohsiung" && city[2] === "Yilan") {
-      xpair = [-56, -50, -44]; ypair = [-166, -162, -135]; //posn of arrow and text pair
-      xtext = [64, 105, 107]; ytext = [10, 0, 3]; //posn of text
+      xpair = [-56, -50, -44]; ypair = [-150, -135, -110]; //posn of arrow and text pair
+      xtext = [100, 105, 107]; ytext = [-7, 0, 3]; //posn of text
 
       emissionText = [offscaleEmissionsDict[city[0]], 
                       offscaleEmissionsDict[city[1]],  offscaleEmissionsDict[city[2]]];
@@ -685,7 +685,8 @@ function appendArrowSVG(geogroup_id, data, city) {
       .data(data)
       .enter()
       .append('svg:path')
-        .attr('d', function (d, i){          
+        .attr('d', function (d, i){
+          if (d.name=="arrowIncheon") ypath[idx] = 70;   
           return 'M 100,' + 0 + ' V ' + ypath[idx] + ',' + 0 + '';
         })
         .attr('stroke', function(d,i) { return "#565656"; })
