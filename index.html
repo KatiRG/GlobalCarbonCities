@@ -314,6 +314,10 @@ d3.select("select")
   .on("change",function(d){
     attrFlag = d3.select("#d3-dropdown").node().value;
 
+    //clear previous attr label
+    d3.select("#cityCardAttrLabel").text("");
+    d3.select("#cityCardAttr").text("");
+
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
     //                      "barChart_groupEuropeSEAsia"];
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer", 
