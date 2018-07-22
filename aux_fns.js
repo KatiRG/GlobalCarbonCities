@@ -223,8 +223,10 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       selectedCity[label_dataPerCap] = 9.1;
     } 
 
-    else if (geogroupArray[idx] === "groupLatinAmer" && this_dim === "per capita") {     
-      var selectedCity = data_GHG.find(x => x.city === "León");
+    else if (geogroupArray[idx] === "groupLatinAmer" && this_dim === "per capita") {
+      //does not work in IE
+      //var selectedCity = data_GHG.find(x => x.city === "León");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "León" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapLeon === 0) {
@@ -235,8 +237,10 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerCap] = 11;
     } 
-    else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {     
-      var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
+    else if (geogroupArray[idx] === "groupSAsia" && this_dim === "per capita") {
+      //does not work in IE
+      // var selectedCity = data_GHG.find(x => x.city === "Gandhinagar");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "Gandhinagar" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapGandhi === 0) {
@@ -247,8 +251,10 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       selectedCity[label_dataPerCap] = 11;
     } 
 
-    else if (geogroupArray[idx] === "groupSEAsia" && this_dim === "per capita") {     
-      var selectedCity = data_GHG.find(x => x.city === "Quezon");
+    else if (geogroupArray[idx] === "groupSEAsia" && this_dim === "per capita") {
+      //does not work in IE
+      // var selectedCity = data_GHG.find(x => x.city === "Quezon");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "Quezon" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapQuezon === 0) {        
@@ -257,8 +263,10 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       }
       //Assign a smaller value FOR SCALE PURPOSES ONLY
       selectedCity[label_dataPerCap] = 9.1;
-    } else if (geogroupArray[idx] === "groupEastAsia" && this_dim === "per capita") {     
-      var selectedCity = data_GHG.find(x => x.city === "Incheon");
+    } else if (geogroupArray[idx] === "groupEastAsia" && this_dim === "per capita") {
+      //does not work in IE
+      // var selectedCity = data_GHG.find(x => x.city === "Incheon");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "Incheon" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapIncheon === 0) {
@@ -269,7 +277,9 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       selectedCity[label_dataPerCap] = 9.99;
 
       //Kaohsiung
-      var selectedCity = data_GHG.find(x => x.city === "Kaohsiung");
+      //does not work in IE
+      // var selectedCity = data_GHG.find(x => x.city === "Kaohsiung");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "Kaohsiung" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapKaohsiung === 0) {
@@ -280,7 +290,9 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       selectedCity[label_dataPerCap] = 9.99;
 
       //Yilan
-      var selectedCity = data_GHG.find(x => x.city === "Yilan");
+      //does not work in IE
+      // var selectedCity = data_GHG.find(x => x.city === "Yilan");
+      var selectedCity = data_GHG.filter(function (d) { return d.city === "Yilan" })[0];
       
       //Store actual value for later display. Store only once!!!
       if (storeFlagCapYilan === 0) {
