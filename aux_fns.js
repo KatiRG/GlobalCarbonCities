@@ -559,7 +559,7 @@ function fn_enlargeName(geogroup_name, cityName) {
 }
 
 function fn_cityLabels_perCapita (d, i, thisCityGroup) {
-  if (d.includes("Sing")) console.log("!!!!!!!!!!!!!!!!!!!!!! ",d)
+  // if (d.includes("Sing")) console.log("!!!!!!!!!!!!!!!!!!!!!! ",d)
   if (thisCityGroup === "bar class_groupNAmer") {    
     if (d === "Cleveland" || d === "Las Vegas" || d==="Savannah" ||
         d === "Fort Collins" || d === "Hamilton, ON" || d === "Windsor, ON" ||
