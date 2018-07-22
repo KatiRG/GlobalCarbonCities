@@ -4,6 +4,12 @@
  "properties": {
  	"city": "Jerusalem"}, 
  	"id": "Jerusalem"
+ },
+ {"geometry": {"type": "Point", "coordinates": [35.93, 31.95]}, 
+ "type": "Feature", 
+ "properties": {
+ 	"city": "Amman"}, 
+ 	"id": "Amman"
  }
 
 ]}
