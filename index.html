@@ -623,7 +623,7 @@ function highlightElements(idName) {
   //does not work in IE
   // var selectedCity = data_GHG.find(x => x.idName.includes(idName)).city;
    // var selectedCityObj = data_GHG.find(x => x.city === selectedCity);
-  var selectedCity = data_GHG.filter(function (d) { return d.idName.includes(idName) })[0].city;
+  var selectedCity = data_GHG.filter(function (d) { return (d.idName.indexOf(idName) >= 0 ) })[0].city;
   var selectedCityObj = data_GHG.filter(function (d) { return d.city === selectedCity })[0];
  
 
@@ -867,7 +867,8 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .call(d3.axisTop(x))
       .selectAll("text")
         .text(function (d) { 
-          if (d.includes("gap")) return "";
+          // if (d.includes("gap")) return "";
+          if (d.indexOf("gap") >= 0) return "";
           else return fn_abbr(d); 
         })
         .attr("id", function (d) {
@@ -880,7 +881,8 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         .attr("class", "xAxisCityName")
         .attr("transform", function (d, i) {
 
-          if (d.includes("gap")) return "";
+          // if (d.includes("gap")) return "";
+          if (d.indexOf("gap") >= 0) return "";
         
           else {
 
@@ -936,7 +938,8 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   //hide x tick mark for "gap" bar  
   svgBarChart.selectAll("line")
     .style("opacity", function (d) {
-      return d.includes("gap") ? 0 : 1;
+      // return d.includes("gap") ? 0 : 1;
+      return (d.indexOf("gap") >= 0) ? 0 : 1;
     });
 
 
