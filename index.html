@@ -868,10 +868,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .selectAll("text")
         .text(function (d) { 
           if (d.includes("gap")) return "";
-          else if (this_dim === "per GDP" 
-                   // && ! data_GHG.find(x => x.city.includes(d))['per GDP']) {
-                  && ! data_GHG.find(x => x.city === d)['per GDP']) {
-                  return ""; }
           else return fn_abbr(d); 
         })
         .attr("id", function (d) {
@@ -882,7 +878,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         .attr("x", 25)
         .attr("dy", 7)
         .attr("class", "xAxisCityName")
-        .attr("transform", function (d, i) {         
+        .attr("transform", function (d, i) {
 
           if (d.includes("gap")) return "";
         
