@@ -197,7 +197,12 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     ghg_extract = sortByRegion(geogroupArray[idx]);
 
     //Sort by this_dim in descending order
-    ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
+    //This does NOT work in IE
+    //ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
+
+    ghg_extract.sort(function(a, b){
+       return d3.descending(a[this_dim], b[this_dim]);
+    })
 
   //--------------
     //Special cases that do not fit on scale
@@ -302,15 +307,6 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   //--------------  
 
   } //.for
-
-  
-
-  //save cityOrder
-  if (this_dim === "per capita") {
-    if (barChartGroup === "groupEastAsia") cityOrder_row1 = objArray.map(x => x["city"]);
-    else if (barChartGroup === "class_groupNAmer") cityOrder_row2 = objArray.map(x => x["city"]);
-    else if (barChartGroup === "class_groupEuropeSEAsia") cityOrder_row3 = objArray.map(x => x["city"]);
-  }
 
   return objArray;
 }

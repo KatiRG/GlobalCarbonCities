@@ -314,6 +314,11 @@ d3.select("select")
   .on("change",function(d){
     attrFlag = d3.select("#d3-dropdown").node().value;
 
+    //clear previous attr label
+    d3.select("#cityCardAttrLabel").text("");
+    d3.select("#cityCardAttr").text("");
+
+
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
     //                      "barChart_groupEuropeSEAsia"];
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer", 
@@ -569,11 +574,18 @@ function drawMap() {
             //   console.log("find: ", data_GHG.find(x => x.city === d.id))
             // }
 
-            if (data_GHG.find(x => x.city === d.id)) {
-              var r = regionDict[data_GHG.find(x => x.city === d.id).region]
-              return regionColourMap[r];
+            //does not work in IE
+            //if (data_GHG.find(x => x.city === d.id)) {
+              // var r = regionDict[data_GHG.find(x => x.city === d.id).region]
+            //}
+            var cityMatch = d.id;
+            var r = data_GHG.filter(function (d) { return d.city === cityMatch })[0];
+
+            if (r) {              
+              return regionColourMap[regionDict[r.region]];
             }
-            else return "none";
+            else return "none";            
+
           })
           .style("stroke", function (d) {
             if (data_GHG.find(x => x.city === d.id)) return "#555";
