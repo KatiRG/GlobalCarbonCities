@@ -197,7 +197,12 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
     ghg_extract = sortByRegion(geogroupArray[idx]);
 
     //Sort by this_dim in descending order
-    ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
+    //This does NOT work in IE
+    //ghg_extract.sort((a, b) => d3.descending(a[this_dim], b[this_dim]));
+
+    ghg_extract.sort(function(a, b){
+       return d3.descending(a[this_dim], b[this_dim]);
+    })
 
   //--------------
     //Special cases that do not fit on scale
