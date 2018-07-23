@@ -620,7 +620,7 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
     if (city[idx] === "Rotterdam") {
-      xpair = [-52]; ypair = [-25]; //posn of arrow
+      xpair = [-55]; ypair = [-25]; //posn of arrow
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Quezon") {
@@ -639,7 +639,7 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
       xtext = [110]; ytext = [8]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Gandhinagar") {
-      xpair = [200]; ypair = [-25]; //posn of arrow
+      xpair = [192]; ypair = [-25]; //posn of arrow
       xtext = [108]; ytext = [8]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     }
