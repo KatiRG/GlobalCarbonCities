@@ -36,7 +36,7 @@ nanColour = "#E6E8E3"; //barChart fill colour for NaN values
 //http://www.colourlovers.com/palette/1072/rainforest
 //http://www.colourlovers.com/palette/659861/Snowy_Pine_Forest
 var countryColour = "#18471B"; //"#172214"; //#2B292E", #000, "#d9d9d9"
-var countryHighlightColour = "#BEC3BC";//"#718351"; //"#d3d3d3";  "#44522F"; "#718351"
+var countryHighlightColour = "#e70081"; //"#BEC3BC";//"#718351"; //"#d3d3d3";  "#44522F"; "#718351"
 
 //barChart labels + highlight colour
 var colour_labels = "#636363";
