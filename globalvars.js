@@ -86,7 +86,7 @@ var choose_colourArray = {
   "gas price": ["#F1F2C4","#F2EA72","#fec44f","#CDAF7B","#634414"],
   "HDD 15.5C": ["#e3dded", "#c8bcdc","#74a9cf","#26ADE4","#034e7b"],
   "CDD 23C": ["#E1F5C4", "#ffeda0","#F9D423","#FC913A","#FF4E50"],
-  "area": ["#EDDAD0","#D5DED9","#99B2B7","#8DA597","#948C75"],
+  "area": ["#EDDAD0","#D5DED9","#99B2B7","#5b6a6d","#948C75", "#676251"],
   "low BUA (2014)": ["#d7b5d8","#CD7CB7","#885F9A","#B65873","#5F323F"],
   "low BUA % (2014)": ["#d7b5d8","#CD7CB7","#885F9A","#B65873","#5F323F"],
   "low BUA density (2014)": ["#d7b5d8","#CD7CB7","#885F9A","#B65873","#5F323F"],

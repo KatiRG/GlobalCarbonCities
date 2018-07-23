@@ -22,7 +22,7 @@ function setupData(ghg){
     country = d.Country
     dset = d['Scope-1 source dataset']
     popn = +d['Population (consolidated)']
-    area = d['City area (others) [km2]']
+    area = d['city area (consolidated) [km2]']
     //totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
     measurementYear = d['Year of emission']
@@ -510,7 +510,7 @@ function fn_barChartLegend (attrFlag) {
 }
 
 function fn_legendRectTooltip(attrFlag) {
-  //svg crated in fn_barChartLegend()
+  //svg created in fn_barChartLegend()
   var svgCB = d3.select("#barChartLegend").select("svg");
 
   //tooltip for legend rects  
