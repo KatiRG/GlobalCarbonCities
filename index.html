@@ -961,11 +961,22 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
-        .attr("transform", "scale(" + .6 + " " + 1 + ")" 
-                          );
+        .attr("transform", "scale(" + .6 + " " + 1 + ")" );
 
-  // Plot regional avg emissions [tCO2/capita] as a line over each barChart
-  //fn_appendRegionalMeans(svgBarChart, geogroup_name, this_dim, emissions_scaled, x, y);
+  //y-axis label
+  if (geogroup_name === "groupEuropeSEAsia") {
+    svgBarChart.append("text")
+          .attr("text-anchor", "middle")  // centre the text          
+          .attr("class", "ylabelClass")
+          .text("Per capita emissions [tCO₂eq/capita]")
+          .attr("transform", function (d) {
+              var xscale = 0.5, yscale = 1.9;
+              
+              return "scale(" + xscale + " " + yscale + ")" + 
+                "translate(" + (-35) + " " + (-50) + ")rotate(-90)" ;
+            });
+  }
+
 
   //svg arrow for Rotterdam bar only if on emissions/capita view
   if (geogroup_id === "#barChart_groupEastAsia" && 
