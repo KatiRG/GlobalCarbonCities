@@ -544,6 +544,9 @@ function fn_legendRectTooltip(attrFlag) {
 //Enlarge x-axis labels and reset
 function fn_enlargeName(geogroup_name, cityName) {
   idName = format_idName(cityName);
+  //hack for Singapore
+  var var_cityName = cityName; 
+  if (cityName === "Singa") var_cityName = "Singapore";
 
   //Enlarge city label of selected bar
   newSize="14px";
@@ -553,7 +556,7 @@ function fn_enlargeName(geogroup_name, cityName) {
   else if (geogroup_name === "groupAfrica") newSize = "18px";
   else if (geogroup_name === "groupAsia") newSize = "18px";
   
-  d3.select("#tick" + idName).text(cityName)
+  d3.select("#tick" + idName).text(var_cityName)
     .style("font-size", newSize).style("opacity", 1)
     .attr("fill", colour_labelsHighlight);
 }
@@ -584,15 +587,12 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
         d === "Umeå" || d === "Lahti" || d === "Lyon" || d === "Gävle" ||
-        d === "Quezon" || //Singapore
+        d === "Quezon" || d === "Singa" || //Singapore
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
-    } else if (d === "Singa") {
-      xtrans = 60; ytrans = 10; rot = -90;
-    } 
-    else {
-      if (i < 45) ytrans = -60 + (i*1.9);
-      else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
+    } else {
+        if (i < 45) ytrans = -60 + (i*1.9);
+        else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
@@ -791,8 +791,11 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   //show city card
   d3.select("#cityCardg").select("rect").style("opacity", 1);
   
-  //city name
-  svgCityCard.select("#cityCardCity").text(selectedCityObj.city)
+  //city name  
+  var var_cityName = selectedCityObj.city;
+  //hack for Singapore
+  if (selectedCityObj.city === "Singa") var_cityName = "Singapore";
+  svgCityCard.select("#cityCardCity").text(var_cityName)
             .style("font-size", "11px");
 
   //country
