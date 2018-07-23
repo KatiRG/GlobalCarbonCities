@@ -21,16 +21,16 @@ function setupData(ghg){
     cityLocation = [ +d['Longitude (others) [degrees]'] -360, +d['Latitude (others) [degrees]']]
     country = d.Country
     dset = d['Scope-1 source dataset']
-    popn = +d['Population (others)']
+    popn = +d['Population (consolidated)']
     area = d['City area (others) [km2]']
-    totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
+    //totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
     measurementYear = d['Year of emission']
     GDP = d['GDP-PPP (others) [$BN]']
     scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
     //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
-    GDP_cap = d["GDP-PPP/capita (others) [USD/capita]"]
+    GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
     pop_density = +d['Population (others)']/d['City area (others) [km2]']
     HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
     CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
@@ -99,7 +99,7 @@ function setupData(ghg){
       "country": country,
       "region": region,
       "cityLocation": cityLocation,
-      "total emissions": totalEmissions,
+      //"total emissions": totalEmissions,
       "dataset": dset,
       "Population": popn,
       "population density": pop_density,
@@ -544,16 +544,18 @@ function fn_legendRectTooltip(attrFlag) {
 //Enlarge x-axis labels and reset
 function fn_enlargeName(geogroup_name, cityName) {
   idName = format_idName(cityName);
+  //hack for Singapore
+  var var_cityName = cityName; 
+  if (cityName === "Singa") var_cityName = "Singapore";
 
   //Enlarge city label of selected bar
-  newSize="14px";
+  newSize="16px";
   //Need different sizes on account of the vieweBox scale stretching
-  if (geogroup_name === "groupEuropeSEAsia" || geogroup_name === "groupLatinAmer" ||
-      geogroup_name === "groupUSA"|| geogroup_name === "groupOceania" ) newSize = "21px";
-  else if (geogroup_name === "groupAfrica") newSize = "18px";
-  else if (geogroup_name === "groupAsia") newSize = "18px";
+  // if (geogroup_name === "groupEuropeSEAsia" || geogroup_name === "groupLatinAmer" ||
+  //     geogroup_name === "groupUSA"|| geogroup_name === "groupOceania" ) newSize = "16px";
+  // else if (geogroup_name === "groupAfrica") newSize = "18px";
   
-  d3.select("#tick" + idName).text(cityName)
+  d3.select("#tick" + idName).text(var_cityName)
     .style("font-size", newSize).style("opacity", 1)
     .attr("fill", colour_labelsHighlight);
 }
@@ -583,16 +585,13 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
 
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
-        d === "Umeå" || d === "Lahti" || d === "Lyon" || d === "Gävle" ||
-        d === "Quezon" || //Singapore
+        d === "Umeå" || d === "Bristol" || d === "Lyon" || d === "Gävle" ||
+        d === "Warsaw" || d === "Quezon" || d === "Singa" || //Singapore
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
-    } else if (d === "Singa") {
-      xtrans = 60; ytrans = 10; rot = -90;
-    } 
-    else {
-      if (i < 45) ytrans = -60 + (i*1.9);
-      else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
+    } else {
+        if (i < 45) ytrans = -50 + (i*1.9);
+        else ytrans = (-22 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
@@ -622,17 +621,17 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
     if (city[idx] === "Rotterdam") {
-      xpair = [-57]; ypair = [-25]; //posn of arrow
+      xpair = [-56]; ypair = [-25]; //posn of arrow
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Quezon") {
-      xpair = [392]; ypair = [-25]; //posn of arrow
+      xpair = [385]; ypair = [-25]; //posn of arrow
       xtext = [65]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } 
     else if (city[0] === "Incheon" && city[1] === "Kaohsiung" && city[2] === "Yilan") {
-      xpair = [-56, -50, -44]; ypair = [-166, -162, -135]; //posn of arrow and text pair
-      xtext = [64, 105, 107]; ytext = [10, 0, 3]; //posn of text
+      xpair = [-56, -50, -44]; ypair = [-150, -135, -110]; //posn of arrow and text pair
+      xtext = [100, 105, 107]; ytext = [-7, 0, 3]; //posn of text
 
       emissionText = [offscaleEmissionsDict[city[0]], 
                       offscaleEmissionsDict[city[1]],  offscaleEmissionsDict[city[2]]];
@@ -695,7 +694,8 @@ function appendArrowSVG(geogroup_id, data, city) {
       .data(data)
       .enter()
       .append('svg:path')
-        .attr('d', function (d, i){          
+        .attr('d', function (d, i){
+          if (d.name=="arrowIncheon") ypath[idx] = 70;   
           return 'M 100,' + 0 + ' V ' + ypath[idx] + ',' + 0 + '';
         })
         .attr('stroke', function(d,i) { return "#565656"; })
@@ -790,8 +790,11 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   //show city card
   d3.select("#cityCardg").select("rect").style("opacity", 1);
   
-  //city name
-  svgCityCard.select("#cityCardCity").text(selectedCityObj.city)
+  //city name  
+  var var_cityName = selectedCityObj.city;
+  //hack for Singapore
+  if (selectedCityObj.city === "Singa") var_cityName = "Singapore";
+  svgCityCard.select("#cityCardCity").text(var_cityName)
             .style("font-size", "11px");
 
   //country

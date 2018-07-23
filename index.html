@@ -318,7 +318,6 @@ d3.select("select")
     d3.select("#cityCardAttrLabel").text("");
     d3.select("#cityCardAttr").text("");
 
-
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
     //                      "barChart_groupEuropeSEAsia"];
     // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer", 
@@ -408,7 +407,8 @@ d3.select("#reorderButton")
 
 //Find data range extent for each dim (to be used to discretize into colour values)
 // var fname = "data/d_final_app_343cities.tsv"
-var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
+//var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
+var fname = "data/cityApp_attributes_consolidated_pruned.tsv";
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
     "none": [0,0],
@@ -692,15 +692,16 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   if (geogroup_name === "groupEastAsia") {
     geogroupArray = ["groupEastAsia", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap"];
   } else if (geogroup_name === "groupNAmer") {
-    geogroupArray = ["groupNAmer", "gap", "gap", "gap","gap", "gap","gap", "gap","gap", "gap"];
+    geogroupArray = ["groupNAmer", "gap", "gap", "gap","gap", "gap","gap", "gap","gap", "gap","gap","gap"];
   } else if (geogroup_name === "groupEuropeSEAsia") {
-    geogroupArray = ["groupEurope", "gap", "groupSEAsia"];
+    geogroupArray = ["groupEurope", "gap", "gap","gap","gap","gap","gap","gap",
+                    "groupSEAsia","gap","gap","gap","gap","gap","gap"];
   } else if (geogroup_name === "groupSouth") {
-    geogroupArray = ["groupLatinAmer", "gap", "gap", "gap", 
-                     "groupSAsia", "gap", "gap", "gap", 
-                     "groupAfrica", "gap", "gap", "gap","gap", "gap", 
-                     "groupNAfrica", "gap", "gap", "gap", "gap", "gap", 
-                     "groupOceania"];
+    geogroupArray = ["groupLatinAmer", "gap","gap","gap",
+                     "groupSAsia", "gap", "gap","gap",
+                     "groupAfrica", "gap",  "gap","gap","gap","gap",
+                     "groupNAfrica", "gap","gap","gap","gap","gap", 
+                     "groupOceania","gap","gap"];
   }
                     
   emissions_scaled = fn_concat(geogroup_name, geogroupArray, this_dim);
@@ -798,8 +799,9 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   var bars = svgBarChart.append("g").selectAll(".bar")
       .data(emissions_scaled)
       .enter().append("rect")
-      .attr("class", function (d) {//keep track of original geographic group
-        return "bar" + " " + "class_" + geogroup_name; //regionDict[d.region];
+      .attr("class", function (d) {//keep track of original geographic group       
+        var var_class = "bar" + " " + "class_" + geogroup_name;        
+        return  var_class;
       })
       //.attr("class", "bar")
       .attr("id", function (d) {
@@ -816,7 +818,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                             fn_colour_barChart(attrFlag, d[attrFlag]);
   });
 
-  bars.on("touchmove mousemove", function (d) {
+  bars.on("touchmove mousemove", function (d, i) {
         fn_enlargeName(geogroup_name, d.city);
 
         idName = format_idName(d.city);
@@ -839,10 +841,17 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         }
 
         //bar tooltip
+        var count = i + 1; //ranking
+        if (d.region === "Southeast Asia") count = count - 49;
+        else if (d.region === "South Asia") count = count - 32;
+        else if (d.region === "Africa") count = count - 53;
+        else if (d.region === "N Africa & W Asia") count = count - 68;
+        else if (d.region === "Oceania") count = count - 75;
+
         var tipx = 50;
         var tipy = -120;
         div.style("opacity", 1);
-        div.html(fn_abbr(d.city) + ": " + emissionIntensity + " " + dimUnits[this_dim])
+        div.html(count + ": " + fn_abbr(d.city) + ": " + emissionIntensity + " " + dimUnits[this_dim])
           .style("left", d3.event.pageX + tipx + "px")
           .style("top", d3.event.pageY + tipy + "px");
 
