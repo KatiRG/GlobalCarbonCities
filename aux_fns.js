@@ -429,6 +429,7 @@ function fn_barChartLegend (attrFlag) {
     for (idx=0; idx < num_levels; idx++) {
       if (attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
           attrFlag === "Low BUA (2014)" || attrFlag === "High BUA (2014)" ||
+          attrFlag === "Low BUA % (2014)" || attrFlag === "High BUA % (2014)" ||
           attrFlag === "Low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
@@ -437,12 +438,7 @@ function fn_barChartLegend (attrFlag) {
         cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
       } else if (attrFlag === "Diesel price" || attrFlag === "Gas price") {        
         cb_values.push( (dimExtent[0] + idx*delta).toFixed(2) );        
-      }
-      else if (attrFlag === "Low BUA % (2014)" || attrFlag === "High BUA % (2014)") {
-        //delta = Math.round(delta);
-        cb_values.push( 20 + idx*20 );
-      }
-      else {
+      } else {
         delta = Math.round(delta/1000)*1000;
         console.log("attrFlag here: ", attrFlag)
         console.log("delta: ", delta)
@@ -474,12 +470,11 @@ function fn_barChartLegend (attrFlag) {
       } else {
         console.log("cb_values format: ", cb_values[j] )
 
-        if (attrFlag === "Diesel price" || attrFlag === "Gas price" || attrFlag === "Measurement year") {
+        if (attrFlag === "Diesel price" || attrFlag === "Gas price" || 
+            attrFlag === "Measurement year" || attrFlag === "Low BUA % (2014)" ||
+            attrFlag === "High BUA % (2014)") {
           firstValue = cb_values[1];
           nextValues = cb_values[j];
-        } else if (attrFlag === "Low BUA % (2014)" || attrFlag === "High BUA % (2014)") {
-          firstValue = 20;
-          nextValues = cb_values[j-1];
         } else {
           firstValue = formatDecimalk(cb_values[1]);
           nextValues = formatDecimalk(cb_values[j]);
