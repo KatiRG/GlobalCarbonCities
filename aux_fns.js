@@ -31,7 +31,7 @@ function setupData(ghg){
     //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
     GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
-    pop_density = +d['Population (others)']/d['City area (others) [km2]']
+    pop_density = d['Population density (consolidated) [pop/km2]']
     HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
     CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
     diesel_price = d["Diesel price 2014 (others) [USD/liter]"]
@@ -102,7 +102,7 @@ function setupData(ghg){
       //"total emissions": totalEmissions,
       "dataset": dset,
       "Population": popn,
-      "population density": pop_density,
+      "Population density": pop_density,
       "area": area,
       "Scope1": scope1,
       "Measurement year": measurementYear,
