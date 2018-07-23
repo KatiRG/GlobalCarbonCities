@@ -637,11 +637,11 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
                       offscaleEmissionsDict[city[1]],  offscaleEmissionsDict[city[2]]];
     } else if (city[idx] === "León") {
       xpair = [-56]; ypair = [-25]; //posn of arrow
-      xtext = [70]; ytext = [10]; //posn of text
+      xtext = [110]; ytext = [8]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Gandhinagar") {
       xpair = [200]; ypair = [-25]; //posn of arrow
-      xtext = [65]; ytext = [10]; //posn of text
+      xtext = [108]; ytext = [8]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     }
 
