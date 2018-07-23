@@ -621,11 +621,11 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
     if (city[idx] === "Rotterdam") {
-      xpair = [-56]; ypair = [-25]; //posn of arrow
+      xpair = [-52]; ypair = [-25]; //posn of arrow
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Quezon") {
-      xpair = [385]; ypair = [-25]; //posn of arrow
+      xpair = [380]; ypair = [-25]; //posn of arrow
       xtext = [65]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } 
