@@ -767,20 +767,7 @@ function fn_svgHeadings (geogroup_id) {
                 "translate(" + svgTrans[idx][0] + " " + svgTrans[idx][1] + ")" ;
         });
   }
-
-  //try
-  // svgTitle.append("svg")
-  //         .attr('width', 100)
-  //         .attr('height', 100)
-  //          .append("text")
-  //          .text("TEST VALUE AAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-  //          .attr("class", "testClass")
-  //          .attr("transform", function (d) {
-  //             var xscale = 0.5, yscale = 1.9;
-              
-  //             return "scale(" + xscale + " " + yscale + ")" + 
-  //               "translate(" + (15) + " " + (100) + ")rotate(-90)" ;
-  //           });
+ 
 }
 
 //----------------------------------------------
