@@ -23,12 +23,10 @@ function setupData(ghg){
     dset = d['Scope-1 source dataset']
     popn = +d['Population (consolidated)']
     area = d['city area (consolidated) [km2]']
-    //totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
     measurementYear = d['Year of emission']
     GDP = d['GDP-PPP (others) [$BN]']
     scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
-    //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
     GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
     pop_density = d['Population density (consolidated) [pop/km2]']
@@ -52,7 +50,7 @@ function setupData(ghg){
     high_BUA_2014 = +d['High BUA - 2014 (UEX) [km2]']    
     //low_BUApc_1990 = +d['Low BUA % - 1990 (UEX) [percent]']*100
     //low_BUApc_2000 = +d['Low BUA % - 2000 (UEX) [percent]']
-    low_BUApc_2014 = +d['Low BUA % - 2014 (UEX) [percent]']
+    low_BUApc_2014 = +d['Low BUA % - 2014 (UEX) [percent]']*100
     //high_BUApc_1990 = +d['High BUA % - 1990 (UEX) [percent]']*100
     //high_BUApc_2000 = +d['High BUA % - 2000 (UEX) [percent]']*100
     high_BUApc_2014 = +d['High BUA % - 2014 (UEX) [percent]']*100
@@ -119,12 +117,12 @@ function setupData(ghg){
       "methodology details": methodology_details,
       "change in emissions": delta_emissions,
       "reason for change": delta_emissions_reason,
-      "low BUA (2014)": low_BUA_2014,
-      "low BUA % (2014)": low_BUApc_2014,
-      "high BUA (2014)": high_BUA_2014,     
-      "high BUA % (2014)": high_BUApc_2014,
-      "low BUA density (2014)": low_BUA_pdensity_2014,
-      "high BUA density (2014)": high_BUA_pdensity_2014,
+      "Low BUA (2014)": low_BUA_2014,
+      "Low BUA % (2014)": low_BUApc_2014,
+      "High BUA (2014)": high_BUA_2014,     
+      "High BUA % (2014)": high_BUApc_2014,
+      "Low BUA density (2014)": low_BUA_pdensity_2014,
+      "High BUA density (2014)": high_BUA_pdensity_2014,
       "Avg congestion rate [%] (INRIX)": inrix_congestion,
       "congestion level (INRIX)": inrix_idx,
       "Peak hours spent in congestion (INRIX)": inrix_hours,
@@ -430,8 +428,8 @@ function fn_barChartLegend (attrFlag) {
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
       if (attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
-          attrFlag === "low BUA (2014)" || attrFlag === "high BUA (2014)" ||
-          attrFlag === "low BUA density (2014)" || attrFlag === "Measurement year" ||
+          attrFlag === "Low BUA (2014)" || attrFlag === "High BUA (2014)" ||
+          attrFlag === "Low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
         console.log('idx: ', idx)
@@ -440,7 +438,7 @@ function fn_barChartLegend (attrFlag) {
       } else if (attrFlag === "Diesel price" || attrFlag === "Gas price") {        
         cb_values.push( (dimExtent[0] + idx*delta).toFixed(2) );        
       }
-      else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
+      else if (attrFlag === "Low BUA % (2014)" || attrFlag === "High BUA % (2014)") {
         //delta = Math.round(delta);
         cb_values.push( 20 + idx*20 );
       }
@@ -479,7 +477,7 @@ function fn_barChartLegend (attrFlag) {
         if (attrFlag === "Diesel price" || attrFlag === "Gas price" || attrFlag === "Measurement year") {
           firstValue = cb_values[1];
           nextValues = cb_values[j];
-        } else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
+        } else if (attrFlag === "Low BUA % (2014)" || attrFlag === "High BUA % (2014)") {
           firstValue = 20;
           nextValues = cb_values[j-1];
         } else {
@@ -501,8 +499,8 @@ function fn_barChartLegend (attrFlag) {
       else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281,333];
       else if (attrFlag === "Diesel price" || 
                attrFlag === "Gas price") xpos = [4,83,163,244,323,405,481];
-      else if (attrFlag === "low BUA % (2014)" ||
-               attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295,333];
+      else if (attrFlag === "Low BUA % (2014)" ||
+               attrFlag === "High BUA % (2014)") xpos = [13,94,173,254,333,407];
       else xpos = [3,82,162,241,321,403]; 
       return xpos[i];
     })
