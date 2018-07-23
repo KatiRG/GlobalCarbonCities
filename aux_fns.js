@@ -593,9 +593,11 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
-    if (d === "León" || d === "Toluca" || d === "Gandhinagar" ||
+    if (d === "León" || d === "Toluca" || d === "Gandhinagar" || d === "Surat" ||
+        d === "Coimbatore" ||
         d === "Windhoek" || d === "eThekwini" || d === "Ekurhuleni" ||
         d === "Nelson Mandela" || d === "Buffalo City" || d === "Izmir" ||
+        d === "Jerusalem" ||
         d === "Auckland" || d === "Melbourne" || d === "Canberra" ) {
       xtrans = 60; ytrans = 10; rot = -90;
     }
@@ -603,7 +605,7 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
       if (i < 32) ytrans = -15 + (i*1.5); //Latin Amer & Carribbean
       else if (i > 32 && i < 53) ytrans = -55 + (i*1.5); //South Asia
       else if (i > 53 && i < 68) ytrans = -25 + (i-53)*5; //Africa
-      else if (i > 68 && i < 76) ytrans = -1 + (i-68)*5; //N Africa & W Asia
+      else if (i > 68 && i < 76) ytrans = 10 + (i-68)*5; //N Africa & W Asia
       else ytrans = -5 + (i-76)*8; //Oceania
     }
 
