@@ -5,12 +5,12 @@
   <meta http-equiv="content-language" content="ja">
   <title>cityEmissions</title>
 
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="lib/d3.v4.min.js"></script>
   <script src="lib/d3-tip.js"></script>
   
-  <script src="https://d3js.org/d3-array.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="lib/d3-array.v1.min.js"></script>
+  <script src="lib/d3-geo.v1.min.js"></script>
+  <script src="lib/d3-geo-projection.v2.min.js"></script>
 
   <!--https://bl.ocks.org/mbostock/3711652-->
   <script src="lib/topojson.v1.min.js"></script>
@@ -92,6 +92,7 @@
             <option value="Measurement year">Measurement year</option>
             <option value="Population">Population</option>
             <option value="GDP-PPP/capita">GDP-PPP/capita</option>
+            <option value="area">area</option>
             <!--<option value="change in emissions">change in emissions</option>            
             <option value="population density">population density</option>
             <option value="area">area</option>
@@ -312,7 +313,7 @@ var attrFlag = d3.select("#d3-dropdown").node().value;
 
 d3.select("select")
   .on("change",function(d){
-    attrFlag = d3.select("#d3-dropdown").node().value;
+    attrFlag = d3.select("#d3-dropdown").node().value;    
 
     //clear previous attr label
     d3.select("#cityCardAttrLabel").text("");
@@ -418,7 +419,8 @@ d3.tsv(fname, function(ghg) {
             return d['MethodNum']; }),
    "Measurement year": [2005, 2015],
    "Population": [4000, 8000000],
-   "GDP-PPP/capita": [5000, 80000]
+   "GDP-PPP/capita": [5000, 80000],
+   "area": [10, 5000]
     // "change in emissions": [1,5],
     // "Population": [1000, 8000000],          
     // "population density": 
