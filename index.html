@@ -5,12 +5,12 @@
   <meta http-equiv="content-language" content="ja">
   <title>cityEmissions</title>
 
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="lib/d3.v4.min.js"></script>
   <script src="lib/d3-tip.js"></script>
   
-  <script src="https://d3js.org/d3-array.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="lib/d3-array.v1.min.js"></script>
+  <script src="lib/d3-geo.v1.min.js"></script>
+  <script src="lib/d3-geo-projection.v2.min.js"></script>
 
   <!--https://bl.ocks.org/mbostock/3711652-->
   <script src="lib/topojson.v1.min.js"></script>
@@ -92,19 +92,25 @@
             <option value="Measurement year">Measurement year</option>
             <option value="Population">Population</option>
             <option value="GDP-PPP/capita">GDP-PPP/capita</option>
+            <option value="area">Area</option>
+            <option value="Population density">Population density</option>
+            <option value="Diesel price">Diesel price</option>
+            <option value="Gas price">Gas price</option>
+            <option value="HDD 15.5C">HDD 15.5C</option>
+            <option value="CDD 23C">CDD 23C</option>
+            <option value="Low BUA % (2014)">Low BUA % (2014)</option>
+            <option value="High BUA % (2014)">High BUA % (2014)</option>
             <!--<option value="change in emissions">change in emissions</option>            
             <option value="population density">population density</option>
             <option value="area">area</option>
             
-            <option value="diesel price">diesel price</option>
-            <option value="gas price">gas price</option>
-            <option value="HDD 15.5C">HDD 15.5C</option>
-            <option value="CDD 23C">CDD 23C</option>
+            
+           
             <option value="low BUA (2014)">low BUA (2014)</option>
             <option value="low BUA % (2014)">low BUA % (2014)</option>
             <option value="low BUA density (2014)">low BUA density (2014)</option>
             <option value="high BUA (2014)">high BUA (2014)</option>
-            <option value="high BUA % (2014)">high BUA % (2014)</option>
+            
             <option value="high BUA density (2014)">high BUA density (2014)</option>
             <option value="Congestion rank (INRIX)">Congestion rank (INRIX)</option>
             <option value="World Rank (TomTom)">World Rank (TomTom)</option>
@@ -312,7 +318,7 @@ var attrFlag = d3.select("#d3-dropdown").node().value;
 
 d3.select("select")
   .on("change",function(d){
-    attrFlag = d3.select("#d3-dropdown").node().value;
+    attrFlag = d3.select("#d3-dropdown").node().value;    
 
     //clear previous attr label
     d3.select("#cityCardAttrLabel").text("");
@@ -418,7 +424,11 @@ d3.tsv(fname, function(ghg) {
             return d['MethodNum']; }),
    "Measurement year": [2005, 2015],
    "Population": [4000, 8000000],
-   "GDP-PPP/capita": [5000, 80000]
+   "GDP-PPP/capita": [5000, 80000],
+   "area": [10, 5000], "Population density": [100, 30000],
+   "Diesel price": [0.05, 2.1], "Gas price": [0.05, 2.1],
+   "HDD 15.5C": [0, 3000], "CDD 23C": [0, 3000],
+   "High BUA % (2014)": [0, 90], "Low BUA % (2014)": [0, 90]
     // "change in emissions": [1,5],
     // "Population": [1000, 8000000],          
     // "population density": 
@@ -426,10 +436,7 @@ d3.tsv(fname, function(ghg) {
     // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
     // 
     // "GDP/capita": [1700, 128046],
-    // "diesel price": [0.5, 1.8],
-    // "gas price": [0.5, 1.8],
-    // "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB
-    // "area": [0, 2000], 
+    //     
     // "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
     // "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
     // "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
@@ -692,12 +699,12 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   if (geogroup_name === "groupEastAsia") {
     geogroupArray = ["groupEastAsia", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap", "gap"];
   } else if (geogroup_name === "groupNAmer") {
-    geogroupArray = ["groupNAmer", "gap", "gap", "gap","gap", "gap","gap", "gap","gap", "gap","gap","gap"];
+    geogroupArray = ["groupNAmer", "gap", "gap", "gap","gap", "gap","gap", "gap","gap","gap"];
   } else if (geogroup_name === "groupEuropeSEAsia") {
-    geogroupArray = ["groupEurope", "gap", "gap","gap","gap","gap","gap","gap",
+    geogroupArray = ["groupEurope", "gap", "gap","gap","gap","gap","gap","gap","gap","gap",
                     "groupSEAsia","gap","gap","gap","gap","gap","gap"];
   } else if (geogroup_name === "groupSouth") {
-    geogroupArray = ["groupLatinAmer", "gap","gap","gap",
+    geogroupArray = ["groupLatinAmer", "gap",
                      "groupSAsia", "gap", "gap","gap",
                      "groupAfrica", "gap",  "gap","gap","gap","gap",
                      "groupNAfrica", "gap","gap","gap","gap","gap", 
@@ -813,7 +820,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .attr("y", function (d, i) { return y(d[this_dim]); })
       .attr("height", function(d) { return height - y(d[this_dim]); });
 
-  bars.attr("fill", function (d) {
+  bars.attr("fill", function (d) {    
     return (attrFlag === "none") ? choose_colourArray[attrFlag][0] :
                             fn_colour_barChart(attrFlag, d[attrFlag]);
   });
@@ -959,13 +966,25 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       //.call(d3.axisRight(y).ticks(5))     
       .selectAll("text")  
         .style("text-anchor", "end")
-        .attr("dx", "-.8em")
+        .attr("dx", "-.9em")
         .attr("dy", ".15em")
-        .attr("transform", "scale(" + .6 + " " + 1 + ")" 
-                          );
+        .attr("transform", "scale(" + .7 + " " + 1.3 + ")" );
+        // .attr("class", "ylabelClass");
 
-  // Plot regional avg emissions [tCO2/capita] as a line over each barChart
-  //fn_appendRegionalMeans(svgBarChart, geogroup_name, this_dim, emissions_scaled, x, y);
+  //y-axis label
+  if (geogroup_name === "groupEuropeSEAsia") {
+    svgBarChart.append("text")
+          .attr("text-anchor", "middle")  // centre the text          
+          .attr("class", "ylabelClass")
+          .text("Per capita emissions [tCO₂eq/capita]")
+          .attr("transform", function (d) {
+              var xscale = 0.5, yscale = 1.9;
+              
+              return "scale(" + xscale + " " + yscale + ")" + 
+                "translate(" + (-35) + " " + (-50) + ")rotate(-90)" ;
+            });
+  }
+
 
   //svg arrow for Rotterdam bar only if on emissions/capita view
   if (geogroup_id === "#barChart_groupEastAsia" && 

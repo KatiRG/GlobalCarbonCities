@@ -22,20 +22,18 @@ function setupData(ghg){
     country = d.Country
     dset = d['Scope-1 source dataset']
     popn = +d['Population (consolidated)']
-    area = d['City area (others) [km2]']
-    //totalEmissions = d['Total emissions (CDP) [tCO2-eq]'] 
+    area = d['city area (consolidated) [km2]']
     scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
     measurementYear = d['Year of emission']
     GDP = d['GDP-PPP (others) [$BN]']
     scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
-    //scope1_cap = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/+d['Population (others)']
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
     GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
-    pop_density = +d['Population (others)']/d['City area (others) [km2]']
-    HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
-    CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
-    diesel_price = d["Diesel price 2014 (others) [USD/liter]"]
-    gas_price = +d["Gasoline price (GEA+) [USD/liter]"]
+    pop_density = d['Population density (consolidated) [pop/km2]']
+    HDD155C = +d["HDD 15.5C (clim)"] 
+    CDD23C = +d["CDD 23C (clim)"] 
+    diesel_price = +d["Diesel price 2014 (others) [USD/liter]"]
+    gas_price = +d["Gasoline price 2014 (others) [USD/liter]"]
     HH = +d["Household size (others) [people/household]"]
     methodology_num = +d['MethodNum'] //1-6 for 6 protocols in total
     methodology_details = d['Methodology details (CDP)']
@@ -52,7 +50,7 @@ function setupData(ghg){
     high_BUA_2014 = +d['High BUA - 2014 (UEX) [km2]']    
     //low_BUApc_1990 = +d['Low BUA % - 1990 (UEX) [percent]']*100
     //low_BUApc_2000 = +d['Low BUA % - 2000 (UEX) [percent]']
-    low_BUApc_2014 = +d['Low BUA % - 2014 (UEX) [percent]']
+    low_BUApc_2014 = +d['Low BUA % - 2014 (UEX) [percent]']*100
     //high_BUApc_1990 = +d['High BUA % - 1990 (UEX) [percent]']*100
     //high_BUApc_2000 = +d['High BUA % - 2000 (UEX) [percent]']*100
     high_BUApc_2014 = +d['High BUA % - 2014 (UEX) [percent]']*100
@@ -102,7 +100,7 @@ function setupData(ghg){
       //"total emissions": totalEmissions,
       "dataset": dset,
       "Population": popn,
-      "population density": pop_density,
+      "Population density": pop_density,
       "area": area,
       "Scope1": scope1,
       "Measurement year": measurementYear,
@@ -112,19 +110,19 @@ function setupData(ghg){
       "GDP-PPP/capita": GDP_cap,
       "HDD 15.5C": HDD155C,
       "CDD 23C": CDD23C,
-      "diesel price": diesel_price,
-      "gas price": gas_price,
+      "Diesel price": diesel_price,
+      "Gas price": gas_price,
       "household size": HH,
       "methodology": methodology_num,
       "methodology details": methodology_details,
       "change in emissions": delta_emissions,
       "reason for change": delta_emissions_reason,
-      "low BUA (2014)": low_BUA_2014,
-      "low BUA % (2014)": low_BUApc_2014,
-      "high BUA (2014)": high_BUA_2014,     
-      "high BUA % (2014)": high_BUApc_2014,
-      "low BUA density (2014)": low_BUA_pdensity_2014,
-      "high BUA density (2014)": high_BUA_pdensity_2014,
+      "Low BUA (2014)": low_BUA_2014,
+      "Low BUA % (2014)": low_BUApc_2014,
+      "High BUA (2014)": high_BUA_2014,     
+      "High BUA % (2014)": high_BUApc_2014,
+      "Low BUA density (2014)": low_BUA_pdensity_2014,
+      "High BUA density (2014)": high_BUA_pdensity_2014,
       "Avg congestion rate [%] (INRIX)": inrix_congestion,
       "congestion level (INRIX)": inrix_idx,
       "Peak hours spent in congestion (INRIX)": inrix_hours,
@@ -359,7 +357,10 @@ function fn_colour_barChart (attrFlag, attrValue) {
     colourmapDim = fn_colourmapDim(attrFlag);
 
     //plot missing data in light gray
-    if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {return colourmapDim(attrValue);} //zeros are real
+    if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {
+      console.log("attrValue: ", attrValue)
+      console.log("cmap: ", colourmapDim(attrValue))
+      return colourmapDim(attrValue);} //zeros are real
     else if (attrValue === 0) return nanColour;
     else if (!attrValue) return nanColour;
     else return colourmapDim(attrValue);
@@ -426,21 +427,18 @@ function fn_barChartLegend (attrFlag) {
 
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
-      if (attrFlag === "diesel price" || attrFlag === "gas price" ||
-          attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
-          attrFlag === "low BUA (2014)" || attrFlag === "high BUA (2014)" ||
-          attrFlag === "low BUA density (2014)" || attrFlag === "Measurement year" ||
+      if (attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
+          attrFlag === "Low BUA (2014)" || attrFlag === "High BUA (2014)" ||
+          attrFlag === "Low BUA % (2014)" || attrFlag === "High BUA % (2014)" ||
+          attrFlag === "Low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
         console.log('idx: ', idx)
         console.log('idx*delta: ', dimExtent[0] + idx*delta)
         cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
-      }
-      else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
-        //delta = Math.round(delta);
-        cb_values.push( 20 + idx*20 );
-      }
-      else {
+      } else if (attrFlag === "Diesel price" || attrFlag === "Gas price") {        
+        cb_values.push( (dimExtent[0] + idx*delta).toFixed(2) );        
+      } else {
         delta = Math.round(delta/1000)*1000;
         console.log("attrFlag here: ", attrFlag)
         console.log("delta: ", delta)
@@ -472,12 +470,11 @@ function fn_barChartLegend (attrFlag) {
       } else {
         console.log("cb_values format: ", cb_values[j] )
 
-        if (attrFlag === "diesel price" || attrFlag === "gas price" || attrFlag === "Measurement year") {
+        if (attrFlag === "Diesel price" || attrFlag === "Gas price" || 
+            attrFlag === "Measurement year" || attrFlag === "Low BUA % (2014)" ||
+            attrFlag === "High BUA % (2014)") {
           firstValue = cb_values[1];
           nextValues = cb_values[j];
-        } else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
-          firstValue = 20;
-          nextValues = cb_values[j-1];
         } else {
           firstValue = formatDecimalk(cb_values[1]);
           nextValues = formatDecimalk(cb_values[j]);
@@ -495,10 +492,10 @@ function fn_barChartLegend (attrFlag) {
       else if (attrFlag === "Population") xpos = [2,81,161,241,321,402];
       else if (attrFlag === "population density") xpos = [4,75,147,217,288,333];
       else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281,333];
-      else if (attrFlag === "diesel price" || 
-               attrFlag === "gas price") xpos = [4,75,145,215,285,333];
-      else if (attrFlag === "low BUA % (2014)" ||
-               attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295,333];
+      else if (attrFlag === "Diesel price" || 
+               attrFlag === "Gas price") xpos = [4,83,163,244,323,405,481];
+      else if (attrFlag === "Low BUA % (2014)" ||
+               attrFlag === "High BUA % (2014)") xpos = [13,94,173,254,333,407];
       else xpos = [3,82,162,241,321,403]; 
       return xpos[i];
     })
@@ -510,7 +507,7 @@ function fn_barChartLegend (attrFlag) {
 }
 
 function fn_legendRectTooltip(attrFlag) {
-  //svg crated in fn_barChartLegend()
+  //svg created in fn_barChartLegend()
   var svgCB = d3.select("#barChartLegend").select("svg");
 
   //tooltip for legend rects  
@@ -570,7 +567,7 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
       xtrans = 60; ytrans = -5; rot = -90;
     }
     // else if (d === "Emeryville, CA" || d === "Knoxville") ytrans = -45 + (i*1.3);
-    else ytrans = -60 + (i*1.3);
+    else ytrans = -30 + (i*0.7);
   } else if (thisCityGroup === "bar class_groupEastAsia") {    
 
     if (d === "Incheon" || d === "Kaohsiung" || d === "Yilan" ||
@@ -586,26 +583,30 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
         d === "Umeå" || d === "Bristol" || d === "Lyon" || d === "Gävle" ||
-        d === "Warsaw" || d === "Quezon" || d === "Singa" || //Singapore
+        d === "Warsaw" || d === "Quezon" || d === "Santa Rosa" || 
+        d === "Hat Yai" || d === "Singa" || //Singapore
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
     } else {
-        if (i < 45) ytrans = -50 + (i*1.9);
-        else ytrans = (-22 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
+        if (i < 45) ytrans = -50 + (i*1.9); //Europe
+        else ytrans = (-22 + ((i-45)*2)) * 25/(i-45) //SE Asia
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
-    if (d === "León" || d === "Toluca" || d === "Gandhinagar" ||
-        d === "Windhoek" || d === "eThekwini" || d === "Izmir" ||
-        d === "Auckland") {
-      xtrans = 60; ytrans = 0; rot = -90;
+    if (d === "León" || d === "Toluca" || d === "Gandhinagar" || d === "Surat" ||
+        d === "Coimbatore" ||
+        d === "Windhoek" || d === "eThekwini" || d === "Ekurhuleni" ||
+        d === "Nelson Mandela" || d === "Buffalo City" || d === "Izmir" ||
+        d === "Jerusalem" ||
+        d === "Auckland" || d === "Melbourne" || d === "Canberra" ) {
+      xtrans = 60; ytrans = 10; rot = -90;
     }
     else {
-      if (i < 32) ytrans = -15 + (i*1.5);
-      else if (i > 32 && i < 53) ytrans = -55 + (i*1.5);
-      else if (i > 53 && i < 68) ytrans = -40 + (i-53)*5; //(-10 + ((i-53)*1.0)) * 8/(i-53);
-      else if (i > 68 && i < 76) ytrans = -1 + (i-68)*5;
-      else ytrans = -40 + (i-76)*8;
+      if (i < 32) ytrans = -15 + (i*1.5); //Latin Amer & Carribbean
+      else if (i > 32 && i < 53) ytrans = -55 + (i*1.5); //South Asia
+      else if (i > 53 && i < 68) ytrans = -25 + (i-53)*5; //Africa
+      else if (i > 68 && i < 76) ytrans = 10 + (i-68)*5; //N Africa & W Asia
+      else ytrans = -5 + (i-76)*8; //Oceania
     }
 
   }
@@ -621,7 +622,7 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
   var data = [];
   for (idx = 0; idx < city.length; idx++) {    
     if (city[idx] === "Rotterdam") {
-      xpair = [-56]; ypair = [-25]; //posn of arrow
+      xpair = [-55]; ypair = [-25]; //posn of arrow
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Quezon") {
@@ -637,11 +638,11 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
                       offscaleEmissionsDict[city[1]],  offscaleEmissionsDict[city[2]]];
     } else if (city[idx] === "León") {
       xpair = [-56]; ypair = [-25]; //posn of arrow
-      xtext = [70]; ytext = [10]; //posn of text
+      xtext = [110]; ytext = [8]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Gandhinagar") {
-      xpair = [200]; ypair = [-25]; //posn of arrow
-      xtext = [65]; ytext = [10]; //posn of text
+      xpair = [192]; ypair = [-25]; //posn of arrow
+      xtext = [108]; ytext = [8]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     }
 
@@ -767,6 +768,7 @@ function fn_svgHeadings (geogroup_id) {
                 "translate(" + svgTrans[idx][0] + " " + svgTrans[idx][1] + ")" ;
         });
   }
+ 
 }
 
 //----------------------------------------------
@@ -838,7 +840,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   //selected attribute TITLE
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
       attrFlag != "Measurement year" && attrFlag != "none") { //these attributes already on display
-    if (attrFlag === "gas price" || attrFlag === "diesel price") {
+    if (attrFlag === "Gas price" || attrFlag === "Diesel price") {
       attrText = attrFlag + " (national value)"; 
     }
     else attrText = attrFlag;
@@ -847,7 +849,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
     //selected attribute VALUE + units
     if (!selectedCityObj[attrFlag]) attrValue = "N/A";
     else {
-      if (attrFlag === "diesel price" || attrFlag === "gas price") attrValue = selectedCityObj[attrFlag] + " " + dimUnits[attrFlag];
+      if (attrFlag === "Diesel price" || attrFlag === "Gas price") attrValue = selectedCityObj[attrFlag] + " " + dimUnits[attrFlag];
       else attrValue = formatComma(parseInt(selectedCityObj[attrFlag])) + " " + dimUnits[attrFlag];
     }
 

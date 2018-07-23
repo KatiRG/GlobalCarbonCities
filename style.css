@@ -279,6 +279,10 @@ div.rtooltip {
   font-size: 17px;
   fill: #565656;
 }
+.ylabelClass {
+  font-size: 17px;
+  fill: #565656;
+}
 #mapResetButton {
   position: absolute;
   left: 367px; 
