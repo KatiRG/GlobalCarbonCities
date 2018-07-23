@@ -32,8 +32,8 @@ function setupData(ghg){
     scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
     GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
     pop_density = d['Population density (consolidated) [pop/km2]']
-    HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
-    CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
+    HDD155C = +d["HDD 15.5C (clim)"] 
+    CDD23C = +d["CDD 23C (clim)"] 
     diesel_price = +d["Diesel price 2014 (others) [USD/liter]"]
     gas_price = +d["Gasoline price 2014 (others) [USD/liter]"]
     HH = +d["Household size (others) [people/household]"]
@@ -359,7 +359,10 @@ function fn_colour_barChart (attrFlag, attrValue) {
     colourmapDim = fn_colourmapDim(attrFlag);
 
     //plot missing data in light gray
-    if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {return colourmapDim(attrValue);} //zeros are real
+    if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {
+      console.log("attrValue: ", attrValue)
+      console.log("cmap: ", colourmapDim(attrValue))
+      return colourmapDim(attrValue);} //zeros are real
     else if (attrValue === 0) return nanColour;
     else if (!attrValue) return nanColour;
     else return colourmapDim(attrValue);

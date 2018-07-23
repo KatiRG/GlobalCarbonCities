@@ -96,13 +96,14 @@
             <option value="Population density">Population density</option>
             <option value="Diesel price">Diesel price</option>
             <option value="Gas price">Gas price</option>
+            <option value="HDD 15.5C">HDD 15.5C</option>
+            <option value="CDD 23C">CDD 23C</option>
             <!--<option value="change in emissions">change in emissions</option>            
             <option value="population density">population density</option>
             <option value="area">area</option>
             
             
-            <option value="HDD 15.5C">HDD 15.5C</option>
-            <option value="CDD 23C">CDD 23C</option>
+           
             <option value="low BUA (2014)">low BUA (2014)</option>
             <option value="low BUA % (2014)">low BUA % (2014)</option>
             <option value="low BUA density (2014)">low BUA density (2014)</option>
@@ -423,7 +424,8 @@ d3.tsv(fname, function(ghg) {
    "Population": [4000, 8000000],
    "GDP-PPP/capita": [5000, 80000],
    "area": [10, 5000], "Population density": [100, 30000],
-   "Diesel price": [0.05, 2.1], "Gas price": [0.05, 2.1]
+   "Diesel price": [0.05, 2.1], "Gas price": [0.05, 2.1],
+   "HDD 15.5C": [0, 3000], "CDD 23C": [0, 3000]
     // "change in emissions": [1,5],
     // "Population": [1000, 8000000],          
     // "population density": 
@@ -431,7 +433,7 @@ d3.tsv(fname, function(ghg) {
     // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
     // 
     // "GDP/capita": [1700, 128046],
-    // "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB    
+    //     
     // "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
     // "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
     // "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
@@ -815,7 +817,7 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
       .attr("y", function (d, i) { return y(d[this_dim]); })
       .attr("height", function(d) { return height - y(d[this_dim]); });
 
-  bars.attr("fill", function (d) {
+  bars.attr("fill", function (d) {    
     return (attrFlag === "none") ? choose_colourArray[attrFlag][0] :
                             fn_colour_barChart(attrFlag, d[attrFlag]);
   });
