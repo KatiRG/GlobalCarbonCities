@@ -570,7 +570,7 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
       xtrans = 60; ytrans = -5; rot = -90;
     }
     // else if (d === "Emeryville, CA" || d === "Knoxville") ytrans = -45 + (i*1.3);
-    else ytrans = -60 + (i*1.3);
+    else ytrans = -30 + (i*0.7);
   } else if (thisCityGroup === "bar class_groupEastAsia") {    
 
     if (d === "Incheon" || d === "Kaohsiung" || d === "Yilan" ||
@@ -586,26 +586,28 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
         d === "Umeå" || d === "Bristol" || d === "Lyon" || d === "Gävle" ||
-        d === "Warsaw" || d === "Quezon" || d === "Singa" || //Singapore
+        d === "Warsaw" || d === "Quezon" || d === "Santa Rosa" || 
+        d === "Hat Yai" || d === "Singa" || //Singapore
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
     } else {
-        if (i < 45) ytrans = -50 + (i*1.9);
-        else ytrans = (-22 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
+        if (i < 45) ytrans = -50 + (i*1.9); //Europe
+        else ytrans = (-22 + ((i-45)*2)) * 25/(i-45) //SE Asia
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
     if (d === "León" || d === "Toluca" || d === "Gandhinagar" ||
-        d === "Windhoek" || d === "eThekwini" || d === "Izmir" ||
-        d === "Auckland") {
-      xtrans = 60; ytrans = 0; rot = -90;
+        d === "Windhoek" || d === "eThekwini" || d === "Ekurhuleni" ||
+        d === "Nelson Mandela" || d === "Buffalo City" || d === "Izmir" ||
+        d === "Auckland" || d === "Melbourne" || d === "Canberra" ) {
+      xtrans = 60; ytrans = 10; rot = -90;
     }
     else {
-      if (i < 32) ytrans = -15 + (i*1.5);
-      else if (i > 32 && i < 53) ytrans = -55 + (i*1.5);
-      else if (i > 53 && i < 68) ytrans = -40 + (i-53)*5; //(-10 + ((i-53)*1.0)) * 8/(i-53);
-      else if (i > 68 && i < 76) ytrans = -1 + (i-68)*5;
-      else ytrans = -40 + (i-76)*8;
+      if (i < 32) ytrans = -15 + (i*1.5); //Latin Amer & Carribbean
+      else if (i > 32 && i < 53) ytrans = -55 + (i*1.5); //South Asia
+      else if (i > 53 && i < 68) ytrans = -25 + (i-53)*5; //Africa
+      else if (i > 68 && i < 76) ytrans = -1 + (i-68)*5; //N Africa & W Asia
+      else ytrans = -5 + (i-76)*8; //Oceania
     }
 
   }
