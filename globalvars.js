@@ -43,15 +43,15 @@ var colour_labels = "#636363";
 var colour_labelsHighlight = "#3d3d3d";
 
 var regionColourMap = { 
-  "groupEastAsia": "#A6D4FF", 
-  "groupNAmer": "#D11E48",
-  "groupEurope": "#6BACBF", 
-  "groupLatinAmer": "#F8CA00",
+  "groupEastAsia": "#d15081", 
+  "groupNAmer": "#c398db",
+  "groupEurope": "#80c2ff", 
+  "groupLatinAmer": "#ee8370",
   "groupSEAsia": "#C399D9", 
-  "groupSAsia": "green", 
-  "groupAfrica": "#FFD880", 
-  "groupOceania": "#EB9F9F",
-  "groupNAfrica": "#A443DF"
+  "groupSAsia": "#40d5c7", 
+  "groupAfrica": "#fcc751", 
+  "groupOceania": "#ffa5ca",
+  "groupNAfrica": "#bbd15d"
 };
 
 
