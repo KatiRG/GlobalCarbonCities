@@ -34,8 +34,8 @@ function setupData(ghg){
     pop_density = d['Population density (consolidated) [pop/km2]']
     HDD155C = +d["HDD 15.5C (clim) [degrees C \xc3\x97 days]"] 
     CDD23C = +d["CDD 23C (clim) [degrees C \xc3\x97 days]"] 
-    diesel_price = d["Diesel price 2014 (others) [USD/liter]"]
-    gas_price = +d["Gasoline price (GEA+) [USD/liter]"]
+    diesel_price = +d["Diesel price 2014 (others) [USD/liter]"]
+    gas_price = +d["Gasoline price 2014 (others) [USD/liter]"]
     HH = +d["Household size (others) [people/household]"]
     methodology_num = +d['MethodNum'] //1-6 for 6 protocols in total
     methodology_details = d['Methodology details (CDP)']
@@ -112,8 +112,8 @@ function setupData(ghg){
       "GDP-PPP/capita": GDP_cap,
       "HDD 15.5C": HDD155C,
       "CDD 23C": CDD23C,
-      "diesel price": diesel_price,
-      "gas price": gas_price,
+      "Diesel price": diesel_price,
+      "Gas price": gas_price,
       "household size": HH,
       "methodology": methodology_num,
       "methodology details": methodology_details,
@@ -426,8 +426,7 @@ function fn_barChartLegend (attrFlag) {
 
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
-      if (attrFlag === "diesel price" || attrFlag === "gas price" ||
-          attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
+      if (attrFlag === "area" || attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C" ||
           attrFlag === "low BUA (2014)" || attrFlag === "high BUA (2014)" ||
           attrFlag === "low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
@@ -435,6 +434,8 @@ function fn_barChartLegend (attrFlag) {
         console.log('idx: ', idx)
         console.log('idx*delta: ', dimExtent[0] + idx*delta)
         cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
+      } else if (attrFlag === "Diesel price" || attrFlag === "Gas price") {        
+        cb_values.push( (dimExtent[0] + idx*delta).toFixed(2) );        
       }
       else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
         //delta = Math.round(delta);
@@ -472,7 +473,7 @@ function fn_barChartLegend (attrFlag) {
       } else {
         console.log("cb_values format: ", cb_values[j] )
 
-        if (attrFlag === "diesel price" || attrFlag === "gas price" || attrFlag === "Measurement year") {
+        if (attrFlag === "Diesel price" || attrFlag === "Gas price" || attrFlag === "Measurement year") {
           firstValue = cb_values[1];
           nextValues = cb_values[j];
         } else if (attrFlag === "low BUA % (2014)" || attrFlag === "high BUA % (2014)") {
@@ -495,8 +496,8 @@ function fn_barChartLegend (attrFlag) {
       else if (attrFlag === "Population") xpos = [2,81,161,241,321,402];
       else if (attrFlag === "population density") xpos = [4,75,147,217,288,333];
       else if (attrFlag === "GDP/capita") xpos = [7,77,146,216,281,333];
-      else if (attrFlag === "diesel price" || 
-               attrFlag === "gas price") xpos = [4,75,145,215,285,333];
+      else if (attrFlag === "Diesel price" || 
+               attrFlag === "Gas price") xpos = [4,83,163,244,323,405,481];
       else if (attrFlag === "low BUA % (2014)" ||
                attrFlag === "high BUA % (2014)") xpos = [13,84,153,224,295,333];
       else xpos = [3,82,162,241,321,403]; 
@@ -841,7 +842,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
   //selected attribute TITLE
   if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
       attrFlag != "Measurement year" && attrFlag != "none") { //these attributes already on display
-    if (attrFlag === "gas price" || attrFlag === "diesel price") {
+    if (attrFlag === "Gas price" || attrFlag === "Diesel price") {
       attrText = attrFlag + " (national value)"; 
     }
     else attrText = attrFlag;
@@ -850,7 +851,7 @@ function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
     //selected attribute VALUE + units
     if (!selectedCityObj[attrFlag]) attrValue = "N/A";
     else {
-      if (attrFlag === "diesel price" || attrFlag === "gas price") attrValue = selectedCityObj[attrFlag] + " " + dimUnits[attrFlag];
+      if (attrFlag === "Diesel price" || attrFlag === "Gas price") attrValue = selectedCityObj[attrFlag] + " " + dimUnits[attrFlag];
       else attrValue = formatComma(parseInt(selectedCityObj[attrFlag])) + " " + dimUnits[attrFlag];
     }
 

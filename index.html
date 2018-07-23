@@ -94,12 +94,13 @@
             <option value="GDP-PPP/capita">GDP-PPP/capita</option>
             <option value="area">Area</option>
             <option value="Population density">Population density</option>
+            <option value="Diesel price">Diesel price</option>
+            <option value="Gas price">Gas price</option>
             <!--<option value="change in emissions">change in emissions</option>            
             <option value="population density">population density</option>
             <option value="area">area</option>
             
-            <option value="diesel price">diesel price</option>
-            <option value="gas price">gas price</option>
+            
             <option value="HDD 15.5C">HDD 15.5C</option>
             <option value="CDD 23C">CDD 23C</option>
             <option value="low BUA (2014)">low BUA (2014)</option>
@@ -421,7 +422,8 @@ d3.tsv(fname, function(ghg) {
    "Measurement year": [2005, 2015],
    "Population": [4000, 8000000],
    "GDP-PPP/capita": [5000, 80000],
-   "area": [10, 5000], "Population density": [100, 30000]
+   "area": [10, 5000], "Population density": [100, 30000],
+   "Diesel price": [0.05, 2.1], "Gas price": [0.05, 2.1]
     // "change in emissions": [1,5],
     // "Population": [1000, 8000000],          
     // "population density": 
@@ -429,10 +431,7 @@ d3.tsv(fname, function(ghg) {
     // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
     // 
     // "GDP/capita": [1700, 128046],
-    // "diesel price": [0.5, 1.8],
-    // "gas price": [0.5, 1.8],
-    // "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB
-    // "area": [0, 2000], 
+    // "HDD 15.5C": [0, 3000], "CDD 23C": [0, 1000], //FMB    
     // "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
     // "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
     // "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
