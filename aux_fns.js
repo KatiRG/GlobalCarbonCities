@@ -626,7 +626,7 @@ function fn_arrow(geogroup_id, city) {//used for offscale emission values
       xtext = [109]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } else if (city[idx] === "Quezon") {
-      xpair = [380]; ypair = [-25]; //posn of arrow
+      xpair = [385]; ypair = [-25]; //posn of arrow
       xtext = [65]; ytext = [10]; //posn of text
       emissionText = offscaleEmissionsDict[city[0]]; //+ " kgCO₂eq/USD"
     } 
