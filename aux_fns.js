@@ -549,12 +549,11 @@ function fn_enlargeName(geogroup_name, cityName) {
   if (cityName === "Singa") var_cityName = "Singapore";
 
   //Enlarge city label of selected bar
-  newSize="14px";
+  newSize="16px";
   //Need different sizes on account of the vieweBox scale stretching
-  if (geogroup_name === "groupEuropeSEAsia" || geogroup_name === "groupLatinAmer" ||
-      geogroup_name === "groupUSA"|| geogroup_name === "groupOceania" ) newSize = "21px";
-  else if (geogroup_name === "groupAfrica") newSize = "18px";
-  else if (geogroup_name === "groupAsia") newSize = "18px";
+  // if (geogroup_name === "groupEuropeSEAsia" || geogroup_name === "groupLatinAmer" ||
+  //     geogroup_name === "groupUSA"|| geogroup_name === "groupOceania" ) newSize = "16px";
+  // else if (geogroup_name === "groupAfrica") newSize = "18px";
   
   d3.select("#tick" + idName).text(var_cityName)
     .style("font-size", newSize).style("opacity", 1)
@@ -586,13 +585,13 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
 
   } else if (thisCityGroup === "bar class_groupEuropeSEAsia") {
     if (d === "Rotterdam" || d === "Uppsala" || d === "Ljubljana" ||
-        d === "Umeå" || d === "Lahti" || d === "Lyon" || d === "Gävle" ||
-        d === "Quezon" || d === "Singa" || //Singapore
+        d === "Umeå" || d === "Bristol" || d === "Lyon" || d === "Gävle" ||
+        d === "Warsaw" || d === "Quezon" || d === "Singa" || //Singapore
         d === "Phuket" || d === "Ubon Ratchathani" ) {
       xtrans = 60; ytrans = 20; rot = -90;
     } else {
-        if (i < 45) ytrans = -60 + (i*1.9);
-        else ytrans = (-17 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
+        if (i < 45) ytrans = -50 + (i*1.9);
+        else ytrans = (-22 + ((i-45)*2)) * 15/(i-45) //-50 + (i-45)*1.9;
     }
 
   } else if (thisCityGroup === "bar class_groupSouth") {
