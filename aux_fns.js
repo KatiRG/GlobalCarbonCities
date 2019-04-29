@@ -358,8 +358,6 @@ function fn_colour_barChart (attrFlag, attrValue) {
 
     //plot missing data in light gray
     if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {
-      console.log("attrValue: ", attrValue)
-      console.log("cmap: ", colourmapDim(attrValue))
       return colourmapDim(attrValue);} //zeros are real
     else if (attrValue === 0) return nanColour;
     else if (!attrValue) return nanColour;
@@ -420,10 +418,6 @@ function fn_barChartLegend (attrFlag) {
     dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
     //difference between max and min values of selected attribute
     delta = ( dimExtent[1] - dimExtent[0] )/num_levels;
-    
-    console.log("delta: ", delta)
-    console.log("dimExtent: ", dimExtent)
-    console.log("num_levels: ", num_levels)
 
     cb_values=[]; //clear
     for (idx=0; idx < num_levels; idx++) {
@@ -433,20 +427,14 @@ function fn_barChartLegend (attrFlag) {
           attrFlag === "Low BUA density (2014)" || attrFlag === "Measurement year" ||
           attrFlag === "Congestion rank (INRIX)" || attrFlag === "World Rank (TomTom)" ||
           attrFlag === "Cities in Motion Index (IESE)") {
-        console.log('idx: ', idx)
-        console.log('idx*delta: ', dimExtent[0] + idx*delta)
         cb_values.push( Math.floor(dimExtent[0] + idx*delta) );
       } else if (attrFlag === "Diesel price" || attrFlag === "Gas price") {        
         cb_values.push( (dimExtent[0] + idx*delta).toFixed(2) );        
       } else {
         delta = Math.round(delta/1000)*1000;
-        console.log("attrFlag here: ", attrFlag)
-        console.log("delta: ", delta)
         cb_values.push(Math.round((dimExtent[0] + idx*delta)/1000)*1000);
       }
     }
-    console.log("cb_values: ", cb_values)
-    console.log("choose_colourArray[attrFlag]: ", choose_colourArray[attrFlag])
 
     //colour map to take data value and map it to the colour of the level bin it belongs to
     var colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
@@ -468,8 +456,6 @@ function fn_barChartLegend (attrFlag) {
       if (attrFlag === "methodology" || attrFlag === "change in emissions") {
         updateText = choose_textArray[attrFlag][j];
       } else {
-        console.log("cb_values format: ", cb_values[j] )
-
         if (attrFlag === "Diesel price" || attrFlag === "Gas price" || 
             attrFlag === "Measurement year" || attrFlag === "Low BUA % (2014)" ||
             attrFlag === "High BUA % (2014)") {
@@ -558,7 +544,6 @@ function fn_enlargeName(geogroup_name, cityName) {
 }
 
 function fn_cityLabels_perCapita (d, i, thisCityGroup) {
-  // if (d.includes("Sing")) console.log("!!!!!!!!!!!!!!!!!!!!!! ",d)
   if (thisCityGroup === "bar class_groupNAmer") {    
     if (d === "Cleveland" || d === "Las Vegas" || d==="Savannah" ||
         d === "Fort Collins" || d === "Hamilton, ON" || d === "Windsor, ON" ||
@@ -786,9 +771,6 @@ function fn_setupSVGCityCard(svgCityCard, className, idName, transX, transY) {
 
 //Info text in svg
 function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
-  // console.log("selectedCityObj in fn: ", selectedCityObj)
-  // console.log("attrFlag in fn: ", attrFlag)
-
   //show city card
   d3.select("#cityCardg").select("rect").style("opacity", 1);
   

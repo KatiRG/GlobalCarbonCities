@@ -324,13 +324,6 @@ d3.select("select")
     d3.select("#cityCardAttrLabel").text("");
     d3.select("#cityCardAttr").text("");
 
-    // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer",
-    //                      "barChart_groupEuropeSEAsia"];
-    // var geogroupArray = ["barChart_groupEastAsia", "barChart_groupNAmer", 
-    //                     "barChart_groupEuropeSEAsia", "barChart_groupSouth"];
-    //var geogroupArray = ["barChart_groupSouth"];
-
-    // svgBarChart = d3.select("#" + geogroupArray[0] + " .barSVG")
     svgBarChart = d3.selectAll(".barSVG")
     svgBarChart.selectAll("rect").attr("fill", function (d) {
       //output the discretized colour according to selected attribute
@@ -340,14 +333,7 @@ d3.select("select")
       }
     });
 
-    // svgBarChart = d3.select("#" + geogroupArray[1] + " .barSVG")
-    // svgBarChart.selectAll("rect").attr("fill", function (d) {
-    //   //output the discretized colour according to selected attribute
-    //   return fn_colour_barChart(attrFlag, d[attrFlag]);
-    // });
-
     //colour the legend squares
-    console.log("call fn_barChartLegend!!!!!!!!!!!!!!!!!!!!!!!!!")
     fn_barChartLegend(attrFlag);
     fn_legendRectTooltip(attrFlag);
     
@@ -420,7 +406,6 @@ d3.tsv(fname, function(ghg) {
     "none": [0,0],
     "methodology": 
           d3.extent(ghg, function (d) { 
-            //console.log(d['Year of emission'])
             return d['MethodNum']; }),
    "Measurement year": [2005, 2015],
    "Population": [4000, 8000000],
@@ -444,44 +429,26 @@ d3.tsv(fname, function(ghg) {
     // "Cities in Motion Index (IESE)": [40,90]
 
   }
-  console.log("dimExtent: ", dimExtentDict)
-  console.log("dimExtentDict: ", dimExtentDict[attrFlag])
-
 }) //end read tsv
-console.log("attrFlag: ", attrFlag)
 
-
-// d3.csv("data/Creutzig2014_dataset_wb.csv", function(ghg) {
 d3.tsv(fname, function(ghg) {
-  //console.log("ghg read: ", ghg)
-
   setupData(ghg);
   drawMap();
   emissionsBarChart("groupEastAsia", "#barChart_groupEastAsia");
   emissionsBarChart("groupNAmer", "#barChart_groupNAmer");
   emissionsBarChart("groupEuropeSEAsia", "#barChart_groupEuropeSEAsia");
   emissionsBarChart("groupSouth", "#barChart_groupSouth");
-
 });
-// //Customize some city names
-// data_GHG.find(x => x.city.includes("District of Columbia")).city = "D.C."
 
 // ----------------------------------------------------
 // Main Functions
 // ----------------------------------------------------
-
-
 
 function drawMap() {
 
   //Map reset button
   // d3.select("#resetButton")
   //     .on("click", resetMap);
-
-
-
-  //https://bl.ocks.org/mbostock/3711652
-  // var mapHeight = 410;
 
   var options = [
     {name: "Natural Earth", projection: d3.geoNaturalEarth()}
@@ -493,8 +460,8 @@ function drawMap() {
 
   var projection = options[0]
               .projection
-              .scale(151) //141, 171
-              .translate([mapWidth/1.655, mapHeight/1.67  ]);  //1.633, 1.69
+              .scale(151)
+              .translate([mapWidth/1.655, mapHeight/1.67  ]);
 
   var path = d3.geoPath()
       .projection(projection)
@@ -526,10 +493,8 @@ function drawMap() {
    
     d3.json("geojson/our_cities.geojson", function(error, cities) {
       if (error) throw error;
-      console.log("cities: ", cities)
 
       //world countries
-      // svg.append("g")
       countries = g.attr("class", "mapg") //used to be class "countries"
         .selectAll("path")
           .data(world.features)
@@ -541,7 +506,7 @@ function drawMap() {
           })
           .attr("class", "worldcountry")
           .style("fill", countryColour)
-          .style('stroke', '#555')  //#555
+          .style('stroke', '#555')
           .style('stroke-width', 1.5)
           // tooltips
             .style('stroke-width', 1);
@@ -574,17 +539,6 @@ function drawMap() {
           .attr("class", "worldcity")
           .attr("r", 10)
           .style("fill", function (d) {
-            // if (d.id === "Cleveland") console.log("cleveland: ", d)
-            // if (data_GHG.find(x => x.city === d.id)) {
-            //   console.log("x in fill: ", d)
-            //   console.log("x.id in fill: ", d.id)
-            //   console.log("find: ", data_GHG.find(x => x.city === d.id))
-            // }
-
-            //does not work in IE
-            //if (data_GHG.find(x => x.city === d.id)) {
-              // var r = regionDict[data_GHG.find(x => x.city === d.id).region]
-            //}
             var cityMatch = d.id;
             var r = data_GHG.filter(function (d) { return d.city === cityMatch })[0];
 
@@ -595,8 +549,6 @@ function drawMap() {
 
           })
           .style("stroke", function (d) {
-            //does not work in IE
-            // if (data_GHG.find(x => x.city === d.id)) return "#555";
             var cityMatch = d.id;
             if (data_GHG.filter(function (d) { return d.city === cityMatch })[0]) {
               return "#555";
@@ -609,9 +561,6 @@ function drawMap() {
           .on('mouseout', function (d) {
             resetElements();
           });
-
-
-
     }); // ./inner d3.json
   }); // ./outer d3.json
 
@@ -622,23 +571,15 @@ function drawMap() {
 
 
 function highlightElements(idName) {
-  // console.log("idName: ", idName)
-
   // clear any previous story first
   d3.select("#ghgStory").text("");
-
-  //does not work in IE
-  // var selectedCity = data_GHG.find(x => x.idName.includes(idName)).city;
-   // var selectedCityObj = data_GHG.find(x => x.city === selectedCity);
   var selectedCity = data_GHG.filter(function (d) { return (d.idName.indexOf(idName) >= 0 ) })[0].city;
   var selectedCityObj = data_GHG.filter(function (d) { return d.city === selectedCity })[0];
- 
 
   //Clear Previous
   //--------------
   resetElements();
-  //d3.select("#mycityCardg").remove();
-
+ 
   //Display city card
   fn_fillSVGCityCard (selectedCityObj, attrFlag);
 
@@ -659,8 +600,6 @@ function highlightElements(idName) {
     .style("stroke-opacity", 0.1);
   
   //Highlight current country
-  //does not work in IE
-  // var thisCountry = data_GHG.find(x => x.idName === idName).country.replace(/\s/g, '_');
   var thisCountry = data_GHG.filter(function (d) { return d.idName === idName })[0].country.replace(/\s/g, '_');
   
   d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
@@ -778,22 +717,16 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
     return d.city;
   }));
   y.domain([0, d3.max(emissions_scaled, function(d) {
-
-    // console.log("d[this_dim]: ", d[this_dim])
-
     if (this_dim === label_dataPerCap) {
       if (geogroup_name === "groupEastAsia") same_max = 8;
       else if (geogroup_name === "groupNAmer") same_max = 16;
       else if (geogroup_name === "groupEuropeSEAsia") same_max = 8.5;
       else  same_max = 11;      
     } else {
-      if (geogroup_name === "groupNAmer") same_max = 10; //250000;
-      else same_max = 0.2;//300000; //same_max = d[this_dim];
-      //same_max = 0.35; //0.8; //[kgCO2/USD]
+      if (geogroup_name === "groupNAmer") same_max = 10;
+      else same_max = 0.2;
     }
-
     return same_max;
-
   })]);
 
 
@@ -806,16 +739,15 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   var bars = svgBarChart.append("g").selectAll(".bar")
       .data(emissions_scaled)
       .enter().append("rect")
-      .attr("class", function (d) {//keep track of original geographic group       
+      .attr("class", function (d) { //keep track of original geographic group       
         var var_class = "bar" + " " + "class_" + geogroup_name;        
         return  var_class;
       })
-      //.attr("class", "bar")
       .attr("id", function (d) {
         idName = format_idName(d.city);
         return "bar" + idName;
       })
-      .attr("x", function (d) { return x(d.city); }) //***HERE!!!!
+      .attr("x", function (d) { return x(d.city); })
       .attr("width", x.bandwidth())
       .attr("y", function (d, i) { return y(d[this_dim]); })
       .attr("height", function(d) { return height - y(d[this_dim]); });
@@ -840,12 +772,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
           }          
           else emissionIntensity = formatDecimalSci(d[this_dim]);
         }
-        else if (this_dim === "per GDP") {
-          // if (d.city === "Kaohsiung") emissionIntensity = kaohsiungEmissionsPerGDP;
-          // else if (d.city === "Taoyuan") emissionIntensity = taoyuanEmissionsPerGDP;
-          // else if (d.city === "Lagos") emissionIntensity = lagosEmissionsPerGDP;
-          // else emissionIntensity = formatDecimalSci(d[this_dim]);
-        }
 
         //bar tooltip
         var count = i + 1; //ranking
@@ -867,7 +793,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         resetElements();
         
         d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
-          //.style("font-size", "14px")
           .style("opacity", 0.3)
           .style("font-size", "11px") //return to orig size
           .attr("fill", colour_labels);
@@ -879,11 +804,10 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   //x-axis
   svgBarChart.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(-1," + height + ")")  //***HERE!!!!
+      .attr("transform", "translate(-1," + height + ")")
       .call(d3.axisTop(x))
       .selectAll("text")
-        .text(function (d) { 
-          // if (d.includes("gap")) return "";
+        .text(function (d) {
           if (d.indexOf("gap") >= 0) return "";
           else return fn_abbr(d); 
         })
@@ -896,23 +820,15 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         .attr("dy", 7)
         .attr("class", "xAxisCityName")
         .attr("transform", function (d, i) {
-
-          // if (d.includes("gap")) return "";
           if (d.indexOf("gap") >= 0) return "";
-        
           else {
-
             xscale=.6; yscale=1.8; rot=-65; xtrans=45; ytrans=0;
-
             thisCity = d3.select(this).attr("id").split("tick").pop();
             thisCityGroup = d3.select("#bar" + thisCity).attr("class");
 
-            if (this_dim === "per capita") {                
-             
+            if (this_dim === "per capita") {
               fn_cityLabels_perCapita(d, i, thisCityGroup);
-
             } else if (this_dim === "per GDP") {
-
               if (d3.select("#reorderButton").text() === "Re-order") fn_cityLabels_perGDP(d, i, thisCityGroup);
               else {
                 if (d === "New York City") ytrans = 5;
@@ -920,11 +836,10 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
                 else if (d === "DC") ytrans = -42;
                 else if (d === "Indianapolis") ytrans = 5;
                 else if (d === "Edmonton") ytrans = -30;
-                else if (d === "Toronto") ytrans = 0;                
+                else if (d === "Toronto") ytrans = 0;
                 else if (d === "Winnipeg" || d === "Montreal") ytrans = -45;
                 else ytrans = -15;
               }
-
             } //this_dim
            
             return  "scale(" + xscale + " " + yscale + ")" + 
@@ -932,13 +847,9 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
           }
 
         })
-      .style("text-anchor", "start")  //"middle"
-      // .style("fill", function (d) {
-      //   if (d.includes("gap")) return "#565656";
-      // })
+      .style("text-anchor", "start")
       .on("touchmove mousemove", function (d) {
         fn_enlargeName(geogroup_name, d);
-
         idName = format_idName(d);
         highlightElements(idName);
       })
@@ -946,7 +857,6 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
         resetElements();
 
         d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
-          //.style("font-size", "14px")
           .style("opacity", 0.3)
           .style("font-size", "11px") //return to orig size;
       });
@@ -954,37 +864,31 @@ function emissionsBarChart(geogroup_name, geogroup_id) {
   //hide x tick mark for "gap" bar  
   svgBarChart.selectAll("line")
     .style("opacity", function (d) {
-      // return d.includes("gap") ? 0 : 1;
       return (d.indexOf("gap") >= 0) ? 0 : 1;
     });
-
 
   //y-axis
   svgBarChart.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-      //.call(d3.axisRight(y).ticks(5))     
       .selectAll("text")  
         .style("text-anchor", "end")
         .attr("dx", "-.9em")
         .attr("dy", ".15em")
         .attr("transform", "scale(" + .7 + " " + 1.3 + ")" );
-        // .attr("class", "ylabelClass");
 
   //y-axis label
   if (geogroup_name === "groupEuropeSEAsia") {
     svgBarChart.append("text")
-          .attr("text-anchor", "middle")  // centre the text          
+          .attr("text-anchor", "middle")  // centre the text
           .attr("class", "ylabelClass")
           .text("Per capita emissions [tCO₂eq/capita]")
           .attr("transform", function (d) {
-              var xscale = 0.5, yscale = 1.9;
-              
+              var xscale = 0.5, yscale = 1.9;              
               return "scale(" + xscale + " " + yscale + ")" + 
                 "translate(" + (-35) + " " + (-50) + ")rotate(-90)" ;
             });
   }
-
 
   //svg arrow for Rotterdam bar only if on emissions/capita view
   if (geogroup_id === "#barChart_groupEastAsia" && 
