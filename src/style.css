@@ -1,10 +1,11 @@
 /*https://openclassrooms.com/courses/prenez-en-main-bootstrap/une-grille*/
 
 /*--------------------------*/
-/*base elements*/
 body {
   padding-top: 10px;
   font-family: "Ubuntu", sans-serif;
+  font-size: 14px;
+  color: #555;
 }
 
 [class*="col-"], footer {
@@ -35,48 +36,6 @@ ul {
   color: #565656;
   text-align: left;
 }
-
-/*--------------------------*/
-/*$(window).width();*/
-/*@media screen and (max-width: 2048px)
-{
-  div #headingCan { 
-    padding-left: 101px;
-  }
-}
-
-@media screen and (max-width: 1200px)
-{
-  div #headingCan { 
-    color:cyan;
-    padding-left: 9px;
-  }
-}
-
-@media screen and (max-width: 850px)
-{
-  div #headingCan { 
-    color:green;
-    padding-left: -400px;
-  }
-}
-
-@media screen and (max-width: 1000px)
-{
-  div #headingCan { 
-    color:blue;
-    padding-left: -400px;
-  }
-}*/
-
-/*mobile phone*/
-/*@media screen and (max-width: 420px)
-{
-    #headingCan { 
-      color:blue; 
-      padding-left: 276px;
-    }
-}*/
 
 /*--------------------------*/
 /*buttons*/
@@ -210,6 +169,49 @@ div.tooltip {
   pointer-events: none;
 }
 
+/* map */
+.worldcountry {
+  fill: rgb(24, 71, 27);
+  stroke: #555;
+  stroke-width: 1.5;
+}
+.worldcity {
+  stroke: #555;
+}
+.groupEastAsia {
+  fill: #d15081;
+}
+.groupNAmer {
+  fill: #c398db;
+}
+.groupEurope {
+  fill: #80c2ff;
+} 
+.groupLatinAmer {
+  fill: #ee8370;
+}
+.groupSEAsia {
+  fill: #C399D9;
+}
+.groupSAsia {
+  fill: #40d5c7;
+}
+.groupAfrica {
+  fill: #fcc751;
+}
+.groupOceania {
+  fill: #ffa5ca;
+}
+.groupNAfrica {
+  fill: #bbd15d;
+}
+.NAfricaWAsia {
+  fill: rgb(187, 209, 93);
+}
+.horsService {
+  fill: none;
+}
+
 /*to allow x-axis labels to overflow past div bd*/
 /*svg:not(:root) {
     overflow: unset;
@@ -217,7 +219,6 @@ div.tooltip {
 svg.barSVG {
     overflow: unset;
 }
-
 
 div.rtooltip {
       position: absolute;
@@ -396,13 +397,7 @@ div.rtooltip {
   text-align: right;
 }
 
-
-
- 
 .style("text-transform", "uppercase")
-
-
-
 
 td, th {
   padding: 1px 4px;

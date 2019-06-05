@@ -33,26 +33,14 @@ function resetMap() {
 nanColour = "#E6E8E3"; //barChart fill colour for NaN values
 
 //map
-//http://www.colourlovers.com/palette/1072/rainforest
-//http://www.colourlovers.com/palette/659861/Snowy_Pine_Forest
-var countryColour = "#18471B"; //"#172214"; //#2B292E", #000, "#d9d9d9"
+
 var countryHighlightColour = "#e70081"; //"#BEC3BC";//"#718351"; //"#d3d3d3";  "#44522F"; "#718351"
 
 //barChart labels + highlight colour
 var colour_labels = "#636363";
 var colour_labelsHighlight = "#3d3d3d";
 
-var regionColourMap = { 
-  "groupEastAsia": "#d15081", 
-  "groupNAmer": "#c398db",
-  "groupEurope": "#80c2ff", 
-  "groupLatinAmer": "#ee8370",
-  "groupSEAsia": "#C399D9", 
-  "groupSAsia": "#40d5c7", 
-  "groupAfrica": "#fcc751", 
-  "groupOceania": "#ffa5ca",
-  "groupNAfrica": "#bbd15d"
-};
+
 
 
 

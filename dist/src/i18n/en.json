@@ -5,9 +5,8 @@
       "linkURL": "https://www.statcan.gc.ca/eng/concepts/definitions/guide-symbol"
     },
      "pageText": {
-      "titletag": "Carbon Fluxes",
-      "title": "Carbon fluxes across countries and regions from inland water sources",
-      "infotext": "Inland water carbon flux estimates for the present day showing contributions in Tg C yr<sup>-1</sup> from 3 inland sources (Rivers, Lakes, and Estuaries) for 3 latitude bands and 6 continental regions. Stacked bars show breakdown by country for each region. Data sources: <a target='_blank' href='https://doi.org/10.1111/gcb.13902'>Hastie et al. (2018)</a>, <a target='_blank' href='https://doi.org/10.1002/2014GB004941'>Lauerwald et al. (2015)</a>, <a target='_blank' href='https://doi.org/10.5194/hess-17-2029-2013'>Laruelle et al. (2013)</a>, and <a target='_blank' href='http://dx.doi.org/10.1038/nature12760'>Raymond et al. (2013)</a>.",
+      "titletag": "City Emissions",
+      "title": "A global dataset of CO2 emissions and related ancillary data",
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>"
     },
     "labels": {
@@ -16,12 +15,6 @@
       "Mid lat": "Mid latitudes (30–50 degrees)",
       "S America": "South America",
       "N America": "North America"
-    },
-    "loac": {
-      "Rivers": "January",
-      "Lakes": "February",
-      "Estuaries": "December"
     }
-   
   }
 }

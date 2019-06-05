@@ -2,14 +2,14 @@
 // General
 //----------
 
-function format_idName(city) {
-  return idName = city.replace(/\s/g, '_')
-                 .replace(/\(/g, '')
-                 .replace(/\)/g, '')
-                 .replace(/\'/g, '')
-                 .replace(/\,/g, '')
-                 .replace(/\&/g, '');
-}
+// function format_idName(city) {
+//   return idName = city.replace(/\s/g, '_')
+//                  .replace(/\(/g, '')
+//                  .replace(/\)/g, '')
+//                  .replace(/\'/g, '')
+//                  .replace(/\,/g, '')
+//                  .replace(/\&/g, '');
+// }
 
 function setupData(ghg){
   data_GHG = ghg.map(function(d) {

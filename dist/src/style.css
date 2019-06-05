@@ -37,48 +37,6 @@ ul {
 }
 
 /*--------------------------*/
-/*$(window).width();*/
-/*@media screen and (max-width: 2048px)
-{
-  div #headingCan { 
-    padding-left: 101px;
-  }
-}
-
-@media screen and (max-width: 1200px)
-{
-  div #headingCan { 
-    color:cyan;
-    padding-left: 9px;
-  }
-}
-
-@media screen and (max-width: 850px)
-{
-  div #headingCan { 
-    color:green;
-    padding-left: -400px;
-  }
-}
-
-@media screen and (max-width: 1000px)
-{
-  div #headingCan { 
-    color:blue;
-    padding-left: -400px;
-  }
-}*/
-
-/*mobile phone*/
-/*@media screen and (max-width: 420px)
-{
-    #headingCan { 
-      color:blue; 
-      padding-left: 276px;
-    }
-}*/
-
-/*--------------------------*/
 /*buttons*/
 .nytg-sort li {
 	background: none repeat scroll 0 0 #f9f9f9;
@@ -217,7 +175,6 @@ div.tooltip {
 svg.barSVG {
     overflow: unset;
 }
-
 
 div.rtooltip {
       position: absolute;
@@ -396,13 +353,7 @@ div.rtooltip {
   text-align: right;
 }
 
-
-
- 
 .style("text-transform", "uppercase")
-
-
-
 
 td, th {
   padding: 1px 4px;
