@@ -200,16 +200,11 @@ d3.select("#reorderButton")
   })
   .on("mouseout", function () { div.style("opacity", 0); });
 
-
-
-
 // ----------------------------------------------------
 // Main Code
 // ----------------------------------------------------
 
 //Find data range extent for each dim (to be used to discretize into colour values)
-// var fname = "data/d_final_app_343cities.tsv"
-//var fname = "data/test_307cities.csv"; //"data/d_final_app_s1Exists_307cities.tsv"
 var fname = "data/cityApp_attributes_consolidated_pruned.tsv";
 d3.tsv(fname, function(ghg) {  
   dimExtentDict = {
@@ -224,19 +219,7 @@ d3.tsv(fname, function(ghg) {
    "Diesel price": [0.05, 2.1], "Gas price": [0.05, 2.1],
    "HDD 15.5C": [0, 3000], "CDD 23C": [0, 3000],
    "High BUA % (2014)": [0, 90], "Low BUA % (2014)": [0, 90]
-    // "change in emissions": [1,5],
-    // "Population": [1000, 8000000],          
-    // "population density": 
-    //       d3.extent(ghg, function (d) { return +d["pop to use"]/d["area [km2] (external)"]; }),
-    // // "GDP/capita" : d3.extent(ghg, function (d) { return +d["GDP-PPP combined"]/d["pop to use"]*Math.pow(10,9);})
-    // 
-    // "GDP/capita": [1700, 128046],
-    //     
-    // "low BUA (2014)": [0, 1000], "low BUA % (2014)": [0, 100],
-    // "high BUA (2014)": [0, 2500], "high BUA % (2014)": [0, 100],
-    // "low BUA density (2014)": [0,1500], "high BUA density (2014)": [0,25000],
-    // "Congestion rank (INRIX)": [200,700], "World Rank (TomTom)": [25, 150],
-    // "Cities in Motion Index (IESE)": [40,90]
+
 
   }
 }) //end read tsv

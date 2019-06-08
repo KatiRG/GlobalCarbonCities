@@ -2,151 +2,6 @@
 // General
 //----------
 
-// function format_idName(city) {
-//   return idName = city.replace(/\s/g, '_')
-//                  .replace(/\(/g, '')
-//                  .replace(/\)/g, '')
-//                  .replace(/\'/g, '')
-//                  .replace(/\,/g, '')
-//                  .replace(/\&/g, '');
-// }
-
-function setupData(ghg){
-  data_GHG = ghg.map(function(d) {
-    //each d is a line of the csv file represented as a json object
-    //use + only for integers, not floats or strings
-
-    city = d['city']
-    region = d['Region']
-    cityLocation = [ +d['Longitude (others) [degrees]'] -360, +d['Latitude (others) [degrees]']]
-    country = d.Country
-    dset = d['Scope-1 source dataset']
-    popn = +d['Population (consolidated)']
-    area = d['city area (consolidated) [km2]']
-    scope1 = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']
-    measurementYear = d['Year of emission']
-    GDP = d['GDP-PPP (others) [$BN]']
-    scope1_cap = +d['S1 per capita'] //will be sorted incorrectly without the '+'
-    scope1_gdp = d['Scope-1 GHG emissions [tCO2 or tCO2-eq]']/d['GDP-PPP (others) [$BN]']
-    GDP_cap = d["GDP-PPP/capita (consolidated) [USD/pop]"]
-    pop_density = d['Population density (consolidated) [pop/km2]']
-    HDD155C = +d["HDD 15.5C (clim)"] 
-    CDD23C = +d["CDD 23C (clim)"] 
-    diesel_price = +d["Diesel price 2014 (others) [USD/liter]"]
-    gas_price = +d["Gasoline price 2014 (others) [USD/liter]"]
-    HH = +d["Household size (others) [people/household]"]
-    methodology_num = +d['MethodNum'] //1-6 for 6 protocols in total
-    methodology_details = d['Methodology details (CDP)']
-    delta_emissions = d['Increase/Decrease from last year (CDP)'] //string
-    delta_emissions_reason = d['Reason for increase/decrease in emissions (CDP)']//string
-
-    //Urban Areas
-    UA_cluster = +d['Urban area name (UEX)']
-    //low_BUA_1990 = +d['Low BUA - 1990 (UEX) [km2]']
-    //low_BUA_2000 = +d['Low BUA - 2000 (UEX) [km2]']
-    low_BUA_2014 = +d['Low BUA - 2014 (UEX) [km2]']
-    //high_BUA_1990 = +d['High BUA - 1990 (UEX) [km2]']
-    //high_BUA_2000 = +d['High BUA - 2000 (UEX) [km2]']
-    high_BUA_2014 = +d['High BUA - 2014 (UEX) [km2]']    
-    //low_BUApc_1990 = +d['Low BUA % - 1990 (UEX) [percent]']*100
-    //low_BUApc_2000 = +d['Low BUA % - 2000 (UEX) [percent]']
-    low_BUApc_2014 = +d['Low BUA % - 2014 (UEX) [percent]']*100
-    //high_BUApc_1990 = +d['High BUA % - 1990 (UEX) [percent]']*100
-    //high_BUApc_2000 = +d['High BUA % - 2000 (UEX) [percent]']*100
-    high_BUApc_2014 = +d['High BUA % - 2014 (UEX) [percent]']*100
-    //low_BUA_pdensity_1990 = +d['Low BUA population density - 1990 (UEX) [people/km2]']
-    // low_BUA_pdensity_2000 = +d['Low BUA population density - 2000 (UEX) [people/km2]']
-    low_BUA_pdensity_2014 = +d['Low BUA population density - 2014 (UEX) [people/km2]']
-    //high_BUA_pdensity_1990 = +d['High BUA population density - 1990 (UEX) [people/km2]']
-    //high_BUA_pdensity_2000 = +d['High BUA population density - 2000 (UEX) [people/km2]']
-     high_BUA_pdensity_2014 = +d['High BUA population density - 2014 (UEX) [people/km2]']
-
-    //traffic and socio-economic indices
-    inrix_congestion = +d['Average congestion rate (INRIX) [percent]']
-    inrix_idx = +d['INRIX congestion index (INRIX) [dimensionless]']
-    inrix_hours = +d['Peak hours spent in congestion (INRIX) [hours]']
-    inrix_rank = +d['Congestion rank (INRIX) [dimensionless]']
-
-    tomtom_congestion = +d['Congestion Level (TomTom)']
-    tomtom_rank = +d['Congestion rank (TomTom) [dimensionless]']
-    tomtom_congestion_change = +d['Congestion change (TomTom) [\xc3\x97 100 percent]']
-    tomtom_am_peak = +d['Morning peak (TomTom) [percent]']
-    tomtom_pm_peak = +d['Evening peak (TomTom) [percent]']
-
-    iese_human = +d['Human capital (IESE) [dimensionless]']
-    iese_cohesion = +d['Social cohesion (IESE) [dimensionless]']
-    iese_economy = +d['Economy (IESE) [dimensionless]']
-    iese_management = +d['Public management (IESE) [dimensionless]']
-    iese_gov = +d['Governance (IESE) [dimensionless]']
-    iese_env = +d['Environment (IESE) [dimensionless]']
-    iese_transport = +d['Mobility and transportation (IESE) [dimensionless]']
-    iese_urban = +d['Urban planning (IESE) [dimensionless]']
-    iese_intl = +d['International impact (IESE) [dimensionless]']
-    iese_tech = +d['Technology (IESE) [dimensionless]']
-    iese_cimi = +d['CIMI (IESE) [dimensionless]']
-    iese_cimi_rank = +d['CIMI ranking (IESE) [dimensionless]']
-
-
-    idName = format_idName(d.city);
-
-    cityName_array.push(city)
-   
-    return {      
-      "city": city,
-      "idName": idName,
-      "country": country,
-      "region": region,
-      "cityLocation": cityLocation,
-      //"total emissions": totalEmissions,
-      "dataset": dset,
-      "Population": popn,
-      "Population density": pop_density,
-      "area": area,
-      "Scope1": scope1,
-      "Measurement year": measurementYear,
-      "per capita": scope1_cap,
-      "per GDP": scope1_gdp,      
-      "GDP-PPP": GDP,
-      "GDP-PPP/capita": GDP_cap,
-      "HDD 15.5C": HDD155C,
-      "CDD 23C": CDD23C,
-      "Diesel price": diesel_price,
-      "Gas price": gas_price,
-      "household size": HH,
-      "methodology": methodology_num,
-      "methodology details": methodology_details,
-      "change in emissions": delta_emissions,
-      "reason for change": delta_emissions_reason,
-      "Low BUA (2014)": low_BUA_2014,
-      "Low BUA % (2014)": low_BUApc_2014,
-      "High BUA (2014)": high_BUA_2014,     
-      "High BUA % (2014)": high_BUApc_2014,
-      "Low BUA density (2014)": low_BUA_pdensity_2014,
-      "High BUA density (2014)": high_BUA_pdensity_2014,
-      "Avg congestion rate [%] (INRIX)": inrix_congestion,
-      "congestion level (INRIX)": inrix_idx,
-      "Peak hours spent in congestion (INRIX)": inrix_hours,
-      "Congestion rank (INRIX)": inrix_rank,
-      "congestion level [%] (TomTom)": tomtom_congestion,
-      "World Rank (TomTom)": tomtom_rank,
-      "Congestion change [%] (TomTom)": tomtom_congestion_change,
-      "Morning peak increase [%] (TomTom)": tomtom_am_peak,
-      "Evening peak increase [%] (TomTom)": tomtom_pm_peak,
-      "Human Capital index (IESE)": iese_human,
-      "Social Cohesion index (IESE)": iese_cohesion,
-      "Economy index (IESE)": iese_economy,
-      "Public Management index (IESE)": iese_management,
-      "Governance index (IESE)": iese_gov,
-      "Environment index (IESE)": iese_env,
-      "Mobility and Transportation index (IESE)": iese_transport,
-      "Urban Planning index (IESE)": iese_urban,
-      "International Impact index (IESE)": iese_intl,
-      "Technology index (IESE)": iese_tech,
-      "Cities in Motion Index (IESE)": iese_cimi
-    };
-  })
-
-} // ./setupData()
 
 // Reset elements to original style before selection
 function resetElements() {
@@ -172,14 +27,6 @@ function resetElements() {
     .attr("stroke-opacity", 1);   
 }
 
-//----------------------------------------------
-// Functions for map
-//----------------------------------------------
-
-
-//----------------------------------------------
-// Functions for emissionsBarChart()
-//----------------------------------------------
 
 //...............................
 // barChart data fns
@@ -316,14 +163,14 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
       );
       count++;
     }
-  //--------------  
+  // --------------  
 
   } //.for
 
   return objArray;
 }
 
-//Abbreviate city name in x-axis
+// Abbreviate city name in x-axis
 function fn_abbr(d) {
   if (d.indexOf(', ') >= 0) abbr = d.substring(0,3);
   else if (d.indexOf(' ') >= 0) abbr = d.match(/\b\w/g).join(' ');
@@ -343,7 +190,7 @@ function sortByRegion(region, this_dim) {
 }
 
 
-//...............................
+// ...............................
 // barChart updates
 
 function fn_colour_barChart (attrFlag, attrValue) {

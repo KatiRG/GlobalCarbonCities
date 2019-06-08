@@ -1,6 +1,5 @@
-// settings for Sankey
-// import settingsSankey from "./settingsSankey.js";
-
+// settings for stacked bar charts
+import settingsEA from "./settingsEastAsia.js";
 
 // ----------------------------------------------------
 // Setup
@@ -17,8 +16,8 @@ const div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// SVGs
 // ----------------------------------------------------
+// SVGs
 // d3js World Map
 const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
 const mapWidth = 850 - mapMargin.left - mapMargin.right;
@@ -33,6 +32,11 @@ const svgCB = d3.select("#barChartLegend").select("svg")
     .attr("width", svg_width)
     .attr("height", svg_height)
     .style("vertical-align", "middle");
+
+// Bar charts
+const chartEA = d3.select(".data.EAdata")
+    .append("svg")
+    .attr("id", "barChart_groupEastAsia");
 
 
 // city card
@@ -251,7 +255,7 @@ function drawMap() {
           .attr("d", path)
           .attr("id", function (d) {
             const mapName = i18next.t(d.properties.name, {ns: "countries"});
-            return "map" + mapName;
+            return `map${mapName}`;
           })
           .attr("class", "worldcountry")
           // tooltips
@@ -267,8 +271,8 @@ function drawMap() {
           })
           .attr("class", function(d) {
             const cityMatch = d.id;
-            const r = dataGHG.filter(function(d) {return d.city === cityMatch})[0];
-            if (r) return "worldcity" + " " + i18next.t(r.region, {ns: "regions"});
+            const r = dataGHG.filter(function(d) {return d.city === cityMatch})[0];            
+            if (r) return `worldcity ${i18next.t(r.region, {ns: "regions"})}`;
             else return "horsService";
           })
           .attr("r", 10)
@@ -285,11 +289,42 @@ function drawMap() {
 } // ./drawMap()
 
 // -----------------------------------------------------------------------------
+
+
+function showBarChart(chart, settings, region) {
+  const regionData = [];
+  dataGHG.filter((d) => {
+    if (d.region === region) {
+      const thisObj = {};
+      thisObj.region = d.region;
+      thisObj.city = d.city;
+      thisObj.s1PerCap = d["per capita"];
+      regionData.push(thisObj);
+    }
+  });
+  console.log("regionData: ", regionData);
+
+
+  barChart(chart, settings, regionData);
+
+  // d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
+  // updateTitles();
+}
+
+// -----------------------------------------------------------------------------
+function uiHandler(event) {
+  // if (event.target.name === "radio") {
+  //   selectedMode = event.target.value;
+  //   updatePage();
+  // }
+}
+// -----------------------------------------------------------------------------
 // Initial page load
 i18n.load(["src/i18n"], () => {
   // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
   d3.queue()
-      .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned.tsv")
+      // .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned.tsv")
+      .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned_testSA.tsv")
       .await(function(error, datafile) {
         data = datafile;
 
@@ -300,6 +335,11 @@ i18n.load(["src/i18n"], () => {
         drawMap();
 
         // Draw graphs
-        // showStackedBar(chartSA, settingsSA, stackedSA);
+        showBarChart(chartEA, settingsEA, "East Asia");
+
+        // showBarChart(chartSA, settingsSA, stackedSA);
       });
 });
+
+$(document).on("change", uiHandler);
+$(document).on("change", uiHandler);
