@@ -1,13 +1,18 @@
 export default {
-  aspectRatio: 16 / 13,
+  aspectRatio: 16 / 9,
   margin: {
     top: 50,
     left: 50,
     bottom: 50
   },
   filterData: function(data) {
+    data.sort(function(a, b) {
+      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+    });
+
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
-    console.log("filterData: ", [{
+
+    const junk = [{
       category: thisRegion,
       values: data.map((p) => {
         return {
@@ -15,11 +20,12 @@ export default {
           value: p.s1PerCap
         };
       })
-    }])
+    }];
+    console.log("filterData: ", junk);
 
+    
 
     return [{
-      // category: i18next.t(region, {ns: "regions"}),
       category: thisRegion,
       values: data.map((p) => {
         return {
