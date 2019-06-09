@@ -47,21 +47,15 @@
     <div class="row">
       <div class="col-lg-12">
         <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div>
-
-        <ul class="nytg-sort" id="emissionsToggleButton">
-          <li id="gdpButton">per GDP</li>
-        </ul>
-        <ul class="nytg-sort">
-          <li id="reorderButton" style="display: none;">Re-order</li>
-        </ul>
-        
       </div>
     </div> <!-- .end row -->
 
     <div class="row">
-      <div class="col-lg-3"></div>
-      <div class="col-lg-3">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2">
         <label for="attrSelector">Colour bars by</label>
+      </div>
+      <div class="col-lg-2">
         <select id="barChartLegendLabel" class="form-control">
           <option value="none" selected="selected">None</option>
             <option value="methodology" selected="selected">Protocol</option>
@@ -77,9 +71,9 @@
             <option value="Low BUA % (2014)">Low BUA % (2014)</option>
             <option value="High BUA % (2014)">High BUA % (2014)</option>
         </select>
-        <p id="selected-dropdown"></p>
+        
       </div>
-
+      <div class="col-lg-1"></div>
       <div class="col-lg-4">
         <div id="barChartLegend">
            <svg></svg>

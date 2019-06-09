@@ -296,8 +296,6 @@ div.rtooltip {
   text-align: left;
 }
 #barChartLegendLabel {
-  position: relative;
-  left: 235px;
   color: #565656;
   text-align: left;
 }
@@ -334,7 +332,7 @@ div.rtooltip {
   opacity: 0.3;
 }
 .axis {
-  font: 14px sans-serif;
+  font: 10px sans-serif;
 }
 .axis path,
 .axis line {
