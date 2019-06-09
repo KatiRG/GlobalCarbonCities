@@ -268,6 +268,18 @@
         "Oceania": "groupOceania",
         "North Africa": "groupNAfrica",
         "N Africa & W Asia": "NAfricaWAsia"
+    },
+    "regionColours": {
+        "East Asia": "#d15081",
+        "North America": "#c398db",
+        "Europe": "#80c2ff",
+        "Latin America & Caribbean": "#ee8370",
+        "Southeast Asia":"#C399D9",
+        "South Asia": "#40d5c7",
+        "Africa": "#fcc751", 
+        "Oceania": "#ffa5ca",
+        "North Africa": "#bbd15d",
+        "N Africa & W Asia": "rgb(187, 209, 93)"
     }
   }
 }

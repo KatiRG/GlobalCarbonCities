@@ -219,8 +219,6 @@ d3.tsv(fname, function(ghg) {
    "Diesel price": [0.05, 2.1], "Gas price": [0.05, 2.1],
    "HDD 15.5C": [0, 3000], "CDD 23C": [0, 3000],
    "High BUA % (2014)": [0, 90], "Low BUA % (2014)": [0, 90]
-
-
   }
 }) //end read tsv
 

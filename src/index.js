@@ -10,10 +10,38 @@ import settingsNAWA from "./settingsNAWA.js";
 import settingsOC from "./settingsOceania.js";
 
 // ----------------------------------------------------
+// Constants
+const twoSigma = 0.9545;
+
+const barColourDict = {
+  "ProtocolNum": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
+  "Measurement year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344", "#3a2d25"],
+  "change in emissions": ["#53442F", "#BABE98", "#DBC28F", "#BEC3BC", "#E6E8E3"],
+  "Population": ["#DED8B6", "#F9C869", "#5D5061", "#875979", "#6A3058", "#2F274C"],
+  "GDP-PPP/capita": ["#b8aca2", "#E394A7", "#9e9ac8", "#756bb1", "#54278f", "#3a1b64"],
+  "Area": ["#EDDAD0", "#D5DED9", "#99B2B7", "#5b6a6d", "#948C75", "#676251"],
+  "Population density": ["#DED8B6", "#F9C869", "#E1F5C4", "#ADD6BC", "#486d6c", "#6A3058"],
+  "Diesel price": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
+  "Gas price": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
+  "HDD 15.5C": ["#F5F5C6", "#F5DDB5", "#d6c2d0", "#a27696", "#b8d7ff", "#B8FAFF"],
+  "CDD 23C": ["#E1F5C4", "#ffeda0", "#F9D423", "#FC913A", "#FF4E50", "#e70081"],  
+  "Low BUA (2014)": ["#d7b5d8", "#CD7CB7", "#885F9A", "#B65873", "#5F323F", "red"],
+  "Low BUA % (2014)": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
+  "Low BUA density (2014)": ["#d7b5d8", "#CD7CB7", "#885F9A", "#B65873", "#5F323F", "red"],
+  "High BUA (2014)": ["#EEDAA7", "#E6D472", "#E79C74", "#D45659", "#7D4755", "red"],
+  "High BUA % (2014)": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
+  "High BUA density (2014)": ["#EEDAA7", "#E6D472", "#E79C74", "#D45659", "#7D4755", "red"],
+  "Congestion rank (INRIX)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"],
+  "World Rank (TomTom)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"],
+  "Cities in Motion Index (IESE)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"]
+};
+
+// ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
 let data = [];
 let dataGHG;
+let domainDict;
 
 const pointRadius = 5;
 
@@ -138,7 +166,7 @@ function setupData(data) {
     const gasPrice = +d["Gasoline price 2014 (others) [USD/liter]"];
     const HH = +d["Household size (others) [people/household]"];
     const methodologyNum = +d["MethodNum"]; // 1-6 for 6 protocols in total
-    const methodologyDetails = d["Methodology details (CDP)"];
+    // const methodologyDetails = d["Methodology details (CDP)"];
     const deltaEmissions = d["Increase/Decrease from last year (CDP)"];
 
     // Urban Areas
@@ -187,7 +215,7 @@ function setupData(data) {
       "dataset": dset,
       "Population": popn,
       "Population density": popDensity,
-      "area": area,
+      "Area": area,
       "Scope1": scope1,
       "Measurement year": measurementYear,
       "per capita": s1PerCap,
@@ -199,8 +227,8 @@ function setupData(data) {
       "Diesel price": dieselPrice,
       "Gas price": gasPrice,
       "household size": HH,
-      "methodology": methodologyNum,
-      "methodology details": methodologyDetails,
+      "ProtocolNum": methodologyNum,
+      // "methodology details": methodologyDetails,
       "change in emissions": deltaEmissions,
       "Low BUA (2014)": lowBUA2014,
       "Low BUA % (2014)": lowBUApc2014,
@@ -232,6 +260,83 @@ function setupData(data) {
     };
   });
 }
+
+function findDimExtent() {
+  console.log("dataGHG: ", dataGHG)
+  dimExtentDict = {
+    "High BUA % (2014)": [0, 90], "Low BUA % (2014)": [0, 90]
+  };
+
+  domainDict = {
+    "ProtocolNum": {
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["ProtocolNum"];
+      })
+    },
+    "Measurement year": { // [2005, 2015]
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["Measurement year"];
+      })
+    },
+    "Population": {
+      "lims": [
+        d3.mean(dataGHG, function(d) {return d["Population"]; }) - d3.mean(dataGHG, function(d) {return d["Population"]; }) * twoSigma,
+        d3.mean(dataGHG, function(d) {return d["Population"]; }) + d3.mean(dataGHG, function(d) {return d["Population"]; }) * twoSigma
+      ]
+    },
+    "GDP-PPP/capita": { // [5000, 80000]
+      "lims": [
+        d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) - d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) * twoSigma,
+        d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) + d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) * twoSigma
+      ]
+    },
+    "Area": { // [10, 5000]
+      "lims": [
+        d3.mean(dataGHG, function(d) {return d["Area"]; }) - d3.mean(dataGHG, function(d) {return d["Area"]; }) * twoSigma,
+        d3.mean(dataGHG, function(d) {return d["Area"]; }) + d3.mean(dataGHG, function(d) {return d["Area"]; }) * twoSigma
+      ]
+    },
+    "Population density": { // [100, 30000]
+      "lims": [
+        d3.mean(dataGHG, function(d) {return d["Population density"]; }) - d3.mean(dataGHG, function(d) {return d["Population density"]; }) * twoSigma,
+        d3.mean(dataGHG, function(d) {return d["Population density"]; }) + d3.mean(dataGHG, function(d) {return d["Population density"]; }) * twoSigma
+      ]
+    },
+    "Diesel price": { // [0.05, 2.1]
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["Diesel price"];
+      })
+    },
+    "Gas price": { // [0.05, 2.1]
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["Gas price"];
+      })
+    },
+    "HDD 15.5C": { // [0, 3000]
+      "lims": [
+        d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) - d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) * twoSigma,
+        d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) + d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) * twoSigma
+      ]
+    },
+    "CDD 23C": { // [0, 3000]
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["CDD 23C"];
+      })
+    },
+    "Low BUA % (2014)": { // [0, 90]
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["Low BUA % (2014)"];
+      })
+    },
+    "High BUA % (2014)": { // [0, 90]
+      "lims": d3.extent(dataGHG, function(d) {
+        return d["High BUA % (2014)"];
+      })
+    }
+  };
+}
+
+// ----------------------------------------------------------------
 // Map reset button
 d3.select("#mapResetButton")
     .on("click", resetMap);
@@ -367,10 +472,19 @@ function showBarChart(chart, settings, region) {
 
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
-  // if (event.target.name === "radio") {
-  //   selectedMode = event.target.value;
-  //   updatePage();
-  // }
+  // Colour bars according to attribute selected
+  d3.selectAll(".bar-group")
+      .each(function(d) {
+        const attr = event.target.value;
+        if (attr === "region") {
+          const thisRegion = dataGHG.filter(function(p) { return (p.city === d.city) })[0][attr];
+          d3.select(this).select("rect").style("fill", i18next.t(thisRegion, {ns: "regionColours"}));
+        } else {
+          const val = dataGHG.filter(function(p) { return (p.city === d.city) })[0][attr];
+          const thisColour = mapValueToColour(attr, val);
+          d3.select(this).select("rect").style("fill", thisColour);
+        }
+      });
 }
 // -----------------------------------------------------------------------------
 // Initial page load
@@ -386,9 +500,10 @@ i18n.load(["src/i18n"], () => {
         pageText();
 
         setupData(data);
+        findDimExtent();
         drawMap();
 
-        // Draw graphs
+        // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
         showBarChart(chartNA, settingsNA, "North America");
         showBarChart(chartEU, settingsEU, "Europe");
@@ -459,7 +574,7 @@ function resetElements() {
 
   // //clear previously highlighted country
   // d3.selectAll(".worldcountry")
-  //   .style("stroke","#555")
+  //   .style("stroke", "#555")
   //   .style("stroke-width", 1)
   //   .style("fill", countryColour)
   //   .style("opacity", 1);
@@ -470,5 +585,18 @@ function resetElements() {
   // d3.selectAll(".countries").selectAll("path").style("opacity", 1) ;
   // d3.selectAll(".worldcity")
   //   .attr("stroke-width", 1)
-  //   .attr("stroke-opacity", 1);   
+  //   .attr("stroke-opacity", 1);
+}
+
+function mapValueToColour(attr, val) {
+  // colour map to take data value and map it to the colour of the level bin it belongs to  
+  const d0 = domainDict[attr].lims[0]; // domainDict[attr].mean - domainDict[attr].mean * twoSigma;
+  const d1 = domainDict[attr].lims[1];
+
+  const colourmapDim = d3.scaleQuantile()
+      // .domain([dimExtentDict[attr][0], dimExtentDict[attr][1]])
+      .domain([d0, d1])
+      .range(barColourDict[attr]);
+
+  return colourmapDim(val); // colour for bar
 }

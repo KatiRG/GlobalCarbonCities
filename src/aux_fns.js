@@ -1,37 +1,9 @@
-//----------
-// General
-//----------
 
 
-// Reset elements to original style before selection
-function resetElements() {
-  //reset bar opacity
-  d3.selectAll(".bar")
-    .style("fill-opacity", 1)
-    .style("stroke", "none");
-
-
-  //clear previously highlighted country
-  d3.selectAll(".worldcountry")
-    .style("stroke","#555")
-    .style("stroke-width", 1)
-    .style("fill", countryColour)
-    .style("opacity", 1);
-
-  //reset opacity of world cites and map
-  d3.selectAll(".worldcity").style("fill-opacity", 1)
-    .style("stroke-opacity", 1);
-  d3.selectAll(".countries").selectAll("path").style("opacity", 1) ;
-  d3.selectAll(".worldcity")
-    .attr("stroke-width", 1)
-    .attr("stroke-opacity", 1);   
-}
-
-
-//...............................
+// ...............................
 // barChart data fns
 
-//concatenate geogroups together, separated by a gap
+// concatenate geogroups together, separated by a gap
 function fn_concat (barChartGroup, geogroupArray, this_dim) {
   objArray = [];
   count = 0; //for gap id labels
@@ -180,7 +152,6 @@ function fn_abbr(d) {
 }
 
 function sortByRegion(region, this_dim) {
-
   ghg_byRegion = [];
   data_GHG.forEach(function (d) {
     if (regionDict[d.region] === region && d[this_dim] != "") ghg_byRegion.push(d);
@@ -193,24 +164,6 @@ function sortByRegion(region, this_dim) {
 // ...............................
 // barChart updates
 
-function fn_colour_barChart (attrFlag, attrValue) {
-  if (attrFlag === "none") return choose_colourArray[attrFlag][0];
-  else if (attrFlag === "methodology") {//integers from 1-6, no mapping needed
-    return colour_methodNum[attrValue];
-  } else if (attrFlag === "change in emissions") {
-    return choose_colourArray[attrFlag][ emissionsChangeDict[attrValue] ];
-  } else {
-     
-    colourmapDim = fn_colourmapDim(attrFlag);
-
-    //plot missing data in light gray
-    if (attrFlag === "HDD 15.5C" || attrFlag === "CDD 23C") {
-      return colourmapDim(attrValue);} //zeros are real
-    else if (attrValue === 0) return nanColour;
-    else if (!attrValue) return nanColour;
-    else return colourmapDim(attrValue);
-  } 
-}
 function fn_colourmapDim (attrFlag) {
 
   dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]];
@@ -218,7 +171,7 @@ function fn_colourmapDim (attrFlag) {
   //colour map to take data value and map it to the colour of the level bin it belongs to
   colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
             .domain([dimExtent[0], dimExtent[1]])
-            .range(choose_colourArray[attrFlag]);
+            .range(barColourDict[attrFlag]);
 
   return colourmapDim;
 }
@@ -232,7 +185,7 @@ function fn_barChartLegend (attrFlag) {
 
   //Create the g nodes
   var rects = svgCB.selectAll('rect')
-          .data(choose_colourArray[attrFlag])
+          .data(barColourDict[attrFlag])
           .enter()
           .append('g');
 
@@ -246,14 +199,14 @@ function fn_barChartLegend (attrFlag) {
                   return 41 + i * 80;
                 })
                 .attr("fill", function (d, i) {
-                  return choose_colourArray[attrFlag][i];
+                  return barColourDict[attrFlag][i];
                 });
 
   //Fill rects. Do not display any rects for "None" menu item.
   d3.select("#barChartLegend").select("svg")
     .selectAll('rect')
     .attr("fill", function (i, j) {
-      return choose_colourArray[attrFlag][j];
+      return barColourDict[attrFlag][j];
     })
     .style("display", function () {
       return (attrFlag === "none") ? "none" : "inline";
@@ -286,7 +239,7 @@ function fn_barChartLegend (attrFlag) {
     //colour map to take data value and map it to the colour of the level bin it belongs to
     var colourmapDim = d3.scaleQuantize()  //d3.scale.linear() [old d3js notation]
               .domain([dimExtent[0], dimExtent[1]])
-              .range(choose_colourArray[attrFlag]); 
+              .range(barColourDict[attrFlag]); 
   } //cb_array
 
  
@@ -368,10 +321,10 @@ function fn_legendRectTooltip(attrFlag) {
     .on('mouseout', tool_tip.hide);
 }
 
-//...............................
+// ...............................
 // barChart visual interactivity
 
-//Enlarge x-axis labels and reset
+// Enlarge x-axis labels and reset
 function fn_enlargeName(geogroup_name, cityName) {
   idName = format_idName(cityName);
   //hack for Singapore
@@ -444,11 +397,11 @@ function fn_cityLabels_perCapita (d, i, thisCityGroup) {
   }
 }
 
-//...............................
+// ...............................
 // create barChart SVGs
 
 
-//Create arrow + text for off-scale emissions
+// Create arrow + text for off-scale emissions
 function fn_arrow(geogroup_id, city) {//used for offscale emission values
 
   var data = [];
@@ -558,7 +511,7 @@ function appendArrowSVG(geogroup_id, data, city) {
   }
 }
 
-//Create barChart titles for each geographic region
+// Create barChart titles for each geographic region
 function fn_svgHeadings (geogroup_id) {
 
   if (geogroup_id === "#barChart_groupEastAsia") {
@@ -600,12 +553,11 @@ function fn_svgHeadings (geogroup_id) {
                 "translate(" + svgTrans[idx][0] + " " + svgTrans[idx][1] + ")" ;
         });
   }
- 
 }
 
-//----------------------------------------------
+// ----------------------------------------------
 // Functions for city card info
-//----------------------------------------------
+// ----------------------------------------------
 
 function fn_setupSVGCityCard(svgCityCard, className, idName, transX, transY) {
   //setup text node label or value
