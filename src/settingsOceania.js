@@ -1,5 +1,5 @@
 export default {
-  aspectRatio: 1138/125,
+  aspectRatio: 80/125,
   margin: {
     top: 0,
     left: 0,
@@ -60,7 +60,7 @@ export default {
       return d.value;
     },
     ticks: 5,
-    tickSizeOuter: 1
+    tickSizeOuter: 0
   },
 
   z: {

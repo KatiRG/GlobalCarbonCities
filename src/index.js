@@ -1,5 +1,13 @@
 // settings for stacked bar charts
 import settingsEA from "./settingsEastAsia.js";
+import settingsNA from "./settingsNorthAmerica.js";
+import settingsEU from "./settingsEurope.js";
+import settingsSEA from "./settingsSoutheastAsia.js";
+import settingsLA from "./settingsLatinAmer.js";
+import settingsSA from "./settingsSouthAsia.js";
+import settingsAF from "./settingsAfrica.js";
+import settingsNAWA from "./settingsNAWA.js";
+import settingsOC from "./settingsOceania.js";
 
 // ----------------------------------------------------
 // Setup
@@ -38,9 +46,39 @@ const chartEA = d3.select(".data.EAdata")
     .append("svg")
     .attr("id", "barChart_groupEastAsia");
 
+const chartNA = d3.select(".data.NAdata")
+    .append("svg")
+    .attr("id", "barChart_groupNAmer");
+
+const chartEU = d3.select(".data.EUdata")
+    .append("svg")
+    .attr("id", "barChart_groupEurope");
+
+const chartSEA = d3.select(".data.SEAdata")
+    .append("svg")
+    .attr("id", "barChart_groupSEAsia");
+
+const chartLA = d3.select(".data.LAdata")
+    .append("svg")
+    .attr("id", "barChart_groupLatinAmer");
+
+const chartSA = d3.select(".data.SAdata")
+    .append("svg")
+    .attr("id", "barChart_groupSouthAsia");
+
+const chartAF = d3.select(".data.AFdata")
+    .append("svg")
+    .attr("id", "barChart_groupAfrica");
+
+const chartNAWA = d3.select(".data.NAWAdata")
+    .append("svg")
+    .attr("id", "barChart_groupNAWA");
+
+const chartOC = d3.select(".data.OCdata")
+    .append("svg")
+    .attr("id", "barChart_groupOceania");
 
 // city card
-// ---------
 let svgCityCard = d3.select("#mycityCardDiv").append("svg")
     .attr("width", 273)
     .attr("height", mapHeight);
@@ -323,8 +361,8 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
   d3.queue()
-      // .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned.tsv")
-      .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned_testSA.tsv")
+      .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned.tsv")
+      // .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned_testSA.tsv")
       .await(function(error, datafile) {
         data = datafile;
 
@@ -336,8 +374,14 @@ i18n.load(["src/i18n"], () => {
 
         // Draw graphs
         showBarChart(chartEA, settingsEA, "East Asia");
-
-        // showBarChart(chartSA, settingsSA, stackedSA);
+        showBarChart(chartNA, settingsNA, "North America");
+        showBarChart(chartEU, settingsEU, "Europe");
+        showBarChart(chartSEA, settingsSEA, "Southeast Asia");
+        showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
+        showBarChart(chartSA, settingsSA, "South Asia");
+        showBarChart(chartAF, settingsAF, "Africa");
+        showBarChart(chartNAWA, settingsNAWA, "N Africa & W Asia");
+        showBarChart(chartOC, settingsOC, "Oceania");
       });
 });
 

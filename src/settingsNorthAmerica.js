@@ -60,7 +60,7 @@ export default {
       return d.value;
     },
     ticks: 5,
-    tickSizeOuter: 1
+    tickSizeOuter: 0
   },
 
   z: {

@@ -213,9 +213,9 @@ div.tooltip {
 }
 
 /*to allow x-axis labels to overflow past div bd*/
-/*svg:not(:root) {
+svg:not(:root) {
     overflow: unset;
-}*/
+}
 svg.barSVG {
     overflow: unset;
 }
@@ -294,6 +294,7 @@ div.rtooltip {
   left: 380px;
   color: #565656;
   text-align: left;
+  font-size: 18px;
 }
 #barChartLegendLabel {
   color: #565656;

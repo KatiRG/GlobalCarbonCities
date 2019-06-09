@@ -1,9 +1,8 @@
 export default {
-  aspectRatio: 1138/125,
+  aspectRatio: 16 / 4,
   margin: {
     top: 0,
-    left: 0,
-    right: 0,
+    left: 5,
     bottom: 0
   },
   filterData: function(data) {
@@ -60,7 +59,7 @@ export default {
       return d.value;
     },
     ticks: 5,
-    tickSizeOuter: 1
+    tickSizeOuter: 0
   },
 
   z: {
