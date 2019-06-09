@@ -274,6 +274,13 @@ div.rtooltip {
 
 /*--------------------------*/
 /* bar chart */
+.bar-group .active {
+  stroke: #363636 !important;
+}
+.bar-group .fade {
+  opacity: 0.3 !important;
+}
+
 .headingClass { /* svg stylings */
   font-weight: bold;
   /*color: #565656;*/

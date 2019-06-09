@@ -345,6 +345,22 @@ function showBarChart(chart, settings, region) {
 
   barChart(chart, settings, regionData);
 
+  d3.selectAll(".bar-group")
+      .on("touchmove mousemove", function(d, i) {
+        const idName = i18next.t(d.city, {ns: "cities"});
+        highlightElements(idName);
+      })
+      .on("mouseout", function(d) {
+        resetElements();
+
+        // d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
+        //   .style("opacity", 0.3)
+        //   .style("font-size", "11px") //return to orig size
+        //   .attr("fill", colour_labels);
+
+        // div.style("opacity", 0);
+      });
+
   // d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
   // updateTitles();
 }
@@ -387,3 +403,72 @@ i18n.load(["src/i18n"], () => {
 
 $(document).on("change", uiHandler);
 $(document).on("change", uiHandler);
+
+function highlightElements(idName) {
+  // clear any previous story first
+  // d3.select("#ghgStory").text("");
+  // var selectedCity = data_GHG.filter(function (d) { return (d.idName.indexOf(idName) >= 0 ) })[0].city;
+  // var selectedCityObj = data_GHG.filter(function (d) { return d.city === selectedCity })[0];
+
+  // Clear Previous
+  resetElements();
+
+  // //Display city card
+  // fn_fillSVGCityCard (selectedCityObj, attrFlag);
+
+  // //Highlight Current
+  // //-----------------
+  // d3.select("#bar" + idName)
+  //   .style("stroke", "#363636");
+  d3.select(`.bar-group.${idName}`)
+      .select("rect")
+      .classed("active", true);
+
+  // d3.selectAll(".bar:not(#bar" + idName + ")")
+  //   .style("fill-opacity", 0.1);
+  d3.selectAll(`.bar-group:not(.${idName})`)
+      .select("rect")
+      .classed("fade", true);
+
+  // d3.selectAll(".node:not(#node" + idName + ")")
+  //   .style("fill-opacity", 0.1)
+  //   .style("stroke-opacity", 0.1);
+
+  // d3.selectAll(".worldcity:not(#city" + idName + ")")
+  //   .style("fill-opacity", 0.1)
+  //   .style("stroke-opacity", 0.1);
+
+  // //Highlight current country
+  // var thisCountry = data_GHG.filter(function (d) { return d.idName === idName })[0].country.replace(/\s/g, '_');
+
+  // d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
+
+  // d3.select("#city" + idName)
+  //   .attr("stroke", "black")
+  //   .attr("stroke-width", 2);
+} // ./highlightElements()
+
+// Reset elements to original style before selection
+function resetElements() {
+  // reset bar opacity
+  d3.selectAll(".bar-group")
+      .selectAll("rect")
+      .classed("active", false)
+      .classed("fade", false);
+
+
+  // //clear previously highlighted country
+  // d3.selectAll(".worldcountry")
+  //   .style("stroke","#555")
+  //   .style("stroke-width", 1)
+  //   .style("fill", countryColour)
+  //   .style("opacity", 1);
+
+  // //reset opacity of world cites and map
+  // d3.selectAll(".worldcity").style("fill-opacity", 1)
+  //   .style("stroke-opacity", 1);
+  // d3.selectAll(".countries").selectAll("path").style("opacity", 1) ;
+  // d3.selectAll(".worldcity")
+  //   .attr("stroke-width", 1)
+  //   .attr("stroke-opacity", 1);   
+}
