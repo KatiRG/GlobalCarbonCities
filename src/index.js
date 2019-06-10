@@ -450,6 +450,11 @@ function showBarChart(chart, settings, region) {
 
   barChart(chart, settings, regionData);
 
+  // Define the div for the barChart rect tooltip
+  const div = d3.select("body").append("div")
+      .attr("class", "tooltip-bar")
+      .style("opacity", 0);
+
   d3.selectAll(".bar-group")
       .on("touchmove mousemove", function(d, i) {
         const count = i + 1;
@@ -461,7 +466,7 @@ function showBarChart(chart, settings, region) {
         const tipx = 50;
         const tipy = -120;
         div.style("opacity", 1);
-        div.html(`${count}: ${cityName}: ${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
+        div.html(`#${count}. ${cityName} <br>${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
             .style("left", d3.event.pageX + tipx + "px")
             .style("top", d3.event.pageY + tipy + "px");
       })

@@ -135,8 +135,8 @@ ul {
 /*Used for barChart rects */
 div.tooltip-bar {
   position: absolute;
-  height: 40px;
-  width: 111px;
+  height: 46px;
+  width: 150px;
   padding: 6px;
   background: #8A979D;
   color: #000;
