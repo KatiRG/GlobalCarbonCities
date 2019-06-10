@@ -13,17 +13,6 @@ export default {
 
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
 
-    const junk = [{
-      category: thisRegion,
-      values: data.map((p) => {
-        return {
-          city: p.city,
-          value: p.s1PerCap
-        };
-      })
-    }];
-    console.log("filterData: ", junk);
-
     return [{
       category: thisRegion,
       values: data.map((p) => {

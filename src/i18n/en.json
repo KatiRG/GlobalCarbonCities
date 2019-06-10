@@ -1,7 +1,7 @@
 {
   "en": {
-    "constants": {
-      "units": "Tg C yr<sup>-1</sup>",
+    "units": {
+      "emissions per cap": "[tCO₂eq/capita]",
       "linkURL": "https://www.statcan.gc.ca/eng/concepts/definitions/guide-symbol"
     },
      "pageText": {

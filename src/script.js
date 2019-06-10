@@ -234,10 +234,6 @@ d3.tsv(fname, function(ghg) {
 // ----------------------------------------------------
 // Main Functions
 // ----------------------------------------------------
-
-
-
-
 function highlightElements(idName) {
   // clear any previous story first
   d3.select("#ghgStory").text("");
@@ -275,19 +271,10 @@ function highlightElements(idName) {
   d3.select("#city" + idName)
     .attr("stroke", "black")
     .attr("stroke-width", 2);
-
-  
-
 } // ./highlightElements()
 
 
 function emissionsBarChart(geogroup_name, geogroup_id) {
-  if (attrFlag != "none") dimExtent = [dimExtentDict[attrFlag][0], dimExtentDict[attrFlag][1]]
-  var reorderButton = d3.select("#reorderButton").text();  
-
-  // Remove any previous bar chart
-  d3.select(geogroup_id).select("svg").remove();
-  
   // barChart caption in #barChartCaption div
   this_dim = (d3.select("#gdpButton").text() === label_dataPerGDP) ?
                       label_dataPerCap : label_dataPerGDP;

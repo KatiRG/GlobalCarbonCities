@@ -13,6 +13,14 @@ import settingsOC from "./settingsOceania.js";
 // Constants
 const twoSigma = 0.9545;
 
+// Define number format (2 decimal places) from utils.js
+const globalSettings = {
+  _selfFormatter: i18n.getNumberFormatter(2),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
+  }
+};
+
 const barColourDict = {
   "ProtocolNum": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
   "Measurement year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344", "#3a2d25"],
@@ -126,17 +134,6 @@ const transy = 70;
 const deltay = 14;
 
 // -----------------------------------------------------------------------------
-// AUX
-function formatIDname(city) {
-  const idName = city.replace(/\s/g, "_")
-      .replace(/\(/g, "")
-      .replace(/\)/g, "")
-      .replace(/'/g, "")
-      .replace(/,/g, "")
-      .replace(/&/g, "");
-  return idName;
-}
-
 // FNS
 // page texts
 function pageText() {
@@ -202,7 +199,8 @@ function setupData(data) {
     const ieseCIMI = +d["CIMI (IESE) [dimensionless]"];
     const ieseRank = +d["CIMI ranking (IESE) [dimensionless]"];
 
-    const idName = formatIDname(d.city);
+    const idName = (d.city.indexOf(" ") !== -1) ?
+              i18next.t(d.city, {ns: "cities"}) : d.city;
 
     cityName_array.push(city);
 
@@ -410,7 +408,9 @@ function drawMap() {
           .enter().append("path")
           .attr("d", path)
           .attr("id", function(d, i) {
-            return "city" + formatIDname(d.id);
+            const cityName = (d.id.indexOf(" ") !== -1) ?
+              i18next.t(d.id, {ns: "cities"}) : d.id;
+            return "city" + cityName;
           })
           .attr("class", function(d) {
             const cityMatch = d.id;
@@ -420,7 +420,9 @@ function drawMap() {
           })
           .attr("r", 10)
           .on("mouseover", function(d) {
-            highlightElements(formatIDname(d.properties.city));
+            const cityName = (d.properties.city.indexOf(" ") !== -1) ?
+              i18next.t(d.properties.city, {ns: "cities"}) : d.properties.city;
+            highlightElements(cityName);
           })
           .on("mouseout", function(d) {
             resetElements();
@@ -445,15 +447,23 @@ function showBarChart(chart, settings, region) {
       regionData.push(thisObj);
     }
   });
-  console.log("regionData: ", regionData);
-
 
   barChart(chart, settings, regionData);
 
   d3.selectAll(".bar-group")
       .on("touchmove mousemove", function(d, i) {
-        const idName = i18next.t(d.city, {ns: "cities"});
-        highlightElements(idName);
+        const count = i + 1;
+        const cityName = (d.city.indexOf(" ") !== -1) ?
+              i18next.t(d.city, {ns: "cities"}) : d.city;
+        highlightElements(cityName);
+
+        // Tooltip
+        const tipx = 50;
+        const tipy = -120;
+        div.style("opacity", 1);
+        div.html(`${count}: ${cityName}: ${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
+            .style("left", d3.event.pageX + tipx + "px")
+            .style("top", d3.event.pageY + tipy + "px");
       })
       .on("mouseout", function(d) {
         resetElements();
