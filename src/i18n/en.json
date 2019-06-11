@@ -9,6 +9,13 @@
       "title": "A global dataset of CO2 emissions and related ancillary data",
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>"
     },
+    "cityCard": {
+      "initTitle": "City Stats",
+      "initTextLine1": "Hover over a city on the",
+      "initTextLine2": "map or on the bar charts",
+      "initTextLine3": "to display emission value",
+      "initTextLine4": "and related ancillary data."
+    },
     "cities": {
       "Abington": "Abington", 
       "Addis Ababa": "Addis_Ababa", 

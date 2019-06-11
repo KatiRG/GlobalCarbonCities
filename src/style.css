@@ -169,6 +169,12 @@ div.tooltip {
   pointer-events: none;
 }
 
+/* city card */
+#cityCardg rect {
+  fill: #4c87b5;
+  stroke: none;
+}
+
 /* map */
 .worldcountry {
   fill: rgb(24, 71, 27);

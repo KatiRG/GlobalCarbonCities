@@ -45,6 +45,10 @@ const barColourDict = {
 };
 
 // ----------------------------------------------------
+// Data holders
+let selectedRegion = "init";
+
+// ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
 let data = [];
@@ -62,6 +66,20 @@ const div = d3.select("body").append("div")
 
 // ----------------------------------------------------
 // SVGs
+
+// city card
+let svgCityCard = d3.select("#mycityCardDiv").append("svg")
+    .attr("width", 273)
+    .attr("height", mapHeight);
+
+svgCityCard = d3.select("#mycityCardDiv").select("svg")
+    .append("g").attr("id", "cityCardg");
+svgCityCard.append("rect")
+    .attr("width", 200)
+    .attr("height", 310)
+    .attr("x", 5)
+    .attr("y", -20);
+
 // d3js World Map
 const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
 const mapWidth = 850 - mapMargin.left - mapMargin.right;
@@ -113,21 +131,6 @@ const chartNAWA = d3.select(".data.NAWAdata")
 const chartOC = d3.select(".data.OCdata")
     .append("svg")
     .attr("id", "barChart_groupOceania");
-
-// city card
-let svgCityCard = d3.select("#mycityCardDiv").append("svg")
-    .attr("width", 273)
-    .attr("height", mapHeight);
-
-svgCityCard = d3.select("#mycityCardDiv").select("svg")
-    .append("g").attr("id", "cityCardg");
-svgCityCard.append("rect")
-    .attr("width", 200)
-    .attr("height", 300)
-    .attr("x", 5)
-    .attr("y", -20)
-    .attr("fill", "#4c87b5")
-    .attr("stroke", "none");
 
 const transx = 15;
 const transy = 70;
@@ -335,11 +338,34 @@ function findDimExtent() {
 }
 
 // ----------------------------------------------------------------
+function showCityCard() {
+  // initial text
+  svgCityCard.select("#cityCardCity")
+      .text("City Stats");
+
+  // svgCityCard.select("#cityCardEmissions")
+  //     .text("Hover over a city on the")
+  //     .style("font-size", "14px");
+
+  // svgCityCard.select("#cityCardYear")
+  //     .text("map or on the bar charts")
+  //     .style("font-size", "14px");
+
+  // svgCityCard.select("#cityCardDataset")
+  //     .text("to display emission value")
+  //     .style("font-size", "14px");
+
+  // svgCityCard.select("#cityCardProtocol")
+  //     .text("and related ancillary data.")
+  //     .style("font-size", "14px");
+}
+
+// ----------------------------------------------------------------
 // Map reset button
 d3.select("#mapResetButton")
     .on("click", resetMap);
 
-function resetMap() {  
+function resetMap() {
   // NB: must apply reset to svg not g
   const svg = d3.select("#map").select("svg");
   zoom.transform(svg, d3.zoomIdentity);
@@ -486,7 +512,24 @@ function showBarChart(chart, settings, region) {
 }
 
 // -----------------------------------------------------------------------------
+// load data fn
+// const loadData = function(selectedRegion, cb) {
+//   if (!data[selectedRegion]) {
+//     d3.json("data/road/" + selectedRegion + ".json", function(err, filedata) {
+//       data[selectedRegion] = filedata;
+//       cb();
+//     });
+//   } else {
+//     cb();
+//   }
+// };
+
+// -----------------------------------------------------------------------------
 function uiHandler(event) {
+  // loadData(selectedRegion, () => {
+  //   showACityCard();
+  // });
+
   // Colour bars according to attribute selected
   d3.selectAll(".bar-group")
       .each(function(d) {
@@ -517,6 +560,7 @@ i18n.load(["src/i18n"], () => {
         setupData(data);
         findDimExtent();
         drawMap();
+        showCityCard();
 
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
