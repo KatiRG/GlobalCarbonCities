@@ -12,6 +12,7 @@ import settingsOC from "./settingsOceania.js";
 // ----------------------------------------------------
 // Constants
 const twoSigma = 0.9545;
+const dummyNum = -99999999; // NaN holder
 
 // Define number format (2 decimal places) from utils.js
 const globalSettings = {
@@ -22,22 +23,22 @@ const globalSettings = {
 };
 
 const barColourDict = {
-  "ProtocolNum": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
-  "Measurement year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344", "#3a2d25"],
+  "protocol": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
+  "year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344", "#3a2d25"],
   "change in emissions": ["#53442F", "#BABE98", "#DBC28F", "#BEC3BC", "#E6E8E3"],
-  "Population": ["#DED8B6", "#F9C869", "#5D5061", "#875979", "#6A3058", "#2F274C"],
-  "GDP-PPP/capita": ["#b8aca2", "#E394A7", "#9e9ac8", "#756bb1", "#54278f", "#3a1b64"],
-  "Area": ["#EDDAD0", "#D5DED9", "#99B2B7", "#5b6a6d", "#948C75", "#676251"],
-  "Population density": ["#DED8B6", "#F9C869", "#E1F5C4", "#ADD6BC", "#486d6c", "#6A3058"],
-  "Diesel price": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
-  "Gas price": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
-  "HDD 15.5C": ["#F5F5C6", "#F5DDB5", "#d6c2d0", "#a27696", "#b8d7ff", "#B8FAFF"],
-  "CDD 23C": ["#E1F5C4", "#ffeda0", "#F9D423", "#FC913A", "#FF4E50", "#e70081"],  
+  "population": ["#DED8B6", "#F9C869", "#5D5061", "#875979", "#6A3058", "#2F274C"],
+  "GDP_PPP_percap": ["#b8aca2", "#E394A7", "#9e9ac8", "#756bb1", "#54278f", "#3a1b64"],
+  "area": ["#EDDAD0", "#D5DED9", "#99B2B7", "#5b6a6d", "#948C75", "#676251"],
+  "pop_density": ["#DED8B6", "#F9C869", "#E1F5C4", "#ADD6BC", "#486d6c", "#6A3058"],
+  "diesel": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
+  "gas": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
+  "HDD": ["#F5F5C6", "#F5DDB5", "#d6c2d0", "#a27696", "#b8d7ff", "#B8FAFF"],
+  "CDD": ["#E1F5C4", "#ffeda0", "#F9D423", "#FC913A", "#FF4E50", "#e70081"],
   "Low BUA (2014)": ["#d7b5d8", "#CD7CB7", "#885F9A", "#B65873", "#5F323F", "red"],
-  "Low BUA % (2014)": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
+  "low_bua_pc_2014": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
   "Low BUA density (2014)": ["#d7b5d8", "#CD7CB7", "#885F9A", "#B65873", "#5F323F", "red"],
   "High BUA (2014)": ["#EEDAA7", "#E6D472", "#E79C74", "#D45659", "#7D4755", "red"],
-  "High BUA % (2014)": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
+  "high_bua_pc_2014": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
   "High BUA density (2014)": ["#EEDAA7", "#E6D472", "#E79C74", "#D45659", "#7D4755", "red"],
   "Congestion rank (INRIX)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"],
   "World Rank (TomTom)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"],
@@ -46,26 +47,25 @@ const barColourDict = {
 
 // ----------------------------------------------------
 // Data holders
-let selectedRegion = "init";
+
 
 // ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
-let data = [];
+let dataFixed; // for fixed data attributes that are always needed
+let data = []; // for selected attributes used in city card and to colour bars
 let dataGHG;
-let domainDict;
+let selectedAttribute = "init";
 
 const pointRadius = 5;
 
-const cityName_array = [];
-
-// Define the div for the gdpButton tooltip
-const div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
 // ----------------------------------------------------
 // SVGs
+
+// d3js World Map
+const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
+const mapWidth = 850 - mapMargin.left - mapMargin.right;
+const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
 // city card
 let svgCityCard = d3.select("#mycityCardDiv").append("svg")
@@ -79,11 +79,6 @@ svgCityCard.append("rect")
     .attr("height", 310)
     .attr("x", 5)
     .attr("y", -20);
-
-// d3js World Map
-const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
-const mapWidth = 850 - mapMargin.left - mapMargin.right;
-const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
 // barChart legend
 const margin = {top: 7, right: 0, bottom: 0, left: 20};
@@ -205,8 +200,6 @@ function setupData(data) {
     const idName = (d.city.indexOf(" ") !== -1) ?
               i18next.t(d.city, {ns: "cities"}) : d.city;
 
-    cityName_array.push(city);
-
     return {
       "city": city,
       "idName": idName,
@@ -262,86 +255,12 @@ function setupData(data) {
   });
 }
 
-function findDimExtent() {
-  console.log("dataGHG: ", dataGHG)
-  dimExtentDict = {
-    "High BUA % (2014)": [0, 90], "Low BUA % (2014)": [0, 90]
-  };
-
-  domainDict = {
-    "ProtocolNum": {
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["ProtocolNum"];
-      })
-    },
-    "Measurement year": { // [2005, 2015]
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["Measurement year"];
-      })
-    },
-    "Population": {
-      "lims": [
-        d3.mean(dataGHG, function(d) {return d["Population"]; }) - d3.mean(dataGHG, function(d) {return d["Population"]; }) * twoSigma,
-        d3.mean(dataGHG, function(d) {return d["Population"]; }) + d3.mean(dataGHG, function(d) {return d["Population"]; }) * twoSigma
-      ]
-    },
-    "GDP-PPP/capita": { // [5000, 80000]
-      "lims": [
-        d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) - d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) * twoSigma,
-        d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) + d3.mean(dataGHG, function(d) {return d["GDP-PPP/capita"]; }) * twoSigma
-      ]
-    },
-    "Area": { // [10, 5000]
-      "lims": [
-        d3.mean(dataGHG, function(d) {return d["Area"]; }) - d3.mean(dataGHG, function(d) {return d["Area"]; }) * twoSigma,
-        d3.mean(dataGHG, function(d) {return d["Area"]; }) + d3.mean(dataGHG, function(d) {return d["Area"]; }) * twoSigma
-      ]
-    },
-    "Population density": { // [100, 30000]
-      "lims": [
-        d3.mean(dataGHG, function(d) {return d["Population density"]; }) - d3.mean(dataGHG, function(d) {return d["Population density"]; }) * twoSigma,
-        d3.mean(dataGHG, function(d) {return d["Population density"]; }) + d3.mean(dataGHG, function(d) {return d["Population density"]; }) * twoSigma
-      ]
-    },
-    "Diesel price": { // [0.05, 2.1]
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["Diesel price"];
-      })
-    },
-    "Gas price": { // [0.05, 2.1]
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["Gas price"];
-      })
-    },
-    "HDD 15.5C": { // [0, 3000]
-      "lims": [
-        d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) - d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) * twoSigma,
-        d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) + d3.mean(dataGHG, function(d) {return d["HDD 15.5C"]; }) * twoSigma
-      ]
-    },
-    "CDD 23C": { // [0, 3000]
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["CDD 23C"];
-      })
-    },
-    "Low BUA % (2014)": { // [0, 90]
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["Low BUA % (2014)"];
-      })
-    },
-    "High BUA % (2014)": { // [0, 90]
-      "lims": d3.extent(dataGHG, function(d) {
-        return d["High BUA % (2014)"];
-      })
-    }
-  };
-}
-
 // ----------------------------------------------------------------
 function showCityCard() {
-  // initial text
-  svgCityCard.select("#cityCardCity")
-      .text("City Stats");
+  console.log("showCityCard: ", data)
+  // // initial text
+  // svgCityCard.select("#cityCardCity")
+  //     .text("City Stats");
 
   // svgCityCard.select("#cityCardEmissions")
   //     .text("Hover over a city on the")
@@ -358,6 +277,75 @@ function showCityCard() {
   // svgCityCard.select("#cityCardProtocol")
   //     .text("and related ancillary data.")
   //     .style("font-size", "14px");
+}
+
+// Returns dim extent of selected attribute
+const findDimExtent = function(cb) {
+  if ((selectedAttribute === "protocol") | (selectedAttribute === "year") |
+    (selectedAttribute === "diesel") | (selectedAttribute === "gas") |
+    (selectedAttribute === "CDD") | (selectedAttribute === "low_bua_pc_2014") |
+    (selectedAttribute === "high_bua_pc_2014")) {
+    data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
+      if (d.value > dummyNum) return d.value;
+    });
+  } else { // NB: ignore dummyNum
+    data[selectedAttribute]["lims"] = [
+      d3.mean(data[selectedAttribute], function(d) {
+        if (d.value > dummyNum) return d.value;
+      }) -
+          d3.mean(data[selectedAttribute], function(d) {
+            if (d.value > dummyNum) return d.value;
+          }) * twoSigma,
+      d3.mean(data[selectedAttribute], function(d) {
+        if (d.value > dummyNum) return d.value;
+      }) +
+          d3.mean(data[selectedAttribute], function(d) {
+            if (d.value > dummyNum) return d.value;
+          }) * twoSigma
+    ];
+  }
+  cb();
+};
+
+function mapValueToColour(thisCity) {
+  // colour map to take data value and map it to the colour of the level bin it belongs to
+  const d0 = data[selectedAttribute].lims[0];
+  const d1 = data[selectedAttribute].lims[1];
+
+  if (data[selectedAttribute].filter(function(p) {
+    return (p.city === thisCity);
+  }).length > 0) {
+    const val = data[selectedAttribute].filter(function(p) {
+      return (p.city === thisCity);
+    })[0].value;
+
+    const colourmapDim = d3.scaleQuantile()
+        .domain([d0, d1])
+        .range(barColourDict[selectedAttribute]);
+
+    return colourmapDim(val); // colour for bar
+  } else {
+    console.log("nan: ")
+    return "#e6e8e3";
+  }
+}
+
+function colourBars() {
+  // Colour bars according to attribute selected
+  d3.selectAll(".bar-group")
+      .each(function(d) {
+        const thisCity = d.city;
+        let thisColour;
+        if (selectedAttribute === "region") {
+          const thisRegion = data[selectedAttribute].filter(function(p) { return (p.city === thisCity); })[0].value;
+          thisColour = i18next.t(thisRegion, {ns: "regionColours"});
+        } else {
+          findDimExtent(() => {
+            thisColour = mapValueToColour(thisCity);
+          });
+        }
+        d3.select(this).select("rect").style("fill", thisColour);
+      });
 }
 
 // ----------------------------------------------------------------
@@ -512,53 +500,40 @@ function showBarChart(chart, settings, region) {
 }
 
 // -----------------------------------------------------------------------------
-// load data fn
-// const loadData = function(selectedRegion, cb) {
-//   if (!data[selectedRegion]) {
-//     d3.json("data/road/" + selectedRegion + ".json", function(err, filedata) {
-//       data[selectedRegion] = filedata;
-//       cb();
-//     });
-//   } else {
-//     cb();
-//   }
-// };
+// Fn to load attribute data
+const loadData = function(cb) {
+  if (!data[selectedAttribute]) {
+    d3.json(`data/cityApp_attributes_consolidated_${selectedAttribute}.json`, function(err, filedata) {
+      data[selectedAttribute] = filedata;
+      console.log("data in loadData: ", data)
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
 
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
-  // loadData(selectedRegion, () => {
-  //   showACityCard();
-  // });
-
-  // Colour bars according to attribute selected
-  d3.selectAll(".bar-group")
-      .each(function(d) {
-        const attr = event.target.value;
-        if (attr === "region") {
-          const thisRegion = dataGHG.filter(function(p) { return (p.city === d.city) })[0][attr];
-          d3.select(this).select("rect").style("fill", i18next.t(thisRegion, {ns: "regionColours"}));
-        } else {
-          const val = dataGHG.filter(function(p) { return (p.city === d.city) })[0][attr];
-          const thisColour = mapValueToColour(attr, val);
-          d3.select(this).select("rect").style("fill", thisColour);
-        }
-      });
+  selectedAttribute = event.target.value;
+  loadData(() => {
+    showCityCard();
+    colourBars();
+  });
 }
 // -----------------------------------------------------------------------------
 // Initial page load
 i18n.load(["src/i18n"], () => {
   // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
   d3.queue()
-      .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned.tsv")
-      // .defer(d3.tsv, "data/cityApp_attributes_consolidated_pruned_testSA.tsv")
+      .defer(d3.tsv, "data/cityApp_attributes_consolidated_fixedSet.tsv")
       .await(function(error, datafile) {
-        data = datafile;
+        dataFixed = datafile;
 
         // Page text
         pageText();
 
-        setupData(data);
-        findDimExtent();
+        setupData(dataFixed);
         drawMap();
         showCityCard();
 
@@ -645,17 +620,4 @@ function resetElements() {
   // d3.selectAll(".worldcity")
   //   .attr("stroke-width", 1)
   //   .attr("stroke-opacity", 1);
-}
-
-function mapValueToColour(attr, val) {
-  // colour map to take data value and map it to the colour of the level bin it belongs to  
-  const d0 = domainDict[attr].lims[0]; // domainDict[attr].mean - domainDict[attr].mean * twoSigma;
-  const d1 = domainDict[attr].lims[1];
-
-  const colourmapDim = d3.scaleQuantile()
-      // .domain([dimExtentDict[attr][0], dimExtentDict[attr][1]])
-      .domain([d0, d1])
-      .range(barColourDict[attr]);
-
-  return colourmapDim(val); // colour for bar
 }
