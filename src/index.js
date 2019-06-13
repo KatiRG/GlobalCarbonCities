@@ -139,122 +139,6 @@ function pageText() {
   d3.select("#pageTitle").html(i18next.t("title", {ns: "pageText"}));
 }
 
-function setupData(data) {
-  dataGHG = data.map(function(d) {
-    const city = d["city"];
-    const region = d["Region"];
-    const cityLocation = [+d["Longitude (others) [degrees]"] -360, +d["Latitude (others) [degrees]"]];
-    const country = d.Country;
-    const dset = d["Scope-1 source dataset"];
-    const popn = +d["Population (consolidated)"];
-    const area = d["city area (consolidated) [km2]"];
-    const scope1 = d["Scope-1 GHG emissions [tCO2 or tCO2-eq]"];
-    const measurementYear = d["Year of emission"];
-    const GDP = d["GDP-PPP (others) [$BN]"];
-    const s1PerCap = +d["S1 per capita"]; // will be sorted incorrectly without the "+"
-    const s1PerGDP = d["Scope-1 GHG emissions [tCO2 or tCO2-eq]"]/d["GDP-PPP (others) [$BN]"];
-    const gdpPerCap = d["GDP-PPP/capita (consolidated) [USD/pop]"];
-    const popDensity = d["Population density (consolidated) [pop/km2]"];
-    const HDD155C = +d["HDD 15.5C (clim)"];
-    const CDD23C = +d["CDD 23C (clim)"];
-    const dieselPrice = +d["Diesel price 2014 (others) [USD/liter]"];
-    const gasPrice = +d["Gasoline price 2014 (others) [USD/liter]"];
-    const HH = +d["Household size (others) [people/household]"];
-    const methodologyNum = +d["MethodNum"]; // 1-6 for 6 protocols in total
-    // const methodologyDetails = d["Methodology details (CDP)"];
-    const deltaEmissions = d["Increase/Decrease from last year (CDP)"];
-
-    // Urban Areas
-    const lowBUA2014 = +d["Low BUA - 2014 (UEX) [km2]"];
-    const highBUA2014 = +d["High BUA - 2014 (UEX) [km2]"];
-    const lowBUApc2014 = +d["Low BUA % - 2014 (UEX) [percent]"]*100;
-    const highBUApc2014 = +d["High BUA % - 2014 (UEX) [percent]"]*100;
-    const lowBUApdensity2014 = +d["Low BUA population density - 2014 (UEX) [people/km2]"];
-    const highBUApdensity2014 = +d["High BUA population density - 2014 (UEX) [people/km2]"];
-
-    // traffic and socio-economic indices
-    const inrixCongestion = +d["Average congestion rate (INRIX) [percent]"];
-    const inrixIdx = +d["INRIX congestion index (INRIX) [dimensionless]"];
-    const inrixHours = +d["Peak hours spent in congestion (INRIX) [hours]"];
-    const inrixRank = +d["Congestion rank (INRIX) [dimensionless]"];
-
-    const tomtomCongestion = +d["Congestion Level (TomTom)"];
-    const tomtomRank = +d["Congestion rank (TomTom) [dimensionless]"];
-    const tomtomCongestionChange = +d["Congestion change (TomTom) [\xc3\x97 100 percent]"];
-    const tomtomAMpeak = +d["Morning peak (TomTom) [percent]"];
-    const tomtomPMpeak = +d["Evening peak (TomTom) [percent]"];
-
-    const ieseHuman = +d["Human capital (IESE) [dimensionless]"];
-    const ieseCohesion = +d["Social cohesion (IESE) [dimensionless]"];
-    const ieseEconomy = +d["Economy (IESE) [dimensionless]"];
-    const ieseManagement = +d["Public management (IESE) [dimensionless]"];
-    const ieseGov = +d["Governance (IESE) [dimensionless]"];
-    const ieseEnv = +d["Environment (IESE) [dimensionless]"];
-    const ieseTransport = +d["Mobility and transportation (IESE) [dimensionless]"];
-    const ieseUrban = +d["Urban planning (IESE) [dimensionless]"];
-    const ieseIntl = +d["International impact (IESE) [dimensionless]"];
-    const ieseTech = +d["Technology (IESE) [dimensionless]"];
-    const ieseCIMI = +d["CIMI (IESE) [dimensionless]"];
-    const ieseRank = +d["CIMI ranking (IESE) [dimensionless]"];
-
-    const idName = (d.city.indexOf(" ") !== -1) ?
-              i18next.t(d.city, {ns: "cities"}) : d.city;
-
-    return {
-      "city": city,
-      "idName": idName,
-      "country": country,
-      "region": region,
-      "cityLocation": cityLocation,
-      "dataset": dset,
-      "Population": popn,
-      "Population density": popDensity,
-      "Area": area,
-      "Scope1": scope1,
-      "Measurement year": measurementYear,
-      "per capita": s1PerCap,
-      "per GDP": s1PerGDP,
-      "GDP-PPP": GDP,
-      "GDP-PPP/capita": gdpPerCap,
-      "HDD 15.5C": HDD155C,
-      "CDD 23C": CDD23C,
-      "Diesel price": dieselPrice,
-      "Gas price": gasPrice,
-      "household size": HH,
-      "ProtocolNum": methodologyNum,
-      // "methodology details": methodologyDetails,
-      "change in emissions": deltaEmissions,
-      "Low BUA (2014)": lowBUA2014,
-      "Low BUA % (2014)": lowBUApc2014,
-      "High BUA (2014)": highBUA2014,
-      "High BUA % (2014)": highBUApc2014,
-      "Low BUA density (2014)": lowBUApdensity2014,
-      "High BUA density (2014)": highBUApdensity2014,
-      "Avg congestion rate [%] (INRIX)": inrixCongestion,
-      "congestion level (INRIX)": inrixIdx,
-      "Peak hours spent in congestion (INRIX)": inrixHours,
-      "Congestion rank (INRIX)": inrixRank,
-      "congestion level [%] (TomTom)": tomtomCongestion,
-      "World Rank (TomTom)": tomtomRank,
-      "Congestion change [%] (TomTom)": tomtomCongestionChange,
-      "Morning peak increase [%] (TomTom)": tomtomAMpeak,
-      "Evening peak increase [%] (TomTom)": tomtomPMpeak,
-      "Human Capital index (IESE)": ieseHuman,
-      "Social Cohesion index (IESE)": ieseCohesion,
-      "Economy index (IESE)": ieseEconomy,
-      "Public Management index (IESE)": ieseManagement,
-      "Governance index (IESE)": ieseGov,
-      "Environment index (IESE)": ieseEnv,
-      "Mobility and Transportation index (IESE)": ieseTransport,
-      "Urban Planning index (IESE)": ieseUrban,
-      "International Impact index (IESE)": ieseIntl,
-      "Technology index (IESE)": ieseTech,
-      "Cities in Motion Index (IESE)": ieseCIMI,
-      "Cities in Motion Rank (IESE)": ieseRank
-    };
-  });
-}
-
 // ----------------------------------------------------------------
 function showCityCard() {
   console.log("showCityCard: ", data)
@@ -451,13 +335,14 @@ function drawMap() {
 
 
 function showBarChart(chart, settings, region) {
+  console.log("dataGHG: ", dataGHG)
   const regionData = [];
   dataGHG.filter((d) => {
     if (d.region === region) {
       const thisObj = {};
       thisObj.region = d.region;
       thisObj.city = d.city;
-      thisObj.s1PerCap = d["per capita"];
+      thisObj.s1PerCap = d["s1PerCap"];
       regionData.push(thisObj);
     }
   });
@@ -526,14 +411,11 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
   d3.queue()
-      .defer(d3.tsv, "data/cityApp_attributes_consolidated_fixedSet.tsv")
+      .defer(d3.json, "data/cityApp_attributes_consolidated_fixedSet.json")
       .await(function(error, datafile) {
-        dataFixed = datafile;
+        dataGHG = datafile;
 
-        // Page text
         pageText();
-
-        setupData(dataFixed);
         drawMap();
         showCityCard();
 
@@ -621,3 +503,12 @@ function resetElements() {
   //   .attr("stroke-width", 1)
   //   .attr("stroke-opacity", 1);
 }
+
+function zoomed() {
+  const g = d3.select("#map").select(".mapg");
+  g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
+  g.attr("transform", d3.event.transform); // updated for d3 v4
+}
+
+const zoom = d3.zoom()
+    .on("zoom", zoomed);

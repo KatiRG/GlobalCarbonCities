@@ -1,4 +1,4 @@
-city	Scope-1 GHG emissions [tCO2 or tCO2-eq]	Scope-1 source dataset	Year of emission	Country	Region	S1 per capita	MethodNum
+city	scope1	dataset	year	country	region	s1PerCap	protocol
 Abington	193345	CDP	2010	USA	North America	2.73634952263898	5
 Addis Ababa	3708292	CDP	2012	Ethiopia	Africa	0.807618117275732	1
 Adelaide	63724	CDP	2013	Australia	Oceania	1.95522074191115	1
