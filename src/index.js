@@ -140,10 +140,9 @@ function pageText() {
 
 // ----------------------------------------------------------------
 function showCityCard() {
-  console.log("showCityCard: ", dataGHG)
-
   // initial text
   svgCityCard.append("text").attr("class", "cityCardName")
+      .attr("id", "cityCardTitle")
       .attr("transform", function(d) {
         return `translate(${transX} 30)`;
       })
@@ -155,10 +154,29 @@ function showCityCard() {
   for (let idx = 0; idx < numRows; idx++) {
     const transY = initY + idx * delta;
     svgCityCard.append("text").attr("class", "cityCardRow")
+        .attr("id", `cityCardRow${idx + 1}`)
         .attr("transform", function(d) {
           return `translate(${transX} ${transY})`;
         })
         .text(i18next.t(`initRow${idx + 1}`, {ns: "cityCard"}));
+  }
+}
+
+// ----------------------------------------------------------------
+function updateCityCard(cityName) {
+  const attrArray = ["scope1", "year", "dataset", "protocol"];
+
+  d3.select("#cityCardTitle").text(cityName);
+
+  for (let idx = 0; idx < attrArray.length; idx++) {
+    const value = dataGHG.filter(function(d) {
+      return (d.city === cityName);
+    })[0][attrArray[idx]];
+
+    const text = attrArray[idx] === "protocol" ? i18next.t(value, {ns: "protocol"}) : value;
+
+    d3.select(`#cityCardRow${idx + 1}`)
+        .text(`${text} ${i18next.t(attrArray[idx], {ns: "units"})}`);
   }
 }
 
@@ -317,9 +335,7 @@ function drawMap() {
           })
           .attr("r", 10)
           .on("mouseover", function(d) {
-            const cityName = (d.properties.city.indexOf(" ") !== -1) ?
-              i18next.t(d.properties.city, {ns: "cities"}) : d.properties.city;
-            highlightElements(cityName);
+            highlightElements(d.properties.city);
           })
           .on("mouseout", function(d) {
             resetElements();
@@ -356,15 +372,13 @@ function showBarChart(chart, settings, region) {
   d3.selectAll(".bar-group")
       .on("touchmove mousemove", function(d, i) {
         const count = i + 1;
-        const cityName = (d.city.indexOf(" ") !== -1) ?
-              i18next.t(d.city, {ns: "cities"}) : d.city;
-        highlightElements(cityName);
+        highlightElements(d.city);
 
         // Tooltip
         const tipx = 50;
         const tipy = -120;
         div.style("opacity", 1);
-        div.html(`#${count}. ${cityName} <br>${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
+        div.html(`#${count}. ${d.city} <br>${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
             .style("left", d3.event.pageX + tipx + "px")
             .style("top", d3.event.pageY + tipy + "px");
       })
@@ -413,6 +427,9 @@ i18n.load(["src/i18n"], () => {
       .defer(d3.json, "data/cityApp_attributes_consolidated_fixedSet.json")
       .await(function(error, datafile) {
         dataGHG = datafile;
+        dataGHG.map(function(d) {
+          d.scope1 = d3.format(".3n")(d.scope1 / 1e6);
+        });
 
         pageText();
         drawMap();
@@ -434,7 +451,9 @@ i18n.load(["src/i18n"], () => {
 $(document).on("change", uiHandler);
 $(document).on("change", uiHandler);
 
-function highlightElements(idName) {
+function highlightElements(cityName) {
+  const idName = (cityName.indexOf(" ") !== -1) ?
+              i18next.t(cityName, {ns: "cities"}) : cityName;
   // clear any previous story first
   // d3.select("#ghgStory").text("");
   // var selectedCity = data_GHG.filter(function (d) { return (d.idName.indexOf(idName) >= 0 ) })[0].city;
@@ -445,6 +464,7 @@ function highlightElements(idName) {
 
   // //Display city card
   // fn_fillSVGCityCard (selectedCityObj, attrFlag);
+  updateCityCard(cityName);
 
   // //Highlight Current
   // //-----------------

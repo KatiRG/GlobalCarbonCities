@@ -2,7 +2,10 @@
   "en": {
     "units": {
       "emissions per cap": "[tCO₂eq/capita]",
-      "linkURL": "https://www.statcan.gc.ca/eng/concepts/definitions/guide-symbol"
+      "linkURL": "https://www.statcan.gc.ca/eng/concepts/definitions/guide-symbol",
+      "scope1": "MtCO₂eq",
+      "year": "",
+      "dataset": ""
     },
      "pageText": {
       "titletag": "City Emissions",
@@ -15,6 +18,14 @@
       "initRow2": "the map or bar charts",
       "initRow3": "to see emission values",
       "initRow4": "and related data."
+    },
+    "protocol": {
+      "1": "GPC",
+      "2": "US ICLEI",
+      "3": "IPCC",
+      "4": "ICLEI",
+      "5": "Other",
+      "6": "Statistical"
     },
     "cities": {
       "Abington": "Abington", 
