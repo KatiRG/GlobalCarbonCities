@@ -11,10 +11,10 @@
     },
     "cityCard": {
       "initTitle": "City Stats",
-      "initTextLine1": "Hover over a city on the",
-      "initTextLine2": "map or on the bar charts",
-      "initTextLine3": "to display emission value",
-      "initTextLine4": "and related ancillary data."
+      "initRow1": "Hover over a city on",
+      "initRow2": "the map or bar charts",
+      "initRow3": "to see emission values",
+      "initRow4": "and related data."
     },
     "cities": {
       "Abington": "Abington", 

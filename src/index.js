@@ -52,9 +52,8 @@ const barColourDict = {
 // ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
-let dataFixed; // for fixed data attributes that are always needed
 let data = []; // for selected attributes used in city card and to colour bars
-let dataGHG;
+let dataGHG; // for fixed data attributes that are always needed
 let selectedAttribute = "init";
 
 const pointRadius = 5;
@@ -127,9 +126,9 @@ const chartOC = d3.select(".data.OCdata")
     .append("svg")
     .attr("id", "barChart_groupOceania");
 
-const transx = 15;
-const transy = 70;
-const deltay = 14;
+const transX = 15;
+// const transY = 70;
+// const deltaY = 14;
 
 // -----------------------------------------------------------------------------
 // FNS
@@ -141,26 +140,26 @@ function pageText() {
 
 // ----------------------------------------------------------------
 function showCityCard() {
-  console.log("showCityCard: ", data)
-  // // initial text
-  // svgCityCard.select("#cityCardCity")
-  //     .text("City Stats");
+  console.log("showCityCard: ", dataGHG)
 
-  // svgCityCard.select("#cityCardEmissions")
-  //     .text("Hover over a city on the")
-  //     .style("font-size", "14px");
+  // initial text
+  svgCityCard.append("text").attr("class", "cityCardName")
+      .attr("transform", function(d) {
+        return `translate(${transX} 30)`;
+      })
+      .text(i18next.t("initTitle", {ns: "cityCard"}));
 
-  // svgCityCard.select("#cityCardYear")
-  //     .text("map or on the bar charts")
-  //     .style("font-size", "14px");
-
-  // svgCityCard.select("#cityCardDataset")
-  //     .text("to display emission value")
-  //     .style("font-size", "14px");
-
-  // svgCityCard.select("#cityCardProtocol")
-  //     .text("and related ancillary data.")
-  //     .style("font-size", "14px");
+  const numRows = 4;
+  const initY = 84;
+  const delta = 42;
+  for (let idx = 0; idx < numRows; idx++) {
+    const transY = initY + idx * delta;
+    svgCityCard.append("text").attr("class", "cityCardRow")
+        .attr("transform", function(d) {
+          return `translate(${transX} ${transY})`;
+        })
+        .text(i18next.t(`initRow${idx + 1}`, {ns: "cityCard"}));
+  }
 }
 
 // Returns dim extent of selected attribute
