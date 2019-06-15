@@ -171,7 +171,7 @@ div.tooltip {
 
 /* city card */
 #cityCardg rect {
-  fill: #4c87b5;
+  fill: #346a94;
   stroke: none;
 }
 
@@ -386,7 +386,7 @@ div.rtooltip {
 }
 .cityCardName {
   font-weight: bold;
-  font-size: 17px;
+  font-size: 18px;
   stroke: none;
   fill: #fff;
   background: rgba(76, 135, 181, 0.7);
@@ -402,8 +402,14 @@ div.rtooltip {
   text-transform: uppercase;
   text-align: right;
 }
-.cityCardSubrowInfo {
+.cityCardAttr {
   font-size: 11px;
+  stroke: none;
+  fill: #fff;
+  text-align: right;
+}
+.cityCardRow {
+  font-size: 18px;
   stroke: none;
   fill: #fff;
   text-align: right;
