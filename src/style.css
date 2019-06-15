@@ -397,7 +397,7 @@ div.rtooltip {
   font-weight: 700;
   font-size: 11px;
   stroke: none;
-  fill: #ffaa1b;
+  fill: #fff500; /* #ffaa1b; */
   text-shadow: 0 0 5px #333333;
   text-transform: uppercase;
   text-align: right;
