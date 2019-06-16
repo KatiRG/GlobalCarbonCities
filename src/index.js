@@ -71,13 +71,13 @@ let svgCityCard = d3.select("#mycityCardDiv").append("svg")
     .attr("width", 273)
     .attr("height", mapHeight);
 
-svgCityCard = d3.select("#mycityCardDiv").select("svg")
-    .append("g").attr("id", "cityCardg");
-svgCityCard.append("rect")
-    .attr("width", 200)
-    .attr("height", 310)
-    .attr("x", 5)
-    .attr("y", -20);
+// svgCityCard = d3.select("#mycityCardDiv").select("svg")
+//     .append("g").attr("id", "cityCardg");
+// svgCityCard.append("rect")
+//     .attr("width", 200)
+//     .attr("height", 310)
+//     .attr("x", 5)
+//     .attr("y", -20);
 
 // barChart legend
 const margin = {top: 7, right: 0, bottom: 0, left: 20};
@@ -138,6 +138,53 @@ function pageText() {
   d3.select("#pageTitle").html(i18next.t("title", {ns: "pageText"}));
 }
 
+
+const svg = svgCityCard
+    .attr("width", 273)
+    .attr("height", mapHeight);
+
+const g = svg.append("g")
+    .attr("id", "cityCardg")
+    // .attr("transform", "translate(32," + (310 / 2) + ")");
+
+g.append("rect")
+    .attr("width", 200)
+    .attr("height", 310)
+    .attr("x", 5)
+    .attr("y", -20);
+// ----------------------------------------------------------------
+function test(textObj) {
+  const data = textObj.title;
+
+  // DATA JOIN
+  // Join new data with old elements, if any.
+  const text = g.selectAll("text")
+      .data(data);
+
+  // UPDATE
+  // Update old elements as needed.
+  text.attr("class", "update cityCardName");
+
+  // ENTER
+  // Create new elements as needed.
+  //
+  // ENTER + UPDATE
+  // After merging the entered elements with the update selection,
+  // apply operations to both.
+  text.enter().append("text")
+      .attr("class", "enter cityCardName")
+      // .attr("class", "enter")
+      .attr("x", function(d, i) { return 15 + i * 12; })
+      .attr("y", function(d, i) { return 30; })
+      .attr("dy", ".35em")
+      .merge(text)
+      .text(function(d) { return d; });
+
+  // EXIT
+  // Remove old elements as needed.
+  text.exit().remove();
+}
+
 // ----------------------------------------------------------------
 function showCityCard() {
   // initial text
@@ -166,7 +213,17 @@ function showCityCard() {
 function updateCityCard(cityName) {
   const attrArray = ["scope1", "year", "dataset", "protocol"];
 
+  // city name
   d3.select("#cityCardTitle").text(cityName);
+
+  // city country
+  svgCityCard.append("text").attr("class", "cityCardCountry")
+      .attr("transform", function(d) {
+        return `translate(${transX} 50)`;
+      })
+      .text(dataGHG.filter(function(d) {
+        return (d.city === cityName);
+      })[0]["country"]);
 
   for (let idx = 0; idx < attrArray.length; idx++) {
     const value = dataGHG.filter(function(d) {
@@ -350,7 +407,6 @@ function drawMap() {
 
 
 function showBarChart(chart, settings, region) {
-  console.log("dataGHG: ", dataGHG)
   const regionData = [];
   dataGHG.filter((d) => {
     if (d.region === region) {
@@ -433,7 +489,13 @@ i18n.load(["src/i18n"], () => {
 
         pageText();
         drawMap();
-        showCityCard();
+
+        // initial text for city card
+        const textObj = {
+          "title": i18next.t("initTitle", {ns: "cityCard"})
+        };
+        test(textObj);
+        // showCityCard();
 
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
@@ -462,9 +524,12 @@ function highlightElements(cityName) {
   // Clear Previous
   resetElements();
 
-  // //Display city card
-  // fn_fillSVGCityCard (selectedCityObj, attrFlag);
-  updateCityCard(cityName);
+  // Update city card
+  const updateObj = {
+    "title": cityName
+  };
+  test(updateObj);
+  // updateCityCard(cityName);
 
   // //Highlight Current
   // //-----------------

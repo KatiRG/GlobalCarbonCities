@@ -169,12 +169,6 @@ div.tooltip {
   pointer-events: none;
 }
 
-/* city card */
-#cityCardg rect {
-  fill: #346a94;
-  stroke: none;
-}
-
 /* map */
 .worldcountry {
   fill: rgb(24, 71, 27);
@@ -367,24 +361,14 @@ div.rtooltip {
 }
 
 /*--------------------------*/
-/*Stats table*/
-#cityCardChangeReason {
-  font-size: 16px;
-  line-height: 1.2;
-  /*font-weight: bold; */
-  color: #565656;
+/* city card */
+#cityCardg rect {
+  fill: #346a94;
+  stroke: none;
 }
-#displayStats {
-  position: absolute;
-  margin-top: -40px;
-  margin-left: 1505px;
-}
-#displayGHGstats {
- /* position: absolute;
-  margin-top: 4px;
-  margin-left: 819px;*/
-}
+
 .cityCardName {
+  font-family: monospace;
   font-weight: bold;
   font-size: 18px;
   stroke: none;
