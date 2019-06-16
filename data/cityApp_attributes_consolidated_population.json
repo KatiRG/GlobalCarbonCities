@@ -1,4 +1,3 @@
-
 [
 {"city": "Abington", "value": 55557.00},
 {"city": "Addis Ababa", "value": 3270000.00},
@@ -85,7 +84,7 @@
 {"city": "Fuxin", "value": 954714.00},
 {"city": "Fuzhou", "value": 4408076.00},
 {"city": "Gandhinagar", "value": 292167.00},
-{"city": "Gladsaxe Kommune", "value": 66693.00},
+{"city": "Gladsaxe", "value": 66693.00},
 {"city": "Graz", "value": 280200.00},
 {"city": "Greater London", "value": 8673713.00},
 {"city": "Guangzhou", "value": 10641408.00},
@@ -107,7 +106,7 @@
 {"city": "Hengyang", "value": 3180864.00},
 {"city": "Hermosa Beach, CA", "value": 19789.00},
 {"city": "Hjørring", "value": 67121.00},
-{"city": "Hoeje-Taastrup Kommune", "value": 48853.00},
+{"city": "Hoeje-Taastrup", "value": 48853.00},
 {"city": "Hohhot", "value": 1790682.00},
 {"city": "Hong Kong", "value": 7310000.00},
 {"city": "Houston", "value": 2303482.00},
@@ -180,7 +179,7 @@
 {"city": "Nanjing, Jiangsu", "value": 6238186.00},
 {"city": "Nanning", "value": 3578333.00},
 {"city": "Nantes", "value": 612782.00},
-{"city": "Nashville and Davidson", "value": 660388.00},
+{"city": "Nashville & Davidson", "value": 660388.00},
 {"city": "Nelson Mandela", "value": 1152115.00},
 {"city": "New Orleans", "value": 391495.00},
 {"city": "New Taipei", "value": 3972204.00},

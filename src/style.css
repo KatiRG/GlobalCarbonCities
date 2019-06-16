@@ -136,7 +136,7 @@ ul {
 div.tooltip-bar {
   position: absolute;
   height: 46px;
-  width: 150px;
+  width: 175px;
   padding: 6px;
   background: #8A979D;
   color: #000;
@@ -363,20 +363,42 @@ div.rtooltip {
 /*--------------------------*/
 /* city card */
 #cityCardg rect {
-  fill: #346a94;
+  fill: #363636;
   stroke: none;
 }
 
-.cityCardName {
-  font-family: monospace;
+.titlerow {
+  margin-top: -300px;
   font-weight: bold;
   font-size: 18px;
+  color: #fff;
   stroke: none;
-  fill: #fff;
   background: rgba(76, 135, 181, 0.7);
   text-shadow: 0 0 5px #333333;
-  text-align: right;
+  text-align: left;
+  margin-left: 25px;
 }
+
+.subrow, .updated {
+  font-size: 16px;
+  stroke: none;
+  color: #ffaa1b;
+  text-align: left;
+  margin-left: 25px;
+}
+
+.updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
+  margin-top: -21px;
+  color: #fff;
+}
+.updated.row1, .updated.row3, .updated.row5, .updated.row7, .updated.row9, .subrow.row5, .subrow.row7, .subrow.row9 {
+  text-transform: uppercase;
+  margin-top: -11px;
+  color: #ffaa1b;
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .cityCardSubrowTitle {
   font-weight: 700;
   font-size: 11px;
@@ -392,12 +414,7 @@ div.rtooltip {
   fill: #fff;
   text-align: right;
 }
-.cityCardRow {
-  font-size: 18px;
-  stroke: none;
-  fill: #fff;
-  text-align: right;
-}
+
 
 .style("text-transform", "uppercase")
 
