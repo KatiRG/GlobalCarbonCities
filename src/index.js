@@ -161,18 +161,18 @@ function showCityCard(textSet) {
       .attr("class", function(d, i) {
         return i === 0 ? `cardrow titlerow row${i}` : `cardrow subrow row${i}`;
       })
-      .text(function(d) { return d.text; });
+      .html(function(d) { return d.text; });
 
   selection
       .attr("class", function(d, i) {
         return i === 0 ? `cardrow titlerow row${i}` : `cardrow updated row${i}`;
       })
-      .text(function(d) { return d.text; });
+      .html(function(d) { return d.text; });
 
   removedSelection = selection
       .exit()
       .attr("class", "oldrow removed")
-      .text(function(d) { return d.text; });
+      .html(function(d) { return d.text; });
 }
 
 // ----------------------------------------------------------------
@@ -481,15 +481,15 @@ function highlightElements(cityName) {
 
   let thisAttr;
 
-
+  // ${i18next.t("defn", {ns: "units"})}
   const newText = [
     {id: 1, text: `${cityName}, ${thisCountry}`},
     {id: 2, text: i18next.t("scope1Row", {ns: "cityCard"})},
-    {id: 3, text: `${thisScope1} ${i18next.t("scope1", {ns: "units"})}`},
+    {id: 3, text: `${thisScope1} ${i18next.t("scope1", {ns: "units"})} ${i18next.t("defn", {ns: "units"})}`},
     {id: 4, text: i18next.t("yearRow", {ns: "cityCard"})},
     {id: 5, text: thisYear},
     {id: 6, text: i18next.t("datasetRow", {ns: "cityCard"})},
-    {id: 7, text: thisDataset},
+    {id: 7, text: i18next.t(thisDataset, {ns: "datasets"})},
     {id: 8, text: i18next.t("protocolRow", {ns: "cityCard"})},
     {id: 9, text: i18next.t(thisProtocol, {ns: "protocol"})}
   ];
@@ -510,7 +510,7 @@ function highlightElements(cityName) {
         return (d.city === cityName);
       })[0]["value"];
 
-      thisAttr = val === dummyNum ? "N/A" : selectedAttribute === "region" ? val : d3.format(",")(val);
+      thisAttr = val === dummyNum ? "N/A" : d3.format(",")(val) ? val : d3.format(",")(val);
 
       const thisUnit = thisAttr === "N/A" ? "" : i18next.t(selectedAttribute, {ns: "units"});
 
