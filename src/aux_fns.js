@@ -142,14 +142,7 @@ function fn_concat (barChartGroup, geogroupArray, this_dim) {
   return objArray;
 }
 
-// Abbreviate city name in x-axis
-function fn_abbr(d) {
-  if (d.indexOf(', ') >= 0) abbr = d.substring(0,3);
-  else if (d.indexOf(' ') >= 0) abbr = d.match(/\b\w/g).join(' ');
-  else abbr = d.substring(0,4);
 
-  return abbr;
-}
 
 function sortByRegion(region, this_dim) {
   ghg_byRegion = [];
@@ -555,87 +548,4 @@ function fn_svgHeadings (geogroup_id) {
   }
 }
 
-// ----------------------------------------------
-// Functions for city card info
-// ----------------------------------------------
 
-function fn_setupSVGCityCard(svgCityCard, className, idName, transX, transY) {
-  //setup text node label or value
-  svgCityCard.append("text").attr("class", className)
-    .attr("id", idName)
-    .attr("transform", function (d) {
-      return "translate(" + transX + " " + transY + ")" ;
-    });
-}
-
-//Info text in svg
-function fn_fillSVGCityCard (selectedCityObj, attrFlag) {
-  //show city card
-  d3.select("#cityCardg").select("rect").style("opacity", 1);
-  
-  //city name  
-  var var_cityName = selectedCityObj.city;
-  //hack for Singapore
-  if (selectedCityObj.city === "Singa") var_cityName = "Singapore";
-  svgCityCard.select("#cityCardCity").text(var_cityName)
-            .style("font-size", "11px");
-
-  //country
-  svgCityCard.select("#cityCardCountry").text(selectedCityObj["country"]);
-
-  //emissions
-  svgCityCard.select("#cityCardEmissionsLabel").text("Scope-1 Emissions (see defn):")
-    .style("text-decoration", "underline")
-    .on("touchmove mousemove", function () {d3.select(this).style("cursor", "pointer"); })  
-    .on("click", function() { 
-      window.open("http://www.ghgprotocol.org/sites/default/files/ghgp/standards/GHGP_GPC_0.pdf#page=13");
-  });
-  svgCityCard.select("#cityCardEmissions")
-    .text(formatDecimalSci(selectedCityObj["Scope1"]/1e6) + " MtCO₂eq");
-
-  //Measurement year
-  svgCityCard.select("#cityCardYearLabel").text("Measurement Year:");
-  svgCityCard.select("#cityCardYear").text(function () {
-    return selectedCityObj["Measurement year"];
-  }).style("font-size", "11px");
-
-  //dataset
-  // var datasetText = selectedCityObj["change in emissions"] === "First year of calculation" ?
-  //     selectedCityObj["change in emissions"] : selectedCityObj["change in emissions"] + " (from Measurement year)";
-  if (selectedCityObj["dataset"] === "carbonn") datasetText = "carbonn Climate Registry";
-  else if (selectedCityObj["dataset"] === "PKU") datasetText = "Beijing University";
-  else datasetText = selectedCityObj["dataset"];
-
-  svgCityCard.select("#cityCardDatasetLabel").text("Dataset Source:");
-  svgCityCard.select("#cityCardDataset").text(function () {
-    return datasetText;
-  }).style("font-size", "11px");
-
-  //protocol
-  var protocolNum = selectedCityObj["methodology"];
-  svgCityCard.select("#cityCardProtocolLabel").text("Protocol:");
-  svgCityCard.select("#cityCardProtocol")
-    .text(choose_textArray["methodology"][protocolNum - 1])
-    .style("font-size", "11px");
-
-  //selected attribute TITLE
-  if (attrFlag != "methodology" && attrFlag != "change in emissions" && 
-      attrFlag != "Measurement year" && attrFlag != "none") { //these attributes already on display
-    if (attrFlag === "Gas price" || attrFlag === "Diesel price") {
-      attrText = attrFlag + " (national value)"; 
-    }
-    else attrText = attrFlag;
-    svgCityCard.select("#cityCardAttrLabel").text(attrText + ":");
-
-    //selected attribute VALUE + units
-    if (!selectedCityObj[attrFlag]) attrValue = "N/A";
-    else {
-      if (attrFlag === "Diesel price" || attrFlag === "Gas price") attrValue = selectedCityObj[attrFlag] + " " + dimUnits[attrFlag];
-      else attrValue = formatComma(parseInt(selectedCityObj[attrFlag])) + " " + dimUnits[attrFlag];
-    }
-
-    svgCityCard.select("#cityCardAttr")
-      .text(attrValue);
-  }
-
-}

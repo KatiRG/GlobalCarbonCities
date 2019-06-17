@@ -64,6 +64,14 @@
       "5": "Other",
       "6": "Statistical"
     },
+    "protocolFullName": {
+      "GPC": "Global Protocol for Community-Scale Greenhouse Gas Emissions Inventories (GPC), (WRI, C40 and ICLEI)",
+      "US ICLEI": "U.S. Community Protocol for Accounting and Reporting of Greenhouse Gas Emissions (ICLEI)",
+      "IPCC": "2006 IPCC Guidelines for National Greenhouse Gas Inventories",
+      "ICLEI": "International Emissions Analysis Protocol (ICLEI)",
+      "Other": "Combinations or subsets of methodologies, or propitiatory methodologies specific to a region/city",
+      "Statistical": "Calculated from direct energy consumption statistics [China Urban Statistical Yearbook 2011]"
+    },
     "cities": {
       "Abington": "Abington", 
       "Addis Ababa": "Addis_Ababa", 

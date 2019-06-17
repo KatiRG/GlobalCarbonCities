@@ -1,10 +1,10 @@
 export default {
-  aspectRatio: 1138/125,
+  aspectRatio: 660/241,
   margin: {
-    top: 0,
-    left: 0,
+    top: 20,
     right: 0,
-    bottom: 0
+    bottom: 20,
+    left: 0
   },
   filterData: function(data) {
     data.sort(function(a, b) {
@@ -80,7 +80,7 @@ export default {
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   },
-  width: 800,
+  width: 700,
   datatable: false,
   tableTitle: ""
 };

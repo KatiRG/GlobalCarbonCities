@@ -2,29 +2,6 @@ var formatDecimalSci = d3.format(".3n");
 var formatDecimalk = d3.format(".2s"); //.2s //d3.format(".3n");
 var formatComma = d3.format(",");
 
-//------------------------------------------------
-//Technical labels
-label_dataPerCap = "per capita";
-label_dataPerGDP = "per GDP";
-
-//------------------------------------------------
-//Map zoom fns
-//https://jsfiddle.net/aftabnack/bs79qn9d/
-function zoomed() {
-  var g = d3.select("#map").select(".mapg");
-  // g.style('stroke-width', `${1.5 / d3.event.transform.k}px`)
-  g.style('stroke-width', '${1.5 / d3.event.transform.k}px')
-  g.attr('transform', d3.event.transform) // updated for d3 v4
-}
-
-const zoom = d3.zoom()
-             .on("zoom", zoomed);
-
-function resetMap() {  
-  //NB: must apply reset to svg not g
-  var svg = d3.select("#map").select("svg")
-  zoom.transform(svg, d3.zoomIdentity);
-}
 
 
 //------------------------------------------------
@@ -49,47 +26,7 @@ var colour_labelsHighlight = "#3d3d3d";
 //http://www.colourlovers.com/palette/1217220/Ice_Cream_Party
 //http://www.colourlovers.com/palette/1645043/Vanilla_Blueberry
 //http://www.colourlovers.com/palette/2832327/nostalgia
-var colour_methodNum = {
-  1: "#9DD3DF", //GPC 
-  2: "#C3BBE2", //US ICLEI
-  3: "#E35B5D", //IPCC
-  4: "#EB9F9F", //ICLEI
-  5: "#F18052", //OTHER
-  6: "#F4DD51" //Statistical
-}
 
-var dimExtentDict = {}; //for discretizing attribute value according to range extent
-var num_levels = 6;  //5; //number of discrete levels
-var cb_values = [];
-
-var choose_colourArray = {
-  "none": ["#bbd4e2","#bbd4e2","#bbd4e2","#bbd4e2","#bbd4e2","#bbd4e2"],
-  "methodology": ["#9DD3DF","#C3BBE2","#E35B5D","#EB9F9F","#F18052","#F4DD51"],
-  "Measurement year": ["#D8E6DB","#DBC28F","#CCA26A","#997E68","#6B5344","#3a2d25"],
-  "change in emissions": ["#53442F","#BABE98","#DBC28F","#BEC3BC","#E6E8E3"],
-  "Population": ["#DED8B6","#F9C869","#5D5061","#875979","#6A3058","#2F274C"],
-  "GDP-PPP/capita": ["#b8aca2","#E394A7","#9e9ac8","#756bb1","#54278f","#3a1b64"],
-  "area": ["#EDDAD0","#D5DED9","#99B2B7","#5b6a6d","#948C75", "#676251"],
-  "Population density": ["#DED8B6","#F9C869","#E1F5C4","#ADD6BC","#486d6c","#6A3058"],
-  "Diesel price": ["#F1F2C4","#F2EA72","#fec44f","#c2cd7b","#bf6456","#634414"],
-  "Gas price": ["#F1F2C4","#F2EA72","#fec44f","#c2cd7b","#bf6456","#634414"],
-  "HDD 15.5C": ["#F5F5C6", "#F5DDB5","#d6c2d0","#a27696","#b8d7ff","#B8FAFF"],
-  "CDD 23C": ["#E1F5C4", "#ffeda0","#F9D423","#FC913A","#FF4E50","#e70081"],  
-  "Low BUA (2014)": ["#d7b5d8","#CD7CB7","#885F9A","#B65873","#5F323F", "red"],
-  "Low BUA % (2014)": ["#ECDAA8","#B6AC7B","#8C9C82","#9AA0AC","#70725A","#7D4755"],
-  "Low BUA density (2014)": ["#d7b5d8","#CD7CB7","#885F9A","#B65873","#5F323F", "red"],
-  "High BUA (2014)": ["#EEDAA7","#E6D472","#E79C74","#D45659","#7D4755", "red"],
-  "High BUA % (2014)": ["#ECDAA8","#B6AC7B","#8C9C82","#9AA0AC","#70725A","#7D4755"],
-  "High BUA density (2014)": ["#EEDAA7","#E6D472","#E79C74","#D45659","#7D4755", "red"],
-  "Congestion rank (INRIX)": ["#F1F2C4","#F2EA72","#fec44f","#CDAF7B","#634414", "red"],
-  "World Rank (TomTom)": ["#F1F2C4","#F2EA72","#fec44f","#CDAF7B","#634414", "red"],
-  "Cities in Motion Index (IESE)": ["#F1F2C4","#F2EA72","#fec44f","#CDAF7B","#634414", "red"]
-}
-
-var choose_textArray = {
-  "methodology": ["GPC","US ICLEI","IPCC","ICLEI","Other","Statistical"],
-  "change in emissions": ["+","-","same","1st yr","N/A"]
-}
 
 //------------------------------------------------
 //Dictionaries
@@ -107,29 +44,8 @@ var regionDict = {
   "N Africa & W Asia": "groupNAfrica"
 }
 
-//Change in emissions
-var emissionsChangeDict = {
-  "Increased": 0,
-  "Decreased": 1,
-  "Stayed the same": 2,
-  "First year of calculation": 3,
-  "N/A": 4
-}
 
-//TOOLTIPS
-var protocolDict = {
-  "GPC": "Global Protocol for Community-Scale Greenhouse Gas Emissions Inventories (GPC), (WRI, C40 and ICLEI)",
-  "US ICLEI": "U.S. Community Protocol for Accounting and Reporting of Greenhouse Gas Emissions (ICLEI)",
-  "IPCC": "2006 IPCC Guidelines for National Greenhouse Gas Inventories",
-  "ICLEI": "International Emissions Analysis Protocol (ICLEI)",
-  "Other": "Combinations or subsets of methodologies, or propitiatory methodologies specific to a region/city",
-  "Statistical": "Calculated from direct energy consumption statistics [China Urban Statistical Yearbook 2011]"
-}
 
-var emissionsToggleDict = {
-  "per GDP": "Display emissions <b>per unit GDP</b>, in decreasing order.",
-  "per capita": "Display emissions <b>per capita</b>, in decreasing order."
-}
 
 //------------------------------------------------
 //Variables to store data
