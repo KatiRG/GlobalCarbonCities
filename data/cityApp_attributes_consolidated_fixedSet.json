@@ -243,7 +243,7 @@
 {"city": "Shenzhen","region": "East Asia", "country": "China","dataset": "PKU","year": 2010,"protocol": 6,"scope1": 20444357.31, "s1PerCap": 1.97},
 {"city": "Shijiazhuang","region": "East Asia", "country": "China","dataset": "PKU","year": 2010,"protocol": 6,"scope1": 6524736.36, "s1PerCap": 1.27},
 {"city": "Shimla","region": "South Asia", "country": "India","dataset": "carbonn","year": 2013,"protocol": 1,"scope1": 218896.00, "s1PerCap": 1.29},
-{"city": "Singa","region": "Southeast Asia", "country": "Singapore","dataset": "carbonn","year": 2010,"protocol": 1,"scope1": 46831680.00, "s1PerCap": 8.35},
+{"city": "Singapore","region": "Southeast Asia", "country": "Singapore","dataset": "carbonn","year": 2010,"protocol": 1,"scope1": 46831680.00, "s1PerCap": 8.35},
 {"city": "Somerville, MA","region": "North America", "country": "USA","dataset": "CDP","year": 2014,"protocol": 1,"scope1": 461798.00, "s1PerCap": 4.95},
 {"city": "Sorocaba","region": "Latin America & Caribbean", "country": "Brazil","dataset": "CDP","year": 2012,"protocol": 3,"scope1": 980290.00, "s1PerCap": 1.07},
 {"city": "St Louis","region": "North America", "country": "USA","dataset": "CDP","year": 2014,"protocol": 2,"scope1": 2481945.42, "s1PerCap": 7.20},
