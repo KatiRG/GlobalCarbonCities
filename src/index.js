@@ -46,10 +46,6 @@ const barColourDict = {
 };
 
 // ----------------------------------------------------
-// Data holders
-
-
-// ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
 let data = []; // for selected attributes used in city card and to colour bars
@@ -168,7 +164,6 @@ function showCityCard(textSet) {
       .text(function(d) { return d.text; });
 
   selection
-      // .attr("class", "bar updated")
       .attr("class", function(d, i) {
         return i === 0 ? `cardrow titlerow row${i}` : `cardrow updated row${i}`;
       })
@@ -176,7 +171,7 @@ function showCityCard(textSet) {
 
   removedSelection = selection
       .exit()
-      .attr("class", "oldbar removed")
+      .attr("class", "oldrow removed")
       .text(function(d) { return d.text; });
 }
 
@@ -283,7 +278,8 @@ function drawMap() {
 
   const svg = d3.select("#map").append("svg")
       .attr("width", mapWidth)
-      .attr("height", mapHeight);
+      .attr("height", mapHeight)
+      .attr("transform", "translate(" + -25 + "," + 0 + ")");
 
   const g = svg.append("g");
 
@@ -375,8 +371,8 @@ function showBarChart(chart, settings, region) {
         highlightElements(d.city);
 
         // Tooltip
-        const tipx = 50;
-        const tipy = -120;
+        const tipx = 30;
+        const tipy = -10;
         div.style("opacity", 1);
         div.html(`#${count}. ${d.city} <br>${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
             .style("left", d3.event.pageX + tipx + "px")
