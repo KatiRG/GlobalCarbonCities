@@ -442,13 +442,13 @@ i18n.load(["src/i18n"], () => {
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
         showBarChart(chartNA, settingsNA, "North America");
-        showBarChart(chartEU, settingsEU, "Europe");
-        showBarChart(chartSEA, settingsSEA, "Southeast Asia");
-        showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
-        showBarChart(chartSA, settingsSA, "South Asia");
-        showBarChart(chartAF, settingsAF, "Africa");
-        showBarChart(chartNAWA, settingsNAWA, "N Africa & W Asia");
-        showBarChart(chartOC, settingsOC, "Oceania");
+        // showBarChart(chartEU, settingsEU, "Europe");
+        // showBarChart(chartSEA, settingsSEA, "Southeast Asia");
+        // showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
+        // showBarChart(chartSA, settingsSA, "South Asia");
+        // showBarChart(chartAF, settingsAF, "Africa");
+        // showBarChart(chartNAWA, settingsNAWA, "N Africa & W Asia");
+        // showBarChart(chartOC, settingsOC, "Oceania");
       });
 });
 

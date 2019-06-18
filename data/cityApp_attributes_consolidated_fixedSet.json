@@ -61,7 +61,6 @@
 {"city": "Columbus","region": "North America", "country": "USA","dataset": "CDP","year": 2015,"protocol": 1,"scope1": 5487400.00, "s1PerCap": 5.65},
 {"city": "Curitiba","region": "Latin America & Caribbean", "country": "Brazil","dataset": "CDP","year": 2013,"protocol": 1,"scope1": 2686488.00, "s1PerCap": 1.09},
 {"city": "Dalian","region": "East Asia", "country": "China","dataset": "PKU","year": 2010,"protocol": 6,"scope1": 11448360.84, "s1PerCap": 2.30},
-{"city": "Dallas","region": "North America", "country": "USA","dataset": "CDP","year": 2010,"protocol": 5,"scope1": 119881.00, "s1PerCap": -0.62},
 {"city": "Dandong","region": "East Asia", "country": "China","dataset": "PKU","year": 2010,"protocol": 6,"scope1": 650633.45, "s1PerCap": 0.44},
 {"city": "Daqing","region": "East Asia", "country": "China","dataset": "PKU","year": 2010,"protocol": 6,"scope1": 3884885.61, "s1PerCap": 2.10},
 {"city": "Datong","region": "East Asia", "country": "China","dataset": "PKU","year": 2010,"protocol": 6,"scope1": 1498970.42, "s1PerCap": 0.82},
