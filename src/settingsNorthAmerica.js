@@ -1,11 +1,14 @@
 export default {
-  aspectRatio: 1138/125,
+  aspectRatio: 360/100,
   margin: {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 20
   },
+  width: 1180,
+  groupPadding: 0.0,
+  xGap: 0,
   filterData: function(data) {
     data.sort(function(a, b) {
       return d3.descending(a["s1PerCap"], b["s1PerCap"]);
@@ -80,7 +83,5 @@ export default {
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   },
-  width: 800,
-  datatable: false,
   tableTitle: ""
 };

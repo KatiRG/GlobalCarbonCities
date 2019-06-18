@@ -1,11 +1,14 @@
 export default {
-  aspectRatio: 660/241,
+  aspectRatio: 360/100,
   margin: {
     top: 20,
     right: 0,
     bottom: 20,
-    left: 0
+    left: 10
   },
+  width: 1500,
+  groupPadding: 0.0,
+  xGap: 0,
   filterData: function(data) {
     data.sort(function(a, b) {
       return d3.descending(a["s1PerCap"], b["s1PerCap"]);
@@ -15,10 +18,11 @@ export default {
 
     return [{
       category: thisRegion,
-      values: data.map((p) => {
+      values: data.map((p, i) => {
         return {
           city: p.city,
-          value: p.s1PerCap
+          value: p.s1PerCap,
+          idx: i
         };
       })
     }];
@@ -29,7 +33,11 @@ export default {
       const cityName = (d.city.indexOf(" ") !== -1) ? i18next.t(d.city, {ns: "cities"}) : d.city;
       return cityName;
     },
+    getIndex: function(d) {
+      return d.idx;
+    },
     getValue: function(...args) {
+      // returns city names
       return this.x.getId.apply(this, args);
     },
     getClass: function(...args) {
@@ -80,7 +88,5 @@ export default {
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   },
-  width: 700,
-  datatable: false,
   tableTitle: ""
 };
