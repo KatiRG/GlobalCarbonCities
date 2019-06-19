@@ -8,7 +8,6 @@ export default {
   },
   width: 1500,
   groupPadding: 0.0,
-  xGap: 0,
   filterData: function(data) {
     data.sort(function(a, b) {
       return d3.descending(a["s1PerCap"], b["s1PerCap"]);
@@ -22,6 +21,7 @@ export default {
         return {
           city: p.city,
           value: p.s1PerCap,
+          storeOrig: p.storeOrig,
           idx: i
         };
       })

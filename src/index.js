@@ -13,6 +13,10 @@ import settingsOC from "./settingsOceania.js";
 // Constants
 const twoSigma = 0.9545;
 const dummyNum = -99999999; // NaN holder
+const offscaleCities = ["Incheon", "Kaohsiung", "Yilan", "Rotterdam", "Quezon", "León", "Gandhinagar"];
+const offscaleDict = {
+  "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10, "Quezon": 10, "León": 10, "Gandhinagar": 12
+};
 
 // Define number format (2 decimal places) from utils.js
 const globalSettings = {
@@ -80,6 +84,10 @@ const chartEA = d3.select(".data.EAdata")
 const chartNA = d3.select(".data.NAdata")
     .append("svg")
     .attr("id", "barChart_groupNAmer");
+
+const chartTEST = d3.select(".data.TESTdata")
+    .append("svg")
+    .attr("id", "barChart_groupTEST");
 
 const chartEU = d3.select(".data.EUdata")
     .append("svg")
@@ -354,6 +362,7 @@ function showBarChart(chart, settings, region) {
       thisObj.region = d.region;
       thisObj.city = d.city;
       thisObj.s1PerCap = d["s1PerCap"];
+      thisObj.storeOrig = d.storeOrig ? d.storeOrig : null;
       regionData.push(thisObj);
     }
   });
@@ -371,10 +380,11 @@ function showBarChart(chart, settings, region) {
         highlightElements(d.city);
 
         // Tooltip
+        const thisValue = d.storeOrig ? d.storeOrig : d.value;
         const tipx = 30;
         const tipy = -10;
         div.style("opacity", 1);
-        div.html(`#${count}. ${d.city} <br>${globalSettings.formatNum(d.value)} ${i18next.t("emissions per cap", {ns: "units"})}`)
+        div.html(`#${count}. ${d.city} <br>${globalSettings.formatNum(thisValue)} ${i18next.t("emissions per cap", {ns: "units"})}`)
             .style("left", d3.event.pageX + tipx + "px")
             .style("top", d3.event.pageY + tipy + "px");
       })
@@ -424,7 +434,12 @@ i18n.load(["src/i18n"], () => {
         dataGHG = datafile;
         dataGHG.map(function(d) {
           d.scope1 = d3.format(".3n")(d.scope1 / 1e6);
+          if (Object.keys(offscaleDict).find((k) => k === d.city)) {
+            d.storeOrig = d.s1PerCap;
+            d.s1PerCap = offscaleDict[d.city];
+          }
         });
+        console.log(dataGHG)
 
         pageText();
         drawMap();
@@ -442,7 +457,7 @@ i18n.load(["src/i18n"], () => {
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
         showBarChart(chartNA, settingsNA, "North America");
-        // showBarChart(chartEU, settingsEU, "Europe");
+        showBarChart(chartEU, settingsEU, "Europe");
         // showBarChart(chartSEA, settingsSEA, "Southeast Asia");
         // showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
         // showBarChart(chartSA, settingsSA, "South Asia");
@@ -452,7 +467,6 @@ i18n.load(["src/i18n"], () => {
       });
 });
 
-$(document).on("change", uiHandler);
 $(document).on("change", uiHandler);
 
 function highlightElements(cityName) {
@@ -481,7 +495,6 @@ function highlightElements(cityName) {
 
   let thisAttr;
 
-  // ${i18next.t("defn", {ns: "units"})}
   const newText = [
     {id: 1, text: `${cityName}, ${thisCountry}`},
     {id: 2, text: i18next.t("scope1Row", {ns: "cityCard"})},

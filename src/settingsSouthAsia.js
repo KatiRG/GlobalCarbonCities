@@ -14,10 +14,12 @@ export default {
 
     const junk = [{
       category: thisRegion,
-      values: data.map((p) => {
+      values: data.map((p, i) => {
         return {
           city: p.city,
-          value: p.s1PerCap
+          value: p.s1PerCap,
+          storeOrig: p.storeOrig,
+          idx: i
         };
       })
     }];
