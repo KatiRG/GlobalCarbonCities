@@ -342,6 +342,12 @@ div.rtooltip {
   font-size: 22px;
   fill: #565656;
 }
+#barChart_groupSEAsia {
+  font-size: 22px;
+  fill: #565656;
+  position: relative;
+  left: -42px;
+}
 
 /*
 .zerobar { 

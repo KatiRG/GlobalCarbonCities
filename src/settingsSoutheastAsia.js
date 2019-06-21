@@ -1,5 +1,5 @@
 export default {
-  aspectRatio: 360/139,
+  aspectRatio: 360/176,
   margin: {
     top: 5,
     left: 0,
@@ -8,7 +8,7 @@ export default {
   },
   width: 660,
   pOuter: 0.9,
-  pInner: 0.5,
+  pInner: 0.25,
   // barPadding: 0.05,
   filterData: function(data) {
     data.sort(function(a, b) {
