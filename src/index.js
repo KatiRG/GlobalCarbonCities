@@ -13,7 +13,6 @@ import settingsOC from "./settingsOceania.js";
 // Constants
 const twoSigma = 0.9545;
 const dummyNum = -99999999; // NaN holder
-const offscaleCities = ["Incheon", "Kaohsiung", "Yilan", "Rotterdam", "Quezon", "León", "Gandhinagar"];
 const offscaleDict = {
   "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10, "Quezon": 10, "León": 10, "Gandhinagar": 12
 };
@@ -439,7 +438,6 @@ i18n.load(["src/i18n"], () => {
             d.s1PerCap = offscaleDict[d.city];
           }
         });
-        console.log(dataGHG)
 
         pageText();
         drawMap();
@@ -457,7 +455,7 @@ i18n.load(["src/i18n"], () => {
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
         showBarChart(chartNA, settingsNA, "North America");
-        showBarChart(chartEU, settingsEU, "Europe");
+        // showBarChart(chartEU, settingsEU, "Europe");
         // showBarChart(chartSEA, settingsSEA, "Southeast Asia");
         // showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
         // showBarChart(chartSA, settingsSA, "South Asia");
