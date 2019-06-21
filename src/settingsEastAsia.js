@@ -4,7 +4,7 @@ export default {
     top: 20,
     right: 0,
     bottom: 20,
-    left: 10
+    left: 13
   },
   width: 1500,
   groupPadding: 0.0,
@@ -89,6 +89,5 @@ export default {
   _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
-  },
-  tableTitle: ""
+  }
 };

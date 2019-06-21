@@ -84,10 +84,6 @@ const chartNA = d3.select(".data.NAdata")
     .append("svg")
     .attr("id", "barChart_groupNAmer");
 
-const chartTEST = d3.select(".data.TESTdata")
-    .append("svg")
-    .attr("id", "barChart_groupTEST");
-
 const chartEU = d3.select(".data.EUdata")
     .append("svg")
     .attr("id", "barChart_groupEurope");
@@ -455,8 +451,8 @@ i18n.load(["src/i18n"], () => {
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
         showBarChart(chartNA, settingsNA, "North America");
-        // showBarChart(chartEU, settingsEU, "Europe");
-        // showBarChart(chartSEA, settingsSEA, "Southeast Asia");
+        showBarChart(chartEU, settingsEU, "Europe");
+        showBarChart(chartSEA, settingsSEA, "Southeast Asia");
         // showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
         // showBarChart(chartSA, settingsSA, "South Asia");
         // showBarChart(chartAF, settingsAF, "Africa");

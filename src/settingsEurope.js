@@ -1,13 +1,15 @@
 export default {
-  aspectRatio: 560/100,
+  aspectRatio: 360/100,
   margin: {
-    top: 20,
+    top: 5,
+    left: 3,
     right: 0,
-    bottom: 20,
-    left: 20
+    bottom: 20
   },
   width: 700,
-  groupPadding: 0.0,
+  groupPadding: 0.1,
+  pOuter: 0.1,
+  pInner: 0.25,
   filterData: function(data) {
     data.sort(function(a, b) {
       return d3.descending(a["s1PerCap"], b["s1PerCap"]);

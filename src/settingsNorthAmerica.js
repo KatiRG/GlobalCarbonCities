@@ -85,6 +85,5 @@ export default {
   _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
-  },
-  tableTitle: ""
+  }
 };
