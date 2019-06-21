@@ -1,10 +1,15 @@
 export default {
-  aspectRatio: 16 / 4,
+  aspectRatio: 360/100,
   margin: {
-    top: 0,
-    left: 5,
-    bottom: 0
+    top: 5,
+    left: 3,
+    right: 0,
+    bottom: 20
   },
+  width: 700,
+  groupPadding: 0.1,
+  pOuter: 0.1,
+  pInner: 0.25,
   filterData: function(data) {
     data.sort(function(a, b) {
       return d3.descending(a["s1PerCap"], b["s1PerCap"]);
@@ -80,8 +85,5 @@ export default {
   _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
-  },
-  width: 800,
-  datatable: false,
-  tableTitle: ""
+  }
 };

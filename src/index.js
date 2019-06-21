@@ -343,7 +343,7 @@ function drawMap() {
     }); // ./inner d3.json
   }); // ./outer d3.json
 
-  svg.call(zoom);  
+  svg.call(zoom);
 } // ./drawMap()
 
 // -----------------------------------------------------------------------------
@@ -453,11 +453,11 @@ i18n.load(["src/i18n"], () => {
         showBarChart(chartNA, settingsNA, "North America");
         showBarChart(chartEU, settingsEU, "Europe");
         showBarChart(chartSEA, settingsSEA, "Southeast Asia");
-        // showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
-        // showBarChart(chartSA, settingsSA, "South Asia");
-        // showBarChart(chartAF, settingsAF, "Africa");
-        // showBarChart(chartNAWA, settingsNAWA, "N Africa & W Asia");
-        // showBarChart(chartOC, settingsOC, "Oceania");
+        showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
+        showBarChart(chartSA, settingsSA, "South Asia");
+        showBarChart(chartAF, settingsAF, "Africa");
+        showBarChart(chartNAWA, settingsNAWA, "N Africa & W Asia");
+        showBarChart(chartOC, settingsOC, "Oceania");
       });
 });
 
