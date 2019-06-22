@@ -11,10 +11,6 @@ export default {
   pOuter: 0.9,
   pInner: 0.15,
   filterData: function(data) {
-    data.sort(function(a, b) {
-      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-    });
-
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
 
     return [{
@@ -22,6 +18,7 @@ export default {
       values: data.map((p, i) => {
         return {
           city: p.city,
+          region: i18next.t(p.region, {ns: "regions"}),
           value: p.s1PerCap,
           storeOrig: p.storeOrig,
           idx: i
@@ -40,6 +37,9 @@ export default {
     },
     getClass: function(...args) {
       return this.x.getId.apply(this, args);
+    },
+    getRegion: function(...args) {
+      return args[0].region;
     },
     getTickText: function(val) {
       return i18next.t(val, {ns: "railBar"});
@@ -65,7 +65,6 @@ export default {
     },
     getKeys: function(object) {
       const keys = Object.keys(object[0]);
-      console.log(keys)
       keys.splice(keys.indexOf("category"), 1);
       return keys;
     },

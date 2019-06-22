@@ -1,13 +1,8 @@
 // settings for stacked bar charts
 import settingsEA from "./settingsEastAsia.js";
 import settingsNA from "./settingsNorthAmerica.js";
-import settingsEU from "./settingsEurope.js";
-import settingsSEA from "./settingsSoutheastAsia.js";
-import settingsLA from "./settingsLatinAmer.js";
-import settingsSA from "./settingsSouthAsia.js";
-import settingsAF from "./settingsAfrica.js";
-import settingsNAWA from "./settingsNAWA.js";
-import settingsOC from "./settingsOceania.js";
+import settingsRow3 from "./settingsRow3.js";
+import settingsRow4 from "./settingsRow4.js";
 
 // ----------------------------------------------------
 // Constants
@@ -88,29 +83,9 @@ const chartEU = d3.select(".data.EUdata")
     .append("svg")
     .attr("id", "barChart_groupEurope");
 
-const chartSEA = d3.select(".data.SEAdata")
+const chartRow4 = d3.select(".data.dataRow4")
     .append("svg")
-    .attr("id", "barChart_groupSEAsia");
-
-const chartLA = d3.select(".data.LAdata")
-    .append("svg")
-    .attr("id", "barChart_groupLatinAmer");
-
-const chartSA = d3.select(".data.SAdata")
-    .append("svg")
-    .attr("id", "barChart_groupSouthAsia");
-
-const chartAF = d3.select(".data.AFdata")
-    .append("svg")
-    .attr("id", "barChart_groupAfrica");
-
-const chartNAWA = d3.select(".data.NAWAdata")
-    .append("svg")
-    .attr("id", "barChart_groupNAWA");
-
-const chartOC = d3.select(".data.OCdata")
-    .append("svg")
-    .attr("id", "barChart_groupOceania");
+    .attr("id", "barChart_groupRow4");
 
 const transX = 15;
 // const transY = 70;
@@ -347,9 +322,7 @@ function drawMap() {
 } // ./drawMap()
 
 // -----------------------------------------------------------------------------
-
-
-function showBarChart(chart, settings, region) {
+function makeRegionObj(region) {
   const regionData = [];
   dataGHG.filter((d) => {
     if (d.region === region) {
@@ -361,6 +334,47 @@ function showBarChart(chart, settings, region) {
       regionData.push(thisObj);
     }
   });
+
+  regionData.sort(function(a, b) {
+    return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+  });
+
+  return regionData;
+}
+function padRegion(data, n) {
+  data.sort(function(a, b) {
+    return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+  });
+
+  for (let idx = 0; idx < n; idx++) {
+    const thisObj = {};
+    thisObj.region = data[0].region;
+    thisObj.city = `${data[0].region}_gap${idx}`;
+    thisObj.s1PerCap = null;
+    thisObj.storeOrig = null;
+    data.push(thisObj);
+  }
+  return data;
+}
+
+
+function showBarChart(chart, settings, region) {
+  let regionData = [];
+  regionData = makeRegionObj(region);
+  if (region === "Europe") {
+    const regionDataPadded = padRegion(regionData, 2);
+
+    // add "Southeast Asia"
+    regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
+  } else if (region === "Latin America & Caribbean") {
+    const region1Padded = padRegion(regionData, 2);
+    const region2Padded = padRegion(makeRegionObj("South Asia"), 2);
+    const region3Padded = padRegion(makeRegionObj("Africa"), 2);
+    const region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 2);
+
+    // concat the regions into one row
+    regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded);
+  }
 
   barChart(chart, settings, regionData);
 
@@ -451,13 +465,8 @@ i18n.load(["src/i18n"], () => {
         // Draw barCharts
         showBarChart(chartEA, settingsEA, "East Asia");
         showBarChart(chartNA, settingsNA, "North America");
-        showBarChart(chartEU, settingsEU, "Europe");
-        showBarChart(chartSEA, settingsSEA, "Southeast Asia");
-        showBarChart(chartLA, settingsLA, "Latin America & Caribbean");
-        showBarChart(chartSA, settingsSA, "South Asia");
-        showBarChart(chartAF, settingsAF, "Africa");
-        showBarChart(chartNAWA, settingsNAWA, "N Africa & W Asia");
-        showBarChart(chartOC, settingsOC, "Oceania");
+        showBarChart(chartEU, settingsRow3, "Europe");
+        showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
       });
 });
 

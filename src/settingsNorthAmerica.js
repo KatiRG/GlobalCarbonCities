@@ -11,9 +11,9 @@ export default {
   pOuter: 0.9,
   pInner: 0.15,
   filterData: function(data) {
-    data.sort(function(a, b) {
-      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-    });
+    // data.sort(function(a, b) {
+    //   return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+    // });
 
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
 
