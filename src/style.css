@@ -338,17 +338,13 @@ div.rtooltip {
   text-align: left;
 }
 
-/*#barChart_groupEastAsia .tick text {
-  font-size: 22px;
-  fill: #565656;
+.hideTick {
+  opacity: 0;
 }
-#barChart_groupSEAsia {
-  font-size: 22px;
-  fill: #565656;
-  position: relative;
-  left: -42px;
+.hideTick text {
+  opacity: 0;
 }
-*/
+
 /*
 .zerobar { 
   stroke: #565656;
