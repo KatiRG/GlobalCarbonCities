@@ -1,17 +1,12 @@
-/*https://openclassrooms.com/courses/prenez-en-main-bootstrap/une-grille*/
-
-/*--------------------------*/
 body {
-  padding-top: 10px;
+  padding-top: 12px;
   font-family: "Ubuntu", sans-serif;
   font-size: 14px;
   color: #555;
 }
 
 [class*="col-"], footer {
-  /*background-color: lightgreen; */
   border: 0px solid white;
-  /*border: 1px solid gray;*/
   border-radius: 6px;
   line-height: 40px;
   text-align: center;
@@ -27,7 +22,6 @@ body {
 
 ul {
     list-style: outside none none;
-/*    margin-top: 80px;*/
 }
 
 .headings {
@@ -38,7 +32,7 @@ ul {
 }
 
 /*--------------------------*/
-/*buttons*/
+/* buttons and menus */
 .nytg-sort li {
 	background: none repeat scroll 0 0 #f9f9f9;
 	border-bottom: 1px solid #ccc;
@@ -106,7 +100,6 @@ ul {
     background-color: lightgrey;
 }
 
-
 /*--------------------------*/
 /*tooltips */
 /*Used for barChart protocol legend rects */
@@ -146,12 +139,6 @@ div.tooltip-bar {
   font-weight: bold;
 }
 
-/*Used for toggle buttons */
-/*@-moz-document url-prefix()
-{
-div.tooltip {top: -440px; left: 1210px;}
-div.tooltip {top: 536px; left: 1130px;}
-}*/
 div.tooltip {
   position: absolute;
   text-align: left;
@@ -175,7 +162,13 @@ div.tooltip {
   padding-bottom: 5px;
 }
 
+/*--------------------------*/
 /* map */
+#mapResetButton {
+  position: absolute;
+  left: 367px; 
+  top: 0px;
+}
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
@@ -246,15 +239,6 @@ div.rtooltip {
   padding-bottom: 8px;
 }
 
-/* map */
-/*.sphere {
-  padding-top: 0px;
-  fill: #F4F7F7;  /* #F2F4F2; #e6f3f7;   //#e6f3f7"); // "#add8e6" //"#fcfcef" */
-/*} */
-/* #map {
-  padding-top: 40px;
-} */
-
 .stroke {
   fill: none;
   stroke: #555;
@@ -297,11 +281,7 @@ div.rtooltip {
   font-size: 17px;
   fill: #565656;
 }
-#mapResetButton {
-  position: absolute;
-  left: 367px; 
-  top: 0px;
-}
+
 #barChartCaption {
   position: relative;
   left: 380px;
@@ -343,6 +323,15 @@ div.rtooltip {
 }
 .hideTick text {
   opacity: 0;
+}
+.axis {
+  font: 11px sans-serif;
+}
+#barChart_groupEastAsia .x.axis text {
+  font-size: 14px;
+}
+.enlarged {
+  font-size: 18px !important;
 }
 
 /*

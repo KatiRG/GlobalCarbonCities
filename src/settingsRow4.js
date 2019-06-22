@@ -29,8 +29,7 @@ export default {
   x: {
     // label: i18next.t("x_label", {ns: "railBar"}),
     getId: function(d) {
-      const cityName = (d.city.indexOf(" ") !== -1) ? i18next.t(d.city, {ns: "cities"}) : d.city;
-      return cityName;
+      return d.city;
     },
     getValue: function(...args) {
       return this.x.getId.apply(this, args);

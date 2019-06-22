@@ -1,19 +1,19 @@
 export default {
-  aspectRatio: 360/100,
+  aspectRatio: 360/60,
   margin: {
-    top: 5,
-    left: 3,
+    top: 20,
     right: 0,
-    bottom: 20
+    bottom: 40,
+    left: 13
   },
-  width: 700,
-  groupPadding: 0.1,
-  pOuter: 0.1,
-  pInner: 0.25,
+  width: 1500,
+  groupPadding: 0.0,
+  pOuter: 0.9,
+  pInner: 0.15,
   filterData: function(data) {
-    data.sort(function(a, b) {
-      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-    });
+    // data.sort(function(a, b) {
+    //   return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+    // });
 
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
 
@@ -30,12 +30,14 @@ export default {
     }];
   },
   x: {
-    // label: i18next.t("x_label", {ns: "railBar"}),
     getId: function(d) {
-      const cityName = (d.city.indexOf(" ") !== -1) ? i18next.t(d.city, {ns: "cities"}) : d.city;
-      return cityName;
+      return d.city;
+    },
+    getIndex: function(d) {
+      return d.idx;
     },
     getValue: function(...args) {
+      // returns city names
       return this.x.getId.apply(this, args);
     },
     getClass: function(...args) {
@@ -55,7 +57,7 @@ export default {
       return d.value;
     },
     ticks: 5,
-    tickSizeOuter: 0
+    tickSizeOuter: 1
   },
 
   z: {
@@ -65,7 +67,6 @@ export default {
     },
     getKeys: function(object) {
       const keys = Object.keys(object[0]);
-      console.log(keys)
       keys.splice(keys.indexOf("category"), 1);
       return keys;
     },

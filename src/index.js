@@ -1,6 +1,6 @@
 // settings for stacked bar charts
-import settingsEA from "./settingsEastAsia.js";
-import settingsNA from "./settingsNorthAmerica.js";
+import settingsRow1 from "./settingsRow1.js";
+import settingsRow2 from "./settingsRow2.js";
 import settingsRow3 from "./settingsRow3.js";
 import settingsRow4 from "./settingsRow4.js";
 
@@ -383,6 +383,25 @@ function showBarChart(chart, settings, region) {
       .attr("class", "tooltip-bar")
       .style("opacity", 0);
 
+  // hover over xaxis text
+  d3.selectAll(".x.axis").selectAll("text")
+      .on("touchmove mousemove", function(d, i) {
+        if (d3.select(this).text().indexOf("_gap") === -1) {
+          const cityName = (d3.select(this).text().indexOf(" ") !== -1) ?
+            i18next.t(d3.select(this).text(), {ns: "cities"}) : d3.select(this).text();
+
+          d3.select(this).classed("enlarged", true);
+          d3.selectAll(`.x.axis g :not(#text_${cityName})`).style("opacity", 0.3);
+
+          highlightElements(d3.select(this).text());
+        }
+      })
+      .on("mouseout", function(d) {
+        d3.select(this).classed("enlarged", false);
+        d3.selectAll(".x.axis g text").style("opacity", 1);
+        resetElements();
+      });
+
   d3.selectAll(".bar-group")
       .on("touchmove mousemove", function(d, i) {
         const count = i + 1;
@@ -399,17 +418,7 @@ function showBarChart(chart, settings, region) {
       })
       .on("mouseout", function(d) {
         resetElements();
-
-        // d3.select("#tick" + idName).text(function (d) { return fn_abbr(d); })
-        //   .style("opacity", 0.3)
-        //   .style("font-size", "11px") //return to orig size
-        //   .attr("fill", colour_labels);
-
-        // div.style("opacity", 0);
       });
-
-  // d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
-  // updateTitles();
 }
 
 // -----------------------------------------------------------------------------
@@ -463,8 +472,8 @@ i18n.load(["src/i18n"], () => {
         showCityCard(textSet);
 
         // Draw barCharts
-        showBarChart(chartEA, settingsEA, "East Asia");
-        showBarChart(chartNA, settingsNA, "North America");
+        showBarChart(chartEA, settingsRow1, "East Asia");
+        showBarChart(chartNA, settingsRow2, "North America");
         showBarChart(chartEU, settingsRow3, "Europe");
         showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
       });

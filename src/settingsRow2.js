@@ -11,9 +11,9 @@ export default {
   pOuter: 0.9,
   pInner: 0.15,
   filterData: function(data) {
-    data.sort(function(a, b) {
-      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-    });
+    // data.sort(function(a, b) {
+    //   return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+    // });
 
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
 
@@ -32,8 +32,7 @@ export default {
   x: {
     // label: i18next.t("x_label", {ns: "railBar"}),
     getId: function(d) {
-      const cityName = (d.city.indexOf(" ") !== -1) ? i18next.t(d.city, {ns: "cities"}) : d.city;
-      return cityName;
+      return d.city;
     },
     getValue: function(...args) {
       return this.x.getId.apply(this, args);
