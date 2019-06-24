@@ -369,8 +369,8 @@ function showBarChart(chart, settings, region) {
   } else if (region === "Latin America & Caribbean") {
     const region1Padded = padRegion(regionData, 2);
     const region2Padded = padRegion(makeRegionObj("South Asia"), 2);
-    const region3Padded = padRegion(makeRegionObj("Africa"), 2);
-    const region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 2);
+    const region3Padded = padRegion(makeRegionObj("Africa"), 1);
+    const region4Padded = makeRegionObj("N Africa & W Asia");
 
     // concat the regions into one row
     regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded);
