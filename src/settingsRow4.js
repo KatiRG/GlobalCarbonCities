@@ -1,7 +1,7 @@
 export default {
   aspectRatio: 360/60,
   margin: {
-    top: 0,
+    top: 10,
     left: 0,
     right: 0,
     bottom: 20

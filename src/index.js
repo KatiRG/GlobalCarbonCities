@@ -46,7 +46,7 @@ const barColourDict = {
 // ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
-let data = []; // for selected attributes used in city card and to colour bars
+const data = []; // for selected attributes used in city card and to colour bars
 let dataGHG; // for fixed data attributes that are always needed
 let selectedAttribute = "init";
 
@@ -62,13 +62,8 @@ const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
 // barChart legend
 const margin = {top: 7, right: 0, bottom: 0, left: 20};
-const svg_width = 480 - margin.left - margin.right;
-const svg_height = 35 - margin.top - margin.bottom;
-
-const svgCB = d3.select("#barChartLegend").select("svg")
-    .attr("width", svg_width)
-    .attr("height", svg_height)
-    .style("vertical-align", "middle");
+const cbWidth = 480 - margin.left - margin.right;
+const cbHeight = 35 - margin.top - margin.bottom;
 
 // Bar charts
 const chartEA = d3.select(".data.EAdata")
@@ -86,6 +81,12 @@ const chartEU = d3.select(".data.EUdata")
 const chartRow4 = d3.select(".data.dataRow4")
     .append("svg")
     .attr("id", "barChart_groupRow4");
+
+// Colour Bar
+const svgCB = d3.select("#barChartLegend").select("svg")
+    .attr("width", cbWidth)
+    .attr("height", cbHeight)
+    .style("vertical-align", "middle");
 
 const transX = 15;
 // const transY = 70;
@@ -106,11 +107,11 @@ function addRect() {
       .attr("height", mapHeight);
 
   const svg = svgCityCard
-      .attr("width", 292)  // col 2 width
+      .attr("width", 292) // col 2 width
       .attr("height", mapHeight);
 
   const g = svg.append("g")
-      .attr("id", "cityCardg")
+      .attr("id", "cityCardg");
 
   g.append("rect")
       .attr("width", 260)
@@ -130,6 +131,7 @@ function showCityCard(textSet) {
 
   const selection = card.selectAll(".cardrow", function(d) {
     // Binds data by id
+    console.log("d.id: ", d.id)
     return d.id;
   })
       .data(data);
@@ -183,25 +185,26 @@ const findDimExtent = function(cb) {
 };
 
 function mapValueToColour(thisCity) {
-  // colour map to take data value and map it to the colour of the level bin it belongs to
-  const d0 = data[selectedAttribute].lims[0];
-  const d1 = data[selectedAttribute].lims[1];
+  if (thisCity.indexOf("_gap") === -1) {
+    // colour map to take data value and map it to the colour of the level bin it belongs to
+    const d0 = data[selectedAttribute].lims[0];
+    const d1 = data[selectedAttribute].lims[1];
 
-  if (data[selectedAttribute].filter(function(p) {
-    return (p.city === thisCity);
-  }).length > 0) {
-    const val = data[selectedAttribute].filter(function(p) {
+    if (data[selectedAttribute].filter(function(p) {
       return (p.city === thisCity);
-    })[0].value;
+    }).length > 0) {
+      const val = data[selectedAttribute].filter(function(p) {
+        return (p.city === thisCity);
+      })[0].value;
 
-    const colourmapDim = d3.scaleQuantile()
-        .domain([d0, d1])
-        .range(barColourDict[selectedAttribute]);
+      const colourmapDim = d3.scaleQuantile()
+          .domain([d0, d1])
+          .range(barColourDict[selectedAttribute]);
 
-    return colourmapDim(val); // colour for bar
-  } else {
-    console.log("nan: ")
-    return "#e6e8e3";
+      return colourmapDim(val); // colour for bar
+    } else {
+      return "#e6e8e3";
+    }
   }
 }
 
@@ -421,13 +424,111 @@ function showBarChart(chart, settings, region) {
       });
 }
 
+function drawLegend() {
+  const rectDim = 15;
+
+  // rect fill fn
+  const getFill = function(d, i) {
+    return barColourDict[selectedAttribute][i];
+  };
+
+  // text fn
+  const getText = function(i, j) {
+    if (selectedAttribute === "protocol") {
+      return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
+    } else {
+      return "mytext";
+    }
+  };
+
+  // div for the barChart rect tooltip
+  const divLegend = d3.select("body").append("div")
+      .attr("class", "tooltip-legend")
+      .style("opacity", 0);
+
+  // Create the umbrella group
+  const rectGroups = svgCB
+      .attr("class", "legendCB")
+      .selectAll(".legend")
+      .data(barColourDict[selectedAttribute]);
+
+  // Append g nodes (to be filled with a rect and a text) to umbrella group
+  const newGroup = rectGroups
+      .enter()
+      .append("g")
+      .attr("class", "legend")
+      .attr("id", function(d, i) {
+        return `cb${i}`;
+      });
+
+  // add rects
+  newGroup
+      .append("rect")
+      .attr("width", rectDim)
+      .attr("height", rectDim)
+      .attr("y", 5)
+      .attr("x", function(d, i) {
+        return 41 + i * 80;
+      })
+      .attr("fill", getFill);
+
+  // hover
+  newGroup
+      .selectAll(".legend rect")
+      .on("touchmove mousemove", function(d, j) {
+        if (selectedAttribute === "protocol") {
+          const thisText = i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
+          divLegend.style("opacity", 1);
+          divLegend.html(`<b>${thisText}</b>: ${i18next.t(`${thisText}`, {ns: "protocolFullName"})}`)
+              .style("left", d3.event.pageX - 100 + "px")
+              .style("top", d3.event.pageY - 70 + "px");
+        }
+      })
+      .on("mouseout", function(d) {
+        resetElements();
+      });
+
+  // add text
+  newGroup
+      .append("text")
+      .attr("class", "legendText")
+      .text(function(i, j) {
+        return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
+      })
+      // .attr("text-anchor", "end")
+      .attr("y", 18)
+      .attr("x", function(d, i) {
+        let xpos;
+        if (selectedAttribute === "protocol") xpos = [4, 68, 168, 247, 324, 387];
+        else if (selectedAttribute === "year") xpos = [0, 80, 160, 240, 320, 280+120];
+        else if (selectedAttribute === "population") xpos = [2, 81, 161, 241, 321, 402];
+        else if (selectedAttribute === "pop_density") xpos = [4, 75, 147, 217, 288, 333];
+        else if (selectedAttribute === "GDP_PPP_percap") xpos = [7, 77, 146, 216, 281, 333];
+        else if (selectedAttribute === "diesel" ||
+                 selectedAttribute === "gas") xpos = [4, 83, 163, 244, 323, 405, 481];
+        else if (selectedAttribute === "low_bua_pc_2014" ||
+                 selectedAttribute === "high_bua_pc_2014") xpos = [13, 94, 173, 254, 333, 407];
+        else xpos = [3, 82, 162, 241, 321, 403];
+        return xpos[i];
+      });
+      
+  // Update rect fill for any new colour arrays passed in
+  rectGroups.select("rect")
+      .attr("fill", getFill);
+
+  // Update rect text for different year selections
+  rectGroups.select("text")
+      .text(getText);
+
+  rectGroups.exit().remove();
+}
+
 // -----------------------------------------------------------------------------
 // Fn to load attribute data
 const loadData = function(cb) {
   if (!data[selectedAttribute]) {
     d3.json(`data/cityApp_attributes_consolidated_${selectedAttribute}.json`, function(err, filedata) {
       data[selectedAttribute] = filedata;
-      console.log("data in loadData: ", data)
       cb();
     });
   } else {
@@ -440,6 +541,7 @@ function uiHandler(event) {
   selectedAttribute = event.target.value;
   loadData(() => {
     colourBars();
+    drawLegend();
   });
 }
 // -----------------------------------------------------------------------------

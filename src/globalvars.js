@@ -31,57 +31,6 @@ var colour_labelsHighlight = "#3d3d3d";
 //------------------------------------------------
 //Dictionaries
 
-//Regions
-var regionDict = {
-  "East Asia": "groupEastAsia" , 
-  "North America": "groupNAmer" ,
-  "Europe": "groupEurope", 
-  "Latin America & Caribbean": "groupLatinAmer",
-  "Southeast Asia": "groupSEAsia", 
-  "South Asia": "groupSAsia", 
-  "Africa": "groupAfrica", 
-  "Oceania": "groupOceania",
-  "N Africa & W Asia": "groupNAfrica"
-}
-
-
-
-
-//------------------------------------------------
-//Variables to store data
-
-//acutal Scope1 Emissions/cap or Emissions/GDP for cities that are off the scale
-var storeFlagCapRotterdam = 0, storeFlagCapLeon = 0, storeFlagCapGandhi = 0,storeFlagCapQuezon =0,
-    storeFlagCapIncheon = 0, storeFlagCapKaohsiung = 0, storeFlagCapYilan = 0;
-var storeFlagGDP = 0, storeFlagGDPAfrica = 0;
-
-var offscaleEmissionsDict = {};
-
-//------------------------------------------------
-//FOR DISPLAY TEXTS
-// var regionLabel_dict = {
-//   "groupEurope": "Europe", "groupUSA": "USA", "groupCan": "Can",
-//   "groupOceania": "Aus/NZ",
-//   "groupAfrica": "Africa", "groupAsia": "Asia", 
-//   "groupLatinAmer": "Latin America"
-// };
-
-//9 regions S1 exists/does not exist
-// df_final.loc[~df_final[s1].isnull(), var_geo].value_counts()
-//'East Asia', 103/102 cities
-//'North America', 76/68 cities
-//'Europe', 66/44 cities
-//'Latin America & Caribbean', 33/30 cities
-//'Southeast Asia', 22/21 cities
-//'South Asia', 19/19 cities
-//'Africa', 12/12 cities
-//'N Africa & W Asia', 6/5 cities
-//'Oceania', 6/6 cities
-//Pairings
-//ROW1: 'East Asia'
-//ROW2: 'North America'
-//ROW3: 'Europe' + 'Southeast Asia'
-//ROW4: 'Latin America & Caribbean' + 'South Asia' + 'Africa' + 'N Africa & W Asia' + 'Oceania'
 var regionLabel_dict = {
   "groupEastAsia": "East Asia", //103 cities, ROW1
   "groupNAmer": "North America", //75 cities, ROW2

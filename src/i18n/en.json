@@ -56,6 +56,14 @@
       "PKU": "Beijing University",
       "CDP": "CDP"
     },
+    "legend": {
+      "protocol1": "GPC",
+      "protocol2": "US ICLEI",
+      "protocol3": "IPCC",
+      "protocol4": "ICLEI",
+      "protocol5": "Other",
+      "protocol6": "Statistical"
+    },
     "protocol": {
       "1": "GPC",
       "2": "US ICLEI",

@@ -102,29 +102,6 @@ ul {
 
 /*--------------------------*/
 /*tooltips */
-/*Used for barChart protocol legend rects */
-.d3-tip {
-  /*line-height: 1.2; */
-  height: 50px;
-  width: 350px;
-  padding: 6px;
-  background: #F7F6E4;
-  color: #555;
-  border-radius: 4px;
-  font-size: 12px;
-}
-.d3-tip-deactive {
-  background: transparent;
-}
-.d3-tip-line {
-  height: 35px;
-  width: 111px;
-  padding: 6px;
-  background: #555;
-  color: #F7F6E4;
-  border-radius: 4px;
-  font-size: 12px;
-}
 /*Used for barChart rects */
 div.tooltip-bar {
   position: absolute;
@@ -137,6 +114,16 @@ div.tooltip-bar {
   border-color: #5E554D;
   font-size: 12px;
   font-weight: bold;
+}
+.tooltip-legend {
+  position: absolute;
+  height: 50px;
+  width: 350px;
+  padding: 6px;
+  background: #F7F6E4;
+  color: #555;
+  border-radius: 4px;
+  font-size: 12px;
 }
 
 div.tooltip {
@@ -333,6 +320,16 @@ div.rtooltip {
 .enlarged {
   font-size: 18px !important;
 }
+
+/* barChart legend */
+.legendText {
+  fill: rgb(86, 86, 86);
+  stroke: none;
+  font-size: 11px;
+  display: inline;
+}
+
+
 
 /*
 .zerobar { 
