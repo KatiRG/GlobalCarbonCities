@@ -131,7 +131,6 @@ function showCityCard(textSet) {
 
   const selection = card.selectAll(".cardrow", function(d) {
     // Binds data by id
-    console.log("d.id: ", d.id)
     return d.id;
   })
       .data(data);
@@ -313,7 +312,15 @@ function drawMap() {
           })
           .attr("r", 10)
           .on("mouseover", function(d) {
-            highlightElements(d.properties.city);
+            // Clear any previous enlarged text in barChart x axis
+            d3.selectAll(".enlarged").classed("enlarged", false);
+
+            // Enlarge barChart x axis text of current city
+            const thisCity = (d.id.indexOf(" ") !== -1) ?
+              i18next.t(d.id, {ns: "cities"}) : d.id;
+            d3.select(`#text_${thisCity}`).classed("enlarged", true);
+
+            highlightElements(d.id);
           })
           .on("mouseout", function(d) {
             resetElements();
@@ -394,26 +401,36 @@ function showBarChart(chart, settings, region) {
             i18next.t(d3.select(this).text(), {ns: "cities"}) : d3.select(this).text();
 
           d3.select(this).classed("enlarged", true);
-          d3.selectAll(`.x.axis g :not(#text_${cityName})`).style("opacity", 0.3);
+          d3.selectAll(`.x.axis g :not(#text_${cityName})`)
+              .classed("fadeText", true);
 
           highlightElements(d3.select(this).text());
         }
       })
       .on("mouseout", function(d) {
         d3.select(this).classed("enlarged", false);
-        d3.selectAll(".x.axis g text").style("opacity", 1);
+        d3.selectAll(".x.axis g text").classed("fadeText", false);
+
         resetElements();
       });
 
   d3.selectAll(".bar-group")
       .on("touchmove mousemove", function(d, i) {
+        // Clear previous enlarged text
+        d3.selectAll(".enlarged").classed("enlarged", false);
+
+        // Enlarge current text
+        const thisCity = (d.city.indexOf(" ") !== -1) ?
+              i18next.t(d.city, {ns: "cities"}) : d.city;
+        d3.select(`#text_${thisCity}`).classed("enlarged", true);
+
         const count = i + 1;
         highlightElements(d.city);
 
         // Tooltip
         const thisValue = d.storeOrig ? d.storeOrig : d.value;
         const tipx = 30;
-        const tipy = -10;
+        const tipy = -50;
         div.style("opacity", 1);
         div.html(`#${count}. ${d.city} <br>${globalSettings.formatNum(thisValue)} ${i18next.t("emissions per cap", {ns: "units"})}`)
             .style("left", d3.event.pageX + tipx + "px")
@@ -511,7 +528,7 @@ function drawLegend() {
         else xpos = [3, 82, 162, 241, 321, 403];
         return xpos[i];
       });
-      
+
   // Update rect fill for any new colour arrays passed in
   rectGroups.select("rect")
       .attr("fill", getFill);
@@ -649,37 +666,24 @@ function highlightElements(cityName) {
   }
   showCityCard(newText);
 
-  // //Highlight Current
-  // //-----------------
-  // d3.select("#bar" + idName)
-  //   .style("stroke", "#363636");
+  // Highlight Current
+  // -----------------
   d3.select(`.bar-group.${idName}`)
       .select("rect")
       .classed("active", true);
 
-  // d3.selectAll(".bar:not(#bar" + idName + ")")
-  //   .style("fill-opacity", 0.1);
   d3.selectAll(`.bar-group:not(.${idName})`)
       .select("rect")
       .classed("fade", true);
 
-  // d3.selectAll(".node:not(#node" + idName + ")")
-  //   .style("fill-opacity", 0.1)
-  //   .style("stroke-opacity", 0.1);
+  d3.selectAll(".worldcity:not(#city" + idName + ")")
+      .style("fill-opacity", 0.1)
+      .style("stroke-opacity", 0.1);
 
-  // d3.selectAll(".worldcity:not(#city" + idName + ")")
-  //   .style("fill-opacity", 0.1)
-  //   .style("stroke-opacity", 0.1);
-
-  // //Highlight current country
-  // var thisCountry = data_GHG.filter(function (d) { return d.idName === idName })[0].country.replace(/\s/g, '_');
-
-  // d3.select("#map" + thisCountry).style("fill", countryHighlightColour);
-
-  // d3.select("#city" + idName)
-  //   .attr("stroke", "black")
-  //   .attr("stroke-width", 2);
-} // ./highlightElements()
+  d3.selectAll("#city" + idName)
+      .style("fill", "#20f216")
+      .style("fill-opacity", 1);
+}
 
 // Reset elements to original style before selection
 function resetElements() {
@@ -689,21 +693,16 @@ function resetElements() {
       .classed("active", false)
       .classed("fade", false);
 
+  // Clear previous enlarged text
+  // d3.selectAll(".enlarged").classed("enlarged", false);
 
-  // //clear previously highlighted country
-  // d3.selectAll(".worldcountry")
-  //   .style("stroke", "#555")
-  //   .style("stroke-width", 1)
-  //   .style("fill", countryColour)
-  //   .style("opacity", 1);
-
-  // //reset opacity of world cites and map
-  // d3.selectAll(".worldcity").style("fill-opacity", 1)
-  //   .style("stroke-opacity", 1);
-  // d3.selectAll(".countries").selectAll("path").style("opacity", 1) ;
-  // d3.selectAll(".worldcity")
-  //   .attr("stroke-width", 1)
-  //   .attr("stroke-opacity", 1);
+  // reset opacity of world cites and map
+  d3.selectAll(".worldcity").style("fill-opacity", 1)
+      .style("stroke-opacity", 1);
+  d3.selectAll(".countries").selectAll("path").style("opacity", 1);
+  d3.selectAll(".worldcity")
+      .attr("stroke-width", 1)
+      .attr("stroke-opacity", 1);
 }
 
 function zoomed() {

@@ -109,7 +109,7 @@
       "Hermosa Beach, CA": "Hermosa_Beach_CA",
       "Hoeje-Taastrup Kommune": "Hoeje-Taastrup_Kommune",
       "Hong Kong": "Hong_Kong",
-      "Jinan, Shandong": "Jinan_Shandong",
+      "Khelang Nakhon": "Khelang_Nakhon",
       "La Paz": "La_Paz",
       "Lancaster, PA": "Lancaster_PA",
       "Las Vegas": "Las_Vegas",
@@ -117,7 +117,6 @@
       "Los Altos Hills": "Los_Altos_Hills",
       "Los Angeles": "Los_Angeles",
       "Mexico City": "Mexico_City",
-      "Nanjing, Jiangsu": "Nanjing_Jiangsu",
       "Nashville & Davidson": "Nashville_and_Davidson",
       "Nelson Mandela": "Nelson_Mandela",
       "New Orleans": "New_Orleans",
@@ -143,13 +142,11 @@
       "Somerville, MA": "Somerville_MA",
       "St Louis": "St_Louis",
       "Taipei City": "Taipei_City",
-      "Taiyuan, Shanxi": "Taiyuan_Shanxi",
       "Tuxtla Gutiérrez": "Tuxtla_Gutiérrez",
       "Ubon Ratchathani": "Ubon_Ratchathani",
       "University City, MO": "University_City_MO",
       "Windsor, ON": "Windsor_ON",
-      "Xi'an, Shaanxi": "Xian_Shaanxi",
-      "Ürümqi (Wulumqi)": "Ürümqi_Wulumqi"
+      " Xi'an": "Xian"
     },
     "countries": {
       "Angola": "Angola",

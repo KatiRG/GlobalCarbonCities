@@ -271,6 +271,7 @@ div.rtooltip {
 
 #barChartCaption {
   position: relative;
+  margin-top: -18px;
   left: 380px;
   color: #565656;
   text-align: left;
@@ -314,11 +315,18 @@ div.rtooltip {
 .axis {
   font: 11px sans-serif;
 }
+.x.axis text {
+  fill: #4b4242;
+}
 #barChart_groupEastAsia .x.axis text {
-  font-size: 14px;
+  font-size: 12px;
 }
 .enlarged {
-  font-size: 18px !important;
+  font-size: 13px !important;
+  stroke: #000;
+}
+.fadeText {
+  opacity:  0.3;
 }
 
 /* barChart legend */

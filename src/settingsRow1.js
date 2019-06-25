@@ -1,12 +1,12 @@
 export default {
-  aspectRatio: 360/60,
+  aspectRatio: 8,
   margin: {
-    top: 20,
+    top: 0,
     right: 0,
-    bottom: 50,
-    left: 13
+    bottom: 55,
+    left: 0
   },
-  width: 1500,
+  width: 1300,
   groupPadding: 0.0,
   pOuter: 0.9,
   pInner: 0.15,
