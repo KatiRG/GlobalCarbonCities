@@ -96,6 +96,7 @@ const transX = 15;
 // FNS
 // page texts
 function pageText() {
+  d3.select("#download").html(i18next.t("downloadText", {ns: "pageText"}));
   d3.select("#titletag").html(i18next.t("titletag", {ns: "pageText"}));
   d3.select("#pageTitle").html(i18next.t("title", {ns: "pageText"}));
 }

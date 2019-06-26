@@ -14,7 +14,8 @@
   <div class="container">
 
     <!-- header row -->
-    <div class="row">     
+    <div class="row">
+      <div class="col-lg-3" id="download"></div>
       <div class="col-lg-7 headings" id="pageTitle"></div>
      
       <div class="col-lg-3">
@@ -34,25 +35,18 @@
 
      <!-- Link to data and paper row -->
     <div class="row">
-      <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"> 
-        <span >Dataset available for download 
-          <a target="_blank" href="https://doi.pangaea.de/10.1594/PANGAEA.884141">here</a>, published in <a target="_blank" href="https://doi.pangaea.de/10.1594/PANGAEA.884141">Nangini et al. (2018)</a>.
-        </span>
-      </div>      
+      <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"></div>      
     </div>
 
   
 
     <!-- row for barChart title and toggle buttons -->
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-4">
         <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div>
       </div>
-    </div> <!-- .end row -->
 
-    <div class="row">
-      <div class="col-lg-1"></div>
-      <div class="col-lg-2">
+      <div class="col-lg-2" id="selector">
         <label for="attrSelector">Colour bars by</label>
       </div>
       <div class="col-lg-2">

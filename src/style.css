@@ -145,7 +145,7 @@ div.tooltip {
 
 #pageTitle {
   text-align: center;
-  left: 307px;
+  left: 60px;
   padding-bottom: 5px;
 }
 
@@ -270,14 +270,15 @@ div.rtooltip {
 }
 
 #barChartCaption {
-  position: relative;
-  margin-top: -18px;
-  left: 380px;
   color: #565656;
   text-align: left;
   font-size: 18px;
 }
+#selector {
+  margin-left: -50px;
+}
 #barChartLegendLabel {
+  margin-left: -20px;
   color: #565656;
   text-align: left;
 }
