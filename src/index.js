@@ -21,6 +21,7 @@ const globalSettings = {
 };
 
 const barColourDict = {
+  "region": [""],
   "protocol": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
   "year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344", "#3a2d25"],
   "change in emissions": ["#53442F", "#BABE98", "#DBC28F", "#BEC3BC", "#E6E8E3"],
@@ -212,17 +213,19 @@ function colourBars() {
   // Colour bars according to attribute selected
   d3.selectAll(".bar-group")
       .each(function(d) {
-        const thisCity = d.city;
-        let thisColour;
-        if (selectedAttribute === "region") {
-          const thisRegion = data[selectedAttribute].filter(function(p) { return (p.city === thisCity); })[0].value;
-          thisColour = i18next.t(thisRegion, {ns: "regionColours"});
-        } else {
-          findDimExtent(() => {
-            thisColour = mapValueToColour(thisCity);
-          });
+        if (d.city.indexOf("_gap") === -1) {
+          const thisCity = d.city;
+          let thisColour;
+          if (selectedAttribute === "region") {
+            const thisRegion = data[selectedAttribute].filter(function(p) { return (p.city === thisCity); })[0].value;
+            thisColour = i18next.t(thisRegion, {ns: "regionColours"});
+          } else {
+            findDimExtent(() => {
+              thisColour = mapValueToColour(thisCity);
+            });
+          }
+          d3.select(this).select("rect").style("fill", thisColour);
         }
-        d3.select(this).select("rect").style("fill", thisColour);
       });
 }
 
@@ -445,6 +448,25 @@ function showBarChart(chart, settings, region) {
 function drawLegend() {
   const rectDim = 15;
 
+  if (barColourDict[selectedAttribute]) {
+    const cbValues = [];
+    const numLevels = barColourDict[selectedAttribute].length;
+    console.log(numLevels)
+
+    findDimExtent(() => {
+      const d0 = data[selectedAttribute].lims[0];
+      const d1 = data[selectedAttribute].lims[1];
+
+      const delta = (d1 - d0)/numLevels;
+      for (let idx=0; idx < numLevels; idx++) {
+        cbValues.push( Math.floor(d0 + idx*delta) );
+      }
+
+      console.log("after cb: ", d0, d1)
+      console.log("cbValues: ", cbValues)
+    });
+  }
+
   // rect fill fn
   const getFill = function(d, i) {
     return barColourDict[selectedAttribute][i];
@@ -452,10 +474,14 @@ function drawLegend() {
 
   // text fn
   const getText = function(i, j) {
+    console.log("getText: ", selectedAttribute)
     if (selectedAttribute === "protocol") {
       return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
+    } else if (selectedAttribute === "region") {
+      return "";
     } else {
-      return "mytext";
+      console.log("return cbValues: ", cbValues)
+      return "myText";
     }
   };
 
@@ -510,9 +536,9 @@ function drawLegend() {
   newGroup
       .append("text")
       .attr("class", "legendText")
-      .text(function(i, j) {
-        return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
-      })
+      // .text(function(i, j) {
+      //   return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
+      // })
       // .attr("text-anchor", "end")
       .attr("y", 18)
       .attr("x", function(d, i) {
