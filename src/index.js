@@ -4,6 +4,9 @@ import settingsRow2 from "./settingsRow2.js";
 import settingsRow3 from "./settingsRow3.js";
 import settingsRow4 from "./settingsRow4.js";
 
+// settings for attributes
+import settingsAttr from "./settingsAttr.js";
+
 // ----------------------------------------------------
 // Constants
 const twoSigma = 0.9545;
@@ -18,29 +21,6 @@ const globalSettings = {
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   }
-};
-
-const barColourDict = {
-  "region": [""],
-  "protocol": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
-  "year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344"], // "#3a2d25"
-  "population": ["#DED8B6", "#F9C869", "#5D5061", "#875979", "red"], // "#2F274C"
-  "GDP_PPP_percap": ["#b8aca2", "#E394A7", "#9e9ac8", "#756bb1", "#54278f", "#3a1b64"],
-  "area": ["#EDDAD0", "#D5DED9", "#99B2B7", "#5b6a6d", "#948C75", "#676251"],
-  "pop_density": ["#DED8B6", "#F9C869", "#E1F5C4", "#ADD6BC", "#486d6c", "#6A3058"],
-  "diesel": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
-  "gas": ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456", "#634414"],
-  "HDD": ["#F5F5C6", "#F5DDB5", "#d6c2d0", "#a27696", "#b8d7ff", "#B8FAFF"],
-  "CDD": ["#E1F5C4", "#ffeda0", "#F9D423", "#FC913A", "#FF4E50", "#e70081"],
-  "Low BUA (2014)": ["#d7b5d8", "#CD7CB7", "#885F9A", "#B65873", "#5F323F", "red"],
-  "low_bua_pc_2014": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
-  "Low BUA density (2014)": ["#d7b5d8", "#CD7CB7", "#885F9A", "#B65873", "#5F323F", "red"],
-  "High BUA (2014)": ["#EEDAA7", "#E6D472", "#E79C74", "#D45659", "#7D4755", "red"],
-  "high_bua_pc_2014": ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A", "#7D4755"],
-  "High BUA density (2014)": ["#EEDAA7", "#E6D472", "#E79C74", "#D45659", "#7D4755", "red"],
-  "Congestion rank (INRIX)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"],
-  "World Rank (TomTom)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"],
-  "Cities in Motion Index (IESE)": ["#F1F2C4", "#F2EA72", "#fec44f", "#CDAF7B", "#634414", "red"]
 };
 
 // ----------------------------------------------------
@@ -149,6 +129,7 @@ function showCityCard(textSet) {
       })
       .html(function(d) { return d.text; });
 
+  //  *********************** REGARDE!!!!!!*****************************************************************************
   removedSelection = selection
       .exit()
       .attr("class", "oldrow removed")
@@ -182,7 +163,7 @@ const findDimExtent = function(cb) {
     ];
   }
   // Floor to nearest 5
-  console.log("bfore floor: ", data[selectedAttribute]["lims"])
+  // console.log("bfore floor: ", data[selectedAttribute]["lims"])
   let modx;
   if (selectedAttribute === "year") modx = 5;
   else if (selectedAttribute === "population") modx = 10000;
@@ -190,17 +171,7 @@ const findDimExtent = function(cb) {
   data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
     return Math.floor(x/modx)*modx;
   });
-  console.log("floored lims: ", data[selectedAttribute]["lims"])
-
-  // Define domain
-  const levels = [];
-  const numLevels = barColourDict[selectedAttribute].length;
-  const delta = (data[selectedAttribute]["lims"][1] - data[selectedAttribute]["lims"][0])/numLevels;
-  for (let idx=0; idx < numLevels; idx++) {
-    levels.push( data[selectedAttribute]["lims"][0] + idx*delta );
-  }
-  data[selectedAttribute]["levels"] = levels;
-  console.log("levels: ", data[selectedAttribute]["levels"])
+  // console.log("floored lims: ", data[selectedAttribute]["lims"])
 
   cb();
 };
@@ -219,9 +190,8 @@ function mapValueToColour(thisCity) {
       })[0].value;
 
       const colourmapDim = d3.scaleQuantile()
-          // .domain([d0, d1])
-          .domain([ 100000, 980000, 1860000, 2740000, 3620000 ])
-          .range(barColourDict[selectedAttribute]);
+          .domain([d0, d1])
+          .range(settingsAttr[selectedAttribute].colourRange);
 
       return colourmapDim(val); // colour for bar
     } else {
@@ -241,9 +211,11 @@ function colourBars() {
             const thisRegion = data[selectedAttribute].filter(function(p) { return (p.city === thisCity); })[0].value;
             thisColour = i18next.t(thisRegion, {ns: "regionColours"});
           } else {
-            findDimExtent(() => {
-              thisColour = mapValueToColour(thisCity);
-            });
+            thisColour = mapValueToColour(thisCity);
+            // findDimExtent(() => {
+            //   thisColour = mapValueToColour(thisCity);
+            //   // getLevels();
+            // });
           }
           d3.select(this).select("rect").style("fill", thisColour);
         }
@@ -470,28 +442,24 @@ function drawLegend() {
   const rectDim = 15;
 
   const cbValues = [];
-  if (barColourDict[selectedAttribute]) {
-    
-    const numLevels = barColourDict[selectedAttribute].length;
-    console.log(numLevels)
 
-    findDimExtent(() => {
-      const d0 = data[selectedAttribute].lims[0];
-      const d1 = data[selectedAttribute].lims[1];
+  const numLevels = settingsAttr[selectedAttribute].colourRange.length;
+  console.log(numLevels)
 
-      const delta = (d1 - d0)/numLevels;
-      for (let idx=0; idx < numLevels; idx++) {
-        cbValues.push( Math.floor(d0 + idx*delta) );
-      }
+  const d0 = data[selectedAttribute].lims[0];
+  const d1 = data[selectedAttribute].lims[1];
 
-      console.log("after cb: ", d0, d1)
-      console.log("cbValues: ", cbValues)
-    });
+  const delta = (d1 - d0)/numLevels;
+  for (let idx=0; idx < numLevels; idx++) {
+    cbValues.push( Math.floor(d0 + idx*delta) );
   }
+
+  console.log("DRAWLEGEND after cb: ", d0, d1)
+  console.log("DRAWLEGEND cbValues: ", cbValues)
 
   // rect fill fn
   const getFill = function(d, i) {
-    return barColourDict[selectedAttribute][i];
+    return settingsAttr[selectedAttribute].colourRange[i];
   };
 
   // text fn
@@ -516,7 +484,7 @@ function drawLegend() {
   const rectGroups = svgCB
       .attr("class", "legendCB")
       .selectAll(".legend")
-      .data(barColourDict[selectedAttribute]);
+      .data(settingsAttr[selectedAttribute].colourRange);
 
   // Append g nodes (to be filled with a rect and a text) to umbrella group
   const newGroup = rectGroups
@@ -565,17 +533,7 @@ function drawLegend() {
       // .attr("text-anchor", "end")
       .attr("y", 18)
       .attr("x", function(d, i) {
-        let xpos;
-        if (selectedAttribute === "protocol") xpos = [4, 68, 168, 247, 324, 387];
-        else if (selectedAttribute === "year") xpos = [0, 80, 160, 240, 320, 280+120];
-        else if (selectedAttribute === "population") xpos = [2, 81, 161, 241, 321, 402];
-        else if (selectedAttribute === "pop_density") xpos = [4, 75, 147, 217, 288, 333];
-        else if (selectedAttribute === "GDP_PPP_percap") xpos = [7, 77, 146, 216, 281, 333];
-        else if (selectedAttribute === "diesel" ||
-                 selectedAttribute === "gas") xpos = [4, 83, 163, 244, 323, 405, 481];
-        else if (selectedAttribute === "low_bua_pc_2014" ||
-                 selectedAttribute === "high_bua_pc_2014") xpos = [13, 94, 173, 254, 333, 407];
-        else xpos = [3, 82, 162, 241, 321, 403];
+        const xpos = settingsAttr[selectedAttribute].xpos;
         return xpos[i];
       });
 
@@ -596,6 +554,46 @@ const loadData = function(cb) {
   if (!data[selectedAttribute]) {
     d3.json(`data/cityApp_attributes_consolidated_${selectedAttribute}.json`, function(err, filedata) {
       data[selectedAttribute] = filedata;
+
+      // Find data [min, max] for all attributes except Region
+      if (selectedAttribute !== "protocol") {
+        data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
+          return d.value;
+        });
+      } else if (selectedAttribute !== "region") {
+        if (settingsAttr[selectedAttribute].whichLim === "d3extent") {
+          data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
+            if (d.value > dummyNum) return d.value;
+          });
+        } else { // NB: ignore dummyNum
+          data[selectedAttribute]["lims"] = [
+            d3.mean(data[selectedAttribute], function(d) {
+              if (d.value > dummyNum) return d.value;
+            }) -
+                d3.mean(data[selectedAttribute], function(d) {
+                  if (d.value > dummyNum) return d.value;
+                }) * twoSigma,
+            d3.mean(data[selectedAttribute], function(d) {
+              if (d.value > dummyNum) return d.value;
+            }) +
+                d3.mean(data[selectedAttribute], function(d) {
+                  if (d.value > dummyNum) return d.value;
+                }) * twoSigma
+          ];
+        }
+      }
+
+      // Floor to nearest modx except for region and protocol
+      if (settingsAttr[selectedAttribute].modx) {
+        console.log("bfore floor: ", data[selectedAttribute]["lims"])
+        const modx = settingsAttr[selectedAttribute].modx;
+        data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
+          return Math.floor(x/modx)*modx;
+        });
+        console.log("floored lims: ", data[selectedAttribute]["lims"])
+      }
+
+
       cb();
     });
   } else {
@@ -608,7 +606,7 @@ function uiHandler(event) {
   selectedAttribute = event.target.value;
   loadData(() => {
     colourBars();
-    drawLegend();
+    // drawLegend();
   });
 }
 // -----------------------------------------------------------------------------
