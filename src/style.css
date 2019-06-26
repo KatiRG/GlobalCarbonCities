@@ -274,27 +274,8 @@ div.rtooltip {
   text-align: left;
   font-size: 18px;
 }
-#selector {
-  margin-left: -50px;
-}
-#barChartLegendLabel {
-  margin-left: -20px;
-  color: #565656;
-  text-align: left;
-}
-#barChartLegend {
-  position: relative;
-  left: 60px;
-  stroke: gray;
-}
-#barChartLegendUnits {
-  text-align: left;
-  font-size: 11px;
-  padding-left: 0px;
-  left: 160px;
-  top: -2px;
-  color: #636363;
-}
+
+
 .textLabels {
   fill: #636363;
 }
@@ -338,13 +319,36 @@ div.rtooltip {
 }
 
 /* barChart legend */
+#selector {
+  margin-left: -80px;
+}
 .legendText {
   fill: rgb(86, 86, 86);
   stroke: none;
   font-size: 11px;
   display: inline;
 }
-
+.legendCB {
+  margin-left: -130px;
+}
+#barChartLegendLabel {
+  margin-left: -55px;
+  color: #565656;
+  text-align: left;
+}
+#barChartLegend {
+  position: relative;
+  left: 60px;
+  stroke: gray;
+}
+#barChartLegendUnits {
+  text-align: left;
+  font-size: 11px;
+  padding-left: 0px;
+  left: 160px;
+  top: -2px;
+  color: #636363;
+}
 
 
 /*
