@@ -322,8 +322,15 @@ div.rtooltip {
 #barChart_groupEastAsia .x.axis text {
   font-size: 12px;
 }
-.enlarged {
+#barChart_groupEastAsia .enlarged {
   font-size: 13px !important;
+  stroke: #000;
+}
+.x.axis text{
+  font-size: 10px;
+}
+.enlarged {
+  font-size: 11px !important;
   stroke: #000;
 }
 .fadeText {
