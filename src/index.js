@@ -23,9 +23,8 @@ const globalSettings = {
 const barColourDict = {
   "region": [""],
   "protocol": ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
-  "year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344", "#3a2d25"],
-  "change in emissions": ["#53442F", "#BABE98", "#DBC28F", "#BEC3BC", "#E6E8E3"],
-  "population": ["#DED8B6", "#F9C869", "#5D5061", "#875979", "#6A3058", "#2F274C"],
+  "year": ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344"], // "#3a2d25"
+  "population": ["#DED8B6", "#F9C869", "#5D5061", "#875979", "red"], // "#2F274C"
   "GDP_PPP_percap": ["#b8aca2", "#E394A7", "#9e9ac8", "#756bb1", "#54278f", "#3a1b64"],
   "area": ["#EDDAD0", "#D5DED9", "#99B2B7", "#5b6a6d", "#948C75", "#676251"],
   "pop_density": ["#DED8B6", "#F9C869", "#E1F5C4", "#ADD6BC", "#486d6c", "#6A3058"],
@@ -182,6 +181,27 @@ const findDimExtent = function(cb) {
           }) * twoSigma
     ];
   }
+  // Floor to nearest 5
+  console.log("bfore floor: ", data[selectedAttribute]["lims"])
+  let modx;
+  if (selectedAttribute === "year") modx = 5;
+  else if (selectedAttribute === "population") modx = 10000;
+  else modx = 1;
+  data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
+    return Math.floor(x/modx)*modx;
+  });
+  console.log("floored lims: ", data[selectedAttribute]["lims"])
+
+  // Define domain
+  const levels = [];
+  const numLevels = barColourDict[selectedAttribute].length;
+  const delta = (data[selectedAttribute]["lims"][1] - data[selectedAttribute]["lims"][0])/numLevels;
+  for (let idx=0; idx < numLevels; idx++) {
+    levels.push( data[selectedAttribute]["lims"][0] + idx*delta );
+  }
+  data[selectedAttribute]["levels"] = levels;
+  console.log("levels: ", data[selectedAttribute]["levels"])
+
   cb();
 };
 
@@ -199,7 +219,8 @@ function mapValueToColour(thisCity) {
       })[0].value;
 
       const colourmapDim = d3.scaleQuantile()
-          .domain([d0, d1])
+          // .domain([d0, d1])
+          .domain([ 100000, 980000, 1860000, 2740000, 3620000 ])
           .range(barColourDict[selectedAttribute]);
 
       return colourmapDim(val); // colour for bar
@@ -448,8 +469,9 @@ function showBarChart(chart, settings, region) {
 function drawLegend() {
   const rectDim = 15;
 
+  const cbValues = [];
   if (barColourDict[selectedAttribute]) {
-    const cbValues = [];
+    
     const numLevels = barColourDict[selectedAttribute].length;
     console.log(numLevels)
 
@@ -536,6 +558,7 @@ function drawLegend() {
   newGroup
       .append("text")
       .attr("class", "legendText")
+      .text(getText)
       // .text(function(i, j) {
       //   return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
       // })
@@ -681,7 +704,7 @@ function highlightElements(cityName) {
         return (d.city === cityName);
       })[0]["value"];
 
-      thisAttr = val === dummyNum ? "N/A" : d3.format(",")(val) ? val : d3.format(",")(val);
+      thisAttr = val === dummyNum ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
 
       const thisUnit = thisAttr === "N/A" ? "" : i18next.t(selectedAttribute, {ns: "units"});
 
