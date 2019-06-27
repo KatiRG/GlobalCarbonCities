@@ -39,13 +39,11 @@ export default {
   },
   diesel: {
     whichLim: "d3extent",
-    modx: 1,
     colourRange: ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456"],
     xpos: [4, 83, 163, 244, 323, 405, 481]
   },
   gas: {
     whichLim: "d3extent",
-    modx: 1,
     colourRange: ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456"],
     xpos: [4, 83, 163, 244, 323, 405, 481]
   },
@@ -63,13 +61,11 @@ export default {
   },
   low_bua_pc_2014: {
     whichLim: "d3extent",
-    modx: 1,
     colourRange: ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A"],
     xpos: [13, 94, 173, 254, 333, 407]
   },
   high_bua_pc_2014: {
     whichLim: "d3extent",
-    modx: 1,
     colourRange: ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A"],
     xpos: [13, 94, 173, 254, 333, 407]
   },
@@ -77,14 +73,8 @@ export default {
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   }
+  // mytest: function(...args) {
+  //   console.log("args: ", args)
+  //   console.log("this: ", this)
+  // }
 };
-
-
-// if ((selectedAttribute === "protocol") | (selectedAttribute === "year") |
-//     (selectedAttribute === "diesel") | (selectedAttribute === "gas") |
-//     (selectedAttribute === "CDD") | (selectedAttribute === "low_bua_pc_2014") |
-//     (selectedAttribute === "high_bua_pc_2014")) {
-//     data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
-//       if (d.value > dummyNum) return d.value;
-//     });
-//}

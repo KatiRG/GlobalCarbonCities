@@ -11,6 +11,7 @@ import settingsAttr from "./settingsAttr.js";
 // Constants
 const twoSigma = 0.9545;
 const dummyNum = -99999999; // NaN holder
+const nanColour = "#32cd32";
 const offscaleDict = {
   "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10, "Quezon": 10, "León": 10, "Gandhinagar": 12
 };
@@ -176,32 +177,8 @@ const findDimExtent = function(cb) {
   cb();
 };
 
-function mapValueToColour(thisCity) {
-  if (thisCity.indexOf("_gap") === -1) {
-    // colour map to take data value and map it to the colour of the level bin it belongs to
-    const d0 = data[selectedAttribute].lims[0];
-    const d1 = data[selectedAttribute].lims[1];
-
-    if (data[selectedAttribute].filter(function(p) {
-      return (p.city === thisCity);
-    }).length > 0) {
-      const val = data[selectedAttribute].filter(function(p) {
-        return (p.city === thisCity);
-      })[0].value;
-
-      const colourmapDim = d3.scaleQuantile()
-          .domain([d0, d1])
-          .range(settingsAttr[selectedAttribute].colourRange);
-
-      return colourmapDim(val); // colour for bar
-    } else {
-      return "#e6e8e3";
-    }
-  }
-}
-
 function colourBars() {
-  // Colour bars according to attribute selected
+  // Colour bars according to selected attribute
   d3.selectAll(".bar-group")
       .each(function(d) {
         if (d.city.indexOf("_gap") === -1) {
@@ -211,12 +188,16 @@ function colourBars() {
             const thisRegion = data[selectedAttribute].filter(function(p) { return (p.city === thisCity); })[0].value;
             thisColour = i18next.t(thisRegion, {ns: "regionColours"});
           } else {
-            thisColour = mapValueToColour(thisCity);
-            // findDimExtent(() => {
-            //   thisColour = mapValueToColour(thisCity);
-            //   // getLevels();
-            // });
+            const val = data[selectedAttribute].filter(function(p) {
+              return (p.city === thisCity);
+            })[0].value;
+
+            if (val === dummyNum) thisColour = nanColour;
+            else {
+              thisColour = data[selectedAttribute].mappingFn(val);
+            }
           }
+          // Apply thisColour to bar
           d3.select(this).select("rect").style("fill", thisColour);
         }
       });
@@ -593,6 +574,7 @@ const loadData = function(cb) {
         console.log("floored lims: ", data[selectedAttribute]["lims"])
       }
 
+      // console.log("mytest: ", settingsAttr.mytest(["a", 10, "b"]))
 
       cb();
     });
@@ -601,11 +583,36 @@ const loadData = function(cb) {
   }
 };
 
+function getMapping() {
+  // limits already rounded and floored if necessary in loadData()
+  const d0 = data[selectedAttribute].lims[0];
+  const d1 = data[selectedAttribute].lims[1];
+
+  const mapping = d3.scaleQuantile()
+      .domain([d0, d1])
+      .range(settingsAttr[selectedAttribute].colourRange);
+
+  // get levels and store in data object array
+  const numLevels = settingsAttr[selectedAttribute].colourRange.length;
+
+  const levels = [];
+  const delta = (d1 - d0)/numLevels;
+  for (let idx=0; idx < numLevels; idx++) {
+    levels.push( Math.floor(d0 + idx*delta) );
+  }
+  console.log("cbValues: ", levels)
+
+  // store mappings in data object array
+  data[selectedAttribute]["mappingFn"] = mapping;
+  data[selectedAttribute]["levels"] = levels;
+}
+
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
   selectedAttribute = event.target.value;
   loadData(() => {
-    colourBars();
+    getMapping(); // defines fn to map attribute value to colour for barChart
+    colourBars(); // applies colour to each bar in barChart
     // drawLegend();
   });
 }
@@ -639,6 +646,7 @@ i18n.load(["src/i18n"], () => {
         showCityCard(textSet);
 
         // Draw barCharts
+        // Note: bars are coloured by css region when page first loads. No colour mapping necessary.
         showBarChart(chartEA, settingsRow1, "East Asia");
         showBarChart(chartNA, settingsRow2, "North America");
         showBarChart(chartEU, settingsRow3, "Europe");
