@@ -24,6 +24,14 @@ const globalSettings = {
   }
 };
 
+// const getTails = {
+//   bySigma: function(...args) {
+//     return this._selfFormatter.format(args);
+//   }
+// }
+
+
+
 // ----------------------------------------------------
 // Setup
 // ----------------------------------------------------
@@ -138,45 +146,6 @@ function showCityCard(textSet) {
 }
 
 // ----------------------------------------------------------------
-// Returns dim extent of selected attribute
-const findDimExtent = function(cb) {
-  if ((selectedAttribute === "protocol") | (selectedAttribute === "year") |
-    (selectedAttribute === "diesel") | (selectedAttribute === "gas") |
-    (selectedAttribute === "CDD") | (selectedAttribute === "low_bua_pc_2014") |
-    (selectedAttribute === "high_bua_pc_2014")) {
-    data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
-      if (d.value > dummyNum) return d.value;
-    });
-  } else { // NB: ignore dummyNum
-    data[selectedAttribute]["lims"] = [
-      d3.mean(data[selectedAttribute], function(d) {
-        if (d.value > dummyNum) return d.value;
-      }) -
-          d3.mean(data[selectedAttribute], function(d) {
-            if (d.value > dummyNum) return d.value;
-          }) * twoSigma,
-      d3.mean(data[selectedAttribute], function(d) {
-        if (d.value > dummyNum) return d.value;
-      }) +
-          d3.mean(data[selectedAttribute], function(d) {
-            if (d.value > dummyNum) return d.value;
-          }) * twoSigma
-    ];
-  }
-  // Floor to nearest 5
-  // console.log("bfore floor: ", data[selectedAttribute]["lims"])
-  let modx;
-  if (selectedAttribute === "year") modx = 5;
-  else if (selectedAttribute === "population") modx = 10000;
-  else modx = 1;
-  data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
-    return Math.floor(x/modx)*modx;
-  });
-  // console.log("floored lims: ", data[selectedAttribute]["lims"])
-
-  cb();
-};
-
 function colourBars() {
   // Colour bars according to selected attribute
   d3.selectAll(".bar-group")
@@ -536,6 +505,11 @@ const loadData = function(cb) {
     d3.json(`data/cityApp_attributes_consolidated_${selectedAttribute}.json`, function(err, filedata) {
       data[selectedAttribute] = filedata;
 
+      console.log(selectedAttribute)
+      console.log(settingsAttr[selectedAttribute].whichLim)
+      console.log(data[selectedAttribute])
+      console.log(d3.extent(data[selectedAttribute]))
+
       // Find data [min, max] for all attributes except Region
       if (selectedAttribute !== "protocol") {
         data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
@@ -544,21 +518,22 @@ const loadData = function(cb) {
       } else if (selectedAttribute !== "region") {
         if (settingsAttr[selectedAttribute].whichLim === "d3extent") {
           data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
-            if (d.value > dummyNum) return d.value;
+            return d.value;
           });
         } else { // NB: ignore dummyNum
+          console.log("**********************", data[selectedAttribute])
           data[selectedAttribute]["lims"] = [
             d3.mean(data[selectedAttribute], function(d) {
-              if (d.value > dummyNum) return d.value;
+              return d.value;
             }) -
                 d3.mean(data[selectedAttribute], function(d) {
-                  if (d.value > dummyNum) return d.value;
+                  return d.value;
                 }) * twoSigma,
             d3.mean(data[selectedAttribute], function(d) {
-              if (d.value > dummyNum) return d.value;
+              return d.value;
             }) +
                 d3.mean(data[selectedAttribute], function(d) {
-                  if (d.value > dummyNum) return d.value;
+                  return d.value;
                 }) * twoSigma
           ];
         }
@@ -611,7 +586,7 @@ function getMapping() {
 function uiHandler(event) {
   selectedAttribute = event.target.value;
   loadData(() => {
-    getMapping(); // defines fn to map attribute value to colour for barChart
+    getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
     colourBars(); // applies colour to each bar in barChart
     // drawLegend();
   });
