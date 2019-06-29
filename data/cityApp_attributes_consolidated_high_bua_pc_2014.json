@@ -130,7 +130,7 @@
 {"city": "Jinzhou", "value": 0.61},
 {"city": "Jixi", "value": 0.59},
 {"city": "Johannesburg", "value": 0.68},
-{"city": "Kadiovacik", "value": nan},
+{"city": "Kadiovacik", "value": null},
 {"city": "Kaifeng", "value": 0.57},
 {"city": "Kaohsiung", "value": 0.57},
 {"city": "Khelang Nakhon", "value": 0.42},

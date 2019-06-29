@@ -11,24 +11,30 @@ export default {
   year: {
     whichLim: "d3extent",
     modx: 5,
-    colourRange: ["#D8E6DB", "#DBC28F", "#CCA26A", "#997E68", "#6B5344"],
+    colourRange: ["#D8E6DB", "#DBC28F", "red", "#997E68", "#6B5344"],
     xpos: [0, 80, 160, 240, 320, 280+120]
   },
   population: {
-    whichLim: "d3mean",
-    modx: 100000,
+    whichLim: "d3extent",
+    // modx: 100000,
     colourRange: ["#DED8B6", "#F9C869", "#5D5061", "#875979", "red"],
-    xpos: [2, 81, 161, 241, 321, 402]
+    xpos: [2, 81, 161, 241, 321, 402],
+    formatLevel: function(...args) {
+      return d3.format(".2s")(args);
+    }
   },
   GDP_PPP_percap: {
     whichLim: "d3mean",
     modx: 1000,
     colourRange: ["#b8aca2", "#E394A7", "#9e9ac8", "#756bb1", "#54278f"],
-    xpos: [7, 77, 146, 216, 281, 333]
+    xpos: [7, 77, 146, 216, 281, 333],
+    formatLevel: function(...args) {
+      return d3.format(".2s")(args);
+    }
   },
   area: {
     whichLim: "d3mean",
-    modx: 10,
+    modx: 100,
     colourRange: ["#EDDAD0", "#D5DED9", "#99B2B7", "#5b6a6d", "#948C75"],
     xpos: [3, 82, 162, 241, 321, 403]
   },

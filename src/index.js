@@ -391,37 +391,24 @@ function showBarChart(chart, settings, region) {
 function drawLegend() {
   const rectDim = 15;
 
-  const cbValues = [];
-
-  const numLevels = settingsAttr[selectedAttribute].colourRange.length;
-  console.log(numLevels)
-
-  const d0 = data[selectedAttribute].lims[0];
-  const d1 = data[selectedAttribute].lims[1];
-
-  const delta = (d1 - d0)/numLevels;
-  for (let idx=0; idx < numLevels; idx++) {
-    cbValues.push( Math.floor(d0 + idx*delta) );
-  }
-
-  console.log("DRAWLEGEND after cb: ", d0, d1)
-  console.log("DRAWLEGEND cbValues: ", cbValues)
-
   // rect fill fn
   const getFill = function(d, i) {
     return settingsAttr[selectedAttribute].colourRange[i];
   };
 
-  // text fn
+  // Fn to display value of each level
   const getText = function(i, j) {
     console.log("getText: ", selectedAttribute)
     if (selectedAttribute === "protocol") {
       return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
-    } else if (selectedAttribute === "region") {
-      return "";
     } else {
-      console.log("return cbValues: ", cbValues)
-      return "myText";
+      let levelVal;
+      if (j === 0) levelVal = data[selectedAttribute].lims[j];
+      else levelVal = data[selectedAttribute].levels[j-1];
+
+      levelVal = settingsAttr[selectedAttribute].formatLevel ?
+        settingsAttr[selectedAttribute].formatLevel(levelVal) : levelVal;
+      return `${levelVal}+`;
     }
   };
 
@@ -523,8 +510,8 @@ const loadData = function(cb) {
       } // else: region handled separately in colourBars()
 
       // Floor to nearest modx except for region and protocol
-      console.log("bfore floor: ", data[selectedAttribute]["lims"])
-      if (settingsAttr[selectedAttribute].modx) {        
+      console.log("raw lims: ", data[selectedAttribute]["lims"])
+      if (settingsAttr[selectedAttribute].modx) {    
         const modx = settingsAttr[selectedAttribute].modx;
         data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
           return Math.floor(x/modx)*modx;
@@ -541,9 +528,9 @@ const loadData = function(cb) {
 
 function getMapping() {
   if (data[selectedAttribute].lims) {
-    // limits already rounded and floored if necessary in loadData()
     const d0 = data[selectedAttribute].lims[0];
     const d1 = data[selectedAttribute].lims[1];
+    console.log(d0, d1)
 
     const mapping = d3.scaleQuantile()
         .domain([d0, d1])
@@ -551,16 +538,8 @@ function getMapping() {
 
     let levels;
     if (!settingsAttr[selectedAttribute].cbValues) {
-      // get levels and store in data object array
-      const numLevels = settingsAttr[selectedAttribute].colourRange.length;
-
-      levels = [];
-      const delta = (d1 - d0)/numLevels;
-      for (let idx=0; idx < numLevels; idx++) {
-        levels.push( Math.floor(d0 + idx*delta) );
-      }
-      console.log("cbValues: ", levels)
-    } else {
+      levels = mapping.quantiles();
+    } else { // protocol
       levels = settingsAttr[selectedAttribute].cbValues;
     }
     console.log("levels: ", levels)
@@ -578,7 +557,7 @@ function uiHandler(event) {
   loadData(() => {
     getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
     colourBars(); // applies colour to each bar in barChart
-    // drawLegend();
+    if (selectedAttribute !== "region") drawLegend();
   });
 }
 // -----------------------------------------------------------------------------
