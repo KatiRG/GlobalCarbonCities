@@ -24,12 +24,11 @@ const globalSettings = {
   }
 };
 
-// const getTails = {
-//   bySigma: function(...args) {
-//     return this._selfFormatter.format(args);
-//   }
-// }
-
+const stats = {
+  getTail: function(...args) {
+    return args[0]*args[1];
+  }
+};
 
 
 // ----------------------------------------------------
@@ -511,33 +510,22 @@ const loadData = function(cb) {
       console.log(d3.extent(data[selectedAttribute]))
 
       // Find data [min, max] for all attributes except Region
-      if (selectedAttribute !== "protocol") {
-        data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
-          return d.value;
-        });
-      } else if (selectedAttribute !== "region") {
+      if (settingsAttr[selectedAttribute].whichLim) {
         if (settingsAttr[selectedAttribute].whichLim === "d3extent") {
           data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
             return d.value;
           });
-        } else { // NB: ignore dummyNum
+        } else if (settingsAttr[selectedAttribute].whichLim === "d3mean") {
           console.log("**********************", data[selectedAttribute])
+          const thisMean = d3.mean(data[selectedAttribute], function(d) {
+            return d.value;
+          });
+
           data[selectedAttribute]["lims"] = [
-            d3.mean(data[selectedAttribute], function(d) {
-              return d.value;
-            }) -
-                d3.mean(data[selectedAttribute], function(d) {
-                  return d.value;
-                }) * twoSigma,
-            d3.mean(data[selectedAttribute], function(d) {
-              return d.value;
-            }) +
-                d3.mean(data[selectedAttribute], function(d) {
-                  return d.value;
-                }) * twoSigma
+            thisMean - stats.getTail(thisMean, twoSigma), thisMean + stats.getTail(thisMean, twoSigma)
           ];
         }
-      }
+      } // else: region handled separately in colourBars()
 
       // Floor to nearest modx except for region and protocol
       if (settingsAttr[selectedAttribute].modx) {
@@ -548,8 +536,6 @@ const loadData = function(cb) {
         });
         console.log("floored lims: ", data[selectedAttribute]["lims"])
       }
-
-      // console.log("mytest: ", settingsAttr.mytest(["a", 10, "b"]))
 
       cb();
     });
