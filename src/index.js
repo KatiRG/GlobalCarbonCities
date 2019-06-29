@@ -504,12 +504,7 @@ const loadData = function(cb) {
     d3.json(`data/cityApp_attributes_consolidated_${selectedAttribute}.json`, function(err, filedata) {
       data[selectedAttribute] = filedata;
 
-      console.log(selectedAttribute)
-      console.log(settingsAttr[selectedAttribute].whichLim)
-      console.log(data[selectedAttribute])
-      console.log(d3.extent(data[selectedAttribute]))
-
-      // Find data [min, max] for all attributes except Region
+      // Find data [min, max] for all attributes except Region and store in "lims"
       if (settingsAttr[selectedAttribute].whichLim) {
         if (settingsAttr[selectedAttribute].whichLim === "d3extent") {
           data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function(d) {
@@ -545,27 +540,35 @@ const loadData = function(cb) {
 };
 
 function getMapping() {
-  // limits already rounded and floored if necessary in loadData()
-  const d0 = data[selectedAttribute].lims[0];
-  const d1 = data[selectedAttribute].lims[1];
+  if (data[selectedAttribute].lims) {
+    // limits already rounded and floored if necessary in loadData()
+    const d0 = data[selectedAttribute].lims[0];
+    const d1 = data[selectedAttribute].lims[1];
 
-  const mapping = d3.scaleQuantile()
-      .domain([d0, d1])
-      .range(settingsAttr[selectedAttribute].colourRange);
+    const mapping = d3.scaleQuantile()
+        .domain([d0, d1])
+        .range(settingsAttr[selectedAttribute].colourRange);
 
-  // get levels and store in data object array
-  const numLevels = settingsAttr[selectedAttribute].colourRange.length;
+    let levels;
+    if (!settingsAttr[selectedAttribute].cbValues) {
+      // get levels and store in data object array
+      const numLevels = settingsAttr[selectedAttribute].colourRange.length;
 
-  const levels = [];
-  const delta = (d1 - d0)/numLevels;
-  for (let idx=0; idx < numLevels; idx++) {
-    levels.push( Math.floor(d0 + idx*delta) );
+      levels = [];
+      const delta = (d1 - d0)/numLevels;
+      for (let idx=0; idx < numLevels; idx++) {
+        levels.push( Math.floor(d0 + idx*delta) );
+      }
+      console.log("cbValues: ", levels)
+    } else {
+      levels = settingsAttr[selectedAttribute].cbValues;
+    }
+    console.log("levels: ", levels)
+
+    // store mappings in data object array
+    data[selectedAttribute]["mappingFn"] = mapping;
+    data[selectedAttribute]["levels"] = levels;
   }
-  console.log("cbValues: ", levels)
-
-  // store mappings in data object array
-  data[selectedAttribute]["mappingFn"] = mapping;
-  data[selectedAttribute]["levels"] = levels;
 }
 
 // -----------------------------------------------------------------------------

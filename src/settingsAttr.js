@@ -5,6 +5,7 @@ export default {
   protocol: {
     whichLim: "d3extent",
     colourRange: ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
+    cbValues: [1, 2, 3, 4, 5, 6],
     xpos: [4, 68, 168, 247, 324, 387]
   },
   year: {
