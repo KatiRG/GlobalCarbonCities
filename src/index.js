@@ -10,8 +10,6 @@ import settingsAttr from "./settingsAttr.js";
 // ----------------------------------------------------
 // Constants
 const twoSigma = 0.9545;
-const dummyNum = -99999999; // NaN holder
-const nanColour = "#32cd32";
 const offscaleDict = {
   "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10, "Quezon": 10, "León": 10, "Gandhinagar": 12
 };
@@ -160,7 +158,10 @@ function colourBars() {
               return (p.city === thisCity);
             })[0].value;
 
-            if (val === dummyNum) thisColour = nanColour;
+            if (!val) {
+              d3.select(this).select("rect").classed("isNan", true);
+              thisColour = "none";
+            }
             else {
               thisColour = data[selectedAttribute].mappingFn(val);
             }
@@ -511,7 +512,6 @@ const loadData = function(cb) {
             return d.value;
           });
         } else if (settingsAttr[selectedAttribute].whichLim === "d3mean") {
-          console.log("**********************", data[selectedAttribute])
           const thisMean = d3.mean(data[selectedAttribute], function(d) {
             return d.value;
           });
@@ -523,8 +523,8 @@ const loadData = function(cb) {
       } // else: region handled separately in colourBars()
 
       // Floor to nearest modx except for region and protocol
-      if (settingsAttr[selectedAttribute].modx) {
-        console.log("bfore floor: ", data[selectedAttribute]["lims"])
+      console.log("bfore floor: ", data[selectedAttribute]["lims"])
+      if (settingsAttr[selectedAttribute].modx) {        
         const modx = settingsAttr[selectedAttribute].modx;
         data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
           return Math.floor(x/modx)*modx;
@@ -573,6 +573,7 @@ function getMapping() {
 
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
+  d3.selectAll(".data").selectAll("rect").classed("isNan", false);
   selectedAttribute = event.target.value;
   loadData(() => {
     getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
@@ -674,7 +675,7 @@ function highlightElements(cityName) {
         return (d.city === cityName);
       })[0]["value"];
 
-      thisAttr = val === dummyNum ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
+      thisAttr = !val ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
 
       const thisUnit = thisAttr === "N/A" ? "" : i18next.t(selectedAttribute, {ns: "units"});
 

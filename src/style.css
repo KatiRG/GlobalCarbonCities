@@ -257,6 +257,10 @@ div.rtooltip {
 .bar-group .fade {
   opacity: 0.3 !important;
 }
+.isNan {
+/*  fill: none;*/
+  stroke: black;
+}
 
 .headingClass { /* svg stylings */
   font-weight: bold;
