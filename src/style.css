@@ -153,8 +153,8 @@ div.tooltip {
 /* map */
 #mapResetButton {
   position: absolute;
-  left: 367px; 
-  top: 0px;
+  left: 1038px; 
+  top: -43px;
 }
 .worldcountry {
   fill: rgb(24, 71, 27);
@@ -277,6 +277,8 @@ div.rtooltip {
   color: #565656;
   text-align: left;
   font-size: 18px;
+  position: absolute;
+  top: -13px;
 }
 
 
@@ -335,13 +337,20 @@ div.rtooltip {
 .legendCB {
   margin-left: -130px;
 }
-#barChartLegendLabel {
+#dropdownMenu {
   margin-left: -55px;
+  margin-top: -11px;
   color: #565656;
   text-align: left;
 }
+label {
+  position: absolute;
+  top: -13px;
+  left: 42px;
+}
 #barChartLegend {
   position: relative;
+  top: -14px;
   left: 60px;
   stroke: gray;
 }
@@ -395,7 +404,6 @@ div.rtooltip {
   font-size: 18px;
   color: #fff;
   stroke: none;
-  background: rgba(76, 135, 181, 0.7);
   text-shadow: 0 0 5px #333333;
   text-align: left;
   margin-left: 25px;
