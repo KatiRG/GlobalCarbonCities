@@ -406,7 +406,7 @@ label {
   stroke: none;
   text-shadow: 0 0 5px #333333;
   text-align: left;
-  margin-left: 25px;
+  margin-left: 19px;
 }
 
 .subrow, .updated {
@@ -414,7 +414,7 @@ label {
   stroke: none;
   color: #ffaa1b;
   text-align: left;
-  margin-left: 25px;
+  margin-left: 19px;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {

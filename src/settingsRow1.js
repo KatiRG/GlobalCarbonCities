@@ -3,7 +3,7 @@ export default {
   margin: {
     top: 10,
     right: 0,
-    bottom: 55,
+    bottom: 20,
     left: 0
   },
   width: 1300,
