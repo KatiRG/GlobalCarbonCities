@@ -158,7 +158,9 @@ function colourBars() {
               return (p.city === thisCity);
             })[0].value;
 
-            if (!val) {
+            if (val === null) {
+              console.log(thisCity)
+              console.log(val)
               d3.select(this).select("rect").classed("isNan", true);
               thisColour = "none";
             }
@@ -654,7 +656,7 @@ function highlightElements(cityName) {
         return (d.city === cityName);
       })[0]["value"];
 
-      thisAttr = !val ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
+      thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
 
       const thisUnit = thisAttr === "N/A" ? "" : i18next.t(selectedAttribute, {ns: "units"});
 
