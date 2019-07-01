@@ -31,10 +31,10 @@ export default {
   },
   x: {
     getId: function(d) {
+      // if (d.indexOf(', ') >= 0) abbr = d.substring(0,3);
+      // else if (d.indexOf(' ') >= 0) abbr = d.match(/\b\w/g).join(' ');
+      // else abbr = d.substring(0,4);
       return d.city;
-    },
-    getIndex: function(d) {
-      return d.idx;
     },
     getValue: function(...args) {
       // returns city names

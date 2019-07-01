@@ -351,6 +351,8 @@ function showBarChart(chart, settings, region) {
           const cityName = (d3.select(this).text().indexOf(" ") !== -1) ?
             i18next.t(d3.select(this).text(), {ns: "cities"}) : d3.select(this).text();
 
+          console.log("this: ", this)
+
           d3.select(this).classed("enlarged", true);
           d3.selectAll(`.x.axis g :not(#text_${cityName})`)
               .classed("fadeText", true);
@@ -600,6 +602,8 @@ i18n.load(["src/i18n"], () => {
         showBarChart(chartNA, settingsRow2, "North America");
         showBarChart(chartEU, settingsRow3, "Europe");
         showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
+
+        d3.selectAll(".data svg").style("overflow", "visible");
       });
 });
 

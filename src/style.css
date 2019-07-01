@@ -208,11 +208,14 @@ div.tooltip {
 }
 
 /*to allow x-axis labels to overflow past div bd*/
-svg:not(:root) {
+/*svg:not(:root) {
     overflow: unset;
-}
-svg.barSVG {
+}*/
+/*svg.barSVG {
     overflow: unset;
+}*/
+.data svg {
+  overflow: visible;
 }
 
 div.rtooltip {
