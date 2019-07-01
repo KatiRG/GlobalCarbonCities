@@ -164,6 +164,15 @@ div.tooltip {
 .worldcity {
   stroke: #555;
 }
+.cityactive {
+  fill: #20f216 !important;
+}
+.cityfade {
+  opacity: 0.2  !important;
+}
+.countryfade {
+  opacity: 0.2 !important;
+}
 .groupEastAsia {
   fill: #d15081;
 }

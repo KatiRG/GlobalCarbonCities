@@ -36,7 +36,9 @@ const data = []; // for selected attributes used in city card and to colour bars
 let dataGHG; // for fixed data attributes that are always needed
 let selectedAttribute = "init";
 
-const pointRadius = 5;
+let path; // map path projection
+const defaultRadius = 3;
+const highlightRadius = 10;
 
 // ----------------------------------------------------
 // SVGs
@@ -199,9 +201,9 @@ function drawMap() {
       .scale(151)
       .translate([mapWidth/1.655, mapHeight/1.67]);
 
-  const path = d3.geoPath()
+  path = d3.geoPath()
       .projection(projection)
-      .pointRadius([3]);
+      .pointRadius([defaultRadius]);
 
   const graticule = d3.geoGraticule();
 
@@ -386,6 +388,7 @@ function showBarChart(chart, settings, region) {
             .style("top", d3.event.pageY + tipy + "px");
       })
       .on("mouseout", function(d) {
+        div.style("opacity", 0);
         resetElements();
       });
 }
@@ -668,8 +671,7 @@ function highlightElements(cityName) {
   }
   showCityCard(newText);
 
-  // Highlight Current
-  // -----------------
+  // Highlight current city on map, bars and barChart x-axis
   d3.select(`.bar-group.${idName}`)
       .select("rect")
       .classed("active", true);
@@ -678,13 +680,14 @@ function highlightElements(cityName) {
       .select("rect")
       .classed("fade", true);
 
-  d3.selectAll(".worldcity:not(#city" + idName + ")")
-      .style("fill-opacity", 0.1)
-      .style("stroke-opacity", 0.1);
-
   d3.selectAll("#city" + idName)
-      .style("fill", "#20f216")
-      .style("fill-opacity", 1);
+      .classed("cityactive", true);
+
+  d3.selectAll(".worldcity:not(#city" + idName + ")")
+      .classed("cityfade", true);
+
+  d3.selectAll(`.worldcountry:not(#map${i18next.t(thisCountry, {ns: "countries"})})`)
+      .classed("countryfade", true);
 }
 
 // Reset elements to original style before selection
@@ -698,13 +701,10 @@ function resetElements() {
   // Clear previous enlarged text
   // d3.selectAll(".enlarged").classed("enlarged", false);
 
-  // reset opacity of world cites and map
-  d3.selectAll(".worldcity").style("fill-opacity", 1)
-      .style("stroke-opacity", 1);
-  d3.selectAll(".countries").selectAll("path").style("opacity", 1);
-  d3.selectAll(".worldcity")
-      .attr("stroke-width", 1)
-      .attr("stroke-opacity", 1);
+  // reset map highlight classes
+  d3.selectAll(".cityactive").classed("cityactive", false);
+  d3.selectAll(".cityfade").classed("cityfade", false);
+  d3.selectAll(".countryfade").classed("countryfade", false);
 }
 
 function zoomed() {
