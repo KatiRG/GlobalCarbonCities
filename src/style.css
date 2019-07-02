@@ -279,15 +279,27 @@ div.rtooltip {
   font-size: 17px;
   color: #565656;
 }
-#h1, #h2 {
-  left: 73px;
+#h1 {
+  left: 100px;
+  top: -20px;
+}
+#h2 {
+  left: 100px;
+  top: -48px;
 }
 #h3 {
-  left: -248px;
+  left: -222px;
+  top: -90px;
 }
 #h4 {
   left: -76px;
+  top: -90px;
 }
+#h5, #h6, #h7, #h8, #h9 {
+  left: 89px;
+  top: -128px;
+}
+
 .yl
 .ylabelClass {
   font-size: 17px;

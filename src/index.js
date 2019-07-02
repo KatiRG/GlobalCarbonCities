@@ -64,7 +64,7 @@ const chartNA = d3.select(".data.NAdata")
 
 const chartEU = d3.select(".data.EUdata")
     .append("svg")
-    .attr("id", "barChart_groupEurope");
+    .attr("id", "barChart_groupRow3");
 
 const chartRow4 = d3.select(".data.dataRow4")
     .append("svg")
@@ -229,7 +229,7 @@ function drawMap() {
   d3.json("geojson/world_countries.json", function(error, world) {
     if (error) throw error;
 
-    d3.json("geojson/our_cities.geojson", function(error, cities) {
+    d3.json("geojson/our_cities_bk.geojson", function(error, cities) {
       if (error) throw error;
 
       const countries = g.attr("class", "mapg")
@@ -338,6 +338,11 @@ function showBarChart(chart, settings, region) {
   }
 
   barChart(chart, settings, regionData);
+
+  d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -50)");
+  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -80)");
+  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -130)");
+  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -175)");
 
   // Define the div for the barChart rect tooltip
   const div = d3.select("body").append("div")
