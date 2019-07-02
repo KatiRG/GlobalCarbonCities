@@ -328,13 +328,13 @@ function showBarChart(chart, settings, region) {
     // add "Southeast Asia"
     regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
   } else if (region === "Latin America & Caribbean") {
-    const region1Padded = padRegion(regionData, 2);
-    const region2Padded = padRegion(makeRegionObj("South Asia"), 2);
+    const region1Padded = padRegion(regionData, 1);
+    const region2Padded = padRegion(makeRegionObj("South Asia"), 1);
     const region3Padded = padRegion(makeRegionObj("Africa"), 1);
-    const region4Padded = makeRegionObj("N Africa & W Asia");
-
+    const region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 1);
+    const region5Padded = makeRegionObj("Oceania");
     // concat the regions into one row
-    regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded);
+    regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
   }
 
   barChart(chart, settings, regionData);
@@ -350,8 +350,6 @@ function showBarChart(chart, settings, region) {
         if (d3.select(this).text().indexOf("_gap") === -1) {
           const cityName = (d3.select(this).text().indexOf(" ") !== -1) ?
             i18next.t(d3.select(this).text(), {ns: "cities"}) : d3.select(this).text();
-
-          console.log("this: ", this)
 
           d3.select(this).classed("enlarged", true);
           d3.selectAll(`.x.axis g :not(#text_${cityName})`)
@@ -604,10 +602,25 @@ i18n.load(["src/i18n"], () => {
         showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
 
         d3.selectAll(".data svg").style("overflow", "visible");
+
+        plotHeadings("h1");
+        plotHeadings("h2");
+        plotHeadings("h3");
+        plotHeadings("h4");
+        plotHeadings("h5");
+        plotHeadings("h6");
+        plotHeadings("h7");
+        plotHeadings("h8");
+        plotHeadings("h9");
       });
 });
 
 $(document).on("change", uiHandler);
+
+function plotHeadings(h) {
+  d3.select(`#${h}`)
+      .text(i18next.t(h, {ns: "chartHeadings"}));
+}
 
 function highlightElements(cityName) {
   const idName = (cityName.indexOf(" ") !== -1) ?

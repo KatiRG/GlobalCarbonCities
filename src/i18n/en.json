@@ -25,6 +25,17 @@
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>",
       "downloadText": "<a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>Download</a> dataset (<a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>Nangini et al., 2018</a>)"
     },
+    "chartHeadings": {
+      "h1": "East Asia",
+      "h2": "North America",
+      "h3": "Europe",
+      "h4": "Southeast Asia",
+      "h5": "Latin America & Caribbean",
+      "h6": "South Asia",
+      "h7": "Africa",
+      "h8": "N Africa & W Asia",
+      "h9": "Oceania"
+    },
     "cityCard": {
       "initTitle": "City Stats",
       "initRow1": "Hover over a city on the",
@@ -105,13 +116,11 @@
       "Fort Collins": "Fort_Collins",
       "Gladsaxe Kommune": "Gladsaxe_Kommune",
       "Greater London": "Greater_London",
-      "Hamilton, ON": "Hamilton_ON",
       "Hat Yai": "Hat_Yai",
       "Hermosa Beach, CA": "Hermosa_Beach_CA",
       "Hoeje-Taastrup Kommune": "Hoeje-Taastrup_Kommune",
       "Hong Kong": "Hong_Kong",
       "Jinan, Shandong": "Jinan_Shandong",
-      "Khelang Nakhon": "Khelang_Nakhon",
       "La Paz": "La_Paz",
       "Lancaster, PA": "Lancaster_PA",
       "Las Vegas": "Las_Vegas",
