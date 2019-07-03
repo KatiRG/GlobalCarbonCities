@@ -190,48 +190,4 @@ function appendArrowSVG(geogroup_id, data, city) {
   }
 }
 
-// Create barChart titles for each geographic region
-function fn_svgHeadings (geogroup_id) {
-
-  if (geogroup_id === "#barChart_groupEastAsia") {
-    numHeadings = ["East Asia"];
-    svgTrans = [ [148, -20] ]; //y=22?
-  } else if (geogroup_id === "#barChart_groupNAmer") {
-    numHeadings = ["North America"];
-    svgTrans = [ [148, 25] ];
-  } else if (geogroup_id === "#barChart_groupEuropeSEAsia") {
-    numHeadings = ["Europe", "Southeast Asia"];
-    svgTrans = [ [148, 53], [1020, 53]];
-  } else if (geogroup_id === "#barChart_groupSouth") {
-    numHeadings = ["Latin America & Caribbean", "South Asia", "Africa",
-                   "N Africa & W Asia", "Oceania"];
-    svgTrans = [ [148, 61], [628, 61], [964, 61], [1109, 61], [1277, 61]];
-  }  
-
-
-  var svgTitle = d3.select(geogroup_id).select(".barSVG")
-          .append("g")
-          .attr("transform", function () {
-            transx = 0;
-            transy = (geogroup_id === "#barChart_EUCWLatAmerAfrica") ? 0 : -30;
-            return "translate(" + transx + "," + transy + ")";
-          });
-
-  svgTitle.append("svg")
-          .attr('width', 700)
-          .attr('height', 100);
-
-  for (idx = 0; idx < numHeadings.length; idx++) {
-    svgTitle.append("g")
-      .append("text").attr("class", "headingClass")
-      .text(numHeadings[idx])
-      .attr("transform", function (d) {
-          var xscale = 0.5, yscale = 1.9;
-          
-          return "scale(" + xscale + " " + yscale + ")" + 
-                "translate(" + svgTrans[idx][0] + " " + svgTrans[idx][1] + ")" ;
-        });
-  }
-}
-
 

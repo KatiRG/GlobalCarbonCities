@@ -396,6 +396,8 @@ function showBarChart(chart, settings, region) {
         div.style("opacity", 0);
         resetElements();
       });
+
+  appendArrow();
 }
 
 function drawLegend() {
@@ -737,3 +739,81 @@ function zoomed() {
 
 const zoom = d3.zoom()
     .on("zoom", zoomed);
+
+// function appendArrow(geogroup, data, city) {
+function appendArrow() {
+  const margin = {top: 0, right: 0, bottom: 0, left: 0};
+  const width = 200 - margin.left - margin.right;
+  const height = 200 - margin.top - margin.bottom;
+
+  dataGHG.filter(function(d) {
+    if (d.storeOrig) console.log(d);
+  });
+
+  // for (idx = 0; idx < data.length; idx++) {
+  //   svg = d3.select(geogroup).select(".barSVG")
+  //            .append("g")
+  //            .attr('height', height + margin.top + margin.bottom)
+  //           .attr("transform", "translate(" + xpair[idx] + "," + ypair[idx] + ")") //posn of arrow and text
+  //            .append("svg")
+  //           .attr('width', width + margin.left + margin.right);
+            
+
+  //   var defs = svg.append('svg:defs')
+
+  //   var paths = svg.append('svg:g')
+  //     .attr('id', 'markers' + city[idx])
+  //     .attr('transform', 'translate(' + 42 + ',' + 63 + ')');
+
+  //   //http://tutorials.jenkov.com/svg/marker-element.html
+  //   var marker = defs.selectAll('marker')
+  //     .data(data)
+  //     .enter()
+  //     .append('svg:marker')
+  //       .attr('id', function(d){ return 'marker_' + d.name })
+  //       .attr('markerHeight', 13)
+  //       .attr('markerWidth', 13)
+  //       .attr('markerUnits', 'strokeWidth')
+  //       .attr('orient', 'auto')
+  //       .attr('refX', 2)
+  //       .attr('refY', 6)
+  //       .append('svg:path')
+  //         .attr('d', function(d){ return d.path; })
+  //         .attr('fill', function(d,i) { return "#565656"; });
+
+  //   ypath = [50, 50, 50]; //arrow length
+  //   var path = paths.selectAll('path')
+  //     .data(data)
+  //     .enter()
+  //     .append('svg:path')
+  //       .attr('d', function (d, i){
+  //         if (d.name=="arrowIncheon") ypath[idx] = 70;   
+  //         return 'M 100,' + 0 + ' V ' + ypath[idx] + ',' + 0 + '';
+  //       })
+  //       .attr('stroke', function(d,i) { return "#565656"; })
+  //       .attr('stroke-width', 1)
+  //       .attr('stroke-linecap', 'round')
+  //       .attr('marker-start', function(d,i){ return 'url(#marker_stub' + city[idx] + ')'; })
+  //       .attr('marker-end', function(d,i){ return 'url(#marker_arrow' + city[idx]  + ')'; })
+  //       .attr("transform", function (d) { //adjusts arrow proportions
+  //         var xscale = 0.5, yscale = 0.8;         
+  //         return "scale(" + xscale + " " + yscale + ")";          
+  //       })
+  //       .append('svg:path')
+  //         .attr('d', function(d){ return d.path; });
+
+  //   //arrow text
+  //   d3.select("#markers" + city[idx]).append("text").attr("id", "text" + city[idx]);
+   
+  //   d3.select("#text" + city[idx])
+  //     .text(emissionText[idx])
+  //     .style("fill", "#565656")
+  //     .attr("transform", function (d) { //adjust arrow proportions
+  //         var xscale = 0.5, yscale = 1.9;         
+          
+  //         return "scale(" + xscale + " " + yscale + ")" + 
+  //               "translate(" + xtext[idx] + " " + ytext[idx] + ")" ;       
+  //     });
+  // }
+}
+
