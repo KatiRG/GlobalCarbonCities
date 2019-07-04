@@ -6,7 +6,7 @@ export default {
     right: 0,
     bottom: 20
   },
-  width: 1200,
+  width: 995,
   groupPadding: 0.0,
   pOuter: 0.9,
   pInner: 0.15,

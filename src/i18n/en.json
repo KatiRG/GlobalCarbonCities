@@ -351,6 +351,17 @@
         "North Africa": "groupNAfrica",
         "N Africa & W Asia": "NAfricaWAsia"
     },
+    "barchartGroups": {
+        "East Asia": "groupEastAsia",
+        "North America":"groupNAmer",
+        "Europe": "groupRow3",        
+        "Southeast Asia": "groupRow3",
+        "Latin America & Caribbean": "groupRow4",
+        "South Asia": "groupRow4",
+        "Africa": "groupRow4", 
+        "Oceania": "groupRow4",
+        "N Africa & W Asia": "groupRow4"
+    },
     "regionColours": {
         "East Asia": "#d15081",
         "North America": "#c398db",

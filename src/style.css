@@ -273,6 +273,12 @@ div.rtooltip {
 /*  fill: none;*/
   stroke: black;
 }
+.barMarker marker {
+  fill: #555;
+}
+.barMarker path {
+  stroke: #555;
+}
 
 .headingClass { /* svg stylings */
   font-weight: bold;

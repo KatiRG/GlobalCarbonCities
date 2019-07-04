@@ -6,6 +6,7 @@ import settingsRow4 from "./settingsRow4.js";
 
 // settings for attributes
 import settingsAttr from "./settingsAttr.js";
+import settingsArr from "./settingsArrows.js";
 
 // ----------------------------------------------------
 // Constants
@@ -323,7 +324,7 @@ function showBarChart(chart, settings, region) {
   let regionData = [];
   regionData = makeRegionObj(region);
   if (region === "Europe") {
-    const regionDataPadded = padRegion(regionData, 2);
+    const regionDataPadded = regionData;  // padRegion(regionData, 1);
 
     // add "Southeast Asia"
     regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
@@ -341,7 +342,7 @@ function showBarChart(chart, settings, region) {
 
   d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -50)");
   d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -80)");
-  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -130)");
+  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -100)");
   d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -175)");
 
   // Define the div for the barChart rect tooltip
@@ -396,8 +397,6 @@ function showBarChart(chart, settings, region) {
         div.style("opacity", 0);
         resetElements();
       });
-
-  appendArrow();
 }
 
 function drawLegend() {
@@ -610,6 +609,8 @@ i18n.load(["src/i18n"], () => {
 
         d3.selectAll(".data svg").style("overflow", "visible");
 
+        appendArrow("East Asia");
+
         plotHeadings("h1");
         plotHeadings("h2");
         plotHeadings("h3");
@@ -741,66 +742,87 @@ const zoom = d3.zoom()
     .on("zoom", zoomed);
 
 // function appendArrow(geogroup, data, city) {
-function appendArrow() {
+function appendArrow(region) {
+  let arrowdata = [];
+  const chartId = i18next.t(region, {ns: "barchartGroups"});
+  const xpos = settingsArr[chartId].xpos;
+  const ypos = settingsArr[chartId].ypos;
+
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 200 - margin.left - margin.right;
   const height = 200 - margin.top - margin.bottom;
 
+  const vals = [];
+  let count = 0;
   dataGHG.filter(function(d) {
-    if (d.storeOrig) console.log(d);
+    if (d.region === region) {
+      if (d.storeOrig) {
+        vals.push(d.storeOrig);
+        arrowdata.push({
+          id: count, name: "arrow" + count, path: "M 2,2 L2,11 L10,6 L2,2"
+        });
+        count++;
+      }
+    }
   });
 
-  // for (idx = 0; idx < data.length; idx++) {
-  //   svg = d3.select(geogroup).select(".barSVG")
-  //            .append("g")
-  //            .attr('height', height + margin.top + margin.bottom)
-  //           .attr("transform", "translate(" + xpair[idx] + "," + ypair[idx] + ")") //posn of arrow and text
-  //            .append("svg")
-  //           .attr('width', width + margin.left + margin.right);
-            
+  for (let idx = 0; idx < vals.length; idx++) {
+    const svg = d3.select(`#barChart_${chartId}`)
+        .append("g")
+        .attr("class", "barMarker")
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("transform", "translate(" + xpos[idx] + "," + ypos[idx] + ")") // posn of arrow and text
+        .append("svg")
+        .attr("width", width + margin.left + margin.right);
 
-  //   var defs = svg.append('svg:defs')
+    const defs = svg.append("svg:defs");
 
-  //   var paths = svg.append('svg:g')
-  //     .attr('id', 'markers' + city[idx])
-  //     .attr('transform', 'translate(' + 42 + ',' + 63 + ')');
+    const paths = svg.append("svg:g")
+        .attr("id", `markers${idx}`);
 
-  //   //http://tutorials.jenkov.com/svg/marker-element.html
-  //   var marker = defs.selectAll('marker')
-  //     .data(data)
-  //     .enter()
-  //     .append('svg:marker')
-  //       .attr('id', function(d){ return 'marker_' + d.name })
-  //       .attr('markerHeight', 13)
-  //       .attr('markerWidth', 13)
-  //       .attr('markerUnits', 'strokeWidth')
-  //       .attr('orient', 'auto')
-  //       .attr('refX', 2)
-  //       .attr('refY', 6)
-  //       .append('svg:path')
-  //         .attr('d', function(d){ return d.path; })
-  //         .attr('fill', function(d,i) { return "#565656"; });
+    defs.selectAll("marker")
+        .data(arrowdata)
+        .enter()
+        .append("svg:marker")
+        .attr("id", function(d) {
+          return `marker_arrow${idx}`;
+        })
+        .attr("markerHeight", 13)
+        .attr("markerWidth", 13)
+        .attr("markerUnits", "strokeWidth")
+        .attr("orient", "auto")
+        .attr("refX", 9.5)
+        .attr("refY", 6)
+        .append("svg:path")
+        .attr("d", function(d) {
+          return d.path;
+        });
 
-  //   ypath = [50, 50, 50]; //arrow length
-  //   var path = paths.selectAll('path')
-  //     .data(data)
-  //     .enter()
-  //     .append('svg:path')
-  //       .attr('d', function (d, i){
-  //         if (d.name=="arrowIncheon") ypath[idx] = 70;   
-  //         return 'M 100,' + 0 + ' V ' + ypath[idx] + ',' + 0 + '';
-  //       })
-  //       .attr('stroke', function(d,i) { return "#565656"; })
-  //       .attr('stroke-width', 1)
-  //       .attr('stroke-linecap', 'round')
-  //       .attr('marker-start', function(d,i){ return 'url(#marker_stub' + city[idx] + ')'; })
-  //       .attr('marker-end', function(d,i){ return 'url(#marker_arrow' + city[idx]  + ')'; })
-  //       .attr("transform", function (d) { //adjusts arrow proportions
-  //         var xscale = 0.5, yscale = 0.8;         
-  //         return "scale(" + xscale + " " + yscale + ")";          
-  //       })
-  //       .append('svg:path')
-  //         .attr('d', function(d){ return d.path; });
+    const ypath = [40, 40, 40]; // arrow length
+    const path = paths.selectAll("path")
+        .data(arrowdata)
+        .enter()
+        .append("svg:path")
+        .attr("d", function (d, i) {
+          return `M 100, 0 V ${ypath[idx]}, 0 `;
+        })
+        .attr("stroke-width", 1.2)
+        .attr("marker-start", function(d) {
+          return `url(#marker_stub${idx})`;
+        })
+        .attr("marker-end", function(d) {
+          return `url(#marker_arrow${idx})`;
+        })
+        .attr("transform", function(d) { // adjusts arrow proportions
+          const xscale = .6;
+          const yscale = .8;
+          return "scale(" + xscale + " " + yscale + ")";
+        })
+        .append("svg:path")
+        .attr("d", function(d) {
+          return d.path;
+        });
+  }
 
   //   //arrow text
   //   d3.select("#markers" + city[idx]).append("text").attr("id", "text" + city[idx]);
