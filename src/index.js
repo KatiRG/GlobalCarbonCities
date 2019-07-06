@@ -147,7 +147,7 @@ function showCityCard(textSet) {
       .exit()
       .attr("class", "oldrow removed")
       .html(function(d) {
-        return d.text;
+        // return d.text;
       });
 }
 
@@ -235,7 +235,7 @@ function drawMap() {
   d3.json("geojson/world_countries.json", function(error, world) {
     if (error) throw error;
 
-    d3.json("geojson/our_cities_bk.geojson", function(error, cities) {
+    d3.json("geojson/our_cities.geojson", function(error, cities) {
       if (error) throw error;
 
       g.attr("class", "mapg")
@@ -256,9 +256,8 @@ function drawMap() {
           .data(cities.features)
           .enter().append("path")
           .attr("d", path)
-          .attr("id", function(d, i) {
-            const cityName = (d.id.indexOf(" ") !== -1) ?
-              i18next.t(d.id, {ns: "cities"}) : d.id;
+          .attr("id", function(d) {
+            const cityName = i18next.t(d.id, {ns: "cities"});
             return "city" + cityName;
           })
           .attr("class", function(d) {
@@ -348,9 +347,9 @@ function showBarChart(chart, settings, region) {
   barChart(chart, settings, regionData);
 
   d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -50)");
-  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -80)");
-  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -100)");
-  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -175)");
+  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -105)");
+  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -120)");
+  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -185)");
 
   // Define the div for the barChart rect tooltip
   const div = d3.select("body").append("div")
@@ -384,19 +383,19 @@ function showBarChart(chart, settings, region) {
         d3.selectAll(".enlarged").classed("enlarged", false);
 
         // Enlarge current text
-        const thisCity = (d.city.indexOf(" ") !== -1) ?
-              i18next.t(d.city, {ns: "cities"}) : d.city;
+        const thisCity = i18next.t(d.city, {ns: "cities"});
         d3.select(`#text_${thisCity}`).classed("enlarged", true);
 
         const count = i + 1;
         highlightElements(d.city);
 
         // Tooltip
+        const displayName = i18next.t(d.city, {ns: "displayName"})
         const thisValue = d.storeOrig ? d.storeOrig : d.value;
         const tipx = 30;
         const tipy = -50;
         div.style("opacity", 1);
-        div.html(`#${count}. ${d.city} <br>${globalSettings.formatNum(thisValue)} ${i18next.t("emissions per cap", {ns: "units"})}`)
+        div.html(`#${count}. ${displayName} <br>${globalSettings.formatNum(thisValue)} ${i18next.t("emissions per cap", {ns: "units"})}`)
             .style("left", d3.event.pageX + tipx + "px")
             .style("top", d3.event.pageY + tipy + "px");
       })
@@ -612,11 +611,15 @@ i18n.load(["src/i18n"], () => {
         showBarChart(chartEA, settingsRow1, "East Asia");
         showBarChart(chartNA, settingsRow2, "North America");
         showBarChart(chartEU, settingsRow3, "Europe");
-        showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
+        showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");       
 
         d3.selectAll(".data svg").style("overflow", "visible");
 
         appendArrow("East Asia");
+        appendArrow("Europe");
+        appendArrow("Southeast Asia");
+        appendArrow("Latin America & Caribbean");
+        appendArrow("South Asia");
 
         plotHeadings("h1");
         plotHeadings("h2");
@@ -638,8 +641,7 @@ function plotHeadings(h) {
 }
 
 function highlightElements(cityName) {
-  const idName = (cityName.indexOf(" ") !== -1) ?
-              i18next.t(cityName, {ns: "cities"}) : cityName;
+  const idName = i18next.t(cityName, {ns: "cities"});
 
   // Clear Previous
   resetElements();
@@ -663,8 +665,10 @@ function highlightElements(cityName) {
 
   let thisAttr;
 
+  const displayName = i18next.t(cityName, {ns: "displayName"});
+
   const newText = [
-    {id: 1, text: `${cityName}, ${thisCountry}`},
+    {id: 1, text: `${displayName}, ${thisCountry}`},
     {id: 2, text: i18next.t("scope1Row", {ns: "cityCard"})},
     {id: 3, text: `${thisScope1} ${i18next.t("scope1", {ns: "units"})} ${i18next.t("defn", {ns: "units"})}`},
     {id: 4, text: i18next.t("yearRow", {ns: "cityCard"})},
@@ -677,14 +681,14 @@ function highlightElements(cityName) {
 
   if (!data[selectedAttribute]) {
     // dropdown menu not yet selected (init page load)
-    thisAttr = dataGHG.filter(function(d) {
-      return (d.city === cityName);
-    })[0]["region"];
+    // thisAttr = dataGHG.filter(function(d) {
+    //   return (d.city === cityName);
+    // })[0]["region"];
 
-    newText.push(
-        {id: 10, text: i18next.t("region", {ns: "attributes"})},
-        {id: 11, text: `${thisAttr}`}
-    );
+    // newText.push(
+    //     {id: 10, text: i18next.t("region", {ns: "attributes"})},
+    //     {id: 11, text: `${thisAttr}`}
+    // );
   } else {
     if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
       const val = data[selectedAttribute].filter(function(d) {
@@ -752,8 +756,17 @@ const zoom = d3.zoom()
 function appendArrow(region) {
   const arrowdata = [];
   const chartId = i18next.t(region, {ns: "barchartGroups"});
-  const xpos = settingsArr[chartId].xpos;
-  const ypos = settingsArr[chartId].ypos;
+  let ns; 
+  if (region === "Europe") ns = `${chartId}_${region}`;
+  else if (region === "Southeast Asia") ns = `${chartId}_SEasia`;
+  else if (region === "Latin America & Caribbean") ns = `${chartId}_LA`;
+  else if (region === "South Asia") ns = `${chartId}_SA`;
+  else ns = chartId;
+
+  const xpos = settingsArr[ns].xpos;
+  const ypos = settingsArr[ns].ypos;
+  const len = settingsArr[ns].arrowlength;
+  const gid = settingsArr[ns].gid;
 
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 200 - margin.left - margin.right;
@@ -777,6 +790,7 @@ function appendArrow(region) {
     const svg = d3.select(`#barChart_${chartId}`)
         .append("g")
         .attr("class", "barMarker")
+        .attr("id", `g_${gid}${idx}`)
         .attr("height", height + margin.top + margin.bottom)
         .attr("transform", "translate(" + xpos[idx] + "," + ypos[idx] + ")") // posn of arrow and text
         .append("svg")
@@ -805,13 +819,12 @@ function appendArrow(region) {
           return d.path;
         });
 
-    const ypath = [40, 40, 40]; // arrow length
     paths.selectAll("path")
         .data(arrowdata)
         .enter()
         .append("svg:path")
         .attr("d", function(d, i) {
-          return `M 100, 0 V ${ypath[idx]}, 0 `;
+          return `M 100, 0 V ${len}, 0 `;
         })
         .attr("stroke-width", 1.2)
         .attr("marker-start", function(d) {
@@ -821,28 +834,21 @@ function appendArrow(region) {
           return `url(#marker_arrow${idx})`;
         })
         .attr("transform", function(d) { // adjusts arrow proportions
-          const xscale = .6;
-          const yscale = .8;
-          return "scale(" + xscale + " " + yscale + ")";
+          return `scale(${settingsArr[ns].arrowscale[0]} ${settingsArr[ns].arrowscale[1]})`;
         })
         .append("svg:path")
         .attr("d", function(d) {
           return d.path;
         });
-  }
 
-  //   //arrow text
-  //   d3.select("#markers" + city[idx]).append("text").attr("id", "text" + city[idx]);
-   
-  //   d3.select("#text" + city[idx])
-  //     .text(emissionText[idx])
-  //     .style("fill", "#565656")
-  //     .attr("transform", function (d) { //adjust arrow proportions
-  //         var xscale = 0.5, yscale = 1.9;         
-          
-  //         return "scale(" + xscale + " " + yscale + ")" + 
-  //               "translate(" + xtext[idx] + " " + ytext[idx] + ")" ;       
-  //     });
-  // }
+    // arrow text
+    d3.select(`#g_${gid}${idx}`)
+        .append("text")
+        .text(vals[idx])
+        .attr("transform", function() { // adjust arrow proportions
+          return `scale(${settingsArr[ns].textscale[0]} ${settingsArr[ns].textscale[1]})
+            translate(${settingsArr[ns].textposx[idx]} ${settingsArr[ns].textposy[idx]})`;
+        });
+  }
 }
 

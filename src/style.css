@@ -207,13 +207,7 @@ div.tooltip {
   fill: none;
 }
 
-/*to allow x-axis labels to overflow past div bd*/
-/*svg:not(:root) {
-    overflow: unset;
-}*/
-/*svg.barSVG {
-    overflow: unset;
-}*/
+/* to allow x-axis labels to overflow past div bd */
 .data svg {
   overflow: visible;
 }
@@ -279,6 +273,9 @@ div.rtooltip {
 .barMarker path {
   stroke: #555;
 }
+.offscaleText {
+  fill: #565656;
+}
 
 .headingClass { /* svg stylings */
   font-weight: bold;
@@ -290,20 +287,34 @@ div.rtooltip {
   top: -20px;
 }
 #h2 {
-  left: 100px;
-  top: -48px;
+  left: 120px;
+  top: -66px;
 }
 #h3 {
-  left: -222px;
-  top: -90px;
+  left: -201px;
+  top: -113px;
 }
 #h4 {
-  left: -76px;
-  top: -90px;
+  left: -50px;
+  top: -113px;
 }
 #h5, #h6, #h7, #h8, #h9 {
-  left: 89px;
   top: -128px;
+}
+#h5 {
+  left: 109px;
+}
+#h6 {
+  left: 204px;
+}
+#h7 {
+  left: 209px;
+}
+#h8 {
+  left: 124px;
+}
+#h9 {
+  left: 69px;
 }
 
 .yl
@@ -317,7 +328,8 @@ div.rtooltip {
   text-align: left;
   font-size: 18px;
   position: absolute;
-  top: -13px;
+  top: 395px;
+  left: 775px;
 }
 
 
@@ -355,6 +367,10 @@ div.rtooltip {
   font-size: 16px !important;
   stroke: #000;
 }
+#barChart_groupRow3 .enlarged {
+  font-size: 11px !important;
+  stroke: #000;
+}
 .enlarged {
   font-size: 14px !important;
   stroke: #000;
@@ -374,10 +390,10 @@ div.rtooltip {
   display: inline;
 }
 .legendCB {
-  margin-left: -130px;
+  margin-left: -220px;
 }
 #dropdownMenu {
-  margin-left: -55px;
+  margin-left: -81px;
   margin-top: -11px;
   color: #565656;
   text-align: left;
@@ -385,7 +401,8 @@ div.rtooltip {
 label {
   position: absolute;
   top: -13px;
-  left: 42px;
+  left: 27px;
+  font-weight: 500 !important
 }
 #barChartLegend {
   position: relative;
