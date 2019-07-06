@@ -130,19 +130,25 @@ function showCityCard(textSet) {
       .attr("class", function(d, i) {
         return i === 0 ? `cardrow titlerow row${i}` : `cardrow subrow row${i}`;
       })
-      .html(function(d) { return d.text; });
+      .html(function(d) {
+        return d.text;
+      });
 
   selection
       .attr("class", function(d, i) {
         return i === 0 ? `cardrow titlerow row${i}` : `cardrow updated row${i}`;
       })
-      .html(function(d) { return d.text; });
+      .html(function(d) {
+        return d.text;
+      });
 
   //  *********************** REGARDE!!!!!!*****************************************************************************
   removedSelection = selection
       .exit()
       .attr("class", "oldrow removed")
-      .html(function(d) { return d.text; });
+      .html(function(d) {
+        return d.text;
+      });
 }
 
 // ----------------------------------------------------------------
@@ -154,7 +160,9 @@ function colourBars() {
           const thisCity = d.city;
           let thisColour;
           if (selectedAttribute === "region") {
-            const thisRegion = data[selectedAttribute].filter(function(p) { return (p.city === thisCity); })[0].value;
+            const thisRegion = data[selectedAttribute].filter(function(p) {
+              return (p.city === thisCity);
+            })[0].value;
             thisColour = i18next.t(thisRegion, {ns: "regionColours"});
           } else {
             const val = data[selectedAttribute].filter(function(p) {
@@ -162,12 +170,9 @@ function colourBars() {
             })[0].value;
 
             if (val === null) {
-              console.log(thisCity)
-              console.log(val)
               d3.select(this).select("rect").classed("isNan", true);
               thisColour = "none";
-            }
-            else {
+            } else {
               thisColour = data[selectedAttribute].mappingFn(val);
             }
           }
@@ -233,12 +238,12 @@ function drawMap() {
     d3.json("geojson/our_cities_bk.geojson", function(error, cities) {
       if (error) throw error;
 
-      const countries = g.attr("class", "mapg")
+      g.attr("class", "mapg")
           .selectAll("path")
           .data(world.features)
           .enter().append("path")
           .attr("d", path)
-          .attr("id", function (d) {
+          .attr("id", function(d) {
             const mapName = i18next.t(d.properties.name, {ns: "countries"});
             return `map${mapName}`;
           })
@@ -258,7 +263,9 @@ function drawMap() {
           })
           .attr("class", function(d) {
             const cityMatch = d.id;
-            const r = dataGHG.filter(function(d) {return d.city === cityMatch})[0];            
+            const r = dataGHG.filter(function(d) {
+              return d.city === cityMatch;
+            })[0];
             if (r) return `worldcity ${i18next.t(r.region, {ns: "regions"})}`;
             else return "horsService";
           })
@@ -324,7 +331,7 @@ function showBarChart(chart, settings, region) {
   let regionData = [];
   regionData = makeRegionObj(region);
   if (region === "Europe") {
-    const regionDataPadded = regionData;  // padRegion(regionData, 1);
+    const regionDataPadded = regionData; // padRegion(regionData, 1);
 
     // add "Southeast Asia"
     regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
@@ -522,7 +529,7 @@ const loadData = function(cb) {
 
       // Floor to nearest modx except for region and protocol
       console.log("raw lims: ", data[selectedAttribute]["lims"])
-      if (settingsAttr[selectedAttribute].modx) {    
+      if (settingsAttr[selectedAttribute].modx) {
         const modx = settingsAttr[selectedAttribute].modx;
         data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
           return Math.floor(x/modx)*modx;
@@ -743,7 +750,7 @@ const zoom = d3.zoom()
 
 // function appendArrow(geogroup, data, city) {
 function appendArrow(region) {
-  let arrowdata = [];
+  const arrowdata = [];
   const chartId = i18next.t(region, {ns: "barchartGroups"});
   const xpos = settingsArr[chartId].xpos;
   const ypos = settingsArr[chartId].ypos;
@@ -799,11 +806,11 @@ function appendArrow(region) {
         });
 
     const ypath = [40, 40, 40]; // arrow length
-    const path = paths.selectAll("path")
+    paths.selectAll("path")
         .data(arrowdata)
         .enter()
         .append("svg:path")
-        .attr("d", function (d, i) {
+        .attr("d", function(d, i) {
           return `M 100, 0 V ${ypath[idx]}, 0 `;
         })
         .attr("stroke-width", 1.2)
