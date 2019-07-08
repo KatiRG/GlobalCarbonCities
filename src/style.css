@@ -299,7 +299,7 @@ div.rtooltip {
   top: -113px;
 }
 #h5, #h6, #h7, #h8, #h9 {
-  top: -128px;
+  top: -142px;
 }
 #h5 {
   left: 109px;
@@ -308,13 +308,13 @@ div.rtooltip {
   left: 204px;
 }
 #h7 {
-  left: 209px;
+  left: 158px;
 }
 #h8 {
-  left: 124px;
+  left: 89px;
 }
 #h9 {
-  left: 69px;
+  left: 17px;
 }
 
 .yl
@@ -429,12 +429,13 @@ label {
 .titlerow {
   margin-top: -300px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   color: #fff;
   stroke: none;
   text-shadow: 0 0 5px #333333;
   text-align: center;
-  margin-left: 19px;
+  /*margin-left: 19px;*/
+  text-decoration-line: underline; 
 }
 
 .subrow, .updated {
@@ -442,7 +443,7 @@ label {
   stroke: none;
   color: #ffaa1b;
   text-align: left;
-  margin-left: 19px;
+  margin-left: 41px;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {

@@ -4,8 +4,9 @@ import settingsRow2 from "./settingsRow2.js";
 import settingsRow3 from "./settingsRow3.js";
 import settingsRow4 from "./settingsRow4.js";
 
-// settings for attributes
+// settings for other than charts
 import settingsAttr from "./settingsAttr.js";
+import settingsCityCard from "./settingsCityCard.js";
 import settingsArr from "./settingsArrows.js";
 
 // ----------------------------------------------------
@@ -96,18 +97,20 @@ function addRect() {
       .attr("width", 273)
       .attr("height", mapHeight);
 
+  console.log(settingsCityCard.rect.height)
+
   const svg = svgCityCard
-      .attr("width", 292) // col 2 width
+      .attr("width", settingsCityCard.width) // col 2 width
       .attr("height", mapHeight);
 
   const g = svg.append("g")
       .attr("id", "cityCardg");
 
   g.append("rect")
-      .attr("width", 260)
-      .attr("height", 310)
-      .attr("x", 5)
-      .attr("y", -20);
+      .attr("width", settingsCityCard.rect.width)
+      .attr("height", settingsCityCard.rect.height)
+      .attr("x", settingsCityCard.rect.pos[0])
+      .attr("y", settingsCityCard.rect.pos[1]);
 }
 
 // ----------------------------------------------------------------
