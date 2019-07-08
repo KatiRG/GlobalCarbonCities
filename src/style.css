@@ -422,7 +422,7 @@ label {
 /*--------------------------*/
 /* city card */
 #cityCardg rect {
-  fill: #363636;
+  fill: #c7d1d9;
   stroke: none;
 }
 
@@ -430,30 +430,30 @@ label {
   margin-top: -300px;
   font-weight: bold;
   font-size: 16px;
-  color: #fff;
+  color: #00563c;
   stroke: none;
-  text-shadow: 0 0 5px #333333;
+  /*text-shadow: 0 0 5px #333333;*/
   text-align: center;
   /*margin-left: 19px;*/
-  text-decoration-line: underline; 
+  /*text-decoration-line: underline; */
 }
 
 .subrow, .updated {
-  font-size: 16px;
+  font-size: 15px;
   stroke: none;
-  color: #ffaa1b;
+  color: #00563c;
   text-align: left;
   margin-left: 41px;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
   margin-top: -21px;
-  color: #fff;
+  color: #00563c;
 }
 .updated.row1, .updated.row3, .updated.row5, .updated.row7, .updated.row9, .subrow.row5, .subrow.row7, .subrow.row9 {
   text-transform: uppercase;
   margin-top: -11px;
-  color: #ffaa1b;
+  color: #3b112d;
   font-weight: bold;
   font-size: 14px;
 }
