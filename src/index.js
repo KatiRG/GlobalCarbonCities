@@ -333,7 +333,7 @@ function showBarChart(chart, settings, region) {
   let regionData = [];
   regionData = makeRegionObj(region);
   if (region === "Europe") {
-    const regionDataPadded = regionData; // padRegion(regionData, 1);
+    const regionDataPadded = padRegion(regionData, 3);
 
     // add "Southeast Asia"
     regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
@@ -351,7 +351,7 @@ function showBarChart(chart, settings, region) {
 
   d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -50)");
   d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -105)");
-  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -120)");
+  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -145)");
   d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -185)");
 
   // Define the div for the barChart rect tooltip

@@ -10,23 +10,23 @@ export default {
     textposy: [-5, -3, 10]
   },
   groupRow3_Europe: {
-    xpos: [-34],
-    ypos: [-135],
+    xpos: [-21],
+    ypos: [-160],
     arrowlength: 30,
     arrowscale: [.6, .8],
     gid: "EU",
-    textscale: [.75, .75],
-    textposx: [64],
-    textposy: [-4]
+    textscale: [.9, .9],
+    textposx: [55],
+    textposy: [-5]
   },
   groupRow3_SEasia: {
-    xpos: [626],
-    ypos: [-135],
+    xpos: [779],
+    ypos: [-160],
     arrowlength: 30,
     arrowscale: [.6, .8],
     gid: "SEA",
-    textscale: [.75, .75],
-    textposx: [58],
+    textscale: [.9, .9],
+    textposx: [48],
     textposy: [-4]
   },
   groupRow4_LA: {
