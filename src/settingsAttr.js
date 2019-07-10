@@ -47,12 +47,18 @@ export default {
   diesel: {
     whichLim: "d3extent",
     colourRange: ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456"],
-    xpos: [4, 83, 163, 244, 323, 405, 481]
+    xpos: [4, 83, 163, 244, 323, 405, 481],
+    formatLevel: function(...args) {
+      return d3.format(".2f")(args);
+    }
   },
   gas: {
     whichLim: "d3extent",
     colourRange: ["#F1F2C4", "#F2EA72", "#fec44f", "#c2cd7b", "#bf6456"],
-    xpos: [4, 83, 163, 244, 323, 405, 481]
+    xpos: [4, 83, 163, 244, 323, 405, 481],
+    formatLevel: function(...args) {
+      return d3.format(".2f")(args);
+    }
   },
   HDD: {
     whichLim: "d3extent",
@@ -69,12 +75,18 @@ export default {
   low_bua_pc_2014: {
     whichLim: "d3extent",
     colourRange: ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A"],
-    xpos: [13, 94, 173, 254, 333, 407]
+    xpos: [13, 94, 173, 254, 333, 407],
+    formatLevel: function(...args) {
+      return d3.format(".2f")(args);
+    }
   },
   high_bua_pc_2014: {
     whichLim: "d3extent",
     colourRange: ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A"],
-    xpos: [13, 94, 173, 254, 333, 407]
+    xpos: [13, 94, 173, 254, 333, 407],
+    formatLevel: function(...args) {
+      return d3.format(".2f")(args);
+    }
   },
   _selfFormatter: i18n.getNumberFormatter(0),
   formatNum: function(...args) {
