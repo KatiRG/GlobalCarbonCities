@@ -421,6 +421,8 @@ function drawLegend() {
     console.log("getText: ", selectedAttribute)
     if (selectedAttribute === "protocol") {
       return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
+    } else if (selectedAttribute === "region") {
+      return "";
     } else {
       let levelVal;
       if (j === 0) levelVal = data[selectedAttribute].lims[j];
@@ -530,14 +532,24 @@ const loadData = function(cb) {
       } // else: region handled separately in colourBars()
 
       // Floor to nearest modx except for region and protocol
-      console.log("raw lims: ", data[selectedAttribute]["lims"])
-      if (settingsAttr[selectedAttribute].modx) {
-        const modx = settingsAttr[selectedAttribute].modx;
-        data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
-          return Math.floor(x/modx)*modx;
-        });
-        console.log("floored lims: ", data[selectedAttribute]["lims"])
+      if (data[selectedAttribute]["lims"]) {
+        console.log("raw lims: ", data[selectedAttribute]["lims"])
+        if (settingsAttr[selectedAttribute].modx) {
+          const modx = settingsAttr[selectedAttribute].modx;
+          data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
+            return Math.floor(x/modx)*modx;
+          });
+          console.log("floored lims: ", data[selectedAttribute]["lims"])
+        }
       }
+      // console.log("raw lims: ", data[selectedAttribute]["lims"])
+      // if (settingsAttr[selectedAttribute].modx) {
+      //   const modx = settingsAttr[selectedAttribute].modx;
+      //   data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
+      //     return Math.floor(x/modx)*modx;
+      //   });
+      //   console.log("floored lims: ", data[selectedAttribute]["lims"])
+      // }
 
       cb();
     });
@@ -577,7 +589,8 @@ function uiHandler(event) {
   loadData(() => {
     getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
     colourBars(); // applies colour to each bar in barChart
-    if (selectedAttribute !== "region") drawLegend();
+    // if (selectedAttribute !== "region") 
+    drawLegend();
   });
 }
 // -----------------------------------------------------------------------------
