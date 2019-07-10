@@ -617,6 +617,14 @@ i18n.load(["src/i18n"], () => {
         showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");       
 
         d3.selectAll(".data svg").style("overflow", "visible");
+        // y-label
+        d3.select("#barChart_groupRow3")
+            .append("text").attr("text-anchor", "middle")            
+            .text(i18next.t("yaxText", {ns: "chartHeadings"}))
+            .attr("class", "yaxLabel")
+            .attr("transform", function(d) {
+              return "translate(" + (-35) + " " + (-179) + ")rotate(-90)";
+            });
 
         appendArrow("East Asia");
         appendArrow("Europe");

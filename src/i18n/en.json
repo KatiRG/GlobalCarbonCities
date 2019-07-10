@@ -34,7 +34,8 @@
       "h6": "South Asia",
       "h7": "Africa",
       "h8": "N Africa & W Asia",
-      "h9": "Oceania"
+      "h9": "Oceania",
+      "yaxText": "Per capita emissions [tCO₂eq/capita]"
     },
     "cityCard": {
       "initTitle": "City Stats",
