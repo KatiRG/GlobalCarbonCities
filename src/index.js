@@ -51,8 +51,8 @@ const mapWidth = 850 - mapMargin.left - mapMargin.right;
 const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
 // barChart legend
-const margin = {top: 7, right: 0, bottom: 0, left: 20};
-const cbWidth = 480 - margin.left - margin.right;
+const margin = {top: 7, right: 0, bottom: 0, left: 0};
+const cbWidth = 520 - margin.left - margin.right;
 const cbHeight = 35 - margin.top - margin.bottom;
 
 // Bar charts
@@ -409,7 +409,10 @@ function showBarChart(chart, settings, region) {
 }
 
 function drawLegend() {
+  console.log("selectedAttribute: ", selectedAttribute)
+  const xpos = settingsAttr[selectedAttribute].xpos;
   const rectDim = 15;
+  console.log("xpos: ", xpos)
 
   // rect fill fn
   const getFill = function(d, i) {
@@ -461,7 +464,7 @@ function drawLegend() {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 41 + i * 80;
+        return 81 + i * 80;
       })
       .attr("fill", getFill);
 
@@ -478,7 +481,7 @@ function drawLegend() {
         }
       })
       .on("mouseout", function(d) {
-        resetElements();
+        divLegend.style("opacity", 0);
       });
 
   // add text
@@ -486,13 +489,8 @@ function drawLegend() {
       .append("text")
       .attr("class", "legendText")
       .text(getText)
-      // .text(function(i, j) {
-      //   return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
-      // })
-      // .attr("text-anchor", "end")
       .attr("y", 18)
       .attr("x", function(d, i) {
-        const xpos = settingsAttr[selectedAttribute].xpos;
         return xpos[i];
       });
 
@@ -502,7 +500,10 @@ function drawLegend() {
 
   // Update rect text for different year selections
   rectGroups.select("text")
-      .text(getText);
+      .text(getText)
+      .attr("x", function(d, i) {
+        return xpos[i];
+      });
 
   rectGroups.exit().remove();
 }
