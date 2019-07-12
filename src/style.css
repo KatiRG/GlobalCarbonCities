@@ -7,6 +7,9 @@ body {
 text, .container {
   font-family: "Ubuntu", sans-serif;
 }
+.container {
+  height: 1140px;
+}
 
 [class*="col-"], footer {
   border: 0px solid white;
@@ -34,19 +37,21 @@ ul {
   text-align: left;
 }
 
-.logo_BNP {
+#logo_BNP {
   text-align: center; 
   left: -43px; 
 }
-.logo_GCP {
+#logo_GCP {
   text-align: center; 
-  left: 250px; 
-  top: 20px;
+  left: 250px;
 }
-.logo_CDP {
+#logo_CDP {
   text-align: center; 
   left: 590px; 
-  top: 20px;
+}
+.footerClass {
+  position: relative;
+  top: -140px;
 }
 
 /*--------------------------*/
