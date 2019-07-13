@@ -362,6 +362,9 @@ function showBarChart(chart, settings, region) {
   // hover over xaxis text
   d3.selectAll(".x.axis").selectAll("text")
       .on("touchmove mousemove", function(d, i) {
+        // clear previous enlarged text
+        d3.selectAll(".enlarged").classed("enlarged", false);
+
         if (d3.select(this).text().indexOf("_gap") === -1) {
           const cityName = (d3.select(this).text().indexOf(" ") !== -1) ?
             i18next.t(d3.select(this).text(), {ns: "cities"}) : d3.select(this).text();
@@ -374,7 +377,6 @@ function showBarChart(chart, settings, region) {
         }
       })
       .on("mouseout", function(d) {
-        d3.select(this).classed("enlarged", false);
         d3.selectAll(".x.axis g text").classed("fadeText", false);
 
         resetElements();
