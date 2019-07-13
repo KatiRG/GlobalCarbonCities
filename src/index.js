@@ -412,7 +412,6 @@ function drawLegend() {
   console.log("selectedAttribute: ", selectedAttribute)
   const xpos = settingsAttr[selectedAttribute].xpos;
   const rectDim = 15;
-  console.log("xpos: ", xpos)
 
   // rect fill fn
   const getFill = function(d, i) {
@@ -590,7 +589,6 @@ function uiHandler(event) {
   loadData(() => {
     getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
     colourBars(); // applies colour to each bar in barChart
-    // if (selectedAttribute !== "region") 
     drawLegend();
   });
 }
@@ -704,23 +702,17 @@ function highlightElements(cityName) {
     {id: 9, text: i18next.t(thisProtocol, {ns: "protocol"})}
   ];
 
-  if (!data[selectedAttribute]) {
-    // dropdown menu not yet selected (init page load)
-    // thisAttr = dataGHG.filter(function(d) {
-    //   return (d.city === cityName);
-    // })[0]["region"];
-
-    // newText.push(
-    //     {id: 10, text: i18next.t("region", {ns: "attributes"})},
-    //     {id: 11, text: `${thisAttr}`}
-    // );
-  } else {
+  if (data[selectedAttribute]) {
     if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
       const val = data[selectedAttribute].filter(function(d) {
         return (d.city === cityName);
       })[0]["value"];
 
-      thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
+      if (typeof val === "string" || val instanceof String) {
+        thisAttr = val; // for region string
+      } else {
+        thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
+      }
 
       const thisUnit = thisAttr === "N/A" ? "" : i18next.t(selectedAttribute, {ns: "units"});
 
