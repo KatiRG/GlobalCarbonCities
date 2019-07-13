@@ -37,6 +37,7 @@ const stats = {
 const data = []; // for selected attributes used in city card and to colour bars
 let dataGHG; // for fixed data attributes that are always needed
 let selectedAttribute = "init";
+let newText;
 
 let path; // map path projection
 const defaultRadius = 3;
@@ -77,10 +78,6 @@ const svgCB = d3.select("#barChartLegend").select("svg")
     .attr("width", cbWidth)
     .attr("height", cbHeight)
     .style("vertical-align", "middle");
-
-const transX = 15;
-// const transY = 70;
-// const deltaY = 14;
 
 // -----------------------------------------------------------------------------
 // FNS
@@ -290,7 +287,7 @@ function drawMap() {
   }); // ./outer d3.json
 
   svg.call(zoom);
-} // ./drawMap()
+}
 
 // -----------------------------------------------------------------------------
 function makeRegionObj(region) {
@@ -327,7 +324,6 @@ function padRegion(data, n) {
   }
   return data;
 }
-
 
 function showBarChart(chart, settings, region) {
   let regionData = [];
@@ -544,15 +540,6 @@ const loadData = function(cb) {
           console.log("floored lims: ", data[selectedAttribute]["lims"])
         }
       }
-      // console.log("raw lims: ", data[selectedAttribute]["lims"])
-      // if (settingsAttr[selectedAttribute].modx) {
-      //   const modx = settingsAttr[selectedAttribute].modx;
-      //   data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
-      //     return Math.floor(x/modx)*modx;
-      //   });
-      //   console.log("floored lims: ", data[selectedAttribute]["lims"])
-      // }
-
       cb();
     });
   } else {
@@ -592,6 +579,21 @@ function uiHandler(event) {
     getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
     colourBars(); // applies colour to each bar in barChart
     drawLegend();
+    // city card
+    if (newText) {
+      if (newText[9]) {
+        newText = newText.slice(0, 9); // rm last two elements
+        if (selectedAttribute === "protocol" || selectedAttribute === "year") {
+          showCityCard(newText);
+          return;
+        }
+      }
+      if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
+        const cityName = d3.selectAll(".enlarged").text();
+        addNewText(selectedAttribute, cityName);
+        showCityCard(newText);
+      }
+    }
   });
 }
 // -----------------------------------------------------------------------------
@@ -692,7 +694,7 @@ function highlightElements(cityName) {
 
   const displayName = i18next.t(cityName, {ns: "displayName"});
 
-  const newText = [
+  newText = [
     {id: 1, text: `${displayName}, ${thisCountry}`},
     {id: 2, text: i18next.t("scope1Row", {ns: "cityCard"})},
     {id: 3, text: `${thisScope1} ${i18next.t("scope1", {ns: "units"})} ${i18next.t("defn", {ns: "units"})}`},
@@ -706,22 +708,7 @@ function highlightElements(cityName) {
 
   if (data[selectedAttribute]) {
     if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
-      const val = data[selectedAttribute].filter(function(d) {
-        return (d.city === cityName);
-      })[0]["value"];
-
-      if (typeof val === "string" || val instanceof String) {
-        thisAttr = val; // for region string
-      } else {
-        thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
-      }
-
-      const thisUnit = thisAttr === "N/A" ? "" : i18next.t(selectedAttribute, {ns: "units"});
-
-      newText.push(
-          {id: 10, text: i18next.t(selectedAttribute, {ns: "attributes"})},
-          {id: 11, text: `${thisAttr} ${thisUnit}`}
-      );
+      addNewText(selectedAttribute, cityName);
     }
   }
   showCityCard(newText);
@@ -743,6 +730,27 @@ function highlightElements(cityName) {
 
   d3.selectAll(`.worldcountry:not(#map${i18next.t(thisCountry, {ns: "countries"})})`)
       .classed("countryfade", true);
+}
+
+// Adds to newText obj array for city card
+function addNewText(attr, cityName) {
+  let thisAttr;
+  const val = data[attr].filter(function(d) {
+    return (d.city === cityName);
+  })[0]["value"];
+
+  if (typeof val === "string" || val instanceof String) {
+    thisAttr = val; // for region string
+  } else {
+    thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
+  }
+
+  const thisUnit = thisAttr === "N/A" ? "" : i18next.t(attr, {ns: "units"});
+
+  newText.push(
+      {id: 10, text: i18next.t(attr, {ns: "attributes"})},
+      {id: 11, text: `${thisAttr} ${thisUnit}`}
+  );
 }
 
 // Reset elements to original style before selection
