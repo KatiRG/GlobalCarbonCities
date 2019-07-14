@@ -77,7 +77,7 @@ const chartRow4 = d3.select(".data.dataRow4")
 const svgCB = d3.select("#barChartLegend").select("svg")
     .attr("width", cbWidth)
     .attr("height", cbHeight)
-    .attr("transform", "translate(30,0)")
+    .attr("transform", "translate(120,0)")
     .style("vertical-align", "middle");
 
 // -----------------------------------------------------------------------------
@@ -525,6 +525,11 @@ function drawLegend() {
       });
 
   rectGroups.exit().remove();
+
+  // Unit text
+  const unitText = settingsAttr[selectedAttribute].units;
+  const unitDisplay = d3.select(".units");
+  unitDisplay.text(unitText);
 }
 
 // -----------------------------------------------------------------------------

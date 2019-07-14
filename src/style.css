@@ -352,11 +352,11 @@ div.rtooltip {
   color: #565656;
   text-align: left;
   font-size: 18px;
-  position: absolute;
-  top: 395px;
-  left: 775px;
+  position: relative;
+  top: -13px;
+  left: 171px;
+  margin-right: 70px;
 }
-
 
 .textLabels {
   fill: #636363;
@@ -418,7 +418,7 @@ div.rtooltip {
   margin-left: -220px;
 }
 #dropdownMenu {
-  margin-left: -81px;
+  margin-left: -11px;
   margin-top: -11px;
   color: #565656;
   text-align: left;
@@ -427,7 +427,7 @@ label {
   font-family: Ubuntu, sans-serif;
   position: absolute;
   top: -13px;
-  left: 27px;
+  left: 96px;
   font-weight: 500 !important
 }
 #barChartLegend {
@@ -444,7 +444,13 @@ label {
   top: -2px;
   color: #636363;
 }
-
+.units {
+  position: relative;
+  top: -14px;
+  left: 150px;
+  fill: rgb(86, 86, 86);
+  font-size: 12px;
+}
 /*--------------------------*/
 /* city card */
 #cityCardg rect {
