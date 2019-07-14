@@ -200,15 +200,15 @@ div.tooltip {
   fill: #d15081;
 }
 .groupNAmer {
-  fill: #c398db;
+  fill: #80c2ff;  
 }
 .groupEurope {
-  fill: #80c2ff;
+  fill: #c398db;
 } 
 .groupLatinAmer {
   fill: #ee8370;
 }
-.groupSEAsia {
+.groupSEAsia, .HEREgroupSEAsia {
   fill: #2b8f00;
 }
 .groupSAsia {
@@ -218,13 +218,10 @@ div.tooltip {
   fill: #fcc751;
 }
 .groupOceania {
-  fill: #ffa5ca;
-}
-.groupNAfrica {
-  fill: #bbd15d;
+  fill: #d8c10b;
 }
 .NAfricaWAsia {
-  fill: rgb(187, 209, 93);
+  fill: #f03b20;
 }
 .horsService {
   fill: none;
@@ -280,6 +277,10 @@ div.rtooltip {
 
 /*--------------------------*/
 /* bar chart */
+.bar-group {
+  stroke: #747474;
+  stroke-width: 0.9;
+}
 .bar-group .active {
   stroke: #363636 !important;
   fill: #20f216 !important;
