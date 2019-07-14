@@ -6,13 +6,13 @@ export default {
     whichLim: "d3extent",
     colourRange: ["#9DD3DF", "#C3BBE2", "#E35B5D", "#EB9F9F", "#F18052", "#F4DD51"],
     cbValues: [1, 2, 3, 4, 5, 6],
-    xpos: [51, 108, 208, 285, 362, 423]
+    xpos: [22, 86, 190, 273, 355, 417]
   },
   year: {
     whichLim: "d3extent",
     modx: 5,
     colourRange: ["#D8E6DB", "#DBC28F", "red", "#997E68", "#6B5344"],
-    xpos: [42, 121, 201, 284, 362]
+    xpos: [15, 100, 184, 269, 355]
   },
   population: {
     whichLim: "d3extent",

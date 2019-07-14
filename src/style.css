@@ -282,6 +282,7 @@ div.rtooltip {
 /* bar chart */
 .bar-group .active {
   stroke: #363636 !important;
+  fill: #20f216 !important;
 }
 .bar-group .fade {
   opacity: 0.3 !important;

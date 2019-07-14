@@ -52,7 +52,7 @@ const mapWidth = 850 - mapMargin.left - mapMargin.right;
 const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
 // barChart legend
-const margin = {top: 7, right: 0, bottom: 0, left: 0};
+const margin = {top: 7, right: 5, bottom: 0, left: 0};
 const cbWidth = 520 - margin.left - margin.right;
 const cbHeight = 35 - margin.top - margin.bottom;
 
@@ -77,6 +77,7 @@ const chartRow4 = d3.select(".data.dataRow4")
 const svgCB = d3.select("#barChartLegend").select("svg")
     .attr("width", cbWidth)
     .attr("height", cbHeight)
+    .attr("transform", "translate(30,0)")
     .style("vertical-align", "middle");
 
 // -----------------------------------------------------------------------------
@@ -374,8 +375,14 @@ function showBarChart(chart, settings, region) {
       })
       .on("mouseout", function(d) {
         d3.selectAll(".x.axis g text").classed("fadeText", false);
+        console.log("which: ", d3.select(".enlarged").text())
 
         resetElements();
+
+        const lastCity = d3.select(".enlarged").text();
+        d3.select(`.bar-group.${lastCity}`)
+            .select("rect")
+            .classed("active", true);
       });
 
   d3.selectAll(".bar-group")
@@ -461,7 +468,7 @@ function drawLegend() {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 81 + i * 80;
+        return 51 + i * 85;
       })
       .attr("fill", getFill);
 
