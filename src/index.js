@@ -30,6 +30,7 @@ const stats = {
   }
 };
 
+const noneFill = "#4a6072";
 
 // ----------------------------------------------------
 // Setup
@@ -596,26 +597,32 @@ function getMapping() {
 function uiHandler(event) {
   d3.selectAll(".data").selectAll("rect").classed("isNan", false);
   selectedAttribute = event.target.value;
-  loadData(() => {
-    getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
-    colourBars(); // applies colour to each bar in barChart
-    drawLegend();
-    // city card
-    if (newText) {
-      if (newText[9]) {
-        newText = newText.slice(0, 9); // rm last two elements
-        if (selectedAttribute === "protocol" || selectedAttribute === "year") {
+
+  if (selectedAttribute === "none") {
+    d3.selectAll(".bar-group rect").style("fill", noneFill);
+    drawLegend(); // clears legend
+  } else {
+    loadData(() => {
+      getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
+      colourBars(); // applies colour to each bar in barChart
+      drawLegend();
+      // city card
+      if (newText) {
+        if (newText[9]) {
+          newText = newText.slice(0, 9); // rm last two elements
+          if (selectedAttribute === "protocol" || selectedAttribute === "year") {
+            showCityCard(newText);
+            return;
+          }
+        }
+        if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
+          const cityName = d3.selectAll(".enlarged").text();
+          addNewText(selectedAttribute, cityName);
           showCityCard(newText);
-          return;
         }
       }
-      if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
-        const cityName = d3.selectAll(".enlarged").text();
-        addNewText(selectedAttribute, cityName);
-        showCityCard(newText);
-      }
-    }
-  });
+    });
+  }
 }
 // -----------------------------------------------------------------------------
 // Initial page load
@@ -797,8 +804,8 @@ function resetElements() {
 //   g.attr("transform", d3.event.transform); // updated for d3 v4
 // }
 
-const zoom = d3.zoom()
-    .on("zoom", zoomed);
+// const zoom = d3.zoom()
+//     .on("zoom", zoomed);
 
 // function appendArrow(geogroup, data, city) {
 function appendArrow(region) {

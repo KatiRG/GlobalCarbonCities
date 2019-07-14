@@ -1,4 +1,7 @@
 export default {
+  none: {
+    colourRange: []
+  },
   region: {
     colourRange: []
   },
