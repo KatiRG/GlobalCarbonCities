@@ -79,20 +79,23 @@ export default {
     modx: 1000,
     colourRange: ["#feebe2", "#fbb4b9", "#f768a1", "#c51b8a", "#7a0177"],
     xpos: [32, 97, 182, 268, 352],
-    units: ["[deg C x days]"]
+    units: ["[deg C x days]"],
+    unitdef: "Heating degree days, used to estimate the energy needed to heat a building above the base temperature (15.5C here)."
   },
   CDD: {
     whichLim: "d3extent",
     modx: 1000,
     colourRange: ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"],
     xpos: [32, 104, 189, 268, 352],
-    units: ["[deg C x days]"]
+    units: ["[deg C x days]"],
+    unitdef: "Cooling degree days, used to estimate the energy needed to cool a building below the base temperature (23C here)."
   },
   low_bua_pc_2014: {
     whichLim: "d3extent",
     colourRange: ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A"],
     xpos: [16, 101, 185, 270, 355],
     units: ["[% of tot BUA]"],
+    unitdef: "An urbran expansion attribute that quantifies the fraction of low built-up area (BUA) out of the total city area in 2014.",
     formatLevel: function(...args) {
       return d3.format(".2f")(args);
     }
@@ -102,6 +105,7 @@ export default {
     colourRange: ["#ECDAA8", "#B6AC7B", "#8C9C82", "#9AA0AC", "#70725A"],
     xpos: [16, 101, 185, 270, 355],
     units: ["[% of tot BUA]"],
+    unitdef: "An urbran expansion attribute that quantifies the fraction of high built-up area (BUA) out of the total city area in 2014.",
     formatLevel: function(...args) {
       return d3.format(".2f")(args);
     }

@@ -148,6 +148,16 @@ div.tooltip-bar {
   border-radius: 4px;
   font-size: 12px;
 }
+.tooltip-units {
+  position: absolute;
+  height: 58px;
+  width: 350px;
+  padding: 6px;
+  background: #F7F6E4;
+  color: #555;
+  border-radius: 4px;
+  font-size: 12px;
+}
 
 div.tooltip {
   position: absolute;
@@ -428,7 +438,6 @@ label {
   position: absolute;
   top: -13px;
   left: 96px;
-  font-weight: 500 !important
 }
 #barChartLegend {
   position: relative;
@@ -450,6 +459,9 @@ label {
   left: 150px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
+}
+.unitsactive {
+  text-decoration-line: underline;
 }
 /*--------------------------*/
 /* city card */

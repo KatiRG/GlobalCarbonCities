@@ -59,8 +59,8 @@
       "pop_density": "Population density",
       "diesel": "Diesel price (national)",
       "gas": "Gas price (national)",
-      "HDD": "HDD 15.5C <a target='_blank' href='http://www.ghgprotocol.org/sites/default/files/ghgp/standards/GHGP_GPC_0.pdf#page=13'>(Definition)</a>",
-      "CDD": "CDD 23C <a target='_blank' href='http://www.ghgprotocol.org/sites/default/files/ghgp/standards/GHGP_GPC_0.pdf#page=13'>(Definition)</a>",
+      "HDD": "HDD 15.5C",
+      "CDD": "CDD 23C",
       "low_bua_pc_2014": "Low BUA % (2014)",
       "high_bua_pc_2014": "High BUA % (2014)"      
     },

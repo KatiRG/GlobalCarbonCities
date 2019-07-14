@@ -530,6 +530,28 @@ function drawLegend() {
   const unitText = settingsAttr[selectedAttribute].units;
   const unitDisplay = d3.select(".units");
   unitDisplay.text(unitText);
+  if (selectedAttribute === "HDD" || selectedAttribute === "HDD"
+    || selectedAttribute === "low_bua_pc_2014" || selectedAttribute === "high_bua_pc_2014") {
+    d3.select(".units").classed("unitsactive", true);
+  } else d3.select(".units").classed("unitsactive", false);
+
+  // hover over units for definition text
+  const divUnits = d3.select("body").append("div")
+      .attr("class", "tooltip-units")
+      .style("opacity", 0);
+
+  unitDisplay
+      .on("touchmove mousemove", function() {
+        if (settingsAttr[selectedAttribute].unitdef) {
+          divUnits.style("opacity", 1);
+          divUnits.html(`<b>${i18next.t(selectedAttribute, {ns: "attributes"})}</b>: ${settingsAttr[selectedAttribute].unitdef}`)
+              .style("left", d3.event.pageX - 100 + "px")
+              .style("top", d3.event.pageY - 70 + "px");
+        }
+      })
+      .on("mouseout", function(d) {
+        divUnits.style("opacity", 0);
+      });
 }
 
 // -----------------------------------------------------------------------------
