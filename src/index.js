@@ -41,7 +41,6 @@ let newText;
 
 let path; // map path projection
 const defaultRadius = 3;
-const highlightRadius = 10;
 
 // ----------------------------------------------------
 // SVGs
@@ -186,13 +185,16 @@ function colourBars() {
 // ----------------------------------------------------------------
 // Map reset button
 d3.select("#mapResetButton")
-    .on("click", resetMap);
+    .on("click", function() {
+      // Reset zoom. NB: must apply reset to svg not g
+      // const svg = d3.select("#map").select("svg");
+      // zoom.transform(svg, d3.zoomIdentity);
 
-function resetMap() {
-  // NB: must apply reset to svg not g
-  const svg = d3.select("#map").select("svg");
-  zoom.transform(svg, d3.zoomIdentity);
-}
+      // Clear previous enlarged text and selected bar
+      d3.selectAll(".enlarged").classed("enlarged", false);
+      d3.selectAll("rect.active").classed("active", false);
+      d3.selectAll(".cityactive").classed("cityactive", false);
+    });
 
 function drawMap() {
   const options = [
@@ -283,11 +285,17 @@ function drawMap() {
           })
           .on("mouseout", function(d) {
             resetElements();
+
+            const lastCity = d3.select(".enlarged").text();
+            d3.select(`.bar-group.${i18next.t(lastCity, {ns: "cities"})}`)
+                .select("rect")
+                .classed("active", true);
+            d3.select(`#city${i18next.t(lastCity, {ns: "cities"})}`).classed("cityactive", true);
           });
     }); // ./inner d3.json
   }); // ./outer d3.json
 
-  svg.call(zoom);
+  // svg.call(zoom);
 }
 
 // -----------------------------------------------------------------------------
@@ -375,14 +383,14 @@ function showBarChart(chart, settings, region) {
       })
       .on("mouseout", function(d) {
         d3.selectAll(".x.axis g text").classed("fadeText", false);
-        console.log("which: ", d3.select(".enlarged").text())
 
         resetElements();
 
         const lastCity = d3.select(".enlarged").text();
-        d3.select(`.bar-group.${lastCity}`)
+        d3.select(`.bar-group.${i18next.t(lastCity, {ns: "cities"})}`)
             .select("rect")
             .classed("active", true);
+        d3.select(`#city${i18next.t(lastCity, {ns: "cities"})}`).classed("cityactive", true);
       });
 
   d3.selectAll(".bar-group")
@@ -410,6 +418,12 @@ function showBarChart(chart, settings, region) {
       .on("mouseout", function(d) {
         div.style("opacity", 0);
         resetElements();
+
+        const lastCity = d3.select(".enlarged").text();
+        d3.select(`.bar-group.${i18next.t(lastCity, {ns: "cities"})}`)
+            .select("rect")
+            .classed("active", true);
+        d3.select(`#city${i18next.t(lastCity, {ns: "cities"})}`).classed("cityactive", true);
       });
 }
 
@@ -777,11 +791,11 @@ function resetElements() {
   d3.selectAll(".countryfade").classed("countryfade", false);
 }
 
-function zoomed() {
-  const g = d3.select("#map").select(".mapg");
-  g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
-  g.attr("transform", d3.event.transform); // updated for d3 v4
-}
+// function zoomed() {
+//   const g = d3.select("#map").select(".mapg");
+//   g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
+//   g.attr("transform", d3.event.transform); // updated for d3 v4
+// }
 
 const zoom = d3.zoom()
     .on("zoom", zoomed);
