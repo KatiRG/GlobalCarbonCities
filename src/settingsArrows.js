@@ -48,5 +48,15 @@ export default {
     textscale: [.9, .9],
     textposx: [590],
     textposy: [-11]
+  },
+  groupRow4_NAWA: {
+    xpos: [939],
+    ypos: [-200],
+    arrowlength: 30,
+    arrowscale: [.6, .8],
+    gid: "LA",
+    textscale: [.9, .9],
+    textposx: [590],
+    textposy: [-11]
   }
 };

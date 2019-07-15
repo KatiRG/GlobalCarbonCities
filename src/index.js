@@ -13,7 +13,8 @@ import settingsArr from "./settingsArrows.js";
 // Constants
 const twoSigma = 0.9545;
 const offscaleDict = {
-  "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10, "Quezon": 10, "León": 10, "Gandhinagar": 12
+  "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10,
+  "Quezon": 10, "León": 10, "Gandhinagar": 10, "Izmir": 10
 };
 
 // Define number format (2 decimal places) from utils.js
@@ -702,6 +703,7 @@ i18n.load(["src/i18n"], () => {
         appendArrow("Southeast Asia");
         appendArrow("Latin America & Caribbean");
         appendArrow("South Asia");
+        appendArrow("N Africa & W Asia");
 
         plotHeadings("h1");
         plotHeadings("h2");
@@ -838,11 +840,12 @@ function resetElements() {
 function appendArrow(region) {
   const arrowdata = [];
   const chartId = i18next.t(region, {ns: "barchartGroups"});
-  let ns; 
+  let ns;
   if (region === "Europe") ns = `${chartId}_${region}`;
   else if (region === "Southeast Asia") ns = `${chartId}_SEasia`;
   else if (region === "Latin America & Caribbean") ns = `${chartId}_LA`;
   else if (region === "South Asia") ns = `${chartId}_SA`;
+  else if (region === "N Africa & W Asia") ns = `${chartId}_NAWA`;
   else ns = chartId;
 
   const xpos = settingsArr[ns].xpos;
