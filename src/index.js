@@ -15,8 +15,8 @@ const twoSigma = 0.9545;
 const offscaleDict = {
   "Inch": 11, "Kaoh": 11, "Yila": 11,
   "Clev": 11.1, "L V": 11.1, "Sava": 11.1, "F C": 11,
-  "Rotterdam": 11,
-  "Quezon": 11, "León": 11, "Gandhinagar": 11, "Izmir": 11
+  "Rott": 11,
+  "Quez": 11, "León": 11, "Gandhinagar": 11, "Izmir": 11
 };
 
 // Define number format (2 decimal places) from utils.js
@@ -376,8 +376,9 @@ function showBarChart(chart, settings, region) {
         d3.selectAll(".enlarged").classed("enlarged", false);
 
         if (d3.select(this).text().indexOf("_gap") === -1) {
-          const cityName = (d3.select(this).text().indexOf(" ") !== -1) ?
-            i18next.t(d3.select(this).text(), {ns: "cities"}) : d3.select(this).text();
+          const cityName = i18next.t(d3.select(this).text(), {ns: "cities"});
+          console.log("CityName: ", cityName)
+          console.log(d3.select(this).text())
 
           d3.select(this).classed("enlarged", true);
           d3.selectAll(`.x.axis g :not(#text_${cityName})`)
@@ -751,8 +752,6 @@ function highlightElements(cityName) {
     return (d.city === cityName);
   })[0]["protocol"];
 
-  let thisAttr;
-
   const displayName = i18next.t(cityName, {ns: "displayName"});
 
   newText = [
@@ -783,6 +782,7 @@ function highlightElements(cityName) {
       .select("rect")
       .classed("fade", true);
 
+  console.log("idName: ", idName)
   d3.selectAll("#city" + idName)
       .classed("cityactive", true);
 
