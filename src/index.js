@@ -13,7 +13,7 @@ import settingsArr from "./settingsArrows.js";
 // Constants
 const twoSigma = 0.9545;
 const offscaleDict = {
-  "Incheon": 11, "Kaohsiung": 11, "Yilan": 11,
+  "Inch": 11, "Kaoh": 11, "Yilan": 11,
   "Clev": 11.1, "Las V": 11.1, "Savan": 11.1, "Ft Coll": 11,
   "Rotterdam": 11,
   "Quezon": 11, "León": 11, "Gandhinagar": 11, "Izmir": 11
