@@ -603,7 +603,7 @@
       "Well": "Wellington"      
     },
     "cities": {
-      "Addis Ababa": "Addis_Ababa", 
+      "A A": "Addis_Ababa", 
       "Adelaide": "Adelaide", 
       "Aguascalientes": "Aguascalientes", 
       "Ahmedabad": "Ahmedabad", 
@@ -613,7 +613,7 @@
       "B A": "Buenos_Aires",
       "B H": "Belo_Horizonte",
       "B C": "Buffalo_City",
-      "Cape Town": "Cape_Town",
+      "C T": "Cape_Town",
       "D o C": "DC",
       "F C": "Fort_Collins",
       "G L": "Greater_London",
@@ -633,7 +633,7 @@
       "N V": "North_Vancounver",
       "P A": "Palo_Alto",
       "Pimpri-Chinchwad": "Pimpri-Chinchwad",
-      "Pretoria Tshwane": "Pretoria_Tshwane",
+      "P T": "Pretoria_Tshwane",
       "R d J": "Rio_de_Janeiro",
       "Rosario": "Rosario",
       "S A": "San_Antonio",
