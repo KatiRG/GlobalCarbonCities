@@ -16,7 +16,7 @@ const offscaleDict = {
   "Inch": 11, "Kaoh": 11, "Yila": 11,
   "Clev": 11.1, "L V": 11.1, "Sava": 11.1, "F C": 11,
   "Rott": 11,
-  "Quez": 11, "Leó": 11, "Gandhinagar": 11, "Izmir": 11
+  "Quez": 11, "Leó": 11, "Gand": 11, "Izmir": 11
 };
 
 // Define number format (2 decimal places) from utils.js
