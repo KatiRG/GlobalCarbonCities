@@ -13,8 +13,8 @@ import settingsArr from "./settingsArrows.js";
 // Constants
 const twoSigma = 0.9545;
 const offscaleDict = {
-  "Inch": 11, "Kaoh": 11, "Yilan": 11,
-  "Clev": 11.1, "Las V": 11.1, "Savan": 11.1, "Ft Coll": 11,
+  "Inch": 11, "Kaoh": 11, "Yila": 11,
+  "Clev": 11.1, "L V": 11.1, "Sava": 11.1, "F C": 11,
   "Rotterdam": 11,
   "Quezon": 11, "León": 11, "Gandhinagar": 11, "Izmir": 11
 };
@@ -262,11 +262,12 @@ function drawMap() {
           .enter().append("path")
           .attr("d", path)
           .attr("id", function(d) {
-            const cityName = i18next.t(d.id, {ns: "cities"});
-            return "city" + cityName;
+            const cityName = i18next.t(d.id, {ns: "reverse"});
+            return "city" + i18next.t(cityName, {ns: "cities"});
           })
           .attr("class", function(d) {
-            const cityMatch = d.id;
+            // const cityMatch = d.id;
+            const cityMatch = i18next.t(d.id, {ns: "reverse"});
             const r = dataGHG.filter(function(d) {
               return d.city === cityMatch;
             })[0];
@@ -275,15 +276,17 @@ function drawMap() {
           })
           .attr("r", 10)
           .on("mouseover", function(d) {
+            console.log(d.id)
             // Clear any previous enlarged text in barChart x axis
             d3.selectAll(".enlarged").classed("enlarged", false);
 
             // Enlarge barChart x axis text of current city
-            const thisCity = (d.id.indexOf(" ") !== -1) ?
-              i18next.t(d.id, {ns: "cities"}) : d.id;
-            d3.select(`#text_${thisCity}`).classed("enlarged", true);
+            // const thisCity = i18next.t(d.id, {ns: "cities"});
+            const thisCity = i18next.t(d.id, {ns: "reverse"});
+            d3.select(`#text_${i18next.t(thisCity, {ns: "cities"})}`).classed("enlarged", true);
 
-            highlightElements(d.id);
+            // highlightElements(d.id);
+            highlightElements(i18next.t(thisCity, {ns: "cities"}));
           })
           .on("mouseout", function(d) {
             resetElements();
