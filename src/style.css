@@ -8,7 +8,7 @@ text, .container {
   font-family: "Ubuntu", sans-serif;
 }
 .container {
-  height: 1140px;
+  height: 1160px;
 }
 
 [class*="col-"], footer {
@@ -51,7 +51,7 @@ ul {
 }
 .footerClass {
   position: relative;
-  top: -140px;
+  top: -100px;
 }
 
 /*--------------------------*/
@@ -228,10 +228,10 @@ div.tooltip {
   fill: #fcc751;
 }
 .groupOceania {
-  fill: #d8c10b;
+  fill: #f03b20;
 }
 .NAfricaWAsia {
-  fill: #f03b20;
+  fill: #d8c10b;
 }
 .horsService {
   fill: none;
@@ -319,23 +319,23 @@ div.rtooltip {
   color: #565656;
 }
 #h1 {
-  left: 100px;
+  left: 138px;
   top: -20px;
 }
 #h2 {
-  left: 120px;
-  top: -66px;
+  left: 160px;
+  top: -73px;
 }
 #h3 {
   left: -201px;
-  top: -113px;
+  top: -75px;
 }
 #h4 {
   left: -50px;
-  top: -113px;
+  top: -75px;
 }
 #h5, #h6, #h7, #h8, #h9 {
-  top: -142px;
+  top: -90px;
 }
 #h5 {
   left: 109px;
@@ -347,7 +347,7 @@ div.rtooltip {
   left: 158px;
 }
 #h8 {
-  left: 89px;
+  left: 86px;
 }
 #h9 {
   left: 17px;

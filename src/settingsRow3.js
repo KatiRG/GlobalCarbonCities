@@ -53,6 +53,9 @@ export default {
     getText: function(d) {
       return d.value;
     },
+    getDomain: function(data) {
+      return [0, 10];
+    },
     ticks: 5,
     tickSizeOuter: 0
   },

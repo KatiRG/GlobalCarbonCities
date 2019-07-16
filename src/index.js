@@ -13,8 +13,10 @@ import settingsArr from "./settingsArrows.js";
 // Constants
 const twoSigma = 0.9545;
 const offscaleDict = {
-  "Incheon": 10, "Kaohsiung": 10, "Yilan": 10, "Rotterdam": 10,
-  "Quezon": 10, "León": 10, "Gandhinagar": 10, "Izmir": 10
+  "Incheon": 11, "Kaohsiung": 11, "Yilan": 11,
+  "Clev": 11.1, "Las V": 11.1, "Savan": 11.1, "Ft Coll": 11,
+  "Rotterdam": 11,
+  "Quezon": 11, "León": 11, "Gandhinagar": 11, "Izmir": 11
 };
 
 // Define number format (2 decimal places) from utils.js
@@ -95,8 +97,6 @@ function addRect() {
   const svgCityCard = d3.select("#mycityCardDiv").append("svg")
       .attr("width", 273)
       .attr("height", mapHeight);
-
-  console.log(settingsCityCard.rect.height)
 
   const svg = svgCityCard
       .attr("width", settingsCityCard.width) // col 2 width
@@ -357,9 +357,9 @@ function showBarChart(chart, settings, region) {
   barChart(chart, settings, regionData);
 
   d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -50)");
-  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -105)");
-  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -145)");
-  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -185)");
+  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -75)");
+  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -100)");
+  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -125)");
 
   // Define the div for the barChart rect tooltip
   const div = d3.select("body").append("div")
@@ -695,10 +695,11 @@ i18n.load(["src/i18n"], () => {
             .text(i18next.t("yaxText", {ns: "chartHeadings"}))
             .attr("class", "yaxLabel")
             .attr("transform", function(d) {
-              return "translate(" + (-35) + " " + (-179) + ")rotate(-90)";
+              return "translate(" + (-35) + " " + (-135) + ")rotate(-90)";
             });
 
         appendArrow("East Asia");
+        appendArrow("North America");
         appendArrow("Europe");
         appendArrow("Southeast Asia");
         appendArrow("Latin America & Caribbean");
