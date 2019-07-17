@@ -582,13 +582,11 @@ const loadData = function(cb) {
 
       // Floor to nearest modx except for region and protocol
       if (data[selectedAttribute]["lims"]) {
-        console.log("raw lims: ", data[selectedAttribute]["lims"])
         if (settingsAttr[selectedAttribute].modx) {
           const modx = settingsAttr[selectedAttribute].modx;
           data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map((x) => {
             return Math.floor(x/modx)*modx;
           });
-          console.log("floored lims: ", data[selectedAttribute]["lims"])
         }
       }
       cb();
@@ -602,7 +600,6 @@ function getMapping() {
   if (data[selectedAttribute].lims) {
     const d0 = data[selectedAttribute].lims[0];
     const d1 = data[selectedAttribute].lims[1];
-    console.log(d0, d1)
 
     const mapping = d3.scaleQuantile()
         .domain([d0, d1])
@@ -614,7 +611,6 @@ function getMapping() {
     } else { // protocol
       levels = settingsAttr[selectedAttribute].cbValues;
     }
-    console.log("levels: ", levels)
 
     // store mappings in data object array
     data[selectedAttribute]["mappingFn"] = mapping;
