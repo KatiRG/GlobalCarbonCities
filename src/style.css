@@ -8,7 +8,7 @@ text, .container {
   font-family: "Ubuntu", sans-serif;
 }
 .container {
-  height: 1160px;
+  height: 1120px;
 }
 
 [class*="col-"], footer {
@@ -51,7 +51,7 @@ ul {
 }
 .footerClass {
   position: relative;
-  top: -100px;
+  top: -162px;
 }
 
 /*--------------------------*/
@@ -324,18 +324,18 @@ div.rtooltip {
 }
 #h2 {
   left: 160px;
-  top: -73px;
+  top: -101px;
 }
 #h3 {
   left: -201px;
-  top: -75px;
+  top: -121px;
 }
 #h4 {
   left: -50px;
-  top: -75px;
+  top: -121px;
 }
 #h5, #h6, #h7, #h8, #h9 {
-  top: -90px;
+  top: -154px;
 }
 #h5 {
   left: 109px;
@@ -393,17 +393,13 @@ div.rtooltip {
   fill: #4b4242;
 }
 #barChart_groupEastAsia .x.axis text {
-  font-size: 12px;
+  font-size: 11px;
 }
 .x.axis text{
   font-size: 10px;
 }
 #barChart_groupEastAsia .enlarged {
   font-size: 16px !important;
-  stroke: #000;
-}
-#barChart_groupRow3 .enlarged {
-  font-size: 11px !important;
   stroke: #000;
 }
 .enlarged {

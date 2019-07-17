@@ -1,27 +1,27 @@
 export default {
   groupEastAsia: {
     xpos: [-15, -2, 9],
-    ypos: [-85, -80, -77],
+    ypos: [-100, -95, -91],
     arrowlength: 33,
     arrowscale: [.6, .8],
     gid: "EA",
     textscale: [1, 1],
-    textposx: [40, 65, 69],
-    textposy: [-7, -3, 10]
+    textposx: [40, 60, 65],
+    textposy: [-2, 2, 10]
   },
   groupNAmer: {
     xpos: [-20, -3, 13, 30],
-    ypos: [-112, -110, -108, -100],
+    ypos: [-145, -139, -137, -135],
     arrowlength: 33,
     arrowscale: [.6, .8],
     gid: "NAmer",
     textscale: [.9, .9],
-    textposx: [28, 115, 33, 50],
-    textposy: [-6, 25, -5, -5]
+    textposx: [28, 112, 33, 51],
+    textposy: [0, 14, -4, -5]
   },
   groupRow3_Europe: {
     xpos: [-21],
-    ypos: [-127],
+    ypos: [-172],
     arrowlength: 30,
     arrowscale: [.6, .8],
     gid: "EU",
@@ -30,8 +30,8 @@ export default {
     textposy: [-5]
   },
   groupRow3_SEasia: {
-    xpos: [779],
-    ypos: [-131],
+    xpos: [761],
+    ypos: [-178],
     arrowlength: 30,
     arrowscale: [.6, .8],
     gid: "SEA",
@@ -41,32 +41,22 @@ export default {
   },
   groupRow4_LA: {
     xpos: [-22],
-    ypos: [-150],
+    ypos: [-220],
     arrowlength: 30,
     arrowscale: [.6, .8],
     gid: "LA",
     textscale: [.9, .9],
-    textposx: [51],
-    textposy: [-4]
+    textposx: [75],
+    textposy: [14]
   },
   groupRow4_SA: {
-    xpos: [443],
-    ypos: [-150],
+    xpos: [413],
+    ypos: [-220],
     arrowlength: 30,
     arrowscale: [.6, .8],
-    gid: "LA",
+    gid: "SA",
     textscale: [.9, .9],
-    textposx: [590],
-    textposy: [10]
-  },
-  groupRow4_NAWA: {
-    xpos: [939],
-    ypos: [-150],
-    arrowlength: 30,
-    arrowscale: [.6, .8],
-    gid: "LA",
-    textscale: [.9, .9],
-    textposx: [1140],
-    textposy: [10]
+    textposx: [72],
+    textposy: [14]
   }
 };

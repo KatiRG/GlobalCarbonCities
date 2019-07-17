@@ -15,8 +15,8 @@ const twoSigma = 0.9545;
 const offscaleDict = {
   "Inch": 11, "Kaoh": 11, "Yila": 11,
   "Clev": 11.1, "L V": 11.1, "Sava": 11.1, "F C": 11,
-  "Rott": 11,
-  "Quez": 11, "Leó": 11, "Gand": 11, "Izmir": 11
+  "Rott": 11, "Quez": 11,
+  "Leó": 11, "Gand": 11
 };
 
 // Define number format (2 decimal places) from utils.js
@@ -276,7 +276,6 @@ function drawMap() {
           })
           .attr("r", 10)
           .on("mouseover", function(d) {
-            console.log(d.id)
             // Clear any previous enlarged text in barChart x axis
             d3.selectAll(".enlarged").classed("enlarged", false);
 
@@ -361,10 +360,10 @@ function showBarChart(chart, settings, region) {
 
   barChart(chart, settings, regionData);
 
-  d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -50)");
-  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -75)");
-  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -100)");
-  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -125)");
+  d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -70)");
+  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -115)");
+  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -150)");
+  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -190)");
 
   // Define the div for the barChart rect tooltip
   const div = d3.select("body").append("div")
@@ -706,7 +705,6 @@ i18n.load(["src/i18n"], () => {
         appendArrow("Southeast Asia");
         appendArrow("Latin America & Caribbean");
         appendArrow("South Asia");
-        appendArrow("N Africa & W Asia");
 
         plotHeadings("h1");
         plotHeadings("h2");
@@ -780,7 +778,6 @@ function highlightElements(cityName) {
       .select("rect")
       .classed("fade", true);
 
-  console.log("idName: ", idName)
   d3.selectAll("#city" + idName)
       .classed("cityactive", true);
 
