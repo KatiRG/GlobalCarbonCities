@@ -286,7 +286,7 @@ function drawMap() {
             d3.select(`#text_${i18next.t(thisCity, {ns: "cities"})}`).classed("enlarged", true);
 
             // highlightElements(d.id);
-            highlightElements(i18next.t(thisCity, {ns: "cities"}));
+            highlightElements(thisCity);
           })
           .on("mouseout", function(d) {
             resetElements();
@@ -348,13 +348,15 @@ function showBarChart(chart, settings, region) {
     // add "Southeast Asia"
     regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
   } else if (region === "Latin America & Caribbean") {
-    const region1Padded = padRegion(regionData, 1);
-    const region2Padded = padRegion(makeRegionObj("South Asia"), 1);
-    const region3Padded = padRegion(makeRegionObj("Africa"), 1);
+    const region1Padded = padRegion(regionData, 2);
+    const region2Padded = padRegion(makeRegionObj("South Asia"), 2);
+    const region3Padded = padRegion(makeRegionObj("Africa"), 2);
     const region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 1);
     const region5Padded = makeRegionObj("Oceania");
     // concat the regions into one row
     regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
+  } else if (region === "North America") {
+    regionData = padRegion(regionData, 1);
   }
 
   barChart(chart, settings, regionData);
@@ -377,8 +379,6 @@ function showBarChart(chart, settings, region) {
 
         if (d3.select(this).text().indexOf("_gap") === -1) {
           const cityName = i18next.t(d3.select(this).text(), {ns: "cities"});
-          console.log("CityName: ", cityName)
-          console.log(d3.select(this).text())
 
           d3.select(this).classed("enlarged", true);
           d3.selectAll(`.x.axis g :not(#text_${cityName})`)
@@ -434,7 +434,6 @@ function showBarChart(chart, settings, region) {
 }
 
 function drawLegend() {
-  console.log("selectedAttribute: ", selectedAttribute)
   const xpos = settingsAttr[selectedAttribute].xpos;
   const rectDim = 15;
 
@@ -445,7 +444,6 @@ function drawLegend() {
 
   // Fn to display value of each level
   const getText = function(i, j) {
-    console.log("getText: ", selectedAttribute)
     if (selectedAttribute === "protocol") {
       return i18next.t(`${selectedAttribute}${j + 1}`, {ns: "legend"});
     } else if (selectedAttribute === "region") {
