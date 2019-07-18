@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8" http-equiv="encoding">
   <meta http-equiv="content-language" content="ja">
   <title id="titletag"></title>
-
+  <link href="src/style.css" rel="stylesheet">
   <link href="lib/bootstrap.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
-
 </head>
 <body>
 
   <div class="container">
 
     <!-- header row -->
-    <div class="row">     
-      <div class="col-lg-7 headings" id="pageTitle" style="text-align: center; left:307px;"></div>
+    <div class="row">
+      <div class="col-lg-3" id="download"></div>
+      <div class="col-lg-7 headings" id="pageTitle"></div>
      
       <div class="col-lg-3">
         <ul class="nytg-sort" id="mapResetButton" >
-            <li>Reset</li>
+            <li>Clear</li>
         </ul>
       </div>  
                     
@@ -29,78 +29,48 @@
 
     <!-- 2nd row -->
     <div class="row">
-      <div class="col-lg-2" id="mycityCardDiv"> </div>
-      <div class="col-lg-9" id="map" style="padding-left: 30px; padding-right:55px;"> </div>
+      <div class="col-lg-3" id="mycityCardDiv"> </div>
+      <div class="col-lg-9" id="map"> </div>
     </div>
 
      <!-- Link to data and paper row -->
     <div class="row">
-      <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"> 
-        <span >Dataset available for download 
-          <a target="_blank" href="https://doi.pangaea.de/10.1594/PANGAEA.884141">here</a>, fully described in <a target="_blank" href="https://doi.pangaea.de/10.1594/PANGAEA.884141">Nangini et al. (2018)</a>.
-        </span>
-      </div>      
+      <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"></div>      
     </div>
 
   
 
     <!-- row for barChart title and toggle buttons -->
     <div class="row">
-      <div class="col-lg-12">
-        <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div>
-
-        <ul class="nytg-sort" id="emissionsToggleButton">
-          <li id="gdpButton">per GDP</li>
-        </ul>
-        <ul class="nytg-sort">
-          <li id="reorderButton" style="display: none;">Re-order</li>
-        </ul>
+      <div id="barChartCaption" class="col-lg-3 headings">Per capita emissions</div>
+      <div class="col-lg-2" id="selector">
+        <label for="attrSelector">Colour bars by</label>
+      </div>
+      <div class="col-lg-2">
+        <select id="dropdownMenu" class="form-control">
+          <option value="region" selected="selected">Region</option>
+            <option value="protocol">Protocol</option>
+            <option value="year">Measurement year</option>
+            <option value="population">Population</option>
+            <option value="GDP_PPP_percap">GDP-PPP/cap</option>
+            <option value="area">Area</option>
+            <option value="pop_density">Population density</option>
+            <option value="diesel">Diesel price</option>
+            <option value="gas">Gas price</option>
+            <option value="HDD">HDD 15.5C</option>
+            <option value="CDD">CDD 23C</option>
+            <option value="low_bua_pc_2014">Low BUA (2014)</option>
+            <option value="high_bua_pc_2014">High BUA (2014)</option>
+            <option value="none">None</option>
+        </select>
         
       </div>
-    </div> <!-- .end row -->
-
-    <div class="row">
-
-      <div class="col-lg-5">
-        <div id="barChartLegendLabel">Colour bars by: 
-          <select id="d3-dropdown">
-            <option value="none" selected="selected">None</option>
-            <option value="methodology" selected="selected">Protocol</option>
-            <option value="Measurement year">Measurement year</option>
-            <option value="Population">Population</option>
-            <option value="GDP-PPP/capita">GDP-PPP/capita</option>
-            <option value="area">Area</option>
-            <option value="Population density">Population density</option>
-            <option value="Diesel price">Diesel price</option>
-            <option value="Gas price">Gas price</option>
-            <option value="HDD 15.5C">HDD 15.5C</option>
-            <option value="CDD 23C">CDD 23C</option>
-            <option value="Low BUA % (2014)">Low BUA % (2014)</option>
-            <option value="High BUA % (2014)">High BUA % (2014)</option>
-            <!--<option value="change in emissions">change in emissions</option>            
-            <option value="population density">population density</option>
-            <option value="area">area</option>
-            
-            <option value="low BUA (2014)">low BUA (2014)</option>
-            <option value="low BUA % (2014)">low BUA % (2014)</option>
-            <option value="low BUA density (2014)">low BUA density (2014)</option>
-            <option value="high BUA (2014)">high BUA (2014)</option>
-            
-            <option value="high BUA density (2014)">high BUA density (2014)</option>
-            <option value="Congestion rank (INRIX)">Congestion rank (INRIX)</option>
-            <option value="World Rank (TomTom)">World Rank (TomTom)</option>
-            <option value="Cities in Motion Index (IESE)">Cities in Motion Index (IESE)</option>-->
-          </select>
-          <p id="selected-dropdown"></p>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
+      <div class="col-lg-2">
         <div id="barChartLegend">
            <svg></svg>
         </div>
       </div>
-      <div class="col-lg-2" id="barChartLegendUnits"></div>
+      <div class="col-lg-2 units"></div> 
     </div> <!-- .end row -->
 
     <!-- ****************************************** -->
@@ -109,81 +79,71 @@
 
     <!-- BarChart ROW1: groupEastAsia -->
     <div class="row">
+      <!-- <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div> -->
+      <div id="h1" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
-        <div id="barChart_groupEastAsia"></div>
+        <div class="data EAdata"></div>
       </div>
-    </div> <!-- .end BarChart ROW1 -->
+    </div>
 
     <!-- BarChart ROW2: groupNAmer -->
     <div class="row">
+      <div id="h2" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
-        <div class="row">
-          <div id="barChart_groupNAmer"></div>
-        </div>
-      
-      </div> <!-- .end col -->
-    </div> <!-- .end BarChart ROW2 -->
+        <div class="data NAdata"></div>
+      </div>
+    </div>
 
     <!-- BarChart ROW3: groupEurope and groupSEAsia -->
     <div class="row">
+      <div id="h3" class="col-lg-8 headingClass"></div>
+      <div id="h4" class="col-lg-4 headingClass"></div>
       <div class="col-lg-12">
-        <div class="row">
-          <div id="barChart_groupEuropeSEAsia"></div>
-        </div>
-      
-      </div> <!-- .end col -->
-    </div> <!-- .end BarChart ROW3 -->
+        <div class="data EUdata"></div>
+      </div>
+    </div>
 
     <!-- BarChart ROW4: groupLatinAmer, groupSEAsia, groupSAsia -->
-    <div class="row">
+     <div class="row">
       <div class="col-lg-12">
-        <div class="row">
-          <div id="barChart_groupSouth"></div>
-        </div>
-      
-      </div> <!-- .end col -->
-    </div> <!-- .end BarChart ROW4 -->
+        <div id="h5" class="col-lg-3 headingClass"></div>
+        <div id="h6" class="col-lg-2 headingClass"></div>
+        <div id="h7" class="col-lg-3 headingClass"></div>
+        <div id="h8" class="col-lg-2 headingClass"></div>
+        <div id="h9" class="col-lg-2 headingClass"></div>
+        <div class="data dataRow4"></div>
+      </div>
+    </div>
 
-    
     <footer class="row">
-      <div class="col-lg-2" id="logo_BNP" style="text-align: center; left:-43px; top:0px;">
+      <div class="col-lg-2 footerClass" id="logo_BNP">
         <a target="_blank" href="https://group.bnpparibas/en/group/bnp-paribas-foundation"><img src="img/BNPParisbasFoundation.jpg" title="BNP Parisbas Foundation" width="75" height="75"/></a> 
       </div>
 
-      <div class="col-lg-2" id="logo_GCP" style="text-align: center; left:250px; top:20px;"> <!-- ratio 1:2.3 -->
+      <div class="col-lg-2 footerClass" id="logo_GCP"> <!-- ratio 1:2.3 -->
         <a target="_blank" href="http://www.globalcarbonproject.org/"><img src="img/GCP.png" title="GCP" width="117" height="50"/></a>
       </div>
 
-      <div class="col-lg-2" id="logo_CDP" style="text-align: center; left:590px; top:20px;"> <!-- ratio 1:2.8 -->
+      <div class="col-lg-2 footerClass" id="logo_CDP"> <!-- ratio 1:2.8 -->
         <a target="_blank" href="https://www.cdp.net/en"><img src="img/CDP.png" title="CDP" width="114" height="40"/></a>
       </div>
 
     </footer>
 
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/i18next.min.js"></script>
     <script src="lib/d3.v4.min.js"></script>
+    <script src="lib/queue.v1.min.js"></script>
+    <script src="lib/stc_visualization_components/utils.min.js"></script>
+    <script src="lib/stc_visualization_components/bar.js"></script>
+
     <script src="lib/d3-tip.js"></script>
-    
     <script src="lib/d3-array.v1.min.js"></script>
     <script src="lib/d3-geo.v1.min.js"></script>
     <script src="lib/d3-geo-projection.v2.min.js"></script>
-
-    <!--https://bl.ocks.org/mbostock/3711652-->
     <script src="lib/topojson.v1.min.js"></script>
-
-    <!-- jquery -->
-    <script src="lib/jquery.min.js"></script>
-
-    <!-- bootstrap -->
-    <script src="lib/bootstrap.min.js"></script>
     
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- custom -->
-    <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <script src="src/aux_fns.js"></script>
-    <script src="src/globalvars.js"></script>
     <script src="src/index.js"></script>
 
   </div>  <!-- ./container -->

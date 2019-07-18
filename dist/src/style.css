@@ -1,16 +1,18 @@
-/*https://openclassrooms.com/courses/prenez-en-main-bootstrap/une-grille*/
-
-/*--------------------------*/
-/*base elements*/
 body {
-  padding-top: 10px;
+  padding-top: 12px;
   font-family: "Ubuntu", sans-serif;
+  font-size: 14px;
+  color: #555;
+}
+text, .container {
+  font-family: "Ubuntu", sans-serif;
+}
+.container {
+  height: 1120px;
 }
 
 [class*="col-"], footer {
-  /*background-color: lightgreen; */
   border: 0px solid white;
-  /*border: 1px solid gray;*/
   border-radius: 6px;
   line-height: 40px;
   text-align: center;
@@ -26,7 +28,6 @@ body {
 
 ul {
     list-style: outside none none;
-/*    margin-top: 80px;*/
 }
 
 .headings {
@@ -36,8 +37,25 @@ ul {
   text-align: left;
 }
 
+#logo_BNP {
+  text-align: center; 
+  left: -43px; 
+}
+#logo_GCP {
+  text-align: center; 
+  left: 257px;
+}
+#logo_CDP {
+  text-align: center; 
+  left: 590px; 
+}
+.footerClass {
+  position: relative;
+  top: -162px;
+}
+
 /*--------------------------*/
-/*buttons*/
+/* buttons and menus */
 .nytg-sort li {
 	background: none repeat scroll 0 0 #f9f9f9;
 	border-bottom: 1px solid #ccc;
@@ -49,9 +67,9 @@ ul {
 	cursor: pointer;
 	float: left;
 	font-size: 12px;
-	margin: 0;
-	padding: 0px 4px;
-	border-radius: 4px 4px 4px 4px;
+	margin: 2;
+	padding: 0px 9px;
+	border-radius: 6px 6px 6px 6px;
 }
 /*drop-down menu*/
 .dropbtn {
@@ -105,37 +123,13 @@ ul {
     background-color: lightgrey;
 }
 
-
 /*--------------------------*/
 /*tooltips */
-/*Used for barChart protocol legend rects */
-.d3-tip {
-  /*line-height: 1.2; */
-  height: 50px;
-  width: 350px;
-  padding: 6px;
-  background: #F7F6E4;
-  color: #555;
-  border-radius: 4px;
-  font-size: 12px;
-}
-.d3-tip-deactive {
-  background: transparent;
-}
-.d3-tip-line {
-  height: 35px;
-  width: 111px;
-  padding: 6px;
-  background: #555;
-  color: #F7F6E4;
-  border-radius: 4px;
-  font-size: 12px;
-}
 /*Used for barChart rects */
 div.tooltip-bar {
   position: absolute;
-  height: 40px;
-  width: 111px;
+  height: 46px;
+  width: 175px;
   padding: 6px;
   background: #8A979D;
   color: #000;
@@ -144,13 +138,27 @@ div.tooltip-bar {
   font-size: 12px;
   font-weight: bold;
 }
+.tooltip-legend {
+  position: absolute;
+  height: 50px;
+  width: 350px;
+  padding: 6px;
+  background: #F7F6E4;
+  color: #555;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.tooltip-units {
+  position: absolute;
+  height: 58px;
+  width: 350px;
+  padding: 6px;
+  background: #F7F6E4;
+  color: #555;
+  border-radius: 4px;
+  font-size: 12px;
+}
 
-/*Used for toggle buttons */
-/*@-moz-document url-prefix()
-{
-div.tooltip {top: -440px; left: 1210px;}
-div.tooltip {top: 536px; left: 1130px;}
-}*/
 div.tooltip {
   position: absolute;
   text-align: left;
@@ -168,12 +176,70 @@ div.tooltip {
   pointer-events: none;
 }
 
-/*to allow x-axis labels to overflow past div bd*/
-/*svg:not(:root) {
-    overflow: unset;
-}*/
-svg.barSVG {
-    overflow: unset;
+#pageTitle {
+  text-align: center;
+  left: 60px;
+  padding-bottom: 5px;
+}
+
+/*--------------------------*/
+/* map */
+#mapResetButton {
+  position: absolute;
+  left: 1038px; 
+  top: -43px;
+}
+.worldcountry {
+  fill: rgb(24, 71, 27);
+  stroke: #555;
+  stroke-width: 1.5;
+}
+.worldcity {
+  stroke: #555;
+}
+.cityactive {
+  fill: #20f216 !important;
+}
+.cityfade {
+  opacity: 0.2  !important;
+}
+.countryfade {
+  opacity: 0.2 !important;
+}
+.groupEastAsia {
+  fill: #d15081;
+}
+.groupNAmer {
+  fill: #80c2ff;  
+}
+.groupEurope {
+  fill: #c398db;
+} 
+.groupLatinAmer {
+  fill: #ee8370;
+}
+.groupSEAsia, .HEREgroupSEAsia {
+  fill: #2b8f00;
+}
+.groupSAsia {
+  fill: #40d5c7;
+}
+.groupAfrica {
+  fill: #fcc751;
+}
+.groupOceania {
+  fill: #f03b20;
+}
+.NAfricaWAsia {
+  fill: #d8c10b;
+}
+.horsService {
+  fill: none;
+}
+
+/* to allow x-axis labels to overflow past div bd */
+.data svg {
+  overflow: visible;
 }
 
 div.rtooltip {
@@ -195,15 +261,6 @@ div.rtooltip {
   line-height: 1.2;
   padding-bottom: 8px;
 }
-
-/* map */
-/*.sphere {
-  padding-top: 0px;
-  fill: #F4F7F7;  /* #F2F4F2; #e6f3f7;   //#e6f3f7"); // "#add8e6" //"#fcfcef" */
-/*} */
-/* #map {
-  padding-top: 40px;
-} */
 
 .stroke {
   fill: none;
@@ -230,46 +287,87 @@ div.rtooltip {
 
 /*--------------------------*/
 /* bar chart */
+.bar-group {
+  stroke: #747474;
+  stroke-width: 0.9;
+}
+.bar-group .active {
+  stroke: #363636 !important;
+  fill: #20f216 !important;
+}
+.bar-group .fade {
+  opacity: 0.3 !important;
+}
+.isNan {
+/*  fill: none;*/
+  stroke: black;
+}
+.barMarker marker {
+  fill: #555;
+}
+.barMarker path {
+  stroke: #555;
+}
+.offscaleText {
+  fill: #565656;
+}
+
 .headingClass { /* svg stylings */
+  font-family: Ubuntu, sans-serif;
   font-weight: bold;
-  /*color: #565656;*/
   font-size: 17px;
-  fill: #565656;
-}
-.ylabelClass {
-  font-size: 17px;
-  fill: #565656;
-}
-#mapResetButton {
-  position: absolute;
-  left: 367px; 
-  top: 40px;
-}
-#barChartCaption {
-  position: relative;
-  left: 380px;
   color: #565656;
-  text-align: left;
 }
-#barChartLegendLabel {
-  position: relative;
-  left: 235px;
-  color: #565656;
-  text-align: left;
+#h1 {
+  left: 138px;
+  top: -20px;
 }
-#barChartLegend {
-  position: relative;
-  left: 60px;
-  stroke: gray;
-}
-#barChartLegendUnits {
-  text-align: left;
-  font-size: 11px;
-  padding-left: 0px;
+#h2 {
   left: 160px;
-  top: -2px;
-  color: #636363;
+  top: -101px;
 }
+#h3 {
+  left: -201px;
+  top: -121px;
+}
+#h4 {
+  left: -50px;
+  top: -121px;
+}
+#h5, #h6, #h7, #h8, #h9 {
+  top: -154px;
+}
+#h5 {
+  left: 109px;
+}
+#h6 {
+  left: 204px;
+}
+#h7 {
+  left: 158px;
+}
+#h8 {
+  left: 86px;
+}
+#h9 {
+  left: 17px;
+}
+
+.yaxLabel {
+  font-size: 17px;
+  fill: #565656;
+}
+
+#barChartCaption {
+  color: #565656;
+  text-align: left;
+  font-size: 18px;
+  position: relative;
+  top: -13px;
+  left: 171px;
+  margin-right: 70px;
+}
+
 .textLabels {
   fill: #636363;
 }
@@ -281,77 +379,141 @@ div.rtooltip {
   padding-left: 23px;
   text-align: left;
 }
-.bar {
-  /*stroke: gray;*/
+
+.hideTick {
+  opacity: 0;
 }
-.zerobar { /*bar where d[attrFlag] is zero */
-  stroke: #565656;
-  /*stroke-width: 0.5;*/
-  opacity: 0.3;
+.hideTick text {
+  opacity: 0;
 }
 .axis {
-  font: 14px sans-serif;
+  font: 11px sans-serif;
 }
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #555;
-  shape-rendering: geometricPrecision; /*crispEdges;*/
+.x.axis text {
+  fill: #4b4242;
 }
-.axis text {
-  fill: #555;
-}
-.x.axis path {
-  display: none;
-}
-.xAxisCityName {
+#barChart_groupEastAsia .x.axis text {
   font-size: 11px;
-  color: #565656;
-  opacity: 0.3;
+}
+.x.axis text{
+  font-size: 10px;
+}
+#barChart_groupEastAsia .enlarged {
+  font-size: 16px !important;
+  stroke: #000;
+}
+.enlarged {
+  font-size: 14px !important;
+  stroke: #000;
+}
+.fadeText {
+  opacity:  0.3;
 }
 
-/*--------------------------*/
-/*Stats table*/
-#cityCardChangeReason {
-  font-size: 16px;
-  line-height: 1.2;
-  /*font-weight: bold; */
-  color: #565656;
+/* barChart legend */
+#selector {
+  margin-left: -80px;
 }
-#displayStats {
-  position: absolute;
-  margin-top: -40px;
-  margin-left: 1505px;
-}
-#displayGHGstats {
- /* position: absolute;
-  margin-top: 4px;
-  margin-left: 819px;*/
-}
-.cityCardName {
-  font-weight: bold;
-  font-size: 17px;
+.legendText {
+  fill: rgb(86, 86, 86);
   stroke: none;
-  fill: #fff;
-  background: rgba(76, 135, 181, 0.7);
-  text-shadow: 0 0 5px #333333;
-  text-align: right;
+  font-size: 12px;
+  display: inline;
 }
+.legendCB {
+  margin-left: -220px;
+}
+#dropdownMenu {
+  margin-left: -11px;
+  margin-top: -11px;
+  color: #565656;
+  text-align: left;
+}
+label {
+  font-family: Ubuntu, sans-serif;
+  position: absolute;
+  top: -13px;
+  left: 96px;
+}
+#barChartLegend {
+  position: relative;
+  top: -14px;
+  left: 60px;
+  stroke: gray;
+}
+#barChartLegendUnits {
+  text-align: left;
+  font-size: 11px;
+  padding-left: 0px;
+  left: 160px;
+  top: -2px;
+  color: #636363;
+}
+.units {
+  position: relative;
+  top: -14px;
+  left: 150px;
+  fill: rgb(86, 86, 86);
+  font-size: 12px;
+}
+.unitsactive {
+  text-decoration-line: underline;
+}
+/*--------------------------*/
+/* city card */
+#cityCardg rect {
+  fill: #c7d1d9;
+  stroke: none;
+}
+
+.titlerow {
+  margin-top: -300px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #00563c;
+  stroke: none;
+  /*text-shadow: 0 0 5px #333333;*/
+  text-align: center;
+  /*margin-left: 19px;*/
+  /*text-decoration-line: underline; */
+}
+
+.subrow, .updated {
+  font-size: 15px;
+  stroke: none;
+  color: #00563c;
+  text-align: left;
+  margin-left: 41px;
+}
+
+.updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
+  margin-top: -21px;
+  color: #00563c;
+}
+.updated.row1, .updated.row3, .updated.row5, .updated.row7, .updated.row9, .subrow.row5, .subrow.row7, .subrow.row9 {
+  text-transform: uppercase;
+  margin-top: -11px;
+  color: #3b112d;
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .cityCardSubrowTitle {
   font-weight: 700;
   font-size: 11px;
   stroke: none;
-  fill: #ffaa1b;
+  fill: #fff500; /* #ffaa1b; */
   text-shadow: 0 0 5px #333333;
   text-transform: uppercase;
   text-align: right;
 }
-.cityCardSubrowInfo {
+.cityCardAttr {
   font-size: 11px;
   stroke: none;
   fill: #fff;
   text-align: right;
 }
+
 
 .style("text-transform", "uppercase")
 
