@@ -79,21 +79,12 @@ function globalcarboncities_page() {
         <!-- header row -->
         <div class="row">
           <div class="col-md-3" id="download"></div>
-          <div class="col-lg-5 headings" id="pageTitle">A global dataset of CO2 emissions and related ancillary data</div>
+          <div class="col-lg-6 headings" id="pageTitle">A global dataset of CO₂ emissions and related ancillary data</div>
           <div class="col-lg-1">
-            <ul class="navbar-header">
-              <button id="mapResetButton" class="btn btn-info" type="button">Clear</button>
-            </ul>
+            <button id="helpButton" class="btn btn-info" type="button">Help</button>
           </div>
           <div class="col-lg-1">
-            <ul class="navbar-header">
-              <button id="helpButton" class="btn btn-info" type="button">Help</button>
-            </ul>
-          </div>
-          <div class="col-lg-1">
-            <ul class="navbar-header">
-              <a id="backButton" class="btn btn-info" href="/en/content/global-cities-emissions">Back to info</a>
-            </ul>
+            <a id="backButton" class="btn btn-info" href="/en/content/global-cities-emissions">Back to info</a>
           </div>
 
 
@@ -138,7 +129,7 @@ function globalcarboncities_page() {
             </select>
 
           </div>
-          <div class="col-lg-2">
+          <div class="col-lg-5">
             <div id="barChartLegend">
                <svg></svg>
             </div>

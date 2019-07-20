@@ -217,11 +217,12 @@ div.tooltip {
   border-color: #fff;
   color: #000;
 }
+/* map */
 #helpButton {
   left: 70px;
 }
 #backButton{
-  left: 90px;
+  left: 60px;
 }
 /* map */
 .worldcountry {
@@ -402,7 +403,8 @@ div.rtooltip {
   text-align: left;
   font-size: 18px;
   position: relative;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
+  padding-left: 6em;
 }
 
 .textLabels {
@@ -521,8 +523,10 @@ label {
   min-height: 290px;
 }
 
-#mycityCardDiv {
+#thisContainer #mycityCardDiv {
   background: #c7d1d9;
+  line-height: 2;
+  min-height: 290px;
 }
 
 .cityCardSubrowTitle {
