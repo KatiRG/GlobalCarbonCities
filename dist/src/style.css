@@ -1,29 +1,25 @@
-body {
-  padding-top: 12px;
-  font-family: "Ubuntu", sans-serif;
-  font-size: 14px;
-  color: #555;
-}
-text, .container {
-  font-family: "Ubuntu", sans-serif;
-}
-.container {
-  height: 1120px;
-}
-
-[class*="col-"], footer {
+#thisContainer [class*="col-"],
+#thisContainer footer {
   border: 0px solid white;
   border-radius: 6px;
   line-height: 40px;
   text-align: center;
 }
 
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  border: 1px solid #636363;
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 
 .helpOverlay {
@@ -59,20 +55,19 @@ ul {
 }
 
 #logo_BNP {
-  text-align: center; 
-  left: -43px; 
+  text-align: center;
+  left: -43px;
 }
 #logo_GCP {
-  text-align: center; 
+  text-align: center;
   left: 257px;
 }
 #logo_CDP {
-  text-align: center; 
-  left: 590px; 
+  text-align: center;
+  left: 590px;
 }
 .footerClass {
   position: relative;
-  top: -162px;
 }
 
 /*--------------------------*/
@@ -204,23 +199,24 @@ div.tooltip {
 }
 
 /*--------------------------*/
-/* map */
-#mapResetButton {
+#mapResetButton,
+#helpButton,
+#backButton {
   position: absolute;
-  left: 146px; 
   top: 4px;
   background-color: #ffaa1b;
   border-color: #fff;
   color: #000;
 }
+/* map */
+#mapResetButton {
+  left: 146px;
+}
 #helpButton {
-  position: absolute;
-  left: 122px; 
-  top: 4px;
-  background-color: #ffaa1b;
-  border-color: #fff;
-  color: #000;
-
+  left: 122px;
+}
+#backButton{
+  left: 90px;
 }
 .worldcountry {
   fill: rgb(24, 71, 27);
@@ -243,11 +239,11 @@ div.tooltip {
   fill: #d15081;
 }
 .groupNAmer {
-  fill: #80c2ff;  
+  fill: #80c2ff;
 }
 .groupEurope {
   fill: #c398db;
-} 
+}
 .groupLatinAmer {
   fill: #ee8370;
 }
@@ -396,9 +392,7 @@ div.rtooltip {
   text-align: left;
   font-size: 18px;
   position: relative;
-  top: -13px;
-  left: 171px;
-  margin-right: 70px;
+  margin-bottom: 2em;
 }
 
 .textLabels {
@@ -464,13 +458,9 @@ div.rtooltip {
 }
 label {
   font-family: Ubuntu, sans-serif;
-  position: absolute;
-  top: -13px;
-  left: 96px;
 }
 #barChartLegend {
   position: relative;
-  top: -14px;
   left: 60px;
   stroke: gray;
 }
@@ -484,7 +474,6 @@ label {
 }
 .units {
   position: relative;
-  top: -14px;
   left: 150px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
@@ -500,7 +489,6 @@ label {
 }
 
 .titlerow {
-  margin-top: -300px;
   font-weight: bold;
   font-size: 16px;
   color: #00563c;
@@ -520,15 +508,19 @@ label {
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
-  margin-top: -21px;
   color: #00563c;
 }
 .updated.row1, .updated.row3, .updated.row5, .updated.row7, .updated.row9, .subrow.row5, .subrow.row7, .subrow.row9 {
   text-transform: uppercase;
-  margin-top: -11px;
   color: #3b112d;
   font-weight: bold;
   font-size: 14px;
+}
+
+#thisContainer #mycityCardDiv {
+  background: #c7d1d9;
+  line-height: 2;
+  min-height: 290px;
 }
 
 .cityCardSubrowTitle {

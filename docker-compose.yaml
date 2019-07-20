@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+  drupal:
+    image: drupal:7
+    ports:
+      - 80:80
+    volumes:
+      - drupal_modules:/var/www/html/modules
+      - drupal_profiles:/var/www/html/profiles
+      - drupal_themes:/var/www/html/themes
+      - drupal_sites:/var/www/html/sites
+      - ./module:/var/www/html/modules/globalcarboncities
+      - ./dist:/var/www/html/libraries/globalcarboncities
+    restart: always
+
+  postgres:
+    image: postgres:10
+    environment:
+      POSTGRES_PASSWORD: your_postgres_password
+    volumes:
+        - db_data:/var/lib/postgresql/data
+    restart: always
+  drush:
+    image: drush/drush:7
+    volumes:
+      - drupal_modules:/app/html/modules
+      - drupal_profiles:/app/html/profiles
+      - drupal_themes:/app/html/themes
+      - drupal_sites:/app/html/sites
+
+volumes:
+  drupal_modules:
+  drupal_profiles:
+  drupal_themes:
+  drupal_sites:
+  drupal_drush:
+  db_data:
