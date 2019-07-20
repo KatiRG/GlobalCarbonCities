@@ -1544,801 +1544,815 @@
 	    return (arguments.length <= 0 ? undefined : arguments[0]) * (arguments.length <= 1 ? undefined : arguments[1]);
 	  }
 	};
-	var noneFill = "#4a6072"; // ----------------------------------------------------
-	// Setup
-	// ----------------------------------------------------
+	var noneFill = "#4a6072";
 
-	var data = []; // for selected attributes used in city card and to colour bars
+	var init = function init() {
+	  var urlRoot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+	  // ----------------------------------------------------
+	  // Setup
+	  // ----------------------------------------------------
+	  var data = []; // for selected attributes used in city card and to colour bars
 
-	var dataGHG; // for fixed data attributes that are always needed
+	  var dataGHG; // for fixed data attributes that are always needed
 
-	var selectedAttribute = "init";
-	var newText;
-	var path; // map path projection
+	  var selectedAttribute = "init";
+	  var newText;
+	  var path; // map path projection
 
-	var defaultRadius = 3; // ----------------------------------------------------
-	// SVGs
-	// d3js World Map
+	  var defaultRadius = 3; // ----------------------------------------------------
+	  // SVGs
+	  // d3js World Map
 
-	var mapMargin = {
-	  top: 0,
-	  right: 0,
-	  bottom: 0,
-	  left: 0
-	};
-	var mapWidth = 850 - mapMargin.left - mapMargin.right;
-	var mapHeight = 290 - mapMargin.top - mapMargin.bottom; // barChart legend
-
-	var margin = {
-	  top: 7,
-	  right: 5,
-	  bottom: 0,
-	  left: 0
-	};
-	var cbWidth = 520 - margin.left - margin.right;
-	var cbHeight = 35 - margin.top - margin.bottom; // Bar charts
-
-	var chartEA = d3.select(".data.EAdata").append("svg").attr("id", "barChart_groupEastAsia");
-	var chartNA = d3.select(".data.NAdata").append("svg").attr("id", "barChart_groupNAmer");
-	var chartEU = d3.select(".data.EUdata").append("svg").attr("id", "barChart_groupRow3");
-	var chartRow4 = d3.select(".data.dataRow4").append("svg").attr("id", "barChart_groupRow4"); // Colour Bar
-
-	var svgCB = d3.select("#barChartLegend").select("svg").attr("width", cbWidth).attr("height", cbHeight).attr("transform", "translate(120,0)").style("vertical-align", "middle"); // -----------------------------------------------------------------------------
-	// FNS
-	// page texts
-
-	function pageText() {
-	  d3.select("#download").html(i18next.t("downloadText", {
-	    ns: "pageText"
-	  }));
-	  d3.select("#titletag").html(i18next.t("titletag", {
-	    ns: "pageText"
-	  }));
-	  d3.select("#pageTitle").html(i18next.t("title", {
-	    ns: "pageText"
-	  }));
-	}
-
-	function addRect() {
-	  // city card
-	  var svgCityCard = d3.select("#mycityCardDiv").append("svg").attr("width", 273).attr("height", mapHeight);
-	  var svg = svgCityCard.attr("width", settingsCityCard.width) // col 2 width
-	  .attr("height", mapHeight);
-	  var g = svg.append("g").attr("id", "cityCardg");
-	  g.append("rect").attr("width", settingsCityCard.rect.width).attr("height", settingsCityCard.rect.height).attr("x", settingsCityCard.rect.pos[0]).attr("y", settingsCityCard.rect.pos[1]);
-	} // ----------------------------------------------------------------
-
-
-	var card = d3.select("#mycityCardDiv");
-	var removedSelection = d3.select();
-
-	function showCityCard(textSet) {
-	  var data = textSet;
-	  removedSelection.remove();
-	  var selection = card.selectAll(".cardrow", function (d) {
-	    // Binds data by id
-	    return d.id;
-	  }).data(data);
-	  selection.enter().append("div").attr("class", function (d, i) {
-	    return i === 0 ? "cardrow titlerow row".concat(i) : "cardrow subrow row".concat(i);
-	  }).html(function (d) {
-	    return d.text;
-	  });
-	  selection.attr("class", function (d, i) {
-	    return i === 0 ? "cardrow titlerow row".concat(i) : "cardrow updated row".concat(i);
-	  }).html(function (d) {
-	    return d.text;
-	  }); //  *********************** REGARDE!!!!!!*****************************************************************************
-
-	  removedSelection = selection.exit().attr("class", "oldrow removed").html(function (d) {// return d.text;
-	  });
-	} // ----------------------------------------------------------------
-
-
-	function colourBars() {
-	  // Colour bars according to selected attribute
-	  d3.selectAll(".bar-group").each(function (d) {
-	    if (d.city.indexOf("_gap") === -1) {
-	      var thisCity = d.city;
-	      var thisColour;
-
-	      if (selectedAttribute === "region") {
-	        var thisRegion = data[selectedAttribute].filter(function (p) {
-	          return p.city === thisCity;
-	        })[0].value;
-	        thisColour = i18next.t(thisRegion, {
-	          ns: "regionColours"
-	        });
-	      } else {
-	        var val = data[selectedAttribute].filter(function (p) {
-	          return p.city === thisCity;
-	        })[0].value;
-
-	        if (val === null) {
-	          d3.select(this).select("rect").classed("isNan", true);
-	          thisColour = "none";
-	        } else {
-	          thisColour = data[selectedAttribute].mappingFn(val);
-	        }
-	      } // Apply thisColour to bar
-
-
-	      d3.select(this).select("rect").style("fill", thisColour);
-	    }
-	  });
-	} // ----------------------------------------------------------------
-	// Map reset button
-
-
-	d3.select("#mapResetButton").on("click", function () {
-	  // Reset zoom. NB: must apply reset to svg not g
-	  // const svg = d3.select("#map").select("svg");
-	  // zoom.transform(svg, d3.zoomIdentity);
-	  // Clear previous enlarged text and selected bar
-	  d3.selectAll(".enlarged").classed("enlarged", false);
-	  d3.selectAll("rect.active").classed("active", false);
-	  d3.selectAll(".cityactive").classed("cityactive", false);
-	});
-
-	function drawMap() {
-	  var options = [{
-	    name: "Natural Earth",
-	    projection: d3.geoNaturalEarth()
-	  }];
-	  options.forEach(function (o) {
-	    o.projection.rotate([0, 0]).center([40, 0]);
-	  });
-	  var projection = options[0].projection.scale(151).translate([mapWidth / 1.655, mapHeight / 1.67]);
-	  path = d3.geoPath().projection(projection).pointRadius([defaultRadius]);
-	  var graticule = d3.geoGraticule();
-	  var svg = d3.select("#map").append("svg").attr("width", mapWidth).attr("height", mapHeight).attr("transform", "translate(" + -25 + "," + 0 + ")");
-	  var g = svg.append("g");
-	  g.append("path").datum({
-	    type: "Sphere"
-	  }).attr("class", "sphere").attr("d", path).attr("fill", "#F4F7F7").attr("stroke", "grey");
-	  g.append("path").datum(graticule).attr("class", "graticule").attr("d", path);
-	  d3.json("geojson/world_countries.json", function (error, world) {
-	    if (error) throw error;
-	    d3.json("geojson/our_cities.geojson", function (error, cities) {
-	      if (error) throw error;
-	      g.attr("class", "mapg").selectAll("path").data(world.features).enter().append("path").attr("d", path).attr("id", function (d) {
-	        var mapName = i18next.t(d.properties.name, {
-	          ns: "countries"
-	        });
-	        return "map".concat(mapName);
-	      }).attr("class", "worldcountry") // tooltips
-	      .style("stroke-width", 1); // City markers from geojson file
-
-	      cities = g.selectAll("path").data(cities.features).enter().append("path").attr("d", path).attr("id", function (d) {
-	        var cityName = i18next.t(d.id, {
-	          ns: "reverse"
-	        });
-	        return "city" + i18next.t(cityName, {
-	          ns: "cities"
-	        });
-	      }).attr("class", function (d) {
-	        // const cityMatch = d.id;
-	        var cityMatch = i18next.t(d.id, {
-	          ns: "reverse"
-	        });
-	        var r = dataGHG.filter(function (d) {
-	          return d.city === cityMatch;
-	        })[0];
-	        if (r) return "worldcity ".concat(i18next.t(r.region, {
-	          ns: "regions"
-	        }));else return "horsService";
-	      }).attr("r", 10).on("mouseover", function (d) {
-	        // Clear any previous enlarged text in barChart x axis
-	        d3.selectAll(".enlarged").classed("enlarged", false); // Enlarge barChart x axis text of current city
-	        // const thisCity = i18next.t(d.id, {ns: "cities"});
-
-	        var thisCity = i18next.t(d.id, {
-	          ns: "reverse"
-	        });
-	        d3.select("#text_".concat(i18next.t(thisCity, {
-	          ns: "cities"
-	        }))).classed("enlarged", true); // highlightElements(d.id);
-
-	        highlightElements(thisCity);
-	      }).on("mouseout", function (d) {
-	        resetElements();
-	        var lastCity = d3.select(".enlarged").text();
-	        d3.select(".bar-group.".concat(i18next.t(lastCity, {
-	          ns: "cities"
-	        }))).select("rect").classed("active", true);
-	        d3.select("#city".concat(i18next.t(lastCity, {
-	          ns: "cities"
-	        }))).classed("cityactive", true);
-	      });
-	    }); // ./inner d3.json
-	  }); // ./outer d3.json
-	  // svg.call(zoom);
-	} // -----------------------------------------------------------------------------
-
-
-	function makeRegionObj(region) {
-	  var regionData = [];
-	  dataGHG.filter(function (d) {
-	    if (d.region === region) {
-	      var thisObj = {};
-	      thisObj.region = d.region;
-	      thisObj.city = d.city;
-	      thisObj.s1PerCap = d["s1PerCap"];
-	      thisObj.storeOrig = d.storeOrig ? d.storeOrig : null;
-	      regionData.push(thisObj);
-	    }
-	  });
-	  regionData.sort(function (a, b) {
-	    return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-	  });
-	  return regionData;
-	}
-
-	function padRegion(data, n) {
-	  data.sort(function (a, b) {
-	    return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-	  });
-
-	  for (var idx = 0; idx < n; idx++) {
-	    var thisObj = {};
-	    thisObj.region = data[0].region;
-	    thisObj.city = "".concat(data[0].region, "_gap").concat(idx);
-	    thisObj.s1PerCap = null;
-	    thisObj.storeOrig = null;
-	    data.push(thisObj);
-	  }
-
-	  return data;
-	}
-
-	function showBarChart(chart, settings, region) {
-	  var regionData = [];
-	  regionData = makeRegionObj(region);
-
-	  if (region === "Europe") {
-	    var regionDataPadded = padRegion(regionData, 3); // add "Southeast Asia"
-
-	    regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
-	  } else if (region === "Latin America & Caribbean") {
-	    var region1Padded = padRegion(regionData, 2);
-	    var region2Padded = padRegion(makeRegionObj("South Asia"), 2);
-	    var region3Padded = padRegion(makeRegionObj("Africa"), 2);
-	    var region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 1);
-	    var region5Padded = makeRegionObj("Oceania"); // concat the regions into one row
-
-	    regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
-	  } else if (region === "North America") {
-	    regionData = padRegion(regionData, 1);
-	  }
-
-	  barChart(chart, settings, regionData);
-	  d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -70)");
-	  d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -115)");
-	  d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -150)");
-	  d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -190)"); // Define the div for the barChart rect tooltip
-
-	  var div = d3.select("body").append("div").attr("class", "tooltip-bar").style("opacity", 0); // hover over xaxis text
-
-	  d3.selectAll(".x.axis").selectAll("text").on("touchmove mousemove", function (d, i) {
-	    // clear previous enlarged text
-	    d3.selectAll(".enlarged").classed("enlarged", false);
-
-	    if (d3.select(this).text().indexOf("_gap") === -1) {
-	      var cityName = i18next.t(d3.select(this).text(), {
-	        ns: "cities"
-	      });
-	      d3.select(this).classed("enlarged", true);
-	      d3.selectAll(".x.axis g :not(#text_".concat(cityName, ")")).classed("fadeText", true);
-	      highlightElements(d3.select(this).text());
-	    }
-	  }).on("mouseout", function (d) {
-	    d3.selectAll(".x.axis g text").classed("fadeText", false);
-	    resetElements();
-	    var lastCity = d3.select(".enlarged").text();
-	    d3.select(".bar-group.".concat(i18next.t(lastCity, {
-	      ns: "cities"
-	    }))).select("rect").classed("active", true);
-	    d3.select("#city".concat(i18next.t(lastCity, {
-	      ns: "cities"
-	    }))).classed("cityactive", true);
-	  });
-	  d3.selectAll(".bar-group").on("touchmove mousemove", function (d, i) {
-	    // Clear previous enlarged text
-	    d3.selectAll(".enlarged").classed("enlarged", false); // Enlarge current text
-
-	    var thisCity = i18next.t(d.city, {
-	      ns: "cities"
-	    });
-	    d3.select("#text_".concat(thisCity)).classed("enlarged", true);
-	    var count = i + 1;
-	    highlightElements(d.city); // Tooltip
-
-	    var displayName = i18next.t(d.city, {
-	      ns: "displayName"
-	    });
-	    var thisValue = d.storeOrig ? d.storeOrig : d.value;
-	    var tipx = 30;
-	    var tipy = -50;
-	    div.style("opacity", 1);
-	    div.html("#".concat(count, ". ").concat(displayName, " <br>").concat(globalSettings.formatNum(thisValue), " ").concat(i18next.t("emissions per cap", {
-	      ns: "units"
-	    }))).style("left", d3.event.pageX + tipx + "px").style("top", d3.event.pageY + tipy + "px");
-	  }).on("mouseout", function (d) {
-	    div.style("opacity", 0);
-	    resetElements();
-	    var lastCity = d3.select(".enlarged").text();
-	    d3.select(".bar-group.".concat(i18next.t(lastCity, {
-	      ns: "cities"
-	    }))).select("rect").classed("active", true);
-	    d3.select("#city".concat(i18next.t(lastCity, {
-	      ns: "cities"
-	    }))).classed("cityactive", true);
-	  });
-	}
-
-	function drawLegend() {
-	  var xpos = settingsAttr[selectedAttribute].xpos;
-	  var rectDim = 15; // rect fill fn
-
-	  var getFill = function getFill(d, i) {
-	    return settingsAttr[selectedAttribute].colourRange[i];
-	  }; // Fn to display value of each level
-
-
-	  var getText = function getText(i, j) {
-	    if (selectedAttribute === "protocol") {
-	      return i18next.t("".concat(selectedAttribute).concat(j + 1), {
-	        ns: "legend"
-	      });
-	    } else if (selectedAttribute === "region") {
-	      return "";
-	    } else {
-	      var levelVal;
-	      if (j === 0) levelVal = data[selectedAttribute].lims[j];else levelVal = data[selectedAttribute].levels[j - 1];
-	      levelVal = settingsAttr[selectedAttribute].formatLevel ? settingsAttr[selectedAttribute].formatLevel(levelVal) : levelVal;
-	      return "".concat(levelVal, "+");
-	    }
-	  }; // div for the barChart rect tooltip
-
-
-	  var divLegend = d3.select("body").append("div").attr("class", "tooltip-legend").style("opacity", 0); // Create the umbrella group
-
-	  var rectGroups = svgCB.attr("class", "legendCB").selectAll(".legend").data(settingsAttr[selectedAttribute].colourRange); // Append g nodes (to be filled with a rect and a text) to umbrella group
-
-	  var newGroup = rectGroups.enter().append("g").attr("class", "legend").attr("id", function (d, i) {
-	    return "cb".concat(i);
-	  }); // add rects
-
-	  newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
-	    return 51 + i * 85;
-	  }).attr("fill", getFill); // hover
-
-	  newGroup.selectAll(".legend rect").on("touchmove mousemove", function (d, j) {
-	    if (selectedAttribute === "protocol") {
-	      var thisText = i18next.t("".concat(selectedAttribute).concat(j + 1), {
-	        ns: "legend"
-	      });
-	      divLegend.style("opacity", 1);
-	      divLegend.html("<b>".concat(thisText, "</b>: ").concat(i18next.t("".concat(thisText), {
-	        ns: "protocolFullName"
-	      }))).style("left", d3.event.pageX - 100 + "px").style("top", d3.event.pageY - 70 + "px");
-	    }
-	  }).on("mouseout", function (d) {
-	    divLegend.style("opacity", 0);
-	  }); // add text
-
-	  newGroup.append("text").attr("class", "legendText").text(getText).attr("y", 18).attr("x", function (d, i) {
-	    return xpos[i];
-	  }); // Update rect fill for any new colour arrays passed in
-
-	  rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
-
-	  rectGroups.select("text").text(getText).attr("x", function (d, i) {
-	    return xpos[i];
-	  });
-	  rectGroups.exit().remove(); // Unit text
-
-	  var unitText = settingsAttr[selectedAttribute].units;
-	  var unitDisplay = d3.select(".units");
-	  unitDisplay.text(unitText);
-
-	  if (selectedAttribute === "HDD" || selectedAttribute === "HDD" || selectedAttribute === "low_bua_pc_2014" || selectedAttribute === "high_bua_pc_2014") {
-	    d3.select(".units").classed("unitsactive", true);
-	  } else d3.select(".units").classed("unitsactive", false); // hover over units for definition text
-
-
-	  var divUnits = d3.select("body").append("div").attr("class", "tooltip-units").style("opacity", 0);
-	  unitDisplay.on("touchmove mousemove", function () {
-	    if (settingsAttr[selectedAttribute].unitdef) {
-	      divUnits.style("opacity", 1);
-	      divUnits.html("<b>".concat(i18next.t(selectedAttribute, {
-	        ns: "attributes"
-	      }), "</b>: ").concat(settingsAttr[selectedAttribute].unitdef)).style("left", d3.event.pageX - 100 + "px").style("top", d3.event.pageY - 70 + "px");
-	    }
-	  }).on("mouseout", function (d) {
-	    divUnits.style("opacity", 0);
-	  });
-	} // -----------------------------------------------------------------------------
-	// Fn to load attribute data
-
-
-	var loadData = function loadData(cb) {
-	  if (!data[selectedAttribute]) {
-	    d3.json("data/cityApp_attributes_consolidated_".concat(selectedAttribute, ".json"), function (err, filedata) {
-	      data[selectedAttribute] = filedata; // Find data [min, max] for all attributes except Region and store in "lims"
-
-	      if (settingsAttr[selectedAttribute].whichLim) {
-	        if (settingsAttr[selectedAttribute].whichLim === "d3extent") {
-	          data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function (d) {
-	            return d.value;
-	          });
-	        } else if (settingsAttr[selectedAttribute].whichLim === "d3mean") {
-	          var thisMean = d3.mean(data[selectedAttribute], function (d) {
-	            return d.value;
-	          });
-	          data[selectedAttribute]["lims"] = [thisMean - stats.getTail(thisMean, twoSigma), thisMean + stats.getTail(thisMean, twoSigma)];
-	        }
-	      } // else: region handled separately in colourBars()
-	      // Floor to nearest modx except for region and protocol
-
-
-	      if (data[selectedAttribute]["lims"]) {
-	        if (settingsAttr[selectedAttribute].modx) {
-	          var modx = settingsAttr[selectedAttribute].modx;
-	          data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map(function (x) {
-	            return Math.floor(x / modx) * modx;
-	          });
-	        }
-	      }
-
-	      cb();
-	    });
-	  } else {
-	    cb();
-	  }
-	};
-
-	function getMapping() {
-	  if (data[selectedAttribute].lims) {
-	    var d0 = data[selectedAttribute].lims[0];
-	    var d1 = data[selectedAttribute].lims[1];
-	    var mapping = d3.scaleQuantile().domain([d0, d1]).range(settingsAttr[selectedAttribute].colourRange);
-	    var levels;
-
-	    if (!settingsAttr[selectedAttribute].cbValues) {
-	      levels = mapping.quantiles();
-	    } else {
-	      // protocol
-	      levels = settingsAttr[selectedAttribute].cbValues;
-	    } // store mappings in data object array
-
-
-	    data[selectedAttribute]["mappingFn"] = mapping;
-	    data[selectedAttribute]["levels"] = levels;
-	  }
-	} // -----------------------------------------------------------------------------
-
-
-	function uiHandler(event) {
-	  d3.selectAll(".data").selectAll("rect").classed("isNan", false);
-	  selectedAttribute = event.target.value;
-
-	  if (selectedAttribute === "none") {
-	    d3.selectAll(".bar-group rect").style("fill", noneFill);
-	    drawLegend(); // clears legend
-	  } else {
-	    loadData(function () {
-	      getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
-
-	      colourBars(); // applies colour to each bar in barChart
-
-	      drawLegend(); // city card
-
-	      if (newText) {
-	        if (newText[9]) {
-	          newText = newText.slice(0, 9); // rm last two elements
-
-	          if (selectedAttribute === "protocol" || selectedAttribute === "year") {
-	            showCityCard(newText);
-	            return;
-	          }
-	        }
-
-	        if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
-	          var cityName = d3.selectAll(".enlarged").text();
-	          addNewText(selectedAttribute, cityName);
-	          showCityCard(newText);
-	        }
-	      }
-	    });
-	  }
-	} // -----------------------------------------------------------------------------
-	// Initial page load
-
-
-	i18n.load(["src/i18n"], function () {
-	  // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
-	  d3.queue().defer(d3.json, "data/cityApp_attributes_consolidated_fixedSet.json")["await"](function (error, datafile) {
-	    dataGHG = datafile;
-	    dataGHG.map(function (d) {
-	      d.scope1 = d3.format(".3n")(d.scope1 / 1e6);
-
-	      if (Object.keys(offscaleDict).find(function (k) {
-	        return k === d.city;
-	      })) {
-	        d.storeOrig = d.s1PerCap;
-	        d.s1PerCap = offscaleDict[d.city];
-	      }
-	    });
-	    pageText();
-	    drawMap();
-	    addRect();
-	    var textSet = [{
-	      id: 1,
-	      text: i18next.t("initTitle", {
-	        ns: "cityCard"
-	      })
-	    }, {
-	      id: 2,
-	      text: i18next.t("initRow1", {
-	        ns: "cityCard"
-	      })
-	    }, {
-	      id: 3,
-	      text: i18next.t("initRow2", {
-	        ns: "cityCard"
-	      })
-	    }, {
-	      id: 4,
-	      text: i18next.t("initRow3", {
-	        ns: "cityCard"
-	      })
-	    }, {
-	      id: 5,
-	      text: i18next.t("initRow4", {
-	        ns: "cityCard"
-	      })
-	    }];
-	    showCityCard(textSet); // Draw barCharts
-	    // Note: bars are coloured by css region when page first loads. No colour mapping necessary.
-
-	    showBarChart(chartEA, settingsRow1, "East Asia");
-	    showBarChart(chartNA, settingsRow2, "North America");
-	    showBarChart(chartEU, settingsRow3, "Europe");
-	    showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
-	    d3.selectAll(".data svg").style("overflow", "visible"); // y-label
-
-	    d3.select("#barChart_groupRow3").append("text").attr("text-anchor", "middle").text(i18next.t("yaxText", {
-	      ns: "chartHeadings"
-	    })).attr("class", "yaxLabel").attr("transform", function (d) {
-	      return "translate(" + -35 + " " + -135 + ")rotate(-90)";
-	    });
-	    appendArrow("East Asia");
-	    appendArrow("North America");
-	    appendArrow("Europe");
-	    appendArrow("Southeast Asia");
-	    appendArrow("Latin America & Caribbean");
-	    appendArrow("South Asia");
-	    plotHeadings("h1");
-	    plotHeadings("h2");
-	    plotHeadings("h3");
-	    plotHeadings("h4");
-	    plotHeadings("h5");
-	    plotHeadings("h6");
-	    plotHeadings("h7");
-	    plotHeadings("h8");
-	    plotHeadings("h9");
-	  });
-	});
-	$(document).on("change", uiHandler);
-
-	function plotHeadings(h) {
-	  d3.select("#".concat(h)).text(i18next.t(h, {
-	    ns: "chartHeadings"
-	  }));
-	}
-
-	function highlightElements(cityName) {
-	  var idName = i18next.t(cityName, {
-	    ns: "cities"
-	  }); // Clear Previous
-
-	  resetElements(); // Update city card
-
-	  var thisCountry = dataGHG.filter(function (d) {
-	    return d.city === cityName;
-	  })[0]["country"];
-	  var thisScope1 = dataGHG.filter(function (d) {
-	    return d.city === cityName;
-	  })[0]["scope1"];
-	  var thisYear = dataGHG.filter(function (d) {
-	    return d.city === cityName;
-	  })[0]["year"];
-	  var thisDataset = dataGHG.filter(function (d) {
-	    return d.city === cityName;
-	  })[0]["dataset"];
-	  var thisProtocol = dataGHG.filter(function (d) {
-	    return d.city === cityName;
-	  })[0]["protocol"];
-	  var displayName = i18next.t(cityName, {
-	    ns: "displayName"
-	  });
-	  newText = [{
-	    id: 1,
-	    text: "".concat(displayName, ", ").concat(thisCountry)
-	  }, {
-	    id: 2,
-	    text: i18next.t("scope1Row", {
-	      ns: "cityCard"
-	    })
-	  }, {
-	    id: 3,
-	    text: "".concat(thisScope1, " ").concat(i18next.t("scope1", {
-	      ns: "units"
-	    }), " ").concat(i18next.t("defn", {
-	      ns: "units"
-	    }))
-	  }, {
-	    id: 4,
-	    text: i18next.t("yearRow", {
-	      ns: "cityCard"
-	    })
-	  }, {
-	    id: 5,
-	    text: thisYear
-	  }, {
-	    id: 6,
-	    text: i18next.t("datasetRow", {
-	      ns: "cityCard"
-	    })
-	  }, {
-	    id: 7,
-	    text: i18next.t(thisDataset, {
-	      ns: "datasets"
-	    })
-	  }, {
-	    id: 8,
-	    text: i18next.t("protocolRow", {
-	      ns: "cityCard"
-	    })
-	  }, {
-	    id: 9,
-	    text: i18next.t(thisProtocol, {
-	      ns: "protocol"
-	    })
-	  }];
-
-	  if (data[selectedAttribute]) {
-	    if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
-	      addNewText(selectedAttribute, cityName);
-	    }
-	  }
-
-	  showCityCard(newText); // Highlight current city on map, bars and barChart x-axis
-
-	  d3.select(".bar-group.".concat(idName)).select("rect").classed("active", true);
-	  d3.selectAll(".bar-group:not(.".concat(idName, ")")).select("rect").classed("fade", true);
-	  d3.selectAll("#city" + idName).classed("cityactive", true);
-	  d3.selectAll(".worldcity:not(#city" + idName + ")").classed("cityfade", true);
-	  d3.selectAll(".worldcountry:not(#map".concat(i18next.t(thisCountry, {
-	    ns: "countries"
-	  }), ")")).classed("countryfade", true);
-	} // Adds to newText obj array for city card
-
-
-	function addNewText(attr, cityName) {
-	  var thisAttr;
-	  var val = data[attr].filter(function (d) {
-	    return d.city === cityName;
-	  })[0]["value"];
-
-	  if (typeof val === "string" || val instanceof String) {
-	    thisAttr = val; // for region string
-	  } else {
-	    thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
-	  }
-
-	  var thisUnit = thisAttr === "N/A" ? "" : i18next.t(attr, {
-	    ns: "units"
-	  });
-	  newText.push({
-	    id: 10,
-	    text: i18next.t(attr, {
-	      ns: "attributes"
-	    })
-	  }, {
-	    id: 11,
-	    text: "".concat(thisAttr, " ").concat(thisUnit)
-	  });
-	} // Reset elements to original style before selection
-
-
-	function resetElements() {
-	  // reset bar opacity
-	  d3.selectAll(".bar-group").selectAll("rect").classed("active", false).classed("fade", false); // Clear previous enlarged text
-	  // d3.selectAll(".enlarged").classed("enlarged", false);
-	  // reset map highlight classes
-
-	  d3.selectAll(".cityactive").classed("cityactive", false);
-	  d3.selectAll(".cityfade").classed("cityfade", false);
-	  d3.selectAll(".countryfade").classed("countryfade", false);
-	} // function zoomed() {
-	//   const g = d3.select("#map").select(".mapg");
-	//   g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
-	//   g.attr("transform", d3.event.transform); // updated for d3 v4
-	// }
-	// const zoom = d3.zoom()
-	//     .on("zoom", zoomed);
-	// function appendArrow(geogroup, data, city) {
-
-
-	function appendArrow(region) {
-	  var arrowdata = [];
-	  var chartId = i18next.t(region, {
-	    ns: "barchartGroups"
-	  });
-	  var ns;
-	  if (region === "Europe") ns = "".concat(chartId, "_").concat(region);else if (region === "Southeast Asia") ns = "".concat(chartId, "_SEasia");else if (region === "Latin America & Caribbean") ns = "".concat(chartId, "_LA");else if (region === "South Asia") ns = "".concat(chartId, "_SA");else if (region === "N Africa & W Asia") ns = "".concat(chartId, "_NAWA");else ns = chartId;
-	  var xpos = settingsArr[ns].xpos;
-	  var ypos = settingsArr[ns].ypos;
-	  var len = settingsArr[ns].arrowlength;
-	  var gid = settingsArr[ns].gid;
-	  var margin = {
+	  var mapMargin = {
 	    top: 0,
 	    right: 0,
 	    bottom: 0,
 	    left: 0
 	  };
-	  var width = 200 - margin.left - margin.right;
-	  var height = 200 - margin.top - margin.bottom;
-	  var vals = [];
-	  var count = 0;
-	  dataGHG.filter(function (d) {
-	    if (d.region === region) {
-	      if (d.storeOrig) {
-	        vals.push(d.storeOrig);
-	        arrowdata.push({
-	          id: count,
-	          name: "arrow" + count,
-	          path: "M 2,2 L2,11 L10,6 L2,2"
-	        });
-	        count++;
+	  var mapWidth = 850 - mapMargin.left - mapMargin.right;
+	  var mapHeight = 290 - mapMargin.top - mapMargin.bottom; // barChart legend
+
+	  var margin = {
+	    top: 7,
+	    right: 5,
+	    bottom: 0,
+	    left: 0
+	  };
+	  var cbWidth = 520 - margin.left - margin.right;
+	  var cbHeight = 35 - margin.top - margin.bottom; // Bar charts
+
+	  var chartEA = d3.select(".data.EAdata").append("svg").attr("id", "barChart_groupEastAsia");
+	  var chartNA = d3.select(".data.NAdata").append("svg").attr("id", "barChart_groupNAmer");
+	  var chartEU = d3.select(".data.EUdata").append("svg").attr("id", "barChart_groupRow3");
+	  var chartRow4 = d3.select(".data.dataRow4").append("svg").attr("id", "barChart_groupRow4"); // Colour Bar
+
+	  var svgCB = d3.select("#barChartLegend").select("svg").attr("width", cbWidth).attr("height", cbHeight).attr("transform", "translate(120,0)").style("vertical-align", "middle"); // -----------------------------------------------------------------------------
+	  // FNS
+	  // page texts
+
+	  function pageText() {
+	    d3.select("#download").html(i18next.t("downloadText", {
+	      ns: "pageText"
+	    }));
+	    d3.select("#titletag").html(i18next.t("titletag", {
+	      ns: "pageText"
+	    }));
+	    d3.select("#pageTitle").html(i18next.t("title", {
+	      ns: "pageText"
+	    }));
+	  }
+
+	  function addRect() {
+	    // city card
+	    var svgCityCard = d3.select("#mycityCardDiv").append("svg").attr("width", 273).attr("height", mapHeight);
+	    var svg = svgCityCard.attr("width", settingsCityCard.width) // col 2 width
+	    .attr("height", mapHeight);
+	    var g = svg.append("g").attr("id", "cityCardg");
+	    g.append("rect").attr("width", settingsCityCard.rect.width).attr("height", settingsCityCard.rect.height).attr("x", settingsCityCard.rect.pos[0]).attr("y", settingsCityCard.rect.pos[1]);
+	  } // ----------------------------------------------------------------
+
+
+	  var card = d3.select("#mycityCardDiv");
+	  var removedSelection = d3.select();
+
+	  function showCityCard(textSet) {
+	    var data = textSet;
+	    removedSelection.remove();
+	    var selection = card.selectAll(".cardrow", function (d) {
+	      // Binds data by id
+	      return d.id;
+	    }).data(data);
+	    selection.enter().append("div").attr("class", function (d, i) {
+	      return i === 0 ? "cardrow titlerow row".concat(i) : "cardrow subrow row".concat(i);
+	    }).html(function (d) {
+	      return d.text;
+	    });
+	    selection.attr("class", function (d, i) {
+	      return i === 0 ? "cardrow titlerow row".concat(i) : "cardrow updated row".concat(i);
+	    }).html(function (d) {
+	      return d.text;
+	    }); //  *********************** REGARDE!!!!!!*****************************************************************************
+
+	    removedSelection = selection.exit().attr("class", "oldrow removed").html(function (d) {// return d.text;
+	    });
+	  } // ----------------------------------------------------------------
+
+
+	  function colourBars() {
+	    // Colour bars according to selected attribute
+	    d3.selectAll(".bar-group").each(function (d) {
+	      if (d.city.indexOf("_gap") === -1) {
+	        var thisCity = d.city;
+	        var thisColour;
+
+	        if (selectedAttribute === "region") {
+	          var thisRegion = data[selectedAttribute].filter(function (p) {
+	            return p.city === thisCity;
+	          })[0].value;
+	          thisColour = i18next.t(thisRegion, {
+	            ns: "regionColours"
+	          });
+	        } else {
+	          var val = data[selectedAttribute].filter(function (p) {
+	            return p.city === thisCity;
+	          })[0].value;
+
+	          if (val === null) {
+	            d3.select(this).select("rect").classed("isNan", true);
+	            thisColour = "none";
+	          } else {
+	            thisColour = data[selectedAttribute].mappingFn(val);
+	          }
+	        } // Apply thisColour to bar
+
+
+	        d3.select(this).select("rect").style("fill", thisColour);
 	      }
-	    }
+	    });
+	  } // ----------------------------------------------------------------
+	  // Map reset button
+
+
+	  d3.select("#mapResetButton").on("click", function () {
+	    // Reset zoom. NB: must apply reset to svg not g
+	    // const svg = d3.select("#map").select("svg");
+	    // zoom.transform(svg, d3.zoomIdentity);
+	    // Clear previous enlarged text and selected bar
+	    d3.selectAll(".enlarged").classed("enlarged", false);
+	    d3.selectAll("rect.active").classed("active", false);
+	    d3.selectAll(".cityactive").classed("cityactive", false);
 	  });
 
-	  var _loop = function _loop(idx) {
-	    var svg = d3.select("#barChart_".concat(chartId)).append("g").attr("class", "barMarker").attr("id", "g_".concat(gid).concat(idx)).attr("height", height + margin.top + margin.bottom).attr("transform", "translate(" + xpos[idx] + "," + ypos[idx] + ")") // posn of arrow and text
-	    .append("svg").attr("width", width + margin.left + margin.right);
-	    var defs = svg.append("svg:defs");
-	    var paths = svg.append("svg:g").attr("id", "markers".concat(idx));
-	    defs.selectAll("marker").data(arrowdata).enter().append("svg:marker").attr("id", function (d) {
-	      return "marker_arrow".concat(idx);
-	    }).attr("markerHeight", 13).attr("markerWidth", 13).attr("markerUnits", "strokeWidth").attr("orient", "auto").attr("refX", 9.5).attr("refY", 6).append("svg:path").attr("d", function (d) {
-	      return d.path;
+	  function drawMap() {
+	    var options = [{
+	      name: "Natural Earth",
+	      projection: d3.geoNaturalEarth()
+	    }];
+	    options.forEach(function (o) {
+	      o.projection.rotate([0, 0]).center([40, 0]);
 	    });
-	    paths.selectAll("path").data(arrowdata).enter().append("svg:path").attr("d", function (d, i) {
-	      return "M 100, 0 V ".concat(len, ", 0 ");
-	    }).attr("stroke-width", 1.2).attr("marker-start", function (d) {
-	      return "url(#marker_stub".concat(idx, ")");
-	    }).attr("marker-end", function (d) {
-	      return "url(#marker_arrow".concat(idx, ")");
-	    }).attr("transform", function (d) {
-	      // adjusts arrow proportions
-	      return "scale(".concat(settingsArr[ns].arrowscale[0], " ").concat(settingsArr[ns].arrowscale[1], ")");
-	    }).append("svg:path").attr("d", function (d) {
-	      return d.path;
-	    }); // arrow text
+	    var projection = options[0].projection.scale(151).translate([mapWidth / 1.655, mapHeight / 1.67]);
+	    path = d3.geoPath().projection(projection).pointRadius([defaultRadius]);
+	    var graticule = d3.geoGraticule();
+	    var svg = d3.select("#map").append("svg").attr("width", mapWidth).attr("height", mapHeight).attr("transform", "translate(" + -25 + "," + 0 + ")");
+	    var g = svg.append("g");
+	    g.append("path").datum({
+	      type: "Sphere"
+	    }).attr("class", "sphere").attr("d", path).attr("fill", "#F4F7F7").attr("stroke", "grey");
+	    g.append("path").datum(graticule).attr("class", "graticule").attr("d", path);
+	    d3.json("".concat(urlRoot, "/geojson/world_countries.json"), function (error, world) {
+	      if (error) throw error;
+	      d3.json("".concat(urlRoot, "/geojson/our_cities.geojson"), function (error, cities) {
+	        if (error) throw error;
+	        g.attr("class", "mapg").selectAll("path").data(world.features).enter().append("path").attr("d", path).attr("id", function (d) {
+	          var mapName = i18next.t(d.properties.name, {
+	            ns: "countries"
+	          });
+	          return "map".concat(mapName);
+	        }).attr("class", "worldcountry") // tooltips
+	        .style("stroke-width", 1); // City markers from geojson file
 
-	    d3.select("#g_".concat(gid).concat(idx)).append("text").text(vals[idx]).attr("transform", function () {
-	      // adjust arrow proportions
-	      return "scale(".concat(settingsArr[ns].textscale[0], " ").concat(settingsArr[ns].textscale[1], ")\n            translate(").concat(settingsArr[ns].textposx[idx], " ").concat(settingsArr[ns].textposy[idx], ")");
+	        cities = g.selectAll("path").data(cities.features).enter().append("path").attr("d", path).attr("id", function (d) {
+	          var cityName = i18next.t(d.id, {
+	            ns: "reverse"
+	          });
+	          return "city" + i18next.t(cityName, {
+	            ns: "cities"
+	          });
+	        }).attr("class", function (d) {
+	          // const cityMatch = d.id;
+	          var cityMatch = i18next.t(d.id, {
+	            ns: "reverse"
+	          });
+	          var r = dataGHG.filter(function (d) {
+	            return d.city === cityMatch;
+	          })[0];
+	          if (r) return "worldcity ".concat(i18next.t(r.region, {
+	            ns: "regions"
+	          }));else return "horsService";
+	        }).attr("r", 10).on("mouseover", function (d) {
+	          // Clear any previous enlarged text in barChart x axis
+	          d3.selectAll(".enlarged").classed("enlarged", false); // Enlarge barChart x axis text of current city
+	          // const thisCity = i18next.t(d.id, {ns: "cities"});
+
+	          var thisCity = i18next.t(d.id, {
+	            ns: "reverse"
+	          });
+	          d3.select("#text_".concat(i18next.t(thisCity, {
+	            ns: "cities"
+	          }))).classed("enlarged", true); // highlightElements(d.id);
+
+	          highlightElements(thisCity);
+	        }).on("mouseout", function (d) {
+	          resetElements();
+	          var lastCity = d3.select(".enlarged").text();
+	          d3.select(".bar-group.".concat(i18next.t(lastCity, {
+	            ns: "cities"
+	          }))).select("rect").classed("active", true);
+	          d3.select("#city".concat(i18next.t(lastCity, {
+	            ns: "cities"
+	          }))).classed("cityactive", true);
+	        });
+	      }); // ./inner d3.json
+	    }); // ./outer d3.json
+	    // svg.call(zoom);
+	  } // -----------------------------------------------------------------------------
+
+
+	  function makeRegionObj(region) {
+	    var regionData = [];
+	    dataGHG.filter(function (d) {
+	      if (d.region === region) {
+	        var thisObj = {};
+	        thisObj.region = d.region;
+	        thisObj.city = d.city;
+	        thisObj.s1PerCap = d["s1PerCap"];
+	        thisObj.storeOrig = d.storeOrig ? d.storeOrig : null;
+	        regionData.push(thisObj);
+	      }
 	    });
+	    regionData.sort(function (a, b) {
+	      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+	    });
+	    return regionData;
+	  }
+
+	  function padRegion(data, n) {
+	    data.sort(function (a, b) {
+	      return d3.descending(a["s1PerCap"], b["s1PerCap"]);
+	    });
+
+	    for (var idx = 0; idx < n; idx++) {
+	      var thisObj = {};
+	      thisObj.region = data[0].region;
+	      thisObj.city = "".concat(data[0].region, "_gap").concat(idx);
+	      thisObj.s1PerCap = null;
+	      thisObj.storeOrig = null;
+	      data.push(thisObj);
+	    }
+
+	    return data;
+	  }
+
+	  function showBarChart(chart, settings, region) {
+	    var regionData = [];
+	    regionData = makeRegionObj(region);
+
+	    if (region === "Europe") {
+	      var regionDataPadded = padRegion(regionData, 3); // add "Southeast Asia"
+
+	      regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
+	    } else if (region === "Latin America & Caribbean") {
+	      var region1Padded = padRegion(regionData, 2);
+	      var region2Padded = padRegion(makeRegionObj("South Asia"), 2);
+	      var region3Padded = padRegion(makeRegionObj("Africa"), 2);
+	      var region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 1);
+	      var region5Padded = makeRegionObj("Oceania"); // concat the regions into one row
+
+	      regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
+	    } else if (region === "North America") {
+	      regionData = padRegion(regionData, 1);
+	    }
+
+	    barChart(chart, settings, regionData);
+	    d3.select("#barChart_groupEastAsia").select(".margin-offset").attr("transform", "translate(0, -70)");
+	    d3.select("#barChart_groupNAmer").select(".margin-offset").attr("transform", "translate(0, -115)");
+	    d3.select("#barChart_groupRow3").select(".margin-offset").attr("transform", "translate(0, -150)");
+	    d3.select("#barChart_groupRow4").select(".margin-offset").attr("transform", "translate(0, -190)"); // Define the div for the barChart rect tooltip
+
+	    var div = d3.select("body").append("div").attr("class", "tooltip-bar").style("opacity", 0); // hover over xaxis text
+
+	    d3.selectAll(".x.axis").selectAll("text").on("touchmove mousemove", function (d, i) {
+	      // clear previous enlarged text
+	      d3.selectAll(".enlarged").classed("enlarged", false);
+
+	      if (d3.select(this).text().indexOf("_gap") === -1) {
+	        var cityName = i18next.t(d3.select(this).text(), {
+	          ns: "cities"
+	        });
+	        d3.select(this).classed("enlarged", true);
+	        d3.selectAll(".x.axis g :not(#text_".concat(cityName, ")")).classed("fadeText", true);
+	        highlightElements(d3.select(this).text());
+	      }
+	    }).on("mouseout", function (d) {
+	      d3.selectAll(".x.axis g text").classed("fadeText", false);
+	      resetElements();
+	      var lastCity = d3.select(".enlarged").text();
+	      d3.select(".bar-group.".concat(i18next.t(lastCity, {
+	        ns: "cities"
+	      }))).select("rect").classed("active", true);
+	      d3.select("#city".concat(i18next.t(lastCity, {
+	        ns: "cities"
+	      }))).classed("cityactive", true);
+	    });
+	    d3.selectAll(".bar-group").on("touchmove mousemove", function (d, i) {
+	      // Clear previous enlarged text
+	      d3.selectAll(".enlarged").classed("enlarged", false); // Enlarge current text
+
+	      var thisCity = i18next.t(d.city, {
+	        ns: "cities"
+	      });
+	      d3.select("#text_".concat(thisCity)).classed("enlarged", true);
+	      var count = i + 1;
+	      highlightElements(d.city); // Tooltip
+
+	      var displayName = i18next.t(d.city, {
+	        ns: "displayName"
+	      });
+	      var thisValue = d.storeOrig ? d.storeOrig : d.value;
+	      var tipx = 30;
+	      var tipy = -50;
+	      div.style("opacity", 1);
+	      div.html("#".concat(count, ". ").concat(displayName, " <br>").concat(globalSettings.formatNum(thisValue), " ").concat(i18next.t("emissions per cap", {
+	        ns: "units"
+	      }))).style("left", d3.event.pageX + tipx + "px").style("top", d3.event.pageY + tipy + "px");
+	    }).on("mouseout", function (d) {
+	      div.style("opacity", 0);
+	      resetElements();
+	      var lastCity = d3.select(".enlarged").text();
+	      d3.select(".bar-group.".concat(i18next.t(lastCity, {
+	        ns: "cities"
+	      }))).select("rect").classed("active", true);
+	      d3.select("#city".concat(i18next.t(lastCity, {
+	        ns: "cities"
+	      }))).classed("cityactive", true);
+	    });
+	  }
+
+	  function drawLegend() {
+	    var xpos = settingsAttr[selectedAttribute].xpos;
+	    var rectDim = 15; // rect fill fn
+
+	    var getFill = function getFill(d, i) {
+	      return settingsAttr[selectedAttribute].colourRange[i];
+	    }; // Fn to display value of each level
+
+
+	    var getText = function getText(i, j) {
+	      if (selectedAttribute === "protocol") {
+	        return i18next.t("".concat(selectedAttribute).concat(j + 1), {
+	          ns: "legend"
+	        });
+	      } else if (selectedAttribute === "region") {
+	        return "";
+	      } else {
+	        var levelVal;
+	        if (j === 0) levelVal = data[selectedAttribute].lims[j];else levelVal = data[selectedAttribute].levels[j - 1];
+	        levelVal = settingsAttr[selectedAttribute].formatLevel ? settingsAttr[selectedAttribute].formatLevel(levelVal) : levelVal;
+	        return "".concat(levelVal, "+");
+	      }
+	    }; // div for the barChart rect tooltip
+
+
+	    var divLegend = d3.select("body").append("div").attr("class", "tooltip-legend").style("opacity", 0); // Create the umbrella group
+
+	    var rectGroups = svgCB.attr("class", "legendCB").selectAll(".legend").data(settingsAttr[selectedAttribute].colourRange); // Append g nodes (to be filled with a rect and a text) to umbrella group
+
+	    var newGroup = rectGroups.enter().append("g").attr("class", "legend").attr("id", function (d, i) {
+	      return "cb".concat(i);
+	    }); // add rects
+
+	    newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
+	      return 51 + i * 85;
+	    }).attr("fill", getFill); // hover
+
+	    newGroup.selectAll(".legend rect").on("touchmove mousemove", function (d, j) {
+	      if (selectedAttribute === "protocol") {
+	        var thisText = i18next.t("".concat(selectedAttribute).concat(j + 1), {
+	          ns: "legend"
+	        });
+	        divLegend.style("opacity", 1);
+	        divLegend.html("<b>".concat(thisText, "</b>: ").concat(i18next.t("".concat(thisText), {
+	          ns: "protocolFullName"
+	        }))).style("left", d3.event.pageX - 100 + "px").style("top", d3.event.pageY - 70 + "px");
+	      }
+	    }).on("mouseout", function (d) {
+	      divLegend.style("opacity", 0);
+	    }); // add text
+
+	    newGroup.append("text").attr("class", "legendText").text(getText).attr("y", 18).attr("x", function (d, i) {
+	      return xpos[i];
+	    }); // Update rect fill for any new colour arrays passed in
+
+	    rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
+
+	    rectGroups.select("text").text(getText).attr("x", function (d, i) {
+	      return xpos[i];
+	    });
+	    rectGroups.exit().remove(); // Unit text
+
+	    var unitText = settingsAttr[selectedAttribute].units;
+	    var unitDisplay = d3.select(".units");
+	    unitDisplay.text(unitText);
+
+	    if (selectedAttribute === "HDD" || selectedAttribute === "HDD" || selectedAttribute === "low_bua_pc_2014" || selectedAttribute === "high_bua_pc_2014") {
+	      d3.select(".units").classed("unitsactive", true);
+	    } else d3.select(".units").classed("unitsactive", false); // hover over units for definition text
+
+
+	    var divUnits = d3.select("body").append("div").attr("class", "tooltip-units").style("opacity", 0);
+	    unitDisplay.on("touchmove mousemove", function () {
+	      if (settingsAttr[selectedAttribute].unitdef) {
+	        divUnits.style("opacity", 1);
+	        divUnits.html("<b>".concat(i18next.t(selectedAttribute, {
+	          ns: "attributes"
+	        }), "</b>: ").concat(settingsAttr[selectedAttribute].unitdef)).style("left", d3.event.pageX - 100 + "px").style("top", d3.event.pageY - 70 + "px");
+	      }
+	    }).on("mouseout", function (d) {
+	      divUnits.style("opacity", 0);
+	    });
+	  } // -----------------------------------------------------------------------------
+	  // Fn to load attribute data
+
+
+	  var loadData = function loadData(cb) {
+	    if (!data[selectedAttribute]) {
+	      d3.json("".concat(urlRoot, "/data/cityApp_attributes_consolidated_").concat(selectedAttribute, ".json"), function (err, filedata) {
+	        data[selectedAttribute] = filedata; // Find data [min, max] for all attributes except Region and store in "lims"
+
+	        if (settingsAttr[selectedAttribute].whichLim) {
+	          if (settingsAttr[selectedAttribute].whichLim === "d3extent") {
+	            data[selectedAttribute]["lims"] = d3.extent(data[selectedAttribute], function (d) {
+	              return d.value;
+	            });
+	          } else if (settingsAttr[selectedAttribute].whichLim === "d3mean") {
+	            var thisMean = d3.mean(data[selectedAttribute], function (d) {
+	              return d.value;
+	            });
+	            data[selectedAttribute]["lims"] = [thisMean - stats.getTail(thisMean, twoSigma), thisMean + stats.getTail(thisMean, twoSigma)];
+	          }
+	        } // else: region handled separately in colourBars()
+	        // Floor to nearest modx except for region and protocol
+
+
+	        if (data[selectedAttribute]["lims"]) {
+	          if (settingsAttr[selectedAttribute].modx) {
+	            var modx = settingsAttr[selectedAttribute].modx;
+	            data[selectedAttribute]["lims"] = data[selectedAttribute]["lims"].map(function (x) {
+	              return Math.floor(x / modx) * modx;
+	            });
+	          }
+	        }
+
+	        cb();
+	      });
+	    } else {
+	      cb();
+	    }
 	  };
 
-	  for (var idx = 0; idx < vals.length; idx++) {
-	    _loop(idx);
+	  function getMapping() {
+	    if (data[selectedAttribute].lims) {
+	      var d0 = data[selectedAttribute].lims[0];
+	      var d1 = data[selectedAttribute].lims[1];
+	      var mapping = d3.scaleQuantile().domain([d0, d1]).range(settingsAttr[selectedAttribute].colourRange);
+	      var levels;
+
+	      if (!settingsAttr[selectedAttribute].cbValues) {
+	        levels = mapping.quantiles();
+	      } else {
+	        // protocol
+	        levels = settingsAttr[selectedAttribute].cbValues;
+	      } // store mappings in data object array
+
+
+	      data[selectedAttribute]["mappingFn"] = mapping;
+	      data[selectedAttribute]["levels"] = levels;
+	    }
+	  } // -----------------------------------------------------------------------------
+
+
+	  function uiHandler(event) {
+	    d3.selectAll(".data").selectAll("rect").classed("isNan", false);
+	    selectedAttribute = event.target.value;
+
+	    if (selectedAttribute === "none") {
+	      d3.selectAll(".bar-group rect").style("fill", noneFill);
+	      drawLegend(); // clears legend
+	    } else {
+	      loadData(function () {
+	        getMapping(); // defines fns to map attribute value to colour and legend rects for barChart
+
+	        colourBars(); // applies colour to each bar in barChart
+
+	        drawLegend(); // city card
+
+	        if (newText) {
+	          if (newText[9]) {
+	            newText = newText.slice(0, 9); // rm last two elements
+
+	            if (selectedAttribute === "protocol" || selectedAttribute === "year") {
+	              showCityCard(newText);
+	              return;
+	            }
+	          }
+
+	          if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
+	            var cityName = d3.selectAll(".enlarged").text();
+	            addNewText(selectedAttribute, cityName);
+	            showCityCard(newText);
+	          }
+	        }
+	      });
+	    }
+	  } // -----------------------------------------------------------------------------
+	  // Initial page load
+
+
+	  i18n.load(["".concat(urlRoot, "/src/i18n")], function () {
+	    // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
+	    d3.queue().defer(d3.json, "".concat(urlRoot, "/data/cityApp_attributes_consolidated_fixedSet.json"))["await"](function (error, datafile) {
+	      dataGHG = datafile;
+	      dataGHG.map(function (d) {
+	        d.scope1 = d3.format(".3n")(d.scope1 / 1e6);
+
+	        if (Object.keys(offscaleDict).find(function (k) {
+	          return k === d.city;
+	        })) {
+	          d.storeOrig = d.s1PerCap;
+	          d.s1PerCap = offscaleDict[d.city];
+	        }
+	      });
+	      pageText();
+	      drawMap();
+	      addRect();
+	      var textSet = [{
+	        id: 1,
+	        text: i18next.t("initTitle", {
+	          ns: "cityCard"
+	        })
+	      }, {
+	        id: 2,
+	        text: i18next.t("initRow1", {
+	          ns: "cityCard"
+	        })
+	      }, {
+	        id: 3,
+	        text: i18next.t("initRow2", {
+	          ns: "cityCard"
+	        })
+	      }, {
+	        id: 4,
+	        text: i18next.t("initRow3", {
+	          ns: "cityCard"
+	        })
+	      }, {
+	        id: 5,
+	        text: i18next.t("initRow4", {
+	          ns: "cityCard"
+	        })
+	      }];
+	      showCityCard(textSet); // Draw barCharts
+	      // Note: bars are coloured by css region when page first loads. No colour mapping necessary.
+
+	      showBarChart(chartEA, settingsRow1, "East Asia");
+	      showBarChart(chartNA, settingsRow2, "North America");
+	      showBarChart(chartEU, settingsRow3, "Europe");
+	      showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
+	      d3.selectAll(".data svg").style("overflow", "visible"); // y-label
+
+	      d3.select("#barChart_groupRow3").append("text").attr("text-anchor", "middle").text(i18next.t("yaxText", {
+	        ns: "chartHeadings"
+	      })).attr("class", "yaxLabel").attr("transform", function (d) {
+	        return "translate(" + -35 + " " + -135 + ")rotate(-90)";
+	      });
+	      appendArrow("East Asia");
+	      appendArrow("North America");
+	      appendArrow("Europe");
+	      appendArrow("Southeast Asia");
+	      appendArrow("Latin America & Caribbean");
+	      appendArrow("South Asia");
+	      plotHeadings("h1");
+	      plotHeadings("h2");
+	      plotHeadings("h3");
+	      plotHeadings("h4");
+	      plotHeadings("h5");
+	      plotHeadings("h6");
+	      plotHeadings("h7");
+	      plotHeadings("h8");
+	      plotHeadings("h9");
+	    });
+	  });
+	  $(document).on("change", uiHandler);
+
+	  function plotHeadings(h) {
+	    d3.select("#".concat(h)).text(i18next.t(h, {
+	      ns: "chartHeadings"
+	    }));
 	  }
+
+	  function highlightElements(cityName) {
+	    var idName = i18next.t(cityName, {
+	      ns: "cities"
+	    }); // Clear Previous
+
+	    resetElements(); // Update city card
+
+	    var thisCountry = dataGHG.filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["country"];
+	    var thisScope1 = dataGHG.filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["scope1"];
+	    var thisYear = dataGHG.filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["year"];
+	    var thisDataset = dataGHG.filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["dataset"];
+	    var thisProtocol = dataGHG.filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["protocol"];
+	    var displayName = i18next.t(cityName, {
+	      ns: "displayName"
+	    });
+	    newText = [{
+	      id: 1,
+	      text: "".concat(displayName, ", ").concat(thisCountry)
+	    }, {
+	      id: 2,
+	      text: i18next.t("scope1Row", {
+	        ns: "cityCard"
+	      })
+	    }, {
+	      id: 3,
+	      text: "".concat(thisScope1, " ").concat(i18next.t("scope1", {
+	        ns: "units"
+	      }), " ").concat(i18next.t("defn", {
+	        ns: "units"
+	      }))
+	    }, {
+	      id: 4,
+	      text: i18next.t("yearRow", {
+	        ns: "cityCard"
+	      })
+	    }, {
+	      id: 5,
+	      text: thisYear
+	    }, {
+	      id: 6,
+	      text: i18next.t("datasetRow", {
+	        ns: "cityCard"
+	      })
+	    }, {
+	      id: 7,
+	      text: i18next.t(thisDataset, {
+	        ns: "datasets"
+	      })
+	    }, {
+	      id: 8,
+	      text: i18next.t("protocolRow", {
+	        ns: "cityCard"
+	      })
+	    }, {
+	      id: 9,
+	      text: i18next.t(thisProtocol, {
+	        ns: "protocol"
+	      })
+	    }];
+
+	    if (data[selectedAttribute]) {
+	      if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
+	        addNewText(selectedAttribute, cityName);
+	      }
+	    }
+
+	    showCityCard(newText); // Highlight current city on map, bars and barChart x-axis
+
+	    d3.select(".bar-group.".concat(idName)).select("rect").classed("active", true);
+	    d3.selectAll(".bar-group:not(.".concat(idName, ")")).select("rect").classed("fade", true);
+	    d3.selectAll("#city" + idName).classed("cityactive", true);
+	    d3.selectAll(".worldcity:not(#city" + idName + ")").classed("cityfade", true);
+	    d3.selectAll(".worldcountry:not(#map".concat(i18next.t(thisCountry, {
+	      ns: "countries"
+	    }), ")")).classed("countryfade", true);
+	  } // Adds to newText obj array for city card
+
+
+	  function addNewText(attr, cityName) {
+	    var thisAttr;
+	    var val = data[attr].filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["value"];
+
+	    if (typeof val === "string" || val instanceof String) {
+	      thisAttr = val; // for region string
+	    } else {
+	      thisAttr = val === null ? "N/A" : d3.format(",")(val) ? d3.format(",")(val) : val;
+	    }
+
+	    var thisUnit = thisAttr === "N/A" ? "" : i18next.t(attr, {
+	      ns: "units"
+	    });
+	    newText.push({
+	      id: 10,
+	      text: i18next.t(attr, {
+	        ns: "attributes"
+	      })
+	    }, {
+	      id: 11,
+	      text: "".concat(thisAttr, " ").concat(thisUnit)
+	    });
+	  } // Reset elements to original style before selection
+
+
+	  function resetElements() {
+	    // reset bar opacity
+	    d3.selectAll(".bar-group").selectAll("rect").classed("active", false).classed("fade", false); // Clear previous enlarged text
+	    // d3.selectAll(".enlarged").classed("enlarged", false);
+	    // reset map highlight classes
+
+	    d3.selectAll(".cityactive").classed("cityactive", false);
+	    d3.selectAll(".cityfade").classed("cityfade", false);
+	    d3.selectAll(".countryfade").classed("countryfade", false);
+	  } // function zoomed() {
+	  //   const g = d3.select("#map").select(".mapg");
+	  //   g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
+	  //   g.attr("transform", d3.event.transform); // updated for d3 v4
+	  // }
+	  // const zoom = d3.zoom()
+	  //     .on("zoom", zoomed);
+	  // function appendArrow(geogroup, data, city) {
+
+
+	  function appendArrow(region) {
+	    var arrowdata = [];
+	    var chartId = i18next.t(region, {
+	      ns: "barchartGroups"
+	    });
+	    var ns;
+	    if (region === "Europe") ns = "".concat(chartId, "_").concat(region);else if (region === "Southeast Asia") ns = "".concat(chartId, "_SEasia");else if (region === "Latin America & Caribbean") ns = "".concat(chartId, "_LA");else if (region === "South Asia") ns = "".concat(chartId, "_SA");else if (region === "N Africa & W Asia") ns = "".concat(chartId, "_NAWA");else ns = chartId;
+	    var xpos = settingsArr[ns].xpos;
+	    var ypos = settingsArr[ns].ypos;
+	    var len = settingsArr[ns].arrowlength;
+	    var gid = settingsArr[ns].gid;
+	    var margin = {
+	      top: 0,
+	      right: 0,
+	      bottom: 0,
+	      left: 0
+	    };
+	    var width = 200 - margin.left - margin.right;
+	    var height = 200 - margin.top - margin.bottom;
+	    var vals = [];
+	    var count = 0;
+	    dataGHG.filter(function (d) {
+	      if (d.region === region) {
+	        if (d.storeOrig) {
+	          vals.push(d.storeOrig);
+	          arrowdata.push({
+	            id: count,
+	            name: "arrow" + count,
+	            path: "M 2,2 L2,11 L10,6 L2,2"
+	          });
+	          count++;
+	        }
+	      }
+	    });
+
+	    var _loop = function _loop(idx) {
+	      var svg = d3.select("#barChart_".concat(chartId)).append("g").attr("class", "barMarker").attr("id", "g_".concat(gid).concat(idx)).attr("height", height + margin.top + margin.bottom).attr("transform", "translate(" + xpos[idx] + "," + ypos[idx] + ")") // posn of arrow and text
+	      .append("svg").attr("width", width + margin.left + margin.right);
+	      var defs = svg.append("svg:defs");
+	      var paths = svg.append("svg:g").attr("id", "markers".concat(idx));
+	      defs.selectAll("marker").data(arrowdata).enter().append("svg:marker").attr("id", function (d) {
+	        return "marker_arrow".concat(idx);
+	      }).attr("markerHeight", 13).attr("markerWidth", 13).attr("markerUnits", "strokeWidth").attr("orient", "auto").attr("refX", 9.5).attr("refY", 6).append("svg:path").attr("d", function (d) {
+	        return d.path;
+	      });
+	      paths.selectAll("path").data(arrowdata).enter().append("svg:path").attr("d", function (d, i) {
+	        return "M 100, 0 V ".concat(len, ", 0 ");
+	      }).attr("stroke-width", 1.2).attr("marker-start", function (d) {
+	        return "url(#marker_stub".concat(idx, ")");
+	      }).attr("marker-end", function (d) {
+	        return "url(#marker_arrow".concat(idx, ")");
+	      }).attr("transform", function (d) {
+	        // adjusts arrow proportions
+	        return "scale(".concat(settingsArr[ns].arrowscale[0], " ").concat(settingsArr[ns].arrowscale[1], ")");
+	      }).append("svg:path").attr("d", function (d) {
+	        return d.path;
+	      }); // arrow text
+
+	      d3.select("#g_".concat(gid).concat(idx)).append("text").text(vals[idx]).attr("transform", function () {
+	        // adjust arrow proportions
+	        return "scale(".concat(settingsArr[ns].textscale[0], " ").concat(settingsArr[ns].textscale[1], ")\n              translate(").concat(settingsArr[ns].textposx[idx], " ").concat(settingsArr[ns].textposy[idx], ")");
+	      });
+	    };
+
+	    for (var idx = 0; idx < vals.length; idx++) {
+	      _loop(idx);
+	    }
+	  }
+	};
+
+	if (typeof Drupal !== "undefined") {
+	  Drupal.behaviors.dv = {
+	    attach: function attach(context, settings) {
+	      init(Drupal.settings.dv && Drupal.settings.dv.urlRoot ? Drupal.settings.dv.urlRoot : "");
+	    }
+	  };
+	} else {
+	  init();
 	}
 
 }());
