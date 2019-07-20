@@ -178,7 +178,7 @@ div.tooltip {
 
 #pageTitle {
   text-align: center;
-  left: 60px;
+  left: 115px;
   padding-bottom: 5px;
 }
 
@@ -186,8 +186,15 @@ div.tooltip {
 /* map */
 #mapResetButton {
   position: absolute;
-  left: 1038px; 
-  top: -43px;
+  left: 146px; 
+  top: 4px;
+}
+#helpButton {
+  position: absolute;
+  left: 122px; 
+  top: 4px;
+  color: #3b112d;
+
 }
 .worldcountry {
   fill: rgb(24, 71, 27);
