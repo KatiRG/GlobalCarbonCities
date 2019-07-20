@@ -1,0 +1,6 @@
+name = Global Carbon Cities DataViz
+machine name = globalcarboncities
+description = ""
+version = 0.0.2
+core = 7.x
+dependencies[] = libraries (>=2.0)
