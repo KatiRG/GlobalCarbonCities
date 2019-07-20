@@ -188,12 +188,17 @@ div.tooltip {
   position: absolute;
   left: 146px; 
   top: 4px;
+  background-color: #ffaa1b;
+  border-color: #fff;
+  color: #000;
 }
 #helpButton {
   position: absolute;
   left: 122px; 
   top: 4px;
-  color: #3b112d;
+  background-color: #ffaa1b;
+  border-color: #fff;
+  color: #000;
 
 }
 .worldcountry {
