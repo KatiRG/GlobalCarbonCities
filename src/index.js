@@ -92,6 +92,7 @@ d3.select("#helpButton")
 
 function createHelp() {
   const parameters = {};
+  parameters.parentContainerId = "#thisContainer";
   parameters.helpArray = [
     {
       linkType: "right",
@@ -101,8 +102,8 @@ function createHelp() {
       marginTop: 10,
       marginLeft: 10,
       textLengthByLine: 40,
-      myTitle: "Cities are hotspots of the global carbon cycle with considerable fossil fuel-related CO 2 emissions, hence are important focal points for investigating drivers of greenhouse gas emissions.",
-      myfooter: "some Footer"
+      myTitle: i18next.t("helpTitle", {ns: "helpOverlay"}),
+      myfooter: i18next.t("helpFooter", {ns: "helpOverlay"})
     }
   ];
   new window.Help( parameters );

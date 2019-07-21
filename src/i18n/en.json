@@ -1,5 +1,9 @@
 {
   "en": {
+    "helpOverlay": {
+      "helpTitle": "These interactive bar charts show the per capita CO₂ emissions for hundreds of cities world-wide, organized by geographical region.",
+      "helpFooter": "Data published in <a target='_blank' href='https://www.nature.com/articles/sdata2018280'>Nangini et al., 2019</a> and publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>."
+    },
     "units": {
       "emissions per cap": "[tCO₂eq/capita]",
       "defn": "<a target='_blank' href='http://www.ghgprotocol.org/sites/default/files/ghgp/standards/GHGP_GPC_0.pdf#page=13'>Definition</a>",
