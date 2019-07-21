@@ -103,7 +103,47 @@ function createHelp() {
       textLengthByLine: 60,
       myTitle: i18next.t("helpTitle", {ns: "helpOverlay"}),
       myfooter: i18next.t("helpFooter", {ns: "helpOverlay"})
-    }
+    },
+    {
+      linkType: "dotOnly",
+      divToHelpId: "helpCardName",
+      text: i18next.t("helpCardName", {ns: "helpOverlay"}),
+      marginTop: 100,
+      marginLeft: -312,
+      textLengthByLine: 30
+    },
+    {
+      linkType: "dotOnly",
+      divToHelpId: "helpMenuName",
+      text: i18next.t("helpMenuName", {ns: "helpOverlay"}),
+      marginTop: 340,
+      marginLeft: 290,
+      textLengthByLine: 60
+    },
+    {
+      linkType: "left",
+      divToHelpId: "helpUnitsName",
+      text: i18next.t("helpUnitsName", {ns: "helpOverlay"}),
+      marginTop: 370,
+      marginLeft: 720,
+      textLengthByLine: 35
+    },
+    {
+      linkType: "dotOnly",
+      divToHelpId: "helpBarsName",
+      text: i18next.t("helpBarsName", {ns: "helpOverlay"}),
+      marginTop: 500,
+      marginLeft: 100,
+      textLengthByLine: 35
+    },
+    {
+      linkType: "left",
+      divToHelpId: "helpBarHoverName",
+      text: i18next.t("helpBarHover", {ns: "helpOverlay"}),
+      marginTop: 600,
+      marginLeft: 80,
+      textLengthByLine: 40
+    },
   ];
   new window.Help( parameters );
 }
@@ -557,7 +597,7 @@ function drawLegend() {
   const unitText = settingsAttr[selectedAttribute].units;
   const unitDisplay = d3.select(".units");
   unitDisplay.text(unitText);
-  if (selectedAttribute === "HDD" || selectedAttribute === "HDD"
+  if (selectedAttribute === "HDD" || selectedAttribute === "CDD"
     || selectedAttribute === "low_bua_pc_2014" || selectedAttribute === "high_bua_pc_2014") {
     d3.select(".units").classed("unitsactive", true);
   } else d3.select(".units").classed("unitsactive", false);

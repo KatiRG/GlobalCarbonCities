@@ -32,7 +32,7 @@ text, .container {
 .helpOverlayTitle {
   color: #fff;
   font: bold;
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   margin-top: 13px;
   padding-left: 20px;
@@ -40,7 +40,7 @@ text, .container {
 }
 .helpOverlayFooter {
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   font-style: italic;
   text-align: left;
   margin-top: 955px;
