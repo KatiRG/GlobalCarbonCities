@@ -97,9 +97,12 @@ function createHelp() {
       linkType: "right",
       divToHelpId: "info_agree",
       text: "There is good consistency between TD and BU approaches in the partition of anthropogenic emissions between Agriculture & Waste, Fossil fuel production, and Biofuel & Biomass burning.",
+      footerDiv: "FOOTER",
       marginTop: 10,
       marginLeft: 10,
-      textLengthByLine: 40
+      textLengthByLine: 40,
+      myTitle: "Cities are hotspots of the global carbon cycle with considerable fossil fuel-related CO 2 emissions, hence are important focal points for investigating drivers of greenhouse gas emissions.",
+      myfooter: "some Footer"
     }
   ];
   new window.Help( parameters );
