@@ -26,6 +26,27 @@ text, .container {
   border: 1px solid #636363;
 }
 
+.helpOverlay {
+  top: 12px;
+}
+.helpOverlayTitle {
+  color: #fff;
+  font: bold;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 13px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.helpOverlayFooter {
+  color: #fff;
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+  margin-top: 955px;
+  margin-left: 20px;
+}
+
 ul {
     list-style: outside none none;
 }
@@ -178,7 +199,7 @@ div.tooltip {
 
 #pageTitle {
   text-align: center;
-  left: 60px;
+  left: 115px;
   padding-bottom: 5px;
 }
 
@@ -186,8 +207,20 @@ div.tooltip {
 /* map */
 #mapResetButton {
   position: absolute;
-  left: 1038px; 
-  top: -43px;
+  left: 146px; 
+  top: 4px;
+  background-color: #ffaa1b;
+  border-color: #fff;
+  color: #000;
+}
+#helpButton {
+  position: absolute;
+  left: 122px; 
+  top: 4px;
+  background-color: #ffaa1b;
+  border-color: #fff;
+  color: #000;
+
 }
 .worldcountry {
   fill: rgb(24, 71, 27);

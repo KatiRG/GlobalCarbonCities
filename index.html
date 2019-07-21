@@ -11,18 +11,32 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="container" id="thisContainer">
+
+    <!-- divs for help overlay -->
+    <div id="helpTitleName"></div>
+    <div id="helpCardName"></div>
+    <div id="helpMenuName"></div>
+    <div id="helpUnitsName"></div>
+    <div id="helpBarsName"></div>
+    <div id="helpBarHoverName"></div>
 
     <!-- header row -->
     <div class="row">
       <div class="col-lg-3" id="download"></div>
-      <div class="col-lg-7 headings" id="pageTitle"></div>
+      <div class="col-lg-6 headings" id="pageTitle"></div>
      
-      <div class="col-lg-3">
-        <ul class="nytg-sort" id="mapResetButton" >
-            <li>Clear</li>
+      <div class="col-lg-1">
+        <ul class="navbar-header">
+          <button id="mapResetButton" class="btn btn-info" type="button">Clear</button>
         </ul>
-      </div>  
+      </div> 
+      <div class="col-lg-1">
+        <ul class="navbar-header">
+          <button id="helpButton" class="btn btn-info" type="button">Help</button>
+        </ul>
+      </div> 
+
                     
     </div> <!-- ./header row -->
 
@@ -143,6 +157,8 @@
     <script src="lib/d3-geo.v1.min.js"></script>
     <script src="lib/d3-geo-projection.v2.min.js"></script>
     <script src="lib/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.class.js"></script>
+    <script src="lib/Help.js"></script>
     
     <script type="module" src="src/index.js"></script>
 
