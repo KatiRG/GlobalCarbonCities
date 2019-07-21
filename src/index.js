@@ -83,6 +83,28 @@ const svgCB = d3.select("#barChartLegend").select("svg")
     .attr("transform", "translate(120,0)")
     .style("vertical-align", "middle");
 
+// ----------------------------------------------------------------
+// Help button
+d3.select("#helpButton")
+    .on("click", function() {
+      createHelp();
+    });
+
+function createHelp() {
+  const parameters = {};
+  parameters.helpArray = [
+    {
+      linkType: "right",
+      divToHelpId: "info_agree",
+      text: "There is good consistency between TD and BU approaches in the partition of anthropogenic emissions between Agriculture & Waste, Fossil fuel production, and Biofuel & Biomass burning.",
+      marginTop: 10,
+      marginLeft: 10,
+      textLengthByLine: 40
+    }
+  ];
+  new window.Help( parameters );
+}
+
 // -----------------------------------------------------------------------------
 // FNS
 // page texts
