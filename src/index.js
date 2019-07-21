@@ -412,8 +412,8 @@ function showBarChart(chart, settings, region) {
     // add "Southeast Asia"
     regionData = regionDataPadded.concat(makeRegionObj("Southeast Asia"));
   } else if (region === "Latin America & Caribbean") {
-    const region1Padded = padRegion(regionData, 2);
-    const region2Padded = padRegion(makeRegionObj("South Asia"), 2);
+    const region1Padded = padRegion(regionData, 1);
+    const region2Padded = padRegion(makeRegionObj("South Asia"), 1);
     const region3Padded = padRegion(makeRegionObj("Africa"), 2);
     const region4Padded = padRegion(makeRegionObj("N Africa & W Asia"), 1);
     const region5Padded = makeRegionObj("Oceania");
@@ -625,7 +625,7 @@ function drawLegend() {
 // Fn to load attribute data
 const loadData = function(cb) {
   if (!data[selectedAttribute]) {
-    d3.json("data/cityApp_attributes_consolidated_${selectedAttribute}.json", function(err, filedata) {
+    d3.json(`data/cityApp_attributes_consolidated_${selectedAttribute}.json`, function(err, filedata) {
       data[selectedAttribute] = filedata;
 
       // Find data [min, max] for all attributes except Region and store in "lims"

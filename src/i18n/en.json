@@ -303,7 +303,13 @@
       "Canberra": "Canb",
       "Melbourne": "Melb",
       "Sydney": "Sydn",
-      "Wellington": "Well"
+      "Wellington": "Well",
+
+      "Barranquilla": "Bqui",
+      "Bogotá": "Bgta",
+      "Montreal": "Mntl",
+      "Santarém": "Srém",
+      "Windsor": "Wdsr"
     },
     "displayName": {
       "Ubon": "Ubon Ratchathani",
@@ -610,16 +616,17 @@
       "Canb": "Canberra",
       "Melb": "Melbourne",
       "Sydn": "Sydney",
-      "Well": "Wellington"      
+      "Well": "Wellington",
+
+      "Bqui": "Barranquilla",
+      "Bgta": "Bogotá",
+      "Mntl": "Montreal",
+      "Srém": "Santarém",
+      "Wdsr": "Windsor"
+
     },
     "cities": {
       "A A": "Addis_Ababa", 
-      "Adelaide": "Adelaide", 
-      "Aguascalientes": "Aguascalientes", 
-      "Ahmedabad": "Ahmedabad", 
-      "Albany": "Albany", 
-      "Amman": "Amman", 
-      "Amsterdam": "Amsterdam",
       "B A": "Buenos_Aires",
       "B H": "Belo_Horizonte",
       "B C": "Buffalo_City",
@@ -645,14 +652,12 @@
       "Pimpri-Chinchwad": "Pimpri-Chinchwad",
       "P T": "Pretoria_Tshwane",
       "R d J": "Rio_de_Janeiro",
-      "Rosario": "Rosario",
       "S A": "San_Antonio",
       "S C": "San_Carlos",
       "S F": "S_Francisco",
       "S L P": "San_Luis_Potosí",
       "S M": "Santa_Monica",
       "S R": "Santa_Rosa",
-      "Santiago de Guayaquil": "Santiago_de_Guayaquil",
       "S P": "Sao_Paulo",
       "S L": "St_Louis",
       "S L P": "San_Luis_Potosí",

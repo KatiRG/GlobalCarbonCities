@@ -23,6 +23,7 @@
  {"geometry": {"type": "Point", "coordinates": [77.567, 12.967]}, "type": "Feature", "properties": {"city": "Bangalore"}, "id": "Bangalore"},
  {"geometry": {"type": "Point", "coordinates": [78.467, 17.367]}, "type": "Feature", "properties": {"city": "Hyderabad"}, "id": "Hyderabad"},
  {"geometry": {"type": "Point", "coordinates": [31.05, -29.883]}, "type": "Feature", "properties": {"city": "Durban"}, "id": "Durban"},
- {"geometry": {"type": "Point", "coordinates": [38.733, 9.017]}, "type": "Feature", "properties": {"city": "Addis Ababa"}, "id": "Addis Ababa"}
+ {"geometry": {"type": "Point", "coordinates": [38.733, 9.017]}, "type": "Feature", "properties": {"city": "Addis Ababa"}, "id": "Addis Ababa"},
+ {"geometry": {"type": "Point", "coordinates": [72.68, 23.22]}, "type": "Feature", "properties": {"city": "Gand"}, "id": "Gand"}
 
 ]}
