@@ -95,13 +95,12 @@ function createHelp() {
   parameters.parentContainerId = "#thisContainer";
   parameters.helpArray = [
     {
-      linkType: "right",
-      divToHelpId: "info_agree",
-      text: "There is good consistency between TD and BU approaches in the partition of anthropogenic emissions between Agriculture & Waste, Fossil fuel production, and Biofuel & Biomass burning.",
-      footerDiv: "FOOTER",
-      marginTop: 10,
-      marginLeft: 10,
-      textLengthByLine: 40,
+      linkType: "dotOnly",
+      divToHelpId: "helpTitleName",
+      text: i18next.t("helpMapName", {ns: "helpOverlay"}),
+      marginTop: 100,
+      marginLeft: 250,
+      textLengthByLine: 60,
       myTitle: i18next.t("helpTitle", {ns: "helpOverlay"}),
       myfooter: i18next.t("helpFooter", {ns: "helpOverlay"})
     }
