@@ -438,17 +438,19 @@ function showBarChart(chart, settings, region) {
   // hover over xaxis text
   d3.selectAll(".x.axis").selectAll("text")
       .on("touchmove mousemove", function(d, i) {
-        // clear previous enlarged text
-        d3.selectAll(".enlarged").classed("enlarged", false);
+        if (d.indexOf("gap") === -1) {
+          // clear previous enlarged text
+          d3.selectAll(".enlarged").classed("enlarged", false);
 
-        if (d3.select(this).text().indexOf("_gap") === -1) {
-          const cityName = i18next.t(d3.select(this).text(), {ns: "cities"});
+          if (d3.select(this).text().indexOf("_gap") === -1) {
+            const cityName = i18next.t(d3.select(this).text(), {ns: "cities"});
 
-          d3.select(this).classed("enlarged", true);
-          d3.selectAll(`.x.axis g :not(#text_${cityName})`)
-              .classed("fadeText", true);
+            d3.select(this).classed("enlarged", true);
+            d3.selectAll(`.x.axis g :not(#text_${cityName})`)
+                .classed("fadeText", true);
 
-          highlightElements(d3.select(this).text());
+            highlightElements(d3.select(this).text());
+          }
         }
       })
       .on("mouseout", function(d) {
