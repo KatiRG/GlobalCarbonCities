@@ -10,17 +10,17 @@ export default {
     textposy: [-2, 2, 10]
   },
   groupNAmer: {
-    xpos: [-20, -3, 13, 30],
-    ypos: [-145, -139, -137, -135],
+    xpos: [-29, -12, 6, 22],
+    ypos: [-145, -139, -137, -136],
     arrowlength: 33,
     arrowscale: [.6, .8],
     gid: "NAmer",
     textscale: [.9, .9],
-    textposx: [28, 112, 33, 51],
+    textposx: [28, 112, 33, 56],
     textposy: [0, 14, -4, -5]
   },
   groupRow3_Europe: {
-    xpos: [-21],
+    xpos: [-29],
     ypos: [-172],
     arrowlength: 30,
     arrowscale: [.6, .8],
@@ -30,7 +30,7 @@ export default {
     textposy: [-5]
   },
   groupRow3_SEasia: {
-    xpos: [761],
+    xpos: [770],
     ypos: [-178],
     arrowlength: 30,
     arrowscale: [.6, .8],
@@ -40,7 +40,7 @@ export default {
     textposy: [10]
   },
   groupRow4_LA: {
-    xpos: [-22],
+    xpos: [-28],
     ypos: [-220],
     arrowlength: 30,
     arrowscale: [.6, .8],
@@ -50,7 +50,7 @@ export default {
     textposy: [14]
   },
   groupRow4_SA: {
-    xpos: [413],
+    xpos: [436],
     ypos: [-220],
     arrowlength: 30,
     arrowscale: [.6, .8],
