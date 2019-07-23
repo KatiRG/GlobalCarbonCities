@@ -1008,5 +1008,5 @@ if (typeof Drupal !== "undefined") {
     }
   };
 } else {
-  init();
+  init(".");
 }
