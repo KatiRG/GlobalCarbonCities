@@ -60,16 +60,16 @@ ul {
 }
 
 #logo_BNP {
-  text-align: center; 
-  left: -43px; 
+  text-align: center;
+  left: -43px;
 }
 #logo_GCP {
-  text-align: center; 
+  text-align: center;
   left: 257px;
 }
 #logo_CDP {
-  text-align: center; 
-  left: 590px; 
+  text-align: center;
+  left: 590px;
 }
 .footerClass {
   position: relative;
@@ -208,7 +208,7 @@ div.tooltip {
 /* map */
 #mapResetButton {
   position: absolute;
-  left: 146px; 
+  left: 146px;
   top: 4px;
   background-color: #ffaa1b;
   border-color: #fff;
@@ -216,7 +216,7 @@ div.tooltip {
 }
 #helpButton {
   position: absolute;
-  left: 122px; 
+  left: 122px;
   top: 4px;
   background-color: #ffaa1b;
   border-color: #fff;
@@ -244,11 +244,11 @@ div.tooltip {
   fill: #d15081;
 }
 .groupNAmer {
-  fill: #80c2ff;  
+  fill: #80c2ff;
 }
 .groupEurope {
   fill: #c398db;
-} 
+}
 .groupLatinAmer {
   fill: #ee8370;
 }
@@ -501,7 +501,6 @@ label {
 }
 
 .titlerow {
-  margin-top: -300px;
   font-weight: bold;
   font-size: 16px;
   color: #00563c;
@@ -530,6 +529,10 @@ label {
   color: #3b112d;
   font-weight: bold;
   font-size: 14px;
+}
+
+#mycityCardDiv {
+  background: #c7d1d9;
 }
 
 .cityCardSubrowTitle {
