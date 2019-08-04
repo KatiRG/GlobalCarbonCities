@@ -11,13 +11,13 @@ export default {
   },
   groupNAmer: {
     xpos: [-29, -12, 6, 22],
-    ypos: [-145, -139, -137, -136],
+    ypos: [-150, -144, -137, -136],
     arrowlength: 33,
     arrowscale: [.6, .8],
     gid: "NAmer",
     textscale: [.9, .9],
     textposx: [28, 112, 33, 56],
-    textposy: [0, 14, -4, -5]
+    textposy: [-5, 19, -11, -5]
   },
   groupRow3_Europe: {
     xpos: [-29],
