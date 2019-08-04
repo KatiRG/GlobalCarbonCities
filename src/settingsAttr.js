@@ -114,8 +114,4 @@ export default {
   formatNum: function(...args) {
     return this._selfFormatter.format(args);
   }
-  // mytest: function(...args) {
-  //   console.log("args: ", args)
-  //   console.log("this: ", this)
-  // }
 };
