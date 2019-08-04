@@ -56,7 +56,7 @@ export default {
     getDomain: function(data) {
       return [0, 10];
     },
-    ticks: 5,
+    ticks: 3,
     tickSizeOuter: 0
   },
 

@@ -1,12 +1,12 @@
 export default {
-  aspectRatio: 8.2,
+  aspectRatio: 7.5,
   margin: {
-    top: 33,
+    top: 0,
+    left: 0,
     right: 0,
-    bottom: 20,
-    left: 0
+    bottom: 50
   },
-  width: 1300,
+  width: 1200,
   groupPadding: 0.0,
   pOuter: 0.9,
   pInner: 0.15,
@@ -59,7 +59,7 @@ export default {
     getDomain: function(data) {
       return [0, 10];
     },
-    ticks: 5,
+    ticks: 3,
     tickSizeOuter: 1
   },
 

@@ -246,7 +246,7 @@ div.tooltip {
 .barMarker path {
   stroke: #555;
 }
-.offscaleText {
+.barMarker text {
   fill: #565656;
 }
 
@@ -292,7 +292,7 @@ div.tooltip {
 }
 
 .yaxLabel {
-  font-size: 17px;
+  font-size: 22px;
   fill: #565656;
 }
 
@@ -325,16 +325,18 @@ div.tooltip {
   opacity: 0;
 }
 .axis {
-  font: 11px sans-serif;
+  font: 22px sans-serif;
 }
 .x.axis text {
   fill: #4b4242;
+  font: 12px sans-serif;
+}
+
+.y.axis text {
+  fill: #565656;
 }
 #barChart_groupEastAsia .x.axis text {
   font-size: 11px;
-}
-.x.axis text{
-  font-size: 10px;
 }
 #barChart_groupEastAsia .enlarged {
   font-size: 16px !important;
@@ -417,7 +419,7 @@ label {
   stroke: none;
   color: #00563c;
   text-align: left;
-  margin-left: 41px;
+  margin-left: 27px;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {

@@ -392,6 +392,8 @@ const init = (urlRoot = "") => {
       regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
     } else if (region === "North America") {
       regionData = padRegion(regionData, 1);
+    } else if (region === "East Asia") {
+      regionData = padRegion(regionData, 3);
     }
 
     barChart(chart, settings, regionData);
