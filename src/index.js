@@ -5,8 +5,8 @@ import settingsRow3 from "./settingsRow3.js";
 import settingsRow4 from "./settingsRow4.js";
 
 // settings for other than charts
+import settingsMap from "./settingsMap.js";
 import settingsAttr from "./settingsAttr.js";
-import settingsCityCard from "./settingsCityCard.js";
 import settingsArr from "./settingsArrows.js";
 
 // ----------------------------------------------------
@@ -45,15 +45,9 @@ const init = (urlRoot = "") => {
   let newText;
 
   let path; // map path projection
-  const defaultRadius = 3;
 
   // ----------------------------------------------------
   // SVGs
-
-  // d3js World Map
-  const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
-  const mapWidth = 750 - mapMargin.left - mapMargin.right;
-  const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
   // barChart legend
   const margin = {top: 7, right: 5, bottom: 0, left: 0};
@@ -241,29 +235,30 @@ const init = (urlRoot = "") => {
       });
 
   function drawMap() {
-    const options = [
-      {name: "Natural Earth", projection: d3.geoNaturalEarth()}
-    ];
+    const mapWidth = settingsMap.width - settingsMap.margin.left - settingsMap.margin.right;
+    const mapHeight = settingsMap.height - settingsMap.margin.top - settingsMap.margin.bottom;
+    const options = settingsMap.projOptions.options;
+    const transScale = settingsMap.projOptions.transScale;
 
     options.forEach(function(o) {
-      o.projection.rotate([0, 0]).center([40, 0]);
+      o.projection.rotate(settingsMap.projOptions.rotateOrig).center(settingsMap.projOptions.centreOrig);
     });
 
     const projection = options[0]
         .projection
-        .scale(151)
-        .translate([mapWidth/1.655, mapHeight/1.67]);
+        .scale(settingsMap.scaleFactor)
+        .translate([mapWidth/transScale[0], mapHeight/transScale[1]]);
 
     path = d3.geoPath()
         .projection(projection)
-        .pointRadius([defaultRadius]);
+        .pointRadius([settingsMap.defaultRadius]);
 
     const graticule = d3.geoGraticule();
 
     const svg = d3.select("#map").append("svg")
         .attr("width", mapWidth)
         .attr("height", mapHeight)
-        .attr("transform", "translate(" + -25 + "," + 0 + ")");
+        .attr("transform", "translate(" + settingsMap.delta[0] + "," + settingsMap.delta[1] + ")");
 
     const g = svg.append("g");
 
@@ -308,7 +303,6 @@ const init = (urlRoot = "") => {
               return "city" + i18next.t(cityName, {ns: "cities"});
             })
             .attr("class", function(d) {
-              // const cityMatch = d.id;
               const cityMatch = i18next.t(d.id, {ns: "reverse"});
               const r = dataGHG.filter(function(d) {
                 return d.city === cityMatch;
