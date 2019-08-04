@@ -21,40 +21,27 @@
     <div id="helpBarsName"></div>
     <div id="helpBarHoverName"></div>
 
-    <!-- header row -->
     <div class="row">
       <div class="col-lg-3" id="download"></div>
       <div class="col-lg-7 headings" id="pageTitle"></div>
 
       <div class="col-lg-1">
-        <ul class="navbar-header">
-          <button id="clearButton" class="btn btn-info" type="button">Clear</button>
-        </ul>
+        <button id="clearButton" class="btn btn-info" type="button">Clear</button>
       </div>
       <div class="col-lg-1">
-        <ul class="navbar-header">
-          <button id="helpButton" class="btn btn-info" type="button">Help</button>
-        </ul>
+        <button id="helpButton" class="btn btn-info" type="button">Help</button>
       </div>
+    </div>
 
-
-    </div> <!-- ./header row -->
-
-
-    <!-- 2nd row -->
     <div class="row">
       <div class="col-lg-3"><div id="cityCardDiv"> </div></div>
       <div class="col-lg-9" id="map"> </div>
     </div>
 
-     <!-- Link to data and paper row -->
     <div class="row">
       <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"></div>
     </div>
 
-
-
-    <!-- row for barChart title and toggle buttons -->
     <div class="row">
       <div id="barChartCaption" class="col-lg-3 headings">Per capita emissions</div>
       <div class="col-lg-2" id="selector">
@@ -85,22 +72,21 @@
         </div>
       </div>
       <div class="col-lg-2 units"></div>
-    </div> <!-- .end row -->
+    </div>
 
     <!-- ****************************************** -->
     <!-- BAR CHARTS -->
     <!-- ****************************************** -->
 
-    <!-- BarChart ROW1: groupEastAsia -->
+    <!-- BarChart ROW1: East Asia -->
     <div class="row">
-      <!-- <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div> -->
       <div id="h1" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
         <div class="data EAdata"></div>
       </div>
     </div>
 
-    <!-- BarChart ROW2: groupNAmer -->
+    <!-- BarChart ROW2: N Amer -->
     <div class="row">
       <div id="h2" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
@@ -108,7 +94,7 @@
       </div>
     </div>
 
-    <!-- BarChart ROW3: groupEurope and groupSEAsia -->
+    <!-- BarChart ROW3: Europe and SE Asia -->
     <div class="row">
       <div id="h3" class="col-lg-8 headingClass"></div>
       <div id="h4" class="col-lg-4 headingClass"></div>
@@ -117,7 +103,7 @@
       </div>
     </div>
 
-    <!-- BarChart ROW4: groupLatinAmer, groupSEAsia, groupSAsia -->
+    <!-- BarChart ROW4: LatinAmer & Caribbean, South Asia, Africa, N Africa & W Asia, Oceania -->
      <div class="row">
       <div class="col-lg-12">
         <div id="h5" class="col-lg-3 headingClass"></div>
@@ -141,7 +127,6 @@
       <div class="col-lg-4 footerClass" id="logo_CDP"> <!-- ratio 1:2.8 -->
         <a target="_blank" href="https://www.cdp.net/en"><img src="img/CDP.png" title="CDP" width="114" height="40"/></a>
       </div>
-
     </footer>
 
     <script src="lib/jquery.min.js"></script>
@@ -151,7 +136,6 @@
     <script src="lib/queue.v1.min.js"></script>
     <script src="lib/stc_visualization_components/utils.min.js"></script>
     <script src="lib/stc_visualization_components/bar.js"></script>
-
     <script src="lib/d3-tip.js"></script>
     <script src="lib/d3-array.v1.min.js"></script>
     <script src="lib/d3-geo.v1.min.js"></script>
@@ -159,12 +143,7 @@
     <script src="lib/topojson.v1.min.js"></script>
     <script type="text/javascript" src="lib/jquery.class.js"></script>
     <script src="lib/Help.js"></script>
-
     <script type="module" src="src/index.js"></script>
-
-  </div>  <!-- ./container -->
-
-
-
+  </div>
 </body>
 </html>
