@@ -7,8 +7,8 @@
       "helpMapName": "Hover over any cirlce on the map to highlight it's per capita emissions in the corresponding bar chart below.",
       "helpMenuName": "Colour the bars by selecting an attribute. The colour scale will be displayed to the right of the dropdown menu.",
       "helpUnitsName": "Attributes BUA, CDD and HDD are explained by hovering over the unit displayed in the legend.",
-      "helpBarsName": "Bar charts show the per capita CO<sub>2</sub> emissions of each city, organized by geographical region.",
-      "helpBarHover": "Hover over a bar to highlight a city on the bar chart and the map, and display its statistics in the info area."
+      "helpBarsName": "Bar charts show the per capita CO2 emissions of each city, organized by geographical region.",
+      "helpBarHover": "Hover over any bar in the bar charts to highlight a city both on the bar chart and the map, and display its statistics in the info area."
     },
     "buttons": {
       "clearButton": "Clear",
