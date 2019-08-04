@@ -250,6 +250,10 @@ div.tooltip {
 }
 .barMarker text {
   fill: #565656;
+  font-size: 16px;
+}
+#barChart_groupEastAsia .barMarker text {
+  font-size: 15px;
 }
 
 .headingClass { /* svg stylings */
