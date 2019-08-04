@@ -257,38 +257,38 @@ div.tooltip {
   color: #565656;
 }
 #h1 {
-  left: 138px;
-  top: -20px;
+  left: 415px;
+  top: -15px;
 }
 #h2 {
-  left: 160px;
-  top: -101px;
+  left: 415px;
+  top: -77px;
 }
 #h3 {
-  left: -201px;
-  top: -121px;
+  left: 166px;
+  top: -91px;
 }
 #h4 {
-  left: -50px;
-  top: -121px;
+  left: 672px;
+  top: -91px;
 }
 #h5, #h6, #h7, #h8, #h9 {
-  top: -154px;
+  top: -135px;
 }
 #h5 {
   left: 109px;
 }
 #h6 {
-  left: 204px;
+  left: 215px;
 }
 #h7 {
-  left: 158px;
+  left: 298px;
 }
 #h8 {
-  left: 86px;
+  left: 294px;
 }
 #h9 {
-  left: 17px;
+  left: 244px;
 }
 
 .yaxLabel {

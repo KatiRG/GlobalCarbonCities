@@ -725,13 +725,20 @@ const init = (urlRoot = "") => {
           showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
 
           d3.selectAll(".data svg").style("overflow", "visible");
-          // y-label
+          // y-axis label for middle row
           d3.select("#barChart_groupRow3")
               .append("text").attr("text-anchor", "middle")
               .text(i18next.t("yaxText", {ns: "chartHeadings"}))
               .attr("class", "yaxLabel")
               .attr("transform", function(d) {
                 return "translate(" + (-35) + " " + (-135) + ")rotate(-90)";
+              });
+
+          d3.selectAll(".x.axis")
+              .selectAll("text")
+              .attr("text-anchor", "end")
+              .attr("transform", function(d) {
+                return "translate(" + (-14) + " " + (10) + ")rotate(-90)";
               });
 
           appendArrow("East Asia");
