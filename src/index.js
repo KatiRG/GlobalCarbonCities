@@ -794,7 +794,7 @@ const init = (urlRoot = "") => {
     const thisCountry = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["country"];
-    const thisScope1 = dataGHG.filter(function(d) {
+    let thisScope1 = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["scope1"];
     const thisYear = dataGHG.filter(function(d) {
@@ -806,6 +806,13 @@ const init = (urlRoot = "") => {
     const thisProtocol = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["protocol"];
+
+    // significant digits for scope 1
+    if (cityName === "Faro" || cityName === "Ajax" || cityName === "Band" || cityName === "Mont") {
+      thisScope1 = d3.format(".4f")(thisScope1);
+    } else {
+      thisScope1 = d3.format(".2f")(thisScope1);
+    }
 
     const displayName = i18next.t(cityName, {ns: "displayName"});
 
