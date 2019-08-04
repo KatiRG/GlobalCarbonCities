@@ -6,9 +6,14 @@ body {
 }
 text, .container {
   font-family: "Ubuntu", sans-serif;
+  width: 1000px !important;
 }
 .container {
-  height: 1120px;
+  border: 1px solid #B22222 !important;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 [class*="col-"], footer {
@@ -16,15 +21,6 @@ text, .container {
   border-radius: 6px;
   line-height: 40px;
   text-align: center;
-}
-
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  /*border: 1px solid #636363;*/
-  border: 1px solid #fff;
 }
 
 .helpOverlay {
@@ -61,15 +57,12 @@ ul {
 
 #logo_BNP {
   text-align: center;
-  left: -43px;
 }
 #logo_GCP {
   text-align: center;
-  left: 257px;
 }
 #logo_CDP {
   text-align: center;
-  left: 590px;
 }
 .footerClass {
   position: relative;
@@ -200,15 +193,15 @@ div.tooltip {
 
 #pageTitle {
   text-align: center;
-  left: 115px;
+  left: 24px;
   padding-bottom: 5px;
 }
 
 /*--------------------------*/
 /* map */
-#mapResetButton {
+#clearButton {
   position: absolute;
-  left: 146px;
+  left: 31px;
   top: 4px;
   background-color: #ffaa1b;
   border-color: #fff;
@@ -216,7 +209,7 @@ div.tooltip {
 }
 #helpButton {
   position: absolute;
-  left: 122px;
+  left: 15px;
   top: 4px;
   background-color: #ffaa1b;
   border-color: #fff;
@@ -531,7 +524,7 @@ label {
   font-size: 14px;
 }
 
-#mycityCardDiv {
+#cityCardDiv {
   background: #c7d1d9;
 }
 

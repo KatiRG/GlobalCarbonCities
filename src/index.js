@@ -159,7 +159,7 @@ const init = (urlRoot = "") => {
   }
 
   // ----------------------------------------------------------------
-  const card = d3.select("#mycityCardDiv");
+  const card = d3.select("#cityCardDiv");
   let removedSelection = d3.select();
 
   function showCityCard(textSet) {
@@ -190,13 +190,9 @@ const init = (urlRoot = "") => {
           return d.text;
         });
 
-    //  *********************** REGARDE!!!!!!*****************************************************************************
     removedSelection = selection
         .exit()
-        .attr("class", "oldrow removed")
-        .html(function(d) {
-          // return d.text;
-        });
+        .attr("class", "oldrow removed");
   }
 
   // ----------------------------------------------------------------
@@ -232,7 +228,7 @@ const init = (urlRoot = "") => {
 
   // ----------------------------------------------------------------
   // Map reset button
-  d3.select("#mapResetButton")
+  d3.select("#clearButton")
       .on("click", function() {
         // Reset zoom. NB: must apply reset to svg not g
         // const svg = d3.select("#map").select("svg");
