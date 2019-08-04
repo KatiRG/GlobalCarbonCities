@@ -52,7 +52,7 @@ const init = (urlRoot = "") => {
 
   // d3js World Map
   const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
-  const mapWidth = 850 - mapMargin.left - mapMargin.right;
+  const mapWidth = 750 - mapMargin.left - mapMargin.right;
   const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
   // barChart legend

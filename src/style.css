@@ -148,6 +148,9 @@ div.tooltip {
 
 /*--------------------------*/
 /* map */
+#map {
+  background-color: yellow;
+}
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
