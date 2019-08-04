@@ -147,9 +147,29 @@ const init = (urlRoot = "") => {
   // FNS
   // page texts
   function pageText() {
+    d3.select("#clearButton").html(i18next.t("clearButton", {ns: "buttons"}));
+    d3.select("#helpButton").html(i18next.t("helpButton", {ns: "buttons"}));
     d3.select("#download").html(i18next.t("downloadText", {ns: "pageText"}));
     d3.select("#titletag").html(i18next.t("titletag", {ns: "pageText"}));
     d3.select("#pageTitle").html(i18next.t("title", {ns: "pageText"}));
+    d3.select("#chartHeading").html(i18next.t("yaxText", {ns: "chartHeadings"}));
+    d3.select("label").html(i18next.t("label", {ns: "pageText"}));
+
+    // Dropdown menu
+    d3.select("#dropdownMenu").node()[0].text = i18next.t("val0", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[1].text = i18next.t("val1", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[2].text = i18next.t("val2", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[3].text = i18next.t("val3", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[4].text = i18next.t("val4", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[5].text = i18next.t("val5", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[6].text = i18next.t("val6", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[7].text = i18next.t("val7", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[8].text = i18next.t("val8", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[9].text = i18next.t("val9", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[10].text = i18next.t("val10", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[11].text = i18next.t("val11", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[12].text = i18next.t("val12", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[13].text = i18next.t("val13", {ns: "dropdownMenu"});
   }
 
   // ----------------------------------------------------------------
@@ -222,19 +242,15 @@ const init = (urlRoot = "") => {
   }
 
   // ----------------------------------------------------------------
-  // Map reset button
   d3.select("#clearButton")
       .on("click", function() {
-        // Reset zoom. NB: must apply reset to svg not g
-        // const svg = d3.select("#map").select("svg");
-        // zoom.transform(svg, d3.zoomIdentity);
-
         // Clear previous enlarged text and selected bar
         d3.selectAll(".enlarged").classed("enlarged", false);
         d3.selectAll("rect.active").classed("active", false);
         d3.selectAll(".cityactive").classed("cityactive", false);
       });
 
+  // ----------------------------------------------------------------
   function drawMap() {
     const mapWidth = settingsMap.width - settingsMap.margin.left - settingsMap.margin.right;
     const mapHeight = settingsMap.height - settingsMap.margin.top - settingsMap.margin.bottom;
@@ -732,7 +748,7 @@ const init = (urlRoot = "") => {
               .text(i18next.t("yaxText", {ns: "chartHeadings"}))
               .attr("class", "yaxLabel")
               .attr("transform", function(d) {
-                return "translate(" + (-35) + " " + (-135) + ")rotate(-90)";
+                return "translate(" + (-36) + " " + (-200) + ")rotate(-90)";
               });
 
           d3.selectAll(".x.axis")

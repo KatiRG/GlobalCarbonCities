@@ -15,7 +15,7 @@ export default {
   },
   defaultRadius: 3,
   scaleFactor: 135,
-  delta: [-11, 0],
+  delta: [-22, 0],
   width: 750,
   height: 290
 };

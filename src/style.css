@@ -44,10 +44,6 @@ text, .container {
   margin-left: 20px;
 }
 
-ul {
-    list-style: outside none none;
-}
-
 .headings {
   font-size: 20px;
   padding-left: 20px;
@@ -59,6 +55,12 @@ ul {
   text-align: center;
   left: 24px;
   padding-bottom: 5px;
+}
+
+#chartHeading {
+  font-size: 18px;
+  fill: #565656;
+  top: -10px;
 }
 
 #logo_BNP {
@@ -148,9 +150,6 @@ div.tooltip {
 
 /*--------------------------*/
 /* map */
-#map {
-  padding-bottom: 2px;
-}
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
@@ -295,7 +294,7 @@ div.tooltip {
 }
 
 .yaxLabel {
-  font-size: 22px;
+  font-size: 19px;
   fill: #565656;
 }
 
