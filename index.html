@@ -39,19 +39,14 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"></div>
-    </div>
-
-    <div class="row">
-      <div id="barChartCaption" class="col-lg-3 headings">Per capita emissions</div>
-      <div class="col-lg-2" id="selector">
+      <div class="col-lg-3" id="selector">
         <label for="attrSelector">Colour bars by</label>
       </div>
       <div class="col-lg-2">
         <select id="dropdownMenu" class="form-control">
           <option value="region" selected="selected">Region</option>
             <option value="protocol">Protocol</option>
-            <option value="year">Measurement year</option>
+            <option value="year">Year</option>
             <option value="population">Population</option>
             <option value="GDP_PPP_percap">GDP-PPP/cap</option>
             <option value="area">Area</option>
@@ -66,7 +61,7 @@
         </select>
 
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-5">
         <div id="barChartLegend">
            <svg></svg>
         </div>

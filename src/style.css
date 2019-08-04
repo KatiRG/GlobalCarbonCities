@@ -148,6 +148,9 @@ div.tooltip {
 
 /*--------------------------*/
 /* map */
+#map {
+  padding-bottom: 2px;
+}
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
@@ -352,7 +355,7 @@ div.tooltip {
 
 /* barChart legend */
 #selector {
-  margin-left: -80px;
+  margin-left: 0px;
 }
 .legendText {
   fill: rgb(86, 86, 86);
@@ -361,10 +364,10 @@ div.tooltip {
   display: inline;
 }
 .legendCB {
-  margin-left: -220px;
+  margin-left: 0px;
 }
 #dropdownMenu {
-  margin-left: -11px;
+  margin-left: 0px;
   margin-top: -11px;
   color: #565656;
   text-align: left;
@@ -373,12 +376,12 @@ label {
   font-family: Ubuntu, sans-serif;
   position: absolute;
   top: -13px;
-  left: 96px;
+  left: 152px;
 }
 #barChartLegend {
   position: relative;
   top: -14px;
-  left: 60px;
+  left: 0px;
   stroke: gray;
 }
 #barChartLegendUnits {
@@ -392,7 +395,7 @@ label {
 .units {
   position: relative;
   top: -14px;
-  left: 150px;
+  left: 0px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
 }
@@ -433,6 +436,9 @@ label {
   font-weight: bold;
   font-size: 14px;
 }
+.removed {
+  background: #000;
+}
 
 #cityCardDiv {
   background: #c7d1d9;
@@ -453,7 +459,6 @@ label {
   fill: #fff;
   text-align: right;
 }
-
 
 .style("text-transform", "uppercase")
 

@@ -75,7 +75,7 @@ const init = (urlRoot = "") => {
   const svgCB = d3.select("#barChartLegend").select("svg")
       .attr("width", cbWidth)
       .attr("height", cbHeight)
-      .attr("transform", "translate(120,0)")
+      .attr("transform", "translate(0,0)")
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
@@ -186,7 +186,8 @@ const init = (urlRoot = "") => {
 
     removedSelection = selection
         .exit()
-        .attr("class", "oldrow removed");
+        .attr("class", "oldrow removed")
+        .text("");
   }
 
   // ----------------------------------------------------------------
@@ -454,7 +455,7 @@ const init = (urlRoot = "") => {
           const displayName = i18next.t(d.city, {ns: "displayName"})
           const thisValue = d.storeOrig ? d.storeOrig : d.value;
           const tipx = 30;
-          const tipy = -50;
+          const tipy = -20;
           div.style("opacity", 1);
           div.html(`#${count}. ${displayName} <br>${globalSettings.formatNum(thisValue)} ${i18next.t("emissions per cap", {ns: "units"})}`)
               .style("left", d3.event.pageX + tipx + "px")

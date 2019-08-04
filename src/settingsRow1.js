@@ -4,7 +4,7 @@ export default {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 55
+    bottom: 75
   },
   width: 1200,
   groupPadding: 0.0,
