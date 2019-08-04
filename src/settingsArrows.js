@@ -1,13 +1,13 @@
 export default {
   groupEastAsia: {
-    xpos: [-15, -2, 9],
-    ypos: [-100, -95, -91],
+    xpos: [-31, -20, -9],
+    ypos: [-105, -95, -91],
     arrowlength: 33,
     arrowscale: [.6, .8],
     gid: "EA",
     textscale: [1, 1],
     textposx: [40, 60, 65],
-    textposy: [-2, 2, 10]
+    textposy: [-5, -2, 10]
   },
   groupNAmer: {
     xpos: [-29, -12, 6, 22],
