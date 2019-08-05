@@ -303,8 +303,7 @@ this.barChart = function(svg, settings, data) {
           return d.indexOf(" ") !== -1 ?
               "text_" + i18next.t(d, {ns: "cities"}) : "text_" + d;
         })
-        .attr("transform", "translate(0, -5) rotate(40)" )
-        .attr("text-anchor", "start");
+        .attr("text-anchor", "end");
 
       if (yAxisObj.empty()) {
         yAxisObj = chartInner.append("g")

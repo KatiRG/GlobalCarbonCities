@@ -333,11 +333,9 @@ const init = (urlRoot = "") => {
               d3.selectAll(".enlarged").classed("enlarged", false);
 
               // Enlarge barChart x axis text of current city
-              // const thisCity = i18next.t(d.id, {ns: "cities"});
               const thisCity = i18next.t(d.id, {ns: "reverse"});
               d3.select(`#text_${i18next.t(thisCity, {ns: "cities"})}`).classed("enlarged", true);
 
-              // highlightElements(d.id);
               highlightElements(thisCity);
             })
             .on("mouseout", function(d) {
@@ -351,8 +349,6 @@ const init = (urlRoot = "") => {
             });
       }); // ./inner d3.json
     }); // ./outer d3.json
-
-    // svg.call(zoom);
   }
 
   // -----------------------------------------------------------------------------
@@ -709,7 +705,6 @@ const init = (urlRoot = "") => {
   // -----------------------------------------------------------------------------
   // Initial page load
   i18n.load([`${urlRoot}/src/i18n`], () => {
-    // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
     d3.queue()
         .defer(d3.json, `${urlRoot}/data/cityApp_attributes_consolidated_fixedSet.json`)
         .await(function(error, datafile) {
@@ -883,25 +878,12 @@ const init = (urlRoot = "") => {
         .classed("active", false)
         .classed("fade", false);
 
-    // Clear previous enlarged text
-    // d3.selectAll(".enlarged").classed("enlarged", false);
-
     // reset map highlight classes
     d3.selectAll(".cityactive").classed("cityactive", false);
     d3.selectAll(".cityfade").classed("cityfade", false);
     d3.selectAll(".countryfade").classed("countryfade", false);
   }
 
-  // function zoomed() {
-  //   const g = d3.select("#map").select(".mapg");
-  //   g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
-  //   g.attr("transform", d3.event.transform); // updated for d3 v4
-  // }
-
-  // const zoom = d3.zoom()
-  //     .on("zoom", zoomed);
-
-  // function appendArrow(geogroup, data, city) {
   function appendArrow(region) {
     const arrowdata = [];
     const chartId = i18next.t(region, {ns: "barchartGroups"});

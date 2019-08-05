@@ -6,9 +6,14 @@ body {
 }
 text, .container {
   font-family: "Ubuntu", sans-serif;
+  width: 1000px !important;
 }
 .container {
-  height: 1120px;
+  border: 1px solid #fff !important;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 [class*="col-"], footer {
@@ -16,15 +21,6 @@ text, .container {
   border-radius: 6px;
   line-height: 40px;
   text-align: center;
-}
-
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  /*border: 1px solid #636363;*/
-  border: 1px solid #fff;
 }
 
 .helpOverlay {
@@ -48,10 +44,6 @@ text, .container {
   margin-left: 20px;
 }
 
-ul {
-    list-style: outside none none;
-}
-
 .headings {
   font-size: 20px;
   padding-left: 20px;
@@ -59,17 +51,26 @@ ul {
   text-align: left;
 }
 
+#pageTitle {
+  text-align: center;
+  left: 24px;
+  padding-bottom: 5px;
+}
+
+#chartHeading {
+  font-size: 18px;
+  fill: #565656;
+  top: -10px;
+}
+
 #logo_BNP {
-  text-align: center; 
-  left: -43px; 
+  text-align: center;
 }
 #logo_GCP {
-  text-align: center; 
-  left: 257px;
+  text-align: center;
 }
 #logo_CDP {
-  text-align: center; 
-  left: 590px; 
+  text-align: center;
 }
 .footerClass {
   position: relative;
@@ -77,77 +78,27 @@ ul {
 }
 
 /*--------------------------*/
-/* buttons and menus */
-.nytg-sort li {
-	background: none repeat scroll 0 0 #f9f9f9;
-	border-bottom: 1px solid #ccc;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-top: 1px solid #ccc;
-	color: #555;
-  font-weight: bold;
-	cursor: pointer;
-	float: left;
-	font-size: 12px;
-	margin: 2;
-	padding: 0px 9px;
-	border-radius: 6px 6px 6px 6px;
+/* buttons */
+#clearButton {
+  position: absolute;
+  left: 31px;
+  top: 4px;
+  background-color: #ffaa1b;
+  border-color: #fff;
+  color: #000;
 }
-/*drop-down menu*/
-.dropbtn {
-  background-color: none repeat scroll 0 0 #f9f9f9;
-  border: 1px solid #ccc;
-  color: #555;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0px 4px;
-  border-radius: 4px 4px 4px 4px;
-  text-align: center;
-  margin: auto;
-  width: 70px;
-}
+#helpButton {
+  position: absolute;
+  left: 13px;
+  top: 4px;
+  background-color: #ffaa1b;
+  border-color: #fff;
+  color: #000;
 
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 100px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    width: 200px;
-    z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: #555;
-    padding: 0px 4px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: lightgrey}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: lightgrey;
 }
 
 /*--------------------------*/
-/*tooltips */
-/*Used for barChart rects */
+/* tooltips */
 div.tooltip-bar {
   position: absolute;
   height: 46px;
@@ -189,7 +140,6 @@ div.tooltip {
   width: 150px;
   height: 60px;
   padding: 6px;
-  /*font: 12px sans-serif;*/
   font-size: 12px;
   background: #F7F6E4;
   color: #555;
@@ -198,31 +148,8 @@ div.tooltip {
   pointer-events: none;
 }
 
-#pageTitle {
-  text-align: center;
-  left: 115px;
-  padding-bottom: 5px;
-}
-
 /*--------------------------*/
 /* map */
-#mapResetButton {
-  position: absolute;
-  left: 146px; 
-  top: 4px;
-  background-color: #ffaa1b;
-  border-color: #fff;
-  color: #000;
-}
-#helpButton {
-  position: absolute;
-  left: 122px; 
-  top: 4px;
-  background-color: #ffaa1b;
-  border-color: #fff;
-  color: #000;
-
-}
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
@@ -244,11 +171,11 @@ div.tooltip {
   fill: #d15081;
 }
 .groupNAmer {
-  fill: #80c2ff;  
+  fill: #80c2ff;
 }
 .groupEurope {
   fill: #c398db;
-} 
+}
 .groupLatinAmer {
   fill: #ee8370;
 }
@@ -274,26 +201,6 @@ div.tooltip {
 /* to allow x-axis labels to overflow past div bd */
 .data svg {
   overflow: visible;
-}
-
-div.rtooltip {
-      position: absolute;
-      text-align: left;
-      width: 190px;
-      height: 110px;
-      padding: 2px;
-      font: 8px;
-      background: #EEE4C5;
-      border: 0px;
-      border-radius: 8px;
-      pointer-events: none;
-}
-
-/*intro*/
-#infoText {
-  font-size: 14px;
-  line-height: 1.2;
-  padding-bottom: 8px;
 }
 
 .stroke {
@@ -333,7 +240,6 @@ div.rtooltip {
   opacity: 0.3 !important;
 }
 .isNan {
-/*  fill: none;*/
   stroke: black;
 }
 .barMarker marker {
@@ -342,8 +248,12 @@ div.rtooltip {
 .barMarker path {
   stroke: #555;
 }
-.offscaleText {
+.barMarker text {
   fill: #565656;
+  font-size: 16px;
+}
+#barChart_groupEastAsia .barMarker text {
+  font-size: 15px;
 }
 
 .headingClass { /* svg stylings */
@@ -353,42 +263,42 @@ div.rtooltip {
   color: #565656;
 }
 #h1 {
-  left: 138px;
-  top: -20px;
+  left: 415px;
+  top: -15px;
 }
 #h2 {
-  left: 160px;
-  top: -101px;
+  left: 415px;
+  top: -77px;
 }
 #h3 {
-  left: -201px;
-  top: -121px;
+  left: 166px;
+  top: -91px;
 }
 #h4 {
-  left: -50px;
-  top: -121px;
+  left: 672px;
+  top: -91px;
 }
 #h5, #h6, #h7, #h8, #h9 {
-  top: -154px;
+  top: -135px;
 }
 #h5 {
   left: 109px;
 }
 #h6 {
-  left: 204px;
+  left: 215px;
 }
 #h7 {
-  left: 158px;
+  left: 298px;
 }
 #h8 {
-  left: 86px;
+  left: 294px;
 }
 #h9 {
-  left: 17px;
+  left: 244px;
 }
 
 .yaxLabel {
-  font-size: 17px;
+  font-size: 19px;
   fill: #565656;
 }
 
@@ -421,16 +331,18 @@ div.rtooltip {
   opacity: 0;
 }
 .axis {
-  font: 11px sans-serif;
+  font: 22px sans-serif;
 }
 .x.axis text {
   fill: #4b4242;
+  font: 12px sans-serif;
+}
+
+.y.axis text {
+  fill: #565656;
 }
 #barChart_groupEastAsia .x.axis text {
   font-size: 11px;
-}
-.x.axis text{
-  font-size: 10px;
 }
 #barChart_groupEastAsia .enlarged {
   font-size: 16px !important;
@@ -446,7 +358,7 @@ div.rtooltip {
 
 /* barChart legend */
 #selector {
-  margin-left: -80px;
+  margin-left: 0px;
 }
 .legendText {
   fill: rgb(86, 86, 86);
@@ -455,10 +367,10 @@ div.rtooltip {
   display: inline;
 }
 .legendCB {
-  margin-left: -220px;
+  margin-left: 0px;
 }
 #dropdownMenu {
-  margin-left: -11px;
+  margin-left: 0px;
   margin-top: -11px;
   color: #565656;
   text-align: left;
@@ -467,12 +379,12 @@ label {
   font-family: Ubuntu, sans-serif;
   position: absolute;
   top: -13px;
-  left: 96px;
+  left: 152px;
 }
 #barChartLegend {
   position: relative;
   top: -14px;
-  left: 60px;
+  left: 0px;
   stroke: gray;
 }
 #barChartLegendUnits {
@@ -486,7 +398,7 @@ label {
 .units {
   position: relative;
   top: -14px;
-  left: 150px;
+  left: 0px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
 }
@@ -501,15 +413,11 @@ label {
 }
 
 .titlerow {
-  margin-top: -300px;
   font-weight: bold;
   font-size: 16px;
   color: #00563c;
   stroke: none;
-  /*text-shadow: 0 0 5px #333333;*/
   text-align: center;
-  /*margin-left: 19px;*/
-  /*text-decoration-line: underline; */
 }
 
 .subrow, .updated {
@@ -517,7 +425,7 @@ label {
   stroke: none;
   color: #00563c;
   text-align: left;
-  margin-left: 41px;
+  margin-left: 27px;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
@@ -530,6 +438,13 @@ label {
   color: #3b112d;
   font-weight: bold;
   font-size: 14px;
+}
+.removed {
+  background: #000;
+}
+
+#cityCardDiv {
+  background: #c7d1d9;
 }
 
 .cityCardSubrowTitle {
@@ -547,7 +462,6 @@ label {
   fill: #fff;
   text-align: right;
 }
-
 
 .style("text-transform", "uppercase")
 

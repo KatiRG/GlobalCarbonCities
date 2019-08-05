@@ -821,14 +821,14 @@
 	});
 
 	var settingsRow1 = {
-	  aspectRatio: 8.2,
+	  aspectRatio: 6.8,
 	  margin: {
-	    top: 33,
+	    top: 0,
+	    left: 0,
 	    right: 0,
-	    bottom: 20,
-	    left: 0
+	    bottom: 75
 	  },
-	  width: 1300,
+	  width: 1200,
 	  groupPadding: 0.0,
 	  pOuter: 0.9,
 	  pInner: 0.15,
@@ -892,7 +892,7 @@
 	    getDomain: function getDomain(data) {
 	      return [0, 10];
 	    },
-	    ticks: 5,
+	    ticks: 3,
 	    tickSizeOuter: 1
 	  },
 	  z: {
@@ -937,12 +937,12 @@
 	};
 
 	var settingsRow2 = {
-	  aspectRatio: 8.2,
+	  aspectRatio: 7.8,
 	  margin: {
 	    top: 0,
 	    left: 0,
 	    right: 0,
-	    bottom: 30
+	    bottom: 50
 	  },
 	  width: 1200,
 	  groupPadding: 0.0,
@@ -1005,7 +1005,7 @@
 	    getDomain: function getDomain(data) {
 	      return [0, 10];
 	    },
-	    ticks: 5,
+	    ticks: 3,
 	    tickSizeOuter: 0
 	  },
 	  z: {
@@ -1051,12 +1051,12 @@
 	};
 
 	var settingsRow3 = {
-	  aspectRatio: 8.2,
+	  aspectRatio: 7.8,
 	  margin: {
 	    top: 10,
 	    left: 0,
 	    right: 0,
-	    bottom: 20
+	    bottom: 40
 	  },
 	  width: 1200,
 	  groupPadding: 0.0,
@@ -1126,7 +1126,7 @@
 	    getDomain: function getDomain(data) {
 	      return [0, 10];
 	    },
-	    ticks: 5,
+	    ticks: 3,
 	    tickSizeOuter: 0
 	  },
 	  z: {
@@ -1171,12 +1171,12 @@
 	};
 
 	var settingsRow4 = {
-	  aspectRatio: 8.2,
+	  aspectRatio: 7,
 	  margin: {
 	    top: 10,
 	    left: 0,
 	    right: 0,
-	    bottom: 20
+	    bottom: 60
 	  },
 	  width: 1200,
 	  groupPadding: 0.0,
@@ -1246,7 +1246,7 @@
 	    getDomain: function getDomain(data) {
 	      return [0, 10];
 	    },
-	    ticks: 5,
+	    ticks: 3,
 	    tickSizeOuter: 0
 	  },
 	  z: {
@@ -1288,6 +1288,29 @@
 
 	    return this._selfFormatter.format(args);
 	  }
+	};
+
+	var settingsMap = {
+	  margin: {
+	    top: 0,
+	    right: 0,
+	    bottom: 0,
+	    left: 0
+	  },
+	  projOptions: {
+	    options: [{
+	      name: "Natural Earth",
+	      projection: d3.geoNaturalEarth()
+	    }],
+	    transScale: [1.655, 1.67],
+	    rotateOrig: [0, 0],
+	    centreOrig: [40, 0]
+	  },
+	  defaultRadius: 3,
+	  scaleFactor: 135,
+	  delta: [-22, 0],
+	  width: 750,
+	  height: 290
 	};
 
 	var settingsAttr = {
@@ -1433,42 +1456,29 @@
 	    }
 
 	    return this._selfFormatter.format(args);
-	  } // mytest: function(...args) {
-	  //   console.log("args: ", args)
-	  //   console.log("this: ", this)
-	  // }
-
-	};
-
-	var settingsCityCard = {
-	  width: 250,
-	  rect: {
-	    width: 210,
-	    height: 310,
-	    pos: [20, -20]
 	  }
 	};
 
 	var settingsArr = {
 	  groupEastAsia: {
-	    xpos: [-15, -2, 9],
-	    ypos: [-100, -95, -91],
+	    xpos: [-31, -20, -9],
+	    ypos: [-105, -95, -91],
 	    arrowlength: 33,
 	    arrowscale: [.6, .8],
 	    gid: "EA",
 	    textscale: [1, 1],
 	    textposx: [40, 60, 65],
-	    textposy: [-2, 2, 10]
+	    textposy: [-5, -2, 10]
 	  },
 	  groupNAmer: {
 	    xpos: [-29, -12, 6, 22],
-	    ypos: [-145, -139, -137, -136],
+	    ypos: [-150, -144, -137, -136],
 	    arrowlength: 33,
 	    arrowscale: [.6, .8],
 	    gid: "NAmer",
 	    textscale: [.9, .9],
 	    textposx: [28, 112, 33, 56],
-	    textposy: [0, 14, -4, -5]
+	    textposy: [-5, 19, -11, -5]
 	  },
 	  groupRow3_Europe: {
 	    xpos: [-29],
@@ -1558,19 +1568,9 @@
 	  var selectedAttribute = "init";
 	  var newText;
 	  var path; // map path projection
-
-	  var defaultRadius = 3; // ----------------------------------------------------
+	  // ----------------------------------------------------
 	  // SVGs
-	  // d3js World Map
-
-	  var mapMargin = {
-	    top: 0,
-	    right: 0,
-	    bottom: 0,
-	    left: 0
-	  };
-	  var mapWidth = 850 - mapMargin.left - mapMargin.right;
-	  var mapHeight = 290 - mapMargin.top - mapMargin.bottom; // barChart legend
+	  // barChart legend
 
 	  var margin = {
 	    top: 7,
@@ -1586,7 +1586,7 @@
 	  var chartEU = d3.select(".data.EUdata").append("svg").attr("id", "barChart_groupRow3");
 	  var chartRow4 = d3.select(".data.dataRow4").append("svg").attr("id", "barChart_groupRow4"); // Colour Bar
 
-	  var svgCB = d3.select("#barChartLegend").select("svg").attr("width", cbWidth).attr("height", cbHeight).attr("transform", "translate(120,0)").style("vertical-align", "middle"); // ----------------------------------------------------------------
+	  var svgCB = d3.select("#barChartLegend").select("svg").attr("width", cbWidth).attr("height", cbHeight).attr("transform", "translate(0,0)").style("vertical-align", "middle"); // ----------------------------------------------------------------
 	  // Help button
 
 	  d3.select("#helpButton").on("click", function () {
@@ -1602,8 +1602,8 @@
 	      text: i18next.t("helpMapName", {
 	        ns: "helpOverlay"
 	      }),
-	      marginTop: 100,
-	      marginLeft: 250,
+	      marginTop: 150,
+	      marginLeft: -20,
 	      textLengthByLine: 60,
 	      myTitle: i18next.t("helpTitle", {
 	        ns: "helpOverlay"
@@ -1618,7 +1618,7 @@
 	        ns: "helpOverlay"
 	      }),
 	      marginTop: 100,
-	      marginLeft: -312,
+	      marginLeft: -420,
 	      textLengthByLine: 30
 	    }, {
 	      linkType: "dotOnly",
@@ -1626,8 +1626,8 @@
 	      text: i18next.t("helpMenuName", {
 	        ns: "helpOverlay"
 	      }),
-	      marginTop: 340,
-	      marginLeft: 290,
+	      marginTop: 375,
+	      marginLeft: -40,
 	      textLengthByLine: 60
 	    }, {
 	      linkType: "left",
@@ -1635,8 +1635,8 @@
 	      text: i18next.t("helpUnitsName", {
 	        ns: "helpOverlay"
 	      }),
-	      marginTop: 370,
-	      marginLeft: 720,
+	      marginTop: 400,
+	      marginLeft: 515,
 	      textLengthByLine: 35
 	    }, {
 	      linkType: "dotOnly",
@@ -1644,9 +1644,9 @@
 	      text: i18next.t("helpBarsName", {
 	        ns: "helpOverlay"
 	      }),
-	      marginTop: 500,
-	      marginLeft: 100,
-	      textLengthByLine: 35
+	      marginTop: 280,
+	      marginLeft: -410,
+	      textLengthByLine: 30
 	    }, {
 	      linkType: "left",
 	      divToHelpId: "helpBarHoverName",
@@ -1655,7 +1655,7 @@
 	      }),
 	      marginTop: 600,
 	      marginLeft: 80,
-	      textLengthByLine: 40
+	      textLengthByLine: 50
 	    }];
 	    new window.Help(parameters);
 	  } // -----------------------------------------------------------------------------
@@ -1664,6 +1664,12 @@
 
 
 	  function pageText() {
+	    d3.select("#clearButton").html(i18next.t("clearButton", {
+	      ns: "buttons"
+	    }));
+	    d3.select("#helpButton").html(i18next.t("helpButton", {
+	      ns: "buttons"
+	    }));
 	    d3.select("#download").html(i18next.t("downloadText", {
 	      ns: "pageText"
 	    }));
@@ -1673,19 +1679,59 @@
 	    d3.select("#pageTitle").html(i18next.t("title", {
 	      ns: "pageText"
 	    }));
-	  }
+	    d3.select("#chartHeading").html(i18next.t("yaxText", {
+	      ns: "chartHeadings"
+	    }));
+	    d3.select("label").html(i18next.t("label", {
+	      ns: "pageText"
+	    })); // Dropdown menu
 
-	  function addRect() {
-	    // city card
-	    var svgCityCard = d3.select("#mycityCardDiv").append("svg").attr("width", 273).attr("height", mapHeight);
-	    var svg = svgCityCard.attr("width", settingsCityCard.width) // col 2 width
-	    .attr("height", mapHeight);
-	    var g = svg.append("g").attr("id", "cityCardg");
-	    g.append("rect").attr("width", settingsCityCard.rect.width).attr("height", settingsCityCard.rect.height).attr("x", settingsCityCard.rect.pos[0]).attr("y", settingsCityCard.rect.pos[1]);
+	    d3.select("#dropdownMenu").node()[0].text = i18next.t("val0", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[1].text = i18next.t("val1", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[2].text = i18next.t("val2", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[3].text = i18next.t("val3", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[4].text = i18next.t("val4", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[5].text = i18next.t("val5", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[6].text = i18next.t("val6", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[7].text = i18next.t("val7", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[8].text = i18next.t("val8", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[9].text = i18next.t("val9", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[10].text = i18next.t("val10", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[11].text = i18next.t("val11", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[12].text = i18next.t("val12", {
+	      ns: "dropdownMenu"
+	    });
+	    d3.select("#dropdownMenu").node()[13].text = i18next.t("val13", {
+	      ns: "dropdownMenu"
+	    });
 	  } // ----------------------------------------------------------------
 
 
-	  var card = d3.select("#mycityCardDiv");
+	  var card = d3.select("#cityCardDiv");
 	  var removedSelection = d3.select();
 
 	  function showCityCard(textSet) {
@@ -1704,10 +1750,8 @@
 	      return i === 0 ? "cardrow titlerow row".concat(i) : "cardrow updated row".concat(i);
 	    }).html(function (d) {
 	      return d.text;
-	    }); //  *********************** REGARDE!!!!!!*****************************************************************************
-
-	    removedSelection = selection.exit().attr("class", "oldrow removed").html(function (d) {// return d.text;
 	    });
+	    removedSelection = selection.exit().attr("class", "oldrow removed").text("");
 	  } // ----------------------------------------------------------------
 
 
@@ -1743,31 +1787,27 @@
 	      }
 	    });
 	  } // ----------------------------------------------------------------
-	  // Map reset button
 
 
-	  d3.select("#mapResetButton").on("click", function () {
-	    // Reset zoom. NB: must apply reset to svg not g
-	    // const svg = d3.select("#map").select("svg");
-	    // zoom.transform(svg, d3.zoomIdentity);
+	  d3.select("#clearButton").on("click", function () {
 	    // Clear previous enlarged text and selected bar
 	    d3.selectAll(".enlarged").classed("enlarged", false);
 	    d3.selectAll("rect.active").classed("active", false);
 	    d3.selectAll(".cityactive").classed("cityactive", false);
-	  });
+	  }); // ----------------------------------------------------------------
 
 	  function drawMap() {
-	    var options = [{
-	      name: "Natural Earth",
-	      projection: d3.geoNaturalEarth()
-	    }];
+	    var mapWidth = settingsMap.width - settingsMap.margin.left - settingsMap.margin.right;
+	    var mapHeight = settingsMap.height - settingsMap.margin.top - settingsMap.margin.bottom;
+	    var options = settingsMap.projOptions.options;
+	    var transScale = settingsMap.projOptions.transScale;
 	    options.forEach(function (o) {
-	      o.projection.rotate([0, 0]).center([40, 0]);
+	      o.projection.rotate(settingsMap.projOptions.rotateOrig).center(settingsMap.projOptions.centreOrig);
 	    });
-	    var projection = options[0].projection.scale(151).translate([mapWidth / 1.655, mapHeight / 1.67]);
-	    path = d3.geoPath().projection(projection).pointRadius([defaultRadius]);
+	    var projection = options[0].projection.scale(settingsMap.scaleFactor).translate([mapWidth / transScale[0], mapHeight / transScale[1]]);
+	    path = d3.geoPath().projection(projection).pointRadius([settingsMap.defaultRadius]);
 	    var graticule = d3.geoGraticule();
-	    var svg = d3.select("#map").append("svg").attr("width", mapWidth).attr("height", mapHeight).attr("transform", "translate(" + -25 + "," + 0 + ")");
+	    var svg = d3.select("#map").append("svg").attr("width", mapWidth).attr("height", mapHeight).attr("transform", "translate(" + settingsMap.delta[0] + "," + settingsMap.delta[1] + ")");
 	    var g = svg.append("g");
 	    g.append("path").datum({
 	      type: "Sphere"
@@ -1793,7 +1833,6 @@
 	            ns: "cities"
 	          });
 	        }).attr("class", function (d) {
-	          // const cityMatch = d.id;
 	          var cityMatch = i18next.t(d.id, {
 	            ns: "reverse"
 	          });
@@ -1885,6 +1924,8 @@
 	      regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
 	    } else if (region === "North America") {
 	      regionData = padRegion(regionData, 1);
+	    } else if (region === "East Asia") {
+	      regionData = padRegion(regionData, 3);
 	    }
 
 	    barChart(chart, settings, regionData);
@@ -1936,7 +1977,7 @@
 	      });
 	      var thisValue = d.storeOrig ? d.storeOrig : d.value;
 	      var tipx = 30;
-	      var tipy = -50;
+	      var tipy = -20;
 	      div.style("opacity", 1);
 	      div.html("#".concat(count, ". ").concat(displayName, " <br>").concat(globalSettings.formatNum(thisValue), " ").concat(i18next.t("emissions per cap", {
 	        ns: "units"
@@ -2150,7 +2191,6 @@
 	      });
 	      pageText();
 	      drawMap();
-	      addRect();
 	      var textSet = [{
 	        id: 1,
 	        text: i18next.t("initTitle", {
@@ -2184,12 +2224,15 @@
 	      showBarChart(chartNA, settingsRow2, "North America");
 	      showBarChart(chartEU, settingsRow3, "Europe");
 	      showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
-	      d3.selectAll(".data svg").style("overflow", "visible"); // y-label
+	      d3.selectAll(".data svg").style("overflow", "visible"); // y-axis label for middle row
 
 	      d3.select("#barChart_groupRow3").append("text").attr("text-anchor", "middle").text(i18next.t("yaxText", {
 	        ns: "chartHeadings"
 	      })).attr("class", "yaxLabel").attr("transform", function (d) {
-	        return "translate(" + -35 + " " + -135 + ")rotate(-90)";
+	        return "translate(" + -36 + " " + -200 + ")rotate(-90)";
+	      });
+	      d3.selectAll(".x.axis").selectAll("text").attr("text-anchor", "end").attr("transform", function (d) {
+	        return "translate(" + -14 + " " + 10 + ")rotate(-90)";
 	      });
 	      appendArrow("East Asia");
 	      appendArrow("North America");
@@ -2237,7 +2280,14 @@
 	    })[0]["dataset"];
 	    var thisProtocol = dataGHG.filter(function (d) {
 	      return d.city === cityName;
-	    })[0]["protocol"];
+	    })[0]["protocol"]; // significant digits for scope 1
+
+	    if (cityName === "Faro" || cityName === "Ajax" || cityName === "Band" || cityName === "Mont") {
+	      thisScope1 = d3.format(".4f")(thisScope1);
+	    } else {
+	      thisScope1 = d3.format(".2f")(thisScope1);
+	    }
+
 	    var displayName = i18next.t(cityName, {
 	      ns: "displayName"
 	    });

@@ -2,3 +2,5 @@ node_modules/
 notebooks/
 
 package-lock.json
+
+Notes.txt

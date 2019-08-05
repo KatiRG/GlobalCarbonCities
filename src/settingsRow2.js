@@ -11,10 +11,6 @@ export default {
   pOuter: 0.9,
   pInner: 0.15,
   filterData: function(data) {
-    // data.sort(function(a, b) {
-    //   return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-    // });
-
     const thisRegion = i18next.t(data[0].region, {ns: "regions"});
 
     return [{
@@ -30,7 +26,6 @@ export default {
     }];
   },
   x: {
-    // label: i18next.t("x_label", {ns: "railBar"}),
     getId: function(d) {
       return d.city;
     },
@@ -39,14 +34,10 @@ export default {
     },
     getClass: function(...args) {
       return this.x.getId.apply(this, args);
-    },
-    getTickText: function(val) {
-      return i18next.t(val, {ns: "railBar"});
     }
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "railBar"}),
     getValue: function(d) {
       return d.value;
     },
@@ -61,15 +52,8 @@ export default {
   },
 
   z: {
-    label: i18next.t("z_label", {ns: "railTable"}),
     getId: function(d) {
       return d.category;
-    },
-    getKeys: function(object) {
-      const keys = Object.keys(object[0]);
-      console.log(keys)
-      keys.splice(keys.indexOf("category"), 1);
-      return keys;
     },
     formatData: function(data) {
       return data[0].values;
@@ -79,9 +63,6 @@ export default {
     },
     getDataPoints: function(d) {
       return d.values;
-    },
-    getText: function(d) {
-      return i18next.t(d.key, {ns: "rail"});
     }
   },
   _selfFormatter: i18n.getNumberFormatter(0),
