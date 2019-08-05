@@ -833,9 +833,6 @@
 	  pOuter: 0.9,
 	  pInner: 0.15,
 	  filterData: function filterData(data) {
-	    // data.sort(function(a, b) {
-	    //   return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-	    // });
 	    var thisRegion = i18next.t(data[0].region, {
 	      ns: "regions"
 	    });
@@ -853,9 +850,6 @@
 	  },
 	  x: {
 	    getId: function getId(d) {
-	      // if (d.indexOf(', ') >= 0) abbr = d.substring(0,3);
-	      // else if (d.indexOf(' ') >= 0) abbr = d.match(/\b\w/g).join(' ');
-	      // else abbr = d.substring(0,4);
 	      return d.city;
 	    },
 	    getValue: function getValue() {
@@ -863,7 +857,6 @@
 	        args[_key] = arguments[_key];
 	      }
 
-	      // returns city names
 	      return this.x.getId.apply(this, args);
 	    },
 	    getClass: function getClass() {
@@ -872,17 +865,9 @@
 	      }
 
 	      return this.x.getId.apply(this, args);
-	    },
-	    getTickText: function getTickText(val) {
-	      return i18next.t(val, {
-	        ns: "railBar"
-	      });
 	    }
 	  },
 	  y: {
-	    label: i18next.t("y_label", {
-	      ns: "railBar"
-	    }),
 	    getValue: function getValue(d) {
 	      return d.value;
 	    },
@@ -896,16 +881,8 @@
 	    tickSizeOuter: 1
 	  },
 	  z: {
-	    label: i18next.t("z_label", {
-	      ns: "railTable"
-	    }),
 	    getId: function getId(d) {
 	      return d.category;
-	    },
-	    getKeys: function getKeys(object) {
-	      var keys = Object.keys(object[0]);
-	      keys.splice(keys.indexOf("category"), 1);
-	      return keys;
 	    },
 	    formatData: function formatData(data) {
 	      return data[0].values;
@@ -919,11 +896,6 @@
 	    },
 	    getDataPoints: function getDataPoints(d) {
 	      return d.values;
-	    },
-	    getText: function getText(d) {
-	      return i18next.t(d.key, {
-	        ns: "rail"
-	      });
 	    }
 	  },
 	  _selfFormatter: i18n.getNumberFormatter(0),
@@ -949,9 +921,6 @@
 	  pOuter: 0.9,
 	  pInner: 0.15,
 	  filterData: function filterData(data) {
-	    // data.sort(function(a, b) {
-	    //   return d3.descending(a["s1PerCap"], b["s1PerCap"]);
-	    // });
 	    var thisRegion = i18next.t(data[0].region, {
 	      ns: "regions"
 	    });
@@ -968,7 +937,6 @@
 	    }];
 	  },
 	  x: {
-	    // label: i18next.t("x_label", {ns: "railBar"}),
 	    getId: function getId(d) {
 	      return d.city;
 	    },
@@ -985,17 +953,9 @@
 	      }
 
 	      return this.x.getId.apply(this, args);
-	    },
-	    getTickText: function getTickText(val) {
-	      return i18next.t(val, {
-	        ns: "railBar"
-	      });
 	    }
 	  },
 	  y: {
-	    label: i18next.t("y_label", {
-	      ns: "railBar"
-	    }),
 	    getValue: function getValue(d) {
 	      return d.value;
 	    },
@@ -1009,17 +969,8 @@
 	    tickSizeOuter: 0
 	  },
 	  z: {
-	    label: i18next.t("z_label", {
-	      ns: "railTable"
-	    }),
 	    getId: function getId(d) {
 	      return d.category;
-	    },
-	    getKeys: function getKeys(object) {
-	      var keys = Object.keys(object[0]);
-	      console.log(keys);
-	      keys.splice(keys.indexOf("category"), 1);
-	      return keys;
 	    },
 	    formatData: function formatData(data) {
 	      return data[0].values;
@@ -1033,11 +984,6 @@
 	    },
 	    getDataPoints: function getDataPoints(d) {
 	      return d.values;
-	    },
-	    getText: function getText(d) {
-	      return i18next.t(d.key, {
-	        ns: "rail"
-	      });
 	    }
 	  },
 	  _selfFormatter: i18n.getNumberFormatter(0),
@@ -1082,7 +1028,6 @@
 	    }];
 	  },
 	  x: {
-	    // label: i18next.t("x_label", {ns: "railBar"}),
 	    getId: function getId(d) {
 	      return d.city;
 	    },
@@ -1106,17 +1051,9 @@
 	      }
 
 	      return args[0].region;
-	    },
-	    getTickText: function getTickText(val) {
-	      return i18next.t(val, {
-	        ns: "railBar"
-	      });
 	    }
 	  },
 	  y: {
-	    label: i18next.t("y_label", {
-	      ns: "railBar"
-	    }),
 	    getValue: function getValue(d) {
 	      return d.value;
 	    },
@@ -1130,16 +1067,8 @@
 	    tickSizeOuter: 0
 	  },
 	  z: {
-	    label: i18next.t("z_label", {
-	      ns: "railTable"
-	    }),
 	    getId: function getId(d) {
 	      return d.category;
-	    },
-	    getKeys: function getKeys(object) {
-	      var keys = Object.keys(object[0]);
-	      keys.splice(keys.indexOf("category"), 1);
-	      return keys;
 	    },
 	    formatData: function formatData(data) {
 	      return data[0].values;
@@ -1153,11 +1082,6 @@
 	    },
 	    getDataPoints: function getDataPoints(d) {
 	      return d.values;
-	    },
-	    getText: function getText(d) {
-	      return i18next.t(d.key, {
-	        ns: "rail"
-	      });
 	    }
 	  },
 	  _selfFormatter: i18n.getNumberFormatter(0),
@@ -1202,7 +1126,6 @@
 	    }];
 	  },
 	  x: {
-	    // label: i18next.t("x_label", {ns: "railBar"}),
 	    getId: function getId(d) {
 	      return d.city;
 	    },
@@ -1226,17 +1149,9 @@
 	      }
 
 	      return args[0].region;
-	    },
-	    getTickText: function getTickText(val) {
-	      return i18next.t(val, {
-	        ns: "railBar"
-	      });
 	    }
 	  },
 	  y: {
-	    label: i18next.t("y_label", {
-	      ns: "railBar"
-	    }),
 	    getValue: function getValue(d) {
 	      return d.value;
 	    },
@@ -1250,16 +1165,8 @@
 	    tickSizeOuter: 0
 	  },
 	  z: {
-	    label: i18next.t("z_label", {
-	      ns: "railTable"
-	    }),
 	    getId: function getId(d) {
 	      return d.category;
-	    },
-	    getKeys: function getKeys(object) {
-	      var keys = Object.keys(object[0]);
-	      keys.splice(keys.indexOf("category"), 1);
-	      return keys;
 	    },
 	    formatData: function formatData(data) {
 	      return data[0].values;
@@ -1273,11 +1180,6 @@
 	    },
 	    getDataPoints: function getDataPoints(d) {
 	      return d.values;
-	    },
-	    getText: function getText(d) {
-	      return i18next.t(d.key, {
-	        ns: "rail"
-	      });
 	    }
 	  },
 	  _selfFormatter: i18n.getNumberFormatter(0),
@@ -1845,15 +1747,13 @@
 	        }).attr("r", 10).on("mouseover", function (d) {
 	          // Clear any previous enlarged text in barChart x axis
 	          d3.selectAll(".enlarged").classed("enlarged", false); // Enlarge barChart x axis text of current city
-	          // const thisCity = i18next.t(d.id, {ns: "cities"});
 
 	          var thisCity = i18next.t(d.id, {
 	            ns: "reverse"
 	          });
 	          d3.select("#text_".concat(i18next.t(thisCity, {
 	            ns: "cities"
-	          }))).classed("enlarged", true); // highlightElements(d.id);
-
+	          }))).classed("enlarged", true);
 	          highlightElements(thisCity);
 	        }).on("mouseout", function (d) {
 	          resetElements();
@@ -1867,7 +1767,6 @@
 	        });
 	      }); // ./inner d3.json
 	    }); // ./outer d3.json
-	    // svg.call(zoom);
 	  } // -----------------------------------------------------------------------------
 
 
@@ -2176,7 +2075,6 @@
 
 
 	  i18n.load(["".concat(urlRoot, "/src/i18n")], function () {
-	    // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
 	    d3.queue().defer(d3.json, "".concat(urlRoot, "/data/cityApp_attributes_consolidated_fixedSet.json"))["await"](function (error, datafile) {
 	      dataGHG = datafile;
 	      dataGHG.map(function (d) {
@@ -2383,22 +2281,12 @@
 
 	  function resetElements() {
 	    // reset bar opacity
-	    d3.selectAll(".bar-group").selectAll("rect").classed("active", false).classed("fade", false); // Clear previous enlarged text
-	    // d3.selectAll(".enlarged").classed("enlarged", false);
-	    // reset map highlight classes
+	    d3.selectAll(".bar-group").selectAll("rect").classed("active", false).classed("fade", false); // reset map highlight classes
 
 	    d3.selectAll(".cityactive").classed("cityactive", false);
 	    d3.selectAll(".cityfade").classed("cityfade", false);
 	    d3.selectAll(".countryfade").classed("countryfade", false);
-	  } // function zoomed() {
-	  //   const g = d3.select("#map").select(".mapg");
-	  //   g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
-	  //   g.attr("transform", d3.event.transform); // updated for d3 v4
-	  // }
-	  // const zoom = d3.zoom()
-	  //     .on("zoom", zoomed);
-	  // function appendArrow(geogroup, data, city) {
-
+	  }
 
 	  function appendArrow(region) {
 	    var arrowdata = [];
