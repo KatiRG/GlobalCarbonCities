@@ -5,8 +5,8 @@ import settingsRow3 from "./settingsRow3.js";
 import settingsRow4 from "./settingsRow4.js";
 
 // settings for other than charts
+import settingsMap from "./settingsMap.js";
 import settingsAttr from "./settingsAttr.js";
-import settingsCityCard from "./settingsCityCard.js";
 import settingsArr from "./settingsArrows.js";
 
 // ----------------------------------------------------
@@ -45,15 +45,9 @@ const init = (urlRoot = "") => {
   let newText;
 
   let path; // map path projection
-  const defaultRadius = 3;
 
   // ----------------------------------------------------
   // SVGs
-
-  // d3js World Map
-  const mapMargin = {top: 0, right: 0, bottom: 0, left: 0};
-  const mapWidth = 850 - mapMargin.left - mapMargin.right;
-  const mapHeight = 290 - mapMargin.top - mapMargin.bottom;
 
   // barChart legend
   const margin = {top: 7, right: 5, bottom: 0, left: 0};
@@ -81,7 +75,7 @@ const init = (urlRoot = "") => {
   const svgCB = d3.select("#barChartLegend").select("svg")
       .attr("width", cbWidth)
       .attr("height", cbHeight)
-      .attr("transform", "translate(120,0)")
+      .attr("transform", "translate(0,0)")
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
@@ -99,8 +93,8 @@ const init = (urlRoot = "") => {
         linkType: "dotOnly",
         divToHelpId: "helpTitleName",
         text: i18next.t("helpMapName", {ns: "helpOverlay"}),
-        marginTop: 100,
-        marginLeft: 250,
+        marginTop: 150,
+        marginLeft: -20,
         textLengthByLine: 60,
         myTitle: i18next.t("helpTitle", {ns: "helpOverlay"}),
         myfooter: i18next.t("helpFooter", {ns: "helpOverlay"})
@@ -110,32 +104,32 @@ const init = (urlRoot = "") => {
         divToHelpId: "helpCardName",
         text: i18next.t("helpCardName", {ns: "helpOverlay"}),
         marginTop: 100,
-        marginLeft: -312,
+        marginLeft: -420,
         textLengthByLine: 30
       },
       {
         linkType: "dotOnly",
         divToHelpId: "helpMenuName",
         text: i18next.t("helpMenuName", {ns: "helpOverlay"}),
-        marginTop: 340,
-        marginLeft: 290,
+        marginTop: 375,
+        marginLeft: -40,
         textLengthByLine: 60
       },
       {
         linkType: "left",
         divToHelpId: "helpUnitsName",
         text: i18next.t("helpUnitsName", {ns: "helpOverlay"}),
-        marginTop: 370,
-        marginLeft: 720,
+        marginTop: 400,
+        marginLeft: 515,
         textLengthByLine: 35
       },
       {
         linkType: "dotOnly",
         divToHelpId: "helpBarsName",
         text: i18next.t("helpBarsName", {ns: "helpOverlay"}),
-        marginTop: 500,
-        marginLeft: 100,
-        textLengthByLine: 35
+        marginTop: 280,
+        marginLeft: -410,
+        textLengthByLine: 30
       },
       {
         linkType: "left",
@@ -143,7 +137,7 @@ const init = (urlRoot = "") => {
         text: i18next.t("helpBarHover", {ns: "helpOverlay"}),
         marginTop: 600,
         marginLeft: 80,
-        textLengthByLine: 40
+        textLengthByLine: 50
       },
     ];
     new window.Help( parameters );
@@ -153,33 +147,33 @@ const init = (urlRoot = "") => {
   // FNS
   // page texts
   function pageText() {
+    d3.select("#clearButton").html(i18next.t("clearButton", {ns: "buttons"}));
+    d3.select("#helpButton").html(i18next.t("helpButton", {ns: "buttons"}));
     d3.select("#download").html(i18next.t("downloadText", {ns: "pageText"}));
     d3.select("#titletag").html(i18next.t("titletag", {ns: "pageText"}));
     d3.select("#pageTitle").html(i18next.t("title", {ns: "pageText"}));
-  }
+    d3.select("#chartHeading").html(i18next.t("yaxText", {ns: "chartHeadings"}));
+    d3.select("label").html(i18next.t("label", {ns: "pageText"}));
 
-  function addRect() {
-    // city card
-    const svgCityCard = d3.select("#mycityCardDiv").append("svg")
-        .attr("width", 273)
-        .attr("height", mapHeight);
-
-    const svg = svgCityCard
-        .attr("width", settingsCityCard.width) // col 2 width
-        .attr("height", mapHeight);
-
-    const g = svg.append("g")
-        .attr("id", "cityCardg");
-
-    g.append("rect")
-        .attr("width", settingsCityCard.rect.width)
-        .attr("height", settingsCityCard.rect.height)
-        .attr("x", settingsCityCard.rect.pos[0])
-        .attr("y", settingsCityCard.rect.pos[1]);
+    // Dropdown menu
+    d3.select("#dropdownMenu").node()[0].text = i18next.t("val0", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[1].text = i18next.t("val1", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[2].text = i18next.t("val2", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[3].text = i18next.t("val3", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[4].text = i18next.t("val4", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[5].text = i18next.t("val5", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[6].text = i18next.t("val6", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[7].text = i18next.t("val7", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[8].text = i18next.t("val8", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[9].text = i18next.t("val9", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[10].text = i18next.t("val10", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[11].text = i18next.t("val11", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[12].text = i18next.t("val12", {ns: "dropdownMenu"});
+    d3.select("#dropdownMenu").node()[13].text = i18next.t("val13", {ns: "dropdownMenu"});
   }
 
   // ----------------------------------------------------------------
-  const card = d3.select("#mycityCardDiv");
+  const card = d3.select("#cityCardDiv");
   let removedSelection = d3.select();
 
   function showCityCard(textSet) {
@@ -210,13 +204,10 @@ const init = (urlRoot = "") => {
           return d.text;
         });
 
-    //  *********************** REGARDE!!!!!!*****************************************************************************
     removedSelection = selection
         .exit()
         .attr("class", "oldrow removed")
-        .html(function(d) {
-          // return d.text;
-        });
+        .text("");
   }
 
   // ----------------------------------------------------------------
@@ -251,43 +242,40 @@ const init = (urlRoot = "") => {
   }
 
   // ----------------------------------------------------------------
-  // Map reset button
-  d3.select("#mapResetButton")
+  d3.select("#clearButton")
       .on("click", function() {
-        // Reset zoom. NB: must apply reset to svg not g
-        // const svg = d3.select("#map").select("svg");
-        // zoom.transform(svg, d3.zoomIdentity);
-
         // Clear previous enlarged text and selected bar
         d3.selectAll(".enlarged").classed("enlarged", false);
         d3.selectAll("rect.active").classed("active", false);
         d3.selectAll(".cityactive").classed("cityactive", false);
       });
 
+  // ----------------------------------------------------------------
   function drawMap() {
-    const options = [
-      {name: "Natural Earth", projection: d3.geoNaturalEarth()}
-    ];
+    const mapWidth = settingsMap.width - settingsMap.margin.left - settingsMap.margin.right;
+    const mapHeight = settingsMap.height - settingsMap.margin.top - settingsMap.margin.bottom;
+    const options = settingsMap.projOptions.options;
+    const transScale = settingsMap.projOptions.transScale;
 
     options.forEach(function(o) {
-      o.projection.rotate([0, 0]).center([40, 0]);
+      o.projection.rotate(settingsMap.projOptions.rotateOrig).center(settingsMap.projOptions.centreOrig);
     });
 
     const projection = options[0]
         .projection
-        .scale(151)
-        .translate([mapWidth/1.655, mapHeight/1.67]);
+        .scale(settingsMap.scaleFactor)
+        .translate([mapWidth/transScale[0], mapHeight/transScale[1]]);
 
     path = d3.geoPath()
         .projection(projection)
-        .pointRadius([defaultRadius]);
+        .pointRadius([settingsMap.defaultRadius]);
 
     const graticule = d3.geoGraticule();
 
     const svg = d3.select("#map").append("svg")
         .attr("width", mapWidth)
         .attr("height", mapHeight)
-        .attr("transform", "translate(" + -25 + "," + 0 + ")");
+        .attr("transform", "translate(" + settingsMap.delta[0] + "," + settingsMap.delta[1] + ")");
 
     const g = svg.append("g");
 
@@ -332,7 +320,6 @@ const init = (urlRoot = "") => {
               return "city" + i18next.t(cityName, {ns: "cities"});
             })
             .attr("class", function(d) {
-              // const cityMatch = d.id;
               const cityMatch = i18next.t(d.id, {ns: "reverse"});
               const r = dataGHG.filter(function(d) {
                 return d.city === cityMatch;
@@ -346,11 +333,9 @@ const init = (urlRoot = "") => {
               d3.selectAll(".enlarged").classed("enlarged", false);
 
               // Enlarge barChart x axis text of current city
-              // const thisCity = i18next.t(d.id, {ns: "cities"});
               const thisCity = i18next.t(d.id, {ns: "reverse"});
               d3.select(`#text_${i18next.t(thisCity, {ns: "cities"})}`).classed("enlarged", true);
 
-              // highlightElements(d.id);
               highlightElements(thisCity);
             })
             .on("mouseout", function(d) {
@@ -364,8 +349,6 @@ const init = (urlRoot = "") => {
             });
       }); // ./inner d3.json
     }); // ./outer d3.json
-
-    // svg.call(zoom);
   }
 
   // -----------------------------------------------------------------------------
@@ -422,6 +405,8 @@ const init = (urlRoot = "") => {
       regionData = region1Padded.concat(region2Padded).concat(region3Padded).concat(region4Padded).concat(region5Padded);
     } else if (region === "North America") {
       regionData = padRegion(regionData, 1);
+    } else if (region === "East Asia") {
+      regionData = padRegion(regionData, 3);
     }
 
     barChart(chart, settings, regionData);
@@ -482,7 +467,7 @@ const init = (urlRoot = "") => {
           const displayName = i18next.t(d.city, {ns: "displayName"})
           const thisValue = d.storeOrig ? d.storeOrig : d.value;
           const tipx = 30;
-          const tipy = -50;
+          const tipy = -20;
           div.style("opacity", 1);
           div.html(`#${count}. ${displayName} <br>${globalSettings.formatNum(thisValue)} ${i18next.t("emissions per cap", {ns: "units"})}`)
               .style("left", d3.event.pageX + tipx + "px")
@@ -720,7 +705,6 @@ const init = (urlRoot = "") => {
   // -----------------------------------------------------------------------------
   // Initial page load
   i18n.load([`${urlRoot}/src/i18n`], () => {
-    // settingsStackedSA.x.label = i18next.t("x_label", {ns: "roadArea"}),
     d3.queue()
         .defer(d3.json, `${urlRoot}/data/cityApp_attributes_consolidated_fixedSet.json`)
         .await(function(error, datafile) {
@@ -736,7 +720,6 @@ const init = (urlRoot = "") => {
           pageText();
           drawMap();
 
-          addRect();
           const textSet = [
             {id: 1, text: i18next.t("initTitle", {ns: "cityCard"})},
             {id: 2, text: i18next.t("initRow1", {ns: "cityCard"})},
@@ -754,13 +737,20 @@ const init = (urlRoot = "") => {
           showBarChart(chartRow4, settingsRow4, "Latin America & Caribbean");
 
           d3.selectAll(".data svg").style("overflow", "visible");
-          // y-label
+          // y-axis label for middle row
           d3.select("#barChart_groupRow3")
               .append("text").attr("text-anchor", "middle")
               .text(i18next.t("yaxText", {ns: "chartHeadings"}))
               .attr("class", "yaxLabel")
               .attr("transform", function(d) {
-                return "translate(" + (-35) + " " + (-135) + ")rotate(-90)";
+                return "translate(" + (-36) + " " + (-200) + ")rotate(-90)";
+              });
+
+          d3.selectAll(".x.axis")
+              .selectAll("text")
+              .attr("text-anchor", "end")
+              .attr("transform", function(d) {
+                return "translate(" + (-14) + " " + (10) + ")rotate(-90)";
               });
 
           appendArrow("East Asia");
@@ -799,7 +789,7 @@ const init = (urlRoot = "") => {
     const thisCountry = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["country"];
-    const thisScope1 = dataGHG.filter(function(d) {
+    let thisScope1 = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["scope1"];
     const thisYear = dataGHG.filter(function(d) {
@@ -811,6 +801,13 @@ const init = (urlRoot = "") => {
     const thisProtocol = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["protocol"];
+
+    // significant digits for scope 1
+    if (cityName === "Faro" || cityName === "Ajax" || cityName === "Band" || cityName === "Mont") {
+      thisScope1 = d3.format(".4f")(thisScope1);
+    } else {
+      thisScope1 = d3.format(".2f")(thisScope1);
+    }
 
     const displayName = i18next.t(cityName, {ns: "displayName"});
 
@@ -881,25 +878,12 @@ const init = (urlRoot = "") => {
         .classed("active", false)
         .classed("fade", false);
 
-    // Clear previous enlarged text
-    // d3.selectAll(".enlarged").classed("enlarged", false);
-
     // reset map highlight classes
     d3.selectAll(".cityactive").classed("cityactive", false);
     d3.selectAll(".cityfade").classed("cityfade", false);
     d3.selectAll(".countryfade").classed("countryfade", false);
   }
 
-  // function zoomed() {
-  //   const g = d3.select("#map").select(".mapg");
-  //   g.style("stroke-width", `${1.5 / d3.event.transform.k}px`);
-  //   g.attr("transform", d3.event.transform); // updated for d3 v4
-  // }
-
-  // const zoom = d3.zoom()
-  //     .on("zoom", zoomed);
-
-  // function appendArrow(geogroup, data, city) {
   function appendArrow(region) {
     const arrowdata = [];
     const chartId = i18next.t(region, {ns: "barchartGroups"});

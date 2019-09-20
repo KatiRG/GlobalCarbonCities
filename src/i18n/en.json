@@ -7,8 +7,12 @@
       "helpMapName": "Hover over any cirlce on the map to highlight it's per capita emissions in the corresponding bar chart below.",
       "helpMenuName": "Colour the bars by selecting an attribute. The colour scale will be displayed to the right of the dropdown menu.",
       "helpUnitsName": "Attributes BUA, CDD and HDD are explained by hovering over the unit displayed in the legend.",
-      "helpBarsName": "Bar charts show the per capita CO<sub>2</sub> emissions of each city, organized by geographical region.",
-      "helpBarHover": "Hover over a bar to highlight a city on the bar chart and the map, and display its statistics in the info area."
+      "helpBarsName": "Bar charts show the per capita CO2 emissions of each city, organized by geographical region.",
+      "helpBarHover": "Hover over any bar in the bar charts to highlight a city both on the bar chart and the map, and display its statistics in the info area."
+    },
+    "buttons": {
+      "clearButton": "Clear",
+      "helpButton": "Help"
     },
     "units": {
       "emissions per cap": "[tCO₂eq/capita]",
@@ -33,15 +37,32 @@
       "titletag": "City Emissions",
       "title": "A global dataset of CO2 emissions and related ancillary data",
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>",
-      "downloadText": "Data publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>"
+      "downloadText": "Data available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>",
+      "label": "Colour bars by"
+    },
+    "dropdownMenu": {
+      "val0": "Region",
+      "val1": "Protocol",
+      "val2": "Measurement Year",
+      "val3": "Population",
+      "val4": "GDP-PPP/cap",
+      "val5": "Area",
+      "val6": "Population density",
+      "val7": "Diesel price",
+      "val8": "Gas price",
+      "val9": "HDD 15.5C",
+      "val10": "CDD 23C",
+      "val11": "Low BUA (2014)",
+      "val12": "High BUA (2014)",
+      "val13": "None"
     },
     "chartHeadings": {
       "h1": "East Asia",
       "h2": "North America",
       "h3": "Europe",
       "h4": "Southeast Asia",
-      "h5": "Latin America & Caribbean",
-      "h6": "South Asia",
+      "h5": "Latin Amer & Caribbean",
+      "h6": "S Asia",
       "h7": "Africa",
       "h8": "N Africa & W Asia",
       "h9": "Oceania",

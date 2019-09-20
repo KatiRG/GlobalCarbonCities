@@ -7,7 +7,7 @@
   <link href="src/style.css" rel="stylesheet">
   <link href="lib/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
+
 </head>
 <body>
 
@@ -21,86 +21,71 @@
     <div id="helpBarsName"></div>
     <div id="helpBarHoverName"></div>
 
-    <!-- header row -->
     <div class="row">
       <div class="col-lg-3" id="download"></div>
-      <div class="col-lg-6 headings" id="pageTitle"></div>
-     
+      <div class="col-lg-7 headings" id="pageTitle"></div>
+
       <div class="col-lg-1">
-        <ul class="navbar-header">
-          <button id="mapResetButton" class="btn btn-info" type="button">Clear</button>
-        </ul>
-      </div> 
+        <button id="clearButton" class="btn btn-info" type="button"></button>
+      </div>
       <div class="col-lg-1">
-        <ul class="navbar-header">
-          <button id="helpButton" class="btn btn-info" type="button">Help</button>
-        </ul>
-      </div> 
+        <button id="helpButton" class="btn btn-info" type="button"></button>
+      </div>
+    </div>
 
-                    
-    </div> <!-- ./header row -->
-
-
-    <!-- 2nd row -->
     <div class="row">
-      <div class="col-lg-3" id="mycityCardDiv"> </div>
+      <div class="col-lg-3"><div id="cityCardDiv"> </div></div>
       <div class="col-lg-9" id="map"> </div>
     </div>
 
-     <!-- Link to data and paper row -->
     <div class="row">
-      <div class="col-lg-10" style="text-align: left; font-weight:normal; left: 0px;"></div>      
+      <div class="col-lg-12" id="chartHeading"></div>
     </div>
 
-  
-
-    <!-- row for barChart title and toggle buttons -->
     <div class="row">
-      <div id="barChartCaption" class="col-lg-3 headings">Per capita emissions</div>
-      <div class="col-lg-2" id="selector">
-        <label for="attrSelector">Colour bars by</label>
+      <div class="col-lg-3" id="selector">
+        <label for="attrSelector"></label>
       </div>
       <div class="col-lg-2">
         <select id="dropdownMenu" class="form-control">
-          <option value="region" selected="selected">Region</option>
-            <option value="protocol">Protocol</option>
-            <option value="year">Measurement year</option>
-            <option value="population">Population</option>
-            <option value="GDP_PPP_percap">GDP-PPP/cap</option>
-            <option value="area">Area</option>
-            <option value="pop_density">Population density</option>
-            <option value="diesel">Diesel price</option>
-            <option value="gas">Gas price</option>
-            <option value="HDD">HDD 15.5C</option>
-            <option value="CDD">CDD 23C</option>
-            <option value="low_bua_pc_2014">Low BUA (2014)</option>
-            <option value="high_bua_pc_2014">High BUA (2014)</option>
-            <option value="none">None</option>
+          <option value="region" selected="selected"></option>
+            <option value="protocol"></option>
+            <option value="year"></option>
+            <option value="population"></option>
+            <option value="GDP_PPP_percap"></option>
+            <option value="area"></option>
+            <option value="pop_density"></option>
+            <option value="diesel"></option>
+            <option value="gas"></option>
+            <option value="HDD"></option>
+            <option value="CDD"></option>
+            <option value="low_bua_pc_2014"></option>
+            <option value="high_bua_pc_2014"></option>
+            <option value="none"></option>
         </select>
-        
+
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-5">
         <div id="barChartLegend">
            <svg></svg>
         </div>
       </div>
-      <div class="col-lg-2 units"></div> 
-    </div> <!-- .end row -->
+      <div class="col-lg-2 units"></div>
+    </div>
 
     <!-- ****************************************** -->
     <!-- BAR CHARTS -->
     <!-- ****************************************** -->
 
-    <!-- BarChart ROW1: groupEastAsia -->
+    <!-- BarChart ROW1: East Asia -->
     <div class="row">
-      <!-- <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div> -->
       <div id="h1" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
         <div class="data EAdata"></div>
       </div>
     </div>
 
-    <!-- BarChart ROW2: groupNAmer -->
+    <!-- BarChart ROW2: N Amer -->
     <div class="row">
       <div id="h2" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
@@ -108,40 +93,39 @@
       </div>
     </div>
 
-    <!-- BarChart ROW3: groupEurope and groupSEAsia -->
+    <!-- BarChart ROW3: Europe and SE Asia -->
     <div class="row">
-      <div id="h3" class="col-lg-8 headingClass"></div>
-      <div id="h4" class="col-lg-4 headingClass"></div>
+      <div id="h3" class="col-lg-1 headingClass"></div>
+      <div id="h4" class="col-lg-2 headingClass"></div>
       <div class="col-lg-12">
         <div class="data EUdata"></div>
       </div>
     </div>
 
-    <!-- BarChart ROW4: groupLatinAmer, groupSEAsia, groupSAsia -->
+    <!-- BarChart ROW4: LatinAmer & Caribbean, South Asia, Africa, N Africa & W Asia, Oceania -->
      <div class="row">
       <div class="col-lg-12">
         <div id="h5" class="col-lg-3 headingClass"></div>
-        <div id="h6" class="col-lg-2 headingClass"></div>
-        <div id="h7" class="col-lg-3 headingClass"></div>
-        <div id="h8" class="col-lg-2 headingClass"></div>
-        <div id="h9" class="col-lg-2 headingClass"></div>
+        <div id="h6" class="col-lg-1 headingClass"></div>
+        <div id="h7" class="col-lg-1 headingClass"></div>
+        <div id="h8" class="col-lg-3 headingClass"></div>
+        <div id="h9" class="col-lg-1 headingClass"></div>
         <div class="data dataRow4"></div>
       </div>
     </div>
 
     <footer class="row">
-      <div class="col-lg-2 footerClass" id="logo_BNP">
-        <a target="_blank" href="https://group.bnpparibas/en/group/bnp-paribas-foundation"><img src="img/BNPParisbasFoundation.jpg" title="BNP Parisbas Foundation" width="75" height="75"/></a> 
+      <div class="col-lg-4 footerClass" id="logo_BNP">
+        <a target="_blank" href="https://group.bnpparibas/en/group/bnp-paribas-foundation"><img src="img/BNPParisbasFoundation.jpg" title="BNP Parisbas Foundation" width="75" height="75"/></a>
       </div>
 
-      <div class="col-lg-2 footerClass" id="logo_GCP"> <!-- ratio 1:2.3 -->
+      <div class="col-lg-4 footerClass" id="logo_GCP"> <!-- ratio 1:2.3 -->
         <a target="_blank" href="http://www.globalcarbonproject.org/"><img src="img/GCP.png" title="GCP" width="117" height="50"/></a>
       </div>
 
-      <div class="col-lg-2 footerClass" id="logo_CDP"> <!-- ratio 1:2.8 -->
+      <div class="col-lg-4 footerClass" id="logo_CDP"> <!-- ratio 1:2.8 -->
         <a target="_blank" href="https://www.cdp.net/en"><img src="img/CDP.png" title="CDP" width="114" height="40"/></a>
       </div>
-
     </footer>
 
     <script src="lib/jquery.min.js"></script>
@@ -151,7 +135,6 @@
     <script src="lib/queue.v1.min.js"></script>
     <script src="lib/stc_visualization_components/utils.min.js"></script>
     <script src="lib/stc_visualization_components/bar.js"></script>
-
     <script src="lib/d3-tip.js"></script>
     <script src="lib/d3-array.v1.min.js"></script>
     <script src="lib/d3-geo.v1.min.js"></script>
@@ -159,12 +142,7 @@
     <script src="lib/topojson.v1.min.js"></script>
     <script type="text/javascript" src="lib/jquery.class.js"></script>
     <script src="lib/Help.js"></script>
-    
     <script src="src/index.js"></script>
-
-  </div>  <!-- ./container -->
-
-
-
+  </div>
 </body>
 </html>
