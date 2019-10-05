@@ -199,23 +199,24 @@ div.tooltip {
 }
 
 /*--------------------------*/
-/* map */
-#mapResetButton {
+#mapResetButton,
+#helpButton,
+#backButton {
   position: absolute;
-  left: 146px;
   top: 4px;
   background-color: #ffaa1b;
   border-color: #fff;
   color: #000;
 }
+/* map */
+#mapResetButton {
+  left: 146px;
+}
 #helpButton {
-  position: absolute;
   left: 122px;
-  top: 4px;
-  background-color: #ffaa1b;
-  border-color: #fff;
-  color: #000;
-
+}
+#backButton{
+  left: 90px;
 }
 .worldcountry {
   fill: rgb(24, 71, 27);
@@ -473,7 +474,6 @@ label {
 }
 .units {
   position: relative;
-  top: -14px;
   left: 150px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
