@@ -690,7 +690,7 @@ const init = (urlRoot = "") => {
           }
           if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
             const cityName = d3.selectAll(".enlarged").text();
-            addNewText(selectedAttribute, cityName);
+            showAttr(selectedAttribute, cityName);
             showCityCard(newText);
           }
         }
@@ -790,6 +790,9 @@ const init = (urlRoot = "") => {
     const thisProtocol = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["protocol"];
+    const thisRegion = dataGHG.filter(function(d) {
+      return (d.city === cityName);
+    })[0]["region"];
 
     const displayName = i18next.t(cityName, {ns: "displayName"});
     const comboRow = `${thisYear}, ${i18next.t(thisProtocol, {ns: "protocol"})}`;
@@ -801,12 +804,14 @@ const init = (urlRoot = "") => {
       {id: 4, text: i18next.t("yearRow", {ns: "cityCard"})},
       {id: 5, text: comboRow},
       {id: 6, text: i18next.t("datasetRow", {ns: "cityCard"})},
-      {id: 7, text: i18next.t(thisDataset, {ns: "datasets"})}
+      {id: 7, text: i18next.t(thisDataset, {ns: "datasets"})},
+      {id: 8, text: "region"},
+      {id: 9, text: thisRegion}
     ];
 
     if (data[selectedAttribute]) {
       if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
-        addNewText(selectedAttribute, cityName);
+        showAttr(selectedAttribute, cityName);
       }
     }
     showCityCard(newText);
@@ -830,8 +835,8 @@ const init = (urlRoot = "") => {
         .classed("countryfade", true);
   }
 
-  // Adds to newText obj array for city card
-  function addNewText(attr, cityName) {
+  // Show attr in city card
+  function showAttr(attr, cityName) {
     let thisAttr;
     const val = data[attr].filter(function(d) {
       return (d.city === cityName);
@@ -845,10 +850,9 @@ const init = (urlRoot = "") => {
 
     const thisUnit = thisAttr === "N/A" ? "" : i18next.t(attr, {ns: "units"});
 
-    newText.push(
-        {id: 10, text: i18next.t(attr, {ns: "attributes"})},
-        {id: 11, text: `${thisAttr} ${thisUnit}`}
-    );
+    // Replace region rows with selected attr
+    newText[7].text = i18next.t(attr, {ns: "attributes"});
+    newText[8].text = `${thisAttr} ${thisUnit}`;
   }
 
   // Reset elements to original style before selection
