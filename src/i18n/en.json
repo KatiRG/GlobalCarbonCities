@@ -54,7 +54,7 @@
       "initRow3": "to display emission values",
       "initRow4": "and related ancillary data.",
       "scope1Row": "scope-1 emissions",
-      "yearRow": "measurement year",
+      "yearRow": "year, protocol",
       "datasetRow": "dataset source",
       "protocolRow": "protocol"
     },
@@ -229,6 +229,7 @@
       "Seberang": "Sebe",
       "Semarang": "Sema",
       "Singapore": "Sing",
+      "Shenzen": "Shnz",
 
       "Aguascalientes": "Agua",
       "Barranquilla": "Barr",
@@ -384,7 +385,7 @@
       "Shng": "Shanghai",
       "Shan": "Shantou",
       "Shny": "Shenyang",
-      "Shnz": "Shnzhen",
+      "Shnz": "Shenzhen",
       "Shij": "Shijiazhuang",
       "Suwo": "Suwon",
       "Suzh": "Suzhou",

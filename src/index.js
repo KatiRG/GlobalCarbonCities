@@ -792,17 +792,16 @@ const init = (urlRoot = "") => {
     })[0]["protocol"];
 
     const displayName = i18next.t(cityName, {ns: "displayName"});
+    const comboRow = `${thisYear}, ${i18next.t(thisProtocol, {ns: "protocol"})}`;
 
     newText = [
       {id: 1, text: `${displayName}, ${thisCountry}`},
       {id: 2, text: i18next.t("scope1Row", {ns: "cityCard"})},
       {id: 3, text: `${thisScope1} ${i18next.t("scope1", {ns: "units"})} ${i18next.t("defn", {ns: "units"})}`},
       {id: 4, text: i18next.t("yearRow", {ns: "cityCard"})},
-      {id: 5, text: thisYear},
+      {id: 5, text: comboRow},
       {id: 6, text: i18next.t("datasetRow", {ns: "cityCard"})},
-      {id: 7, text: i18next.t(thisDataset, {ns: "datasets"})},
-      {id: 8, text: i18next.t("protocolRow", {ns: "cityCard"})},
-      {id: 9, text: i18next.t(thisProtocol, {ns: "protocol"})}
+      {id: 7, text: i18next.t(thisDataset, {ns: "datasets"})}
     ];
 
     if (data[selectedAttribute]) {
