@@ -81,7 +81,7 @@ const init = (urlRoot = "") => {
   const svgCB = d3.select("#barChartLegend").select("svg")
       .attr("width", cbWidth)
       .attr("height", cbHeight)
-      .attr("transform", "translate(120,0)")
+      .attr("transform", "translate(0,0)")
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
@@ -528,7 +528,7 @@ const init = (urlRoot = "") => {
         .attr("height", rectDim)
         .attr("y", 5)
         .attr("x", function(d, i) {
-          return 51 + i * 85;
+          return 58 + i * 85;
         })
         .attr("fill", getFill);
 

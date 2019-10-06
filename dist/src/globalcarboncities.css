@@ -447,9 +447,6 @@ div.rtooltip {
   font-size: 12px;
   display: inline;
 }
-.legendCB {
-  margin-left: -220px;
-}
 #dropdownMenu {
   margin-left: -11px;
   margin-top: -11px;
@@ -461,7 +458,6 @@ label {
 }
 #barChartLegend {
   position: relative;
-  left: 60px;
   stroke: gray;
 }
 #barChartLegendUnits {
@@ -474,7 +470,7 @@ label {
 }
 .units {
   position: relative;
-  left: 150px;
+  left: 104px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
 }
