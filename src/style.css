@@ -330,6 +330,10 @@ div.rtooltip {
 .barMarker marker {
   fill: #555;
 }
+.barMarker text {
+  fill: #555;
+  font-size: 13px;
+}
 .barMarker path {
   stroke: #555;
 }
