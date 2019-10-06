@@ -85,6 +85,14 @@ const init = (urlRoot = "") => {
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
+  d3.select(".container")
+      .on("click", function() {
+        // Clear previous enlarged text and selected bar
+        d3.selectAll(".enlarged").classed("enlarged", false);
+        d3.selectAll("rect.active").classed("active", false);
+        d3.selectAll(".cityactive").classed("cityactive", false);
+      });
+
   // Help button
   d3.select("#helpButton")
       .on("click", function() {
@@ -231,19 +239,6 @@ const init = (urlRoot = "") => {
   }
 
   // ----------------------------------------------------------------
-  // Map reset button
-  d3.select("#mapResetButton")
-      .on("click", function() {
-        // Reset zoom. NB: must apply reset to svg not g
-        // const svg = d3.select("#map").select("svg");
-        // zoom.transform(svg, d3.zoomIdentity);
-
-        // Clear previous enlarged text and selected bar
-        d3.selectAll(".enlarged").classed("enlarged", false);
-        d3.selectAll("rect.active").classed("active", false);
-        d3.selectAll(".cityactive").classed("cityactive", false);
-      });
-
   function drawMap() {
     const options = [
       {name: "Natural Earth", projection: d3.geoNaturalEarth()}
@@ -256,7 +251,7 @@ const init = (urlRoot = "") => {
     const projection = options[0]
         .projection
         .scale(151)
-        .translate([mapWidth/1.655, mapHeight/1.67]);
+        .translate([mapWidth/1.61, mapHeight/1.67]);
 
     path = d3.geoPath()
         .projection(projection)

@@ -194,12 +194,11 @@ div.tooltip {
 
 #pageTitle {
   text-align: center;
-  left: 115px;
+  left: 38px;
   padding-bottom: 5px;
 }
 
 /*--------------------------*/
-#mapResetButton,
 #helpButton,
 #backButton {
   position: absolute;
@@ -208,16 +207,13 @@ div.tooltip {
   border-color: #fff;
   color: #000;
 }
-/* map */
-#mapResetButton {
-  left: 146px;
-}
 #helpButton {
-  left: 122px;
+  left: 10px;
 }
 #backButton{
   left: 90px;
 }
+/* map */
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
@@ -392,7 +388,7 @@ div.rtooltip {
   text-align: left;
   font-size: 18px;
   position: relative;
-  margin-bottom: 2em;
+  margin-bottom: 3em;
 }
 
 .textLabels {
@@ -483,38 +479,33 @@ label {
 }
 /*--------------------------*/
 /* city card */
-#cityCardg rect {
-  fill: #c7d1d9;
-  stroke: none;
-}
-
 .titlerow {
   font-weight: bold;
   font-size: 16px;
   color: #00563c;
   stroke: none;
-  /*text-shadow: 0 0 5px #333333;*/
   text-align: center;
-  /*margin-left: 19px;*/
-  /*text-decoration-line: underline; */
 }
 
 .subrow, .updated {
   font-size: 15px;
   stroke: none;
   color: #00563c;
-  text-align: left;
-  margin-left: 41px;
+  text-align: center;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
   color: #00563c;
+  text-align: justify;
+  margin-left: 37px;
 }
 .updated.row1, .updated.row3, .updated.row5, .updated.row7, .updated.row9, .subrow.row5, .subrow.row7, .subrow.row9 {
   text-transform: uppercase;
   color: #3b112d;
   font-weight: bold;
   font-size: 14px;
+  text-align: justify;
+  margin-left: 37px;
 }
 
 #thisContainer #mycityCardDiv {
