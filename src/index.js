@@ -158,26 +158,6 @@ const init = (urlRoot = "") => {
     d3.select("#pageTitle").html(i18next.t("title", {ns: "pageText"}));
   }
 
-  function addRect() {
-    // city card
-    const svgCityCard = d3.select("#mycityCardDiv").append("svg")
-        .attr("width", 273)
-        .attr("height", mapHeight);
-
-    const svg = svgCityCard
-        .attr("width", settingsCityCard.width) // col 2 width
-        .attr("height", mapHeight);
-
-    const g = svg.append("g")
-        .attr("id", "cityCardg");
-
-    g.append("rect")
-        .attr("width", settingsCityCard.rect.width)
-        .attr("height", settingsCityCard.rect.height)
-        .attr("x", settingsCityCard.rect.pos[0])
-        .attr("y", settingsCityCard.rect.pos[1]);
-  }
-
   // ----------------------------------------------------------------
   const card = d3.select("#mycityCardDiv");
   let removedSelection = d3.select();
@@ -736,7 +716,6 @@ const init = (urlRoot = "") => {
           pageText();
           drawMap();
 
-          addRect();
           const textSet = [
             {id: 1, text: i18next.t("initTitle", {ns: "cityCard"})},
             {id: 2, text: i18next.t("initRow1", {ns: "cityCard"})},
