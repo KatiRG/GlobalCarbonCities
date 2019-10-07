@@ -534,9 +534,6 @@ label {
   text-align: right;
 }
 
-
-.style("text-transform", "uppercase")
-
 td, th {
   padding: 1px 4px;
   font-size: 14px;

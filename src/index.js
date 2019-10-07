@@ -19,9 +19,6 @@ const offscaleDict = {
   "Leó": 11, "Gand": 11
 };
 
-// Default text for cityCard
-let textSet = [];
-
 // Define number format (2 decimal places) from utils.js
 const globalSettings = {
   _selfFormatter: i18n.getNumberFormatter(2),
@@ -88,19 +85,15 @@ const init = (urlRoot = "") => {
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
-  d3.select(".container")
+  d3.select(".barChartContainer")
       .on("click", function() {
+        // Remove any tooltips that will get in the way of cursor
+        d3.selectAll(".tooltip-bar").remove();
+
         // Clear previous enlarged text and selected bar
         d3.selectAll(".enlarged").classed("enlarged", false);
         d3.selectAll("rect.active").classed("active", false);
         d3.selectAll(".cityactive").classed("cityactive", false);
-
-        showCityCard(textSet);
-        d3.selectAll(".cardrow")
-            .attr("class", function(d, i) {
-              // if (i > 0) return `cardrow row${i}`;
-              return i === 0 ? `cardrow titlerow row${i}` : `cardrow row${i}`;
-            });
       });
 
   // Help button
@@ -720,7 +713,7 @@ const init = (urlRoot = "") => {
 
           pageText();
           drawMap();
-          textSet = [
+          const textSet = [
             {id: 1, text: i18next.t("initTitle", {ns: "cityCard"})},
             {id: 2, text: i18next.t("initRow1", {ns: "cityCard"})},
             {id: 3, text: i18next.t("initRow2", {ns: "cityCard"})},
