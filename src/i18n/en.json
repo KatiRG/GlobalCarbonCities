@@ -33,7 +33,7 @@
       "titletag": "City Emissions",
       "title": "A global dataset of CO₂ emissions and related ancillary data",
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>",
-      "downloadText": "Data publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>"
+      "downloadText": "Data available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>"
     },
     "chartHeadings": {
       "h1": "East Asia",
@@ -54,7 +54,7 @@
       "initRow3": "to display emission values",
       "initRow4": "and related ancillary data.",
       "scope1Row": "scope-1 emissions",
-      "yearRow": "measurement year",
+      "yearRow": "year, protocol",
       "datasetRow": "dataset source",
       "protocolRow": "protocol"
     },
@@ -229,6 +229,7 @@
       "Seberang": "Sebe",
       "Semarang": "Sema",
       "Singapore": "Sing",
+      "Shenzen": "Shnz",
 
       "Aguascalientes": "Agua",
       "Barranquilla": "Barr",
@@ -384,7 +385,7 @@
       "Shng": "Shanghai",
       "Shan": "Shantou",
       "Shny": "Shenyang",
-      "Shnz": "Shnzhen",
+      "Shnz": "Shenzhen",
       "Shij": "Shijiazhuang",
       "Suwo": "Suwon",
       "Suzh": "Suzhou",

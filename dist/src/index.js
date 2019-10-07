@@ -1440,15 +1440,6 @@
 
 	};
 
-	var settingsCityCard = {
-	  width: 250,
-	  rect: {
-	    width: 210,
-	    height: 310,
-	    pos: [20, -20]
-	  }
-	};
-
 	var settingsArr = {
 	  groupEastAsia: {
 	    xpos: [-15, -2, 9],
@@ -1673,15 +1664,6 @@
 	    d3.select("#pageTitle").html(i18next.t("title", {
 	      ns: "pageText"
 	    }));
-	  }
-
-	  function addRect() {
-	    // city card
-	    var svgCityCard = d3.select("#mycityCardDiv").append("svg").attr("width", 273).attr("height", mapHeight);
-	    var svg = svgCityCard.attr("width", settingsCityCard.width) // col 2 width
-	    .attr("height", mapHeight);
-	    var g = svg.append("g").attr("id", "cityCardg");
-	    g.append("rect").attr("width", settingsCityCard.rect.width).attr("height", settingsCityCard.rect.height).attr("x", settingsCityCard.rect.pos[0]).attr("y", settingsCityCard.rect.pos[1]);
 	  } // ----------------------------------------------------------------
 
 
@@ -2150,7 +2132,6 @@
 	      });
 	      pageText();
 	      drawMap();
-	      addRect();
 	      var textSet = [{
 	        id: 1,
 	        text: i18next.t("initTitle", {

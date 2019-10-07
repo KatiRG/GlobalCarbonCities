@@ -19,6 +19,9 @@ const offscaleDict = {
   "Leó": 11, "Gand": 11
 };
 
+// Default text for cityCard
+let textSet = [];
+
 // Define number format (2 decimal places) from utils.js
 const globalSettings = {
   _selfFormatter: i18n.getNumberFormatter(2),
@@ -81,10 +84,25 @@ const init = (urlRoot = "") => {
   const svgCB = d3.select("#barChartLegend").select("svg")
       .attr("width", cbWidth)
       .attr("height", cbHeight)
-      .attr("transform", "translate(120,0)")
+      .attr("transform", "translate(0,0)")
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
+  d3.select(".container")
+      .on("click", function() {
+        // Clear previous enlarged text and selected bar
+        d3.selectAll(".enlarged").classed("enlarged", false);
+        d3.selectAll("rect.active").classed("active", false);
+        d3.selectAll(".cityactive").classed("cityactive", false);
+
+        showCityCard(textSet);
+        d3.selectAll(".cardrow")
+            .attr("class", function(d, i) {
+              // if (i > 0) return `cardrow row${i}`;
+              return i === 0 ? `cardrow titlerow row${i}` : `cardrow row${i}`;
+            });
+      });
+
   // Help button
   d3.select("#helpButton")
       .on("click", function() {
@@ -231,19 +249,6 @@ const init = (urlRoot = "") => {
   }
 
   // ----------------------------------------------------------------
-  // Map reset button
-  d3.select("#mapResetButton")
-      .on("click", function() {
-        // Reset zoom. NB: must apply reset to svg not g
-        // const svg = d3.select("#map").select("svg");
-        // zoom.transform(svg, d3.zoomIdentity);
-
-        // Clear previous enlarged text and selected bar
-        d3.selectAll(".enlarged").classed("enlarged", false);
-        d3.selectAll("rect.active").classed("active", false);
-        d3.selectAll(".cityactive").classed("cityactive", false);
-      });
-
   function drawMap() {
     const options = [
       {name: "Natural Earth", projection: d3.geoNaturalEarth()}
@@ -256,7 +261,7 @@ const init = (urlRoot = "") => {
     const projection = options[0]
         .projection
         .scale(151)
-        .translate([mapWidth/1.655, mapHeight/1.67]);
+        .translate([mapWidth/1.61, mapHeight/1.67]);
 
     path = d3.geoPath()
         .projection(projection)
@@ -533,7 +538,7 @@ const init = (urlRoot = "") => {
         .attr("height", rectDim)
         .attr("y", 5)
         .attr("x", function(d, i) {
-          return 51 + i * 85;
+          return 58 + i * 85;
         })
         .attr("fill", getFill);
 
@@ -690,7 +695,7 @@ const init = (urlRoot = "") => {
           }
           if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
             const cityName = d3.selectAll(".enlarged").text();
-            addNewText(selectedAttribute, cityName);
+            showAttr(selectedAttribute, cityName);
             showCityCard(newText);
           }
         }
@@ -715,8 +720,7 @@ const init = (urlRoot = "") => {
 
           pageText();
           drawMap();
-
-          const textSet = [
+          textSet = [
             {id: 1, text: i18next.t("initTitle", {ns: "cityCard"})},
             {id: 2, text: i18next.t("initRow1", {ns: "cityCard"})},
             {id: 3, text: i18next.t("initRow2", {ns: "cityCard"})},
@@ -790,24 +794,28 @@ const init = (urlRoot = "") => {
     const thisProtocol = dataGHG.filter(function(d) {
       return (d.city === cityName);
     })[0]["protocol"];
+    const thisRegion = dataGHG.filter(function(d) {
+      return (d.city === cityName);
+    })[0]["region"];
 
     const displayName = i18next.t(cityName, {ns: "displayName"});
+    const comboRow = `${thisYear}, ${i18next.t(thisProtocol, {ns: "protocol"})}`;
 
     newText = [
       {id: 1, text: `${displayName}, ${thisCountry}`},
       {id: 2, text: i18next.t("scope1Row", {ns: "cityCard"})},
       {id: 3, text: `${thisScope1} ${i18next.t("scope1", {ns: "units"})} ${i18next.t("defn", {ns: "units"})}`},
       {id: 4, text: i18next.t("yearRow", {ns: "cityCard"})},
-      {id: 5, text: thisYear},
+      {id: 5, text: comboRow},
       {id: 6, text: i18next.t("datasetRow", {ns: "cityCard"})},
       {id: 7, text: i18next.t(thisDataset, {ns: "datasets"})},
-      {id: 8, text: i18next.t("protocolRow", {ns: "cityCard"})},
-      {id: 9, text: i18next.t(thisProtocol, {ns: "protocol"})}
+      {id: 8, text: "region"},
+      {id: 9, text: thisRegion}
     ];
 
     if (data[selectedAttribute]) {
       if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
-        addNewText(selectedAttribute, cityName);
+        showAttr(selectedAttribute, cityName);
       }
     }
     showCityCard(newText);
@@ -831,8 +839,8 @@ const init = (urlRoot = "") => {
         .classed("countryfade", true);
   }
 
-  // Adds to newText obj array for city card
-  function addNewText(attr, cityName) {
+  // Show attr in city card
+  function showAttr(attr, cityName) {
     let thisAttr;
     const val = data[attr].filter(function(d) {
       return (d.city === cityName);
@@ -846,10 +854,9 @@ const init = (urlRoot = "") => {
 
     const thisUnit = thisAttr === "N/A" ? "" : i18next.t(attr, {ns: "units"});
 
-    newText.push(
-        {id: 10, text: i18next.t(attr, {ns: "attributes"})},
-        {id: 11, text: `${thisAttr} ${thisUnit}`}
-    );
+    // Replace region rows with selected attr
+    newText[7].text = i18next.t(attr, {ns: "attributes"});
+    newText[8].text = `${thisAttr} ${thisUnit}`;
   }
 
   // Reset elements to original style before selection

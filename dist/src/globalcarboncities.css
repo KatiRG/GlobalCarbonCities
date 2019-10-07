@@ -73,19 +73,19 @@ ul {
 /*--------------------------*/
 /* buttons and menus */
 .nytg-sort li {
-	background: none repeat scroll 0 0 #f9f9f9;
-	border-bottom: 1px solid #ccc;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-top: 1px solid #ccc;
-	color: #555;
+  background: none repeat scroll 0 0 #f9f9f9;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  color: #555;
   font-weight: bold;
-	cursor: pointer;
-	float: left;
-	font-size: 12px;
-	margin: 2;
-	padding: 0px 9px;
-	border-radius: 6px 6px 6px 6px;
+  cursor: pointer;
+  float: left;
+  font-size: 12px;
+  margin: 2;
+  padding: 0px 9px;
+  border-radius: 6px 6px 6px 6px;
 }
 /*drop-down menu*/
 .dropbtn {
@@ -330,12 +330,12 @@ div.rtooltip {
 .barMarker marker {
   fill: #555;
 }
+.barMarker path {
+  stroke: #555;
+}
 .barMarker text {
   fill: #555;
   font-size: 13px;
-}
-.barMarker path {
-  stroke: #555;
 }
 .offscaleText {
   fill: #565656;
@@ -512,10 +512,6 @@ label {
   background: #c7d1d9;
   line-height: 2;
   min-height: 290px;
-}
-
-#mycityCardDiv {
-  background: #c7d1d9;
 }
 
 .cityCardSubrowTitle {
