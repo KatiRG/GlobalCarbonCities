@@ -1,13 +1,13 @@
 {
   "en": {
     "helpOverlay": {
-      "helpTitle": "These interactive bar charts show the per capita CO<sub>2</sub> emissions for hundreds of cities world-wide, organized by geographical region.",
+      "helpTitle": "These interactive bar charts show the per capita CO₂ emissions for hundreds of cities world-wide, organized by geographical region.",
       "helpCardName": "Statistics for a selected city will be displayed in this info area, including the value of the attribute selected in the dropdown menu.",
       "helpFooter": "Data published in <a target='_blank' href='https://www.nature.com/articles/sdata2018280'>Nangini et al., 2019</a> and publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>.",
       "helpMapName": "Hover over any cirlce on the map to highlight it's per capita emissions in the corresponding bar chart below.",
       "helpMenuName": "Colour the bars by selecting an attribute. The colour scale will be displayed to the right of the dropdown menu.",
       "helpUnitsName": "Attributes BUA, CDD and HDD are explained by hovering over the unit displayed in the legend.",
-      "helpBarsName": "Bar charts show the per capita CO<sub>2</sub> emissions of each city, organized by geographical region.",
+      "helpBarsName": "Bar charts show the per capita CO₂ emissions of each city, organized by geographical region.",
       "helpBarHover": "Hover over a bar to highlight a city on the bar chart and the map, and display its statistics in the info area."
     },
     "units": {
@@ -24,14 +24,14 @@
       "area": "[km2]",
       "diesel": "[USD/litre]",
       "gas": "[USD/litre]",
-      "CDD": "[deg C x days]",      
+      "CDD": "[deg C x days]",
       "HDD": "[deg C x days]",
       "low_bua_pc_2014": "[% of total BUA]",
       "high_bua_pc_2014": "[% of total BUA]"
     },
      "pageText": {
       "titletag": "City Emissions",
-      "title": "A global dataset of CO2 emissions and related ancillary data",
+      "title": "A global dataset of CO₂ emissions and related ancillary data",
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>",
       "downloadText": "Data publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>"
     },
@@ -72,7 +72,7 @@
       "HDD": "HDD 15.5C",
       "CDD": "CDD 23C",
       "low_bua_pc_2014": "Low BUA % (2014)",
-      "high_bua_pc_2014": "High BUA % (2014)"      
+      "high_bua_pc_2014": "High BUA % (2014)"
     },
     "datasets": {
       "carbonn": "carbonn Climate Registry",
@@ -389,14 +389,14 @@
       "Suwo": "Suwon",
       "Suzh": "Suzhou",
       "Taia": "Taian",
-      "T C": "Taipei City",      
+      "T C": "Taipei City",
       "Tang": "Tangshan",
       "Taoy": "Taoyuan",
       "Tian": "Tianjin",
       "Toky": "Tokyo",
       "Weif": "Weifang",
       "Wonj": "Wonju",
-      "Wuha": "Wuhan",      
+      "Wuha": "Wuhan",
       "Xiam": "Xiamen",
       "Xngt": "Xiangtan",
       "Xyan": "Xiangyang",
@@ -626,7 +626,7 @@
 
     },
     "cities": {
-      "A A": "Addis_Ababa", 
+      "A A": "Addis_Ababa",
       "B A": "Buenos_Aires",
       "B H": "Belo_Horizonte",
       "B C": "Buffalo_City",
@@ -750,7 +750,7 @@
       "Iceland": "Iceland",
       "Israel": "Israel",
       "Italy": "Italy",
-      "Jamaica": "Jamaica",      
+      "Jamaica": "Jamaica",
       "Jordan": "Jordan",
       "Japan": "Japan",
       "Kazakhstan": "Kazakhstan",
@@ -857,7 +857,7 @@
         "Latin America & Caribbean": "groupLatinAmer",
         "Southeast Asia": "groupSEAsia",
         "South Asia": "groupSAsia",
-        "Africa": "groupAfrica", 
+        "Africa": "groupAfrica",
         "Oceania": "groupOceania",
         "North Africa": "groupNAfrica",
         "N Africa & W Asia": "NAfricaWAsia"
@@ -865,11 +865,11 @@
     "barchartGroups": {
         "East Asia": "groupEastAsia",
         "North America":"groupNAmer",
-        "Europe": "groupRow3",        
+        "Europe": "groupRow3",
         "Southeast Asia": "groupRow3",
         "Latin America & Caribbean": "groupRow4",
         "South Asia": "groupRow4",
-        "Africa": "groupRow4", 
+        "Africa": "groupRow4",
         "Oceania": "groupRow4",
         "N Africa & W Asia": "groupRow4"
     },
@@ -880,7 +880,7 @@
         "Latin America & Caribbean": "#ee8370",
         "Southeast Asia":"#C399D9",
         "South Asia": "#40d5c7",
-        "Africa": "#fcc751", 
+        "Africa": "#fcc751",
         "Oceania": "#ffa5ca",
         "North Africa": "#bbd15d",
         "N Africa & W Asia": "rgb(187, 209, 93)"
