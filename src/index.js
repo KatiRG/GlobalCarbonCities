@@ -57,7 +57,7 @@ const init = (urlRoot = "") => {
 
   // barChart legend
   const margin = {top: 7, right: 5, bottom: 0, left: 0};
-  const cbWidth = 520 - margin.left - margin.right;
+  const cbWidth = 480 - margin.left - margin.right;
   const cbHeight = 35 - margin.top - margin.bottom;
 
   // Bar charts
@@ -81,7 +81,7 @@ const init = (urlRoot = "") => {
   const svgCB = d3.select("#barChartLegend").select("svg")
       .attr("width", cbWidth)
       .attr("height", cbHeight)
-      .attr("transform", "translate(0,0)")
+      .attr("transform", "translate(50,0)")
       .style("vertical-align", "middle");
 
   // ----------------------------------------------------------------
