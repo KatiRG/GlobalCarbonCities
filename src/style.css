@@ -193,8 +193,8 @@ div.tooltip {
 }
 
 #pageTitle {
-  text-align: center;
-  left: 38px;
+  /*text-align: center;*/
+  left: 70px;
   padding-bottom: 5px;
 }
 
@@ -208,7 +208,7 @@ div.tooltip {
   color: #000;
 }
 #helpButton {
-  left: 10px;
+  left: 70px;
 }
 #backButton{
   left: 90px;
