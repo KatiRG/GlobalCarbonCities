@@ -73,19 +73,19 @@ ul {
 /*--------------------------*/
 /* buttons and menus */
 .nytg-sort li {
-  background: none repeat scroll 0 0 #f9f9f9;
-  border-bottom: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  color: #555;
+	background: none repeat scroll 0 0 #f9f9f9;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	color: #555;
   font-weight: bold;
-  cursor: pointer;
-  float: left;
-  font-size: 12px;
-  margin: 2;
-  padding: 0px 9px;
-  border-radius: 6px 6px 6px 6px;
+	cursor: pointer;
+	float: left;
+	font-size: 12px;
+	margin: 2;
+	padding: 0px 9px;
+	border-radius: 6px 6px 6px 6px;
 }
 /*drop-down menu*/
 .dropbtn {
@@ -193,13 +193,12 @@ div.tooltip {
 }
 
 #pageTitle {
-  text-align: center;
-  left: 115px;
+  /*text-align: center;*/
+  left: 70px;
   padding-bottom: 5px;
 }
 
 /*--------------------------*/
-#mapResetButton,
 #helpButton,
 #backButton {
   position: absolute;
@@ -208,16 +207,13 @@ div.tooltip {
   border-color: #fff;
   color: #000;
 }
-/* map */
-#mapResetButton {
-  left: 146px;
-}
 #helpButton {
-  left: 122px;
+  left: 70px;
 }
 #backButton{
   left: 90px;
 }
+/* map */
 .worldcountry {
   fill: rgb(24, 71, 27);
   stroke: #555;
@@ -334,6 +330,10 @@ div.rtooltip {
 .barMarker marker {
   fill: #555;
 }
+.barMarker text {
+  fill: #555;
+  font-size: 13px;
+}
 .barMarker path {
   stroke: #555;
 }
@@ -392,7 +392,7 @@ div.rtooltip {
   text-align: left;
   font-size: 18px;
   position: relative;
-  margin-bottom: 2em;
+  margin-bottom: 3em;
 }
 
 .textLabels {
@@ -438,20 +438,14 @@ div.rtooltip {
 }
 
 /* barChart legend */
-#selector {
-  margin-left: -80px;
-}
 .legendText {
   fill: rgb(86, 86, 86);
   stroke: none;
   font-size: 12px;
   display: inline;
 }
-.legendCB {
-  margin-left: -220px;
-}
 #dropdownMenu {
-  margin-left: -11px;
+  margin-left: 20px;
   margin-top: -11px;
   color: #565656;
   text-align: left;
@@ -461,7 +455,6 @@ label {
 }
 #barChartLegend {
   position: relative;
-  left: 60px;
   stroke: gray;
 }
 #barChartLegendUnits {
@@ -474,7 +467,7 @@ label {
 }
 .units {
   position: relative;
-  left: 150px;
+  left: 0px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
 }
@@ -483,44 +476,43 @@ label {
 }
 /*--------------------------*/
 /* city card */
-#cityCardg rect {
-  fill: #c7d1d9;
-  stroke: none;
-}
-
 .titlerow {
   font-weight: bold;
   font-size: 16px;
   color: #00563c;
   stroke: none;
-  /*text-shadow: 0 0 5px #333333;*/
   text-align: center;
-  /*margin-left: 19px;*/
-  /*text-decoration-line: underline; */
 }
 
 .subrow, .updated {
   font-size: 15px;
   stroke: none;
   color: #00563c;
-  text-align: left;
-  margin-left: 41px;
+  text-align: center;
 }
 
 .updated.row2, .updated.row4, .updated.row6, .updated.row8, .updated.row10, .subrow.row6, .subrow.row8, .subrow.row10 {
   color: #00563c;
+  text-align: justify;
+  margin-left: 37px;
 }
 .updated.row1, .updated.row3, .updated.row5, .updated.row7, .updated.row9, .subrow.row5, .subrow.row7, .subrow.row9 {
   text-transform: uppercase;
   color: #3b112d;
   font-weight: bold;
   font-size: 14px;
+  text-align: justify;
+  margin-left: 37px;
 }
 
 #thisContainer #mycityCardDiv {
   background: #c7d1d9;
   line-height: 2;
   min-height: 290px;
+}
+
+#mycityCardDiv {
+  background: #c7d1d9;
 }
 
 .cityCardSubrowTitle {

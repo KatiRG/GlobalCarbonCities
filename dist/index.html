@@ -7,7 +7,7 @@
   <link href="src/style.css" rel="stylesheet">
   <link href="lib/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
+
 </head>
 <body>
 
@@ -24,17 +24,10 @@
     <!-- header row -->
     <div class="row">
       <div class="col-lg-3" id="download"></div>
-      <div class="col-lg-6 headings" id="pageTitle"></div>
+      <div class="col-lg-7 headings" id="pageTitle"></div>
 
-      <div class="col-lg-1">
-        <ul class="navbar-header">
-          <button id="mapResetButton" class="btn btn-info" type="button">Clear</button>
-        </ul>
-      </div>
-      <div class="col-lg-1">
-        <ul class="navbar-header">
-          <button id="helpButton" class="btn btn-info" type="button">Help</button>
-        </ul>
+      <div class="col-lg-2">
+        <button id="helpButton" class="btn btn-info" type="button">Help</button>
       </div>
 
 
@@ -57,9 +50,6 @@
     <!-- row for barChart title and toggle buttons -->
     <div class="row">
       <div id="barChartCaption" class="col-lg-3 headings">Per capita emissions</div>
-      <div class="col-lg-2" id="selector">
-        <label for="attrSelector">Colour bars by</label>
-      </div>
       <div class="col-lg-2">
         <select id="dropdownMenu" class="form-control">
           <option value="region" selected="selected">Region</option>
@@ -79,7 +69,7 @@
         </select>
 
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-5">
         <div id="barChartLegend">
            <svg></svg>
         </div>
@@ -90,42 +80,43 @@
     <!-- ****************************************** -->
     <!-- BAR CHARTS -->
     <!-- ****************************************** -->
-
-    <!-- BarChart ROW1: groupEastAsia -->
-    <div class="row">
-      <!-- <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div> -->
-      <div id="h1" class="col-lg-2 headingClass"></div>
-      <div class="col-lg-12">
-        <div class="data EAdata"></div>
+    <div class="barChartContainer">
+      <!-- BarChart ROW1: groupEastAsia -->
+      <div class="row">
+        <!-- <div id="barChartCaption" class="headings">Per capita emissions [tCO₂eq/capita]</div> -->
+        <div id="h1" class="col-lg-2 headingClass"></div>
+        <div class="col-lg-12">
+          <div class="data EAdata"></div>
+        </div>
       </div>
-    </div>
 
-    <!-- BarChart ROW2: groupNAmer -->
-    <div class="row">
-      <div id="h2" class="col-lg-2 headingClass"></div>
-      <div class="col-lg-12">
-        <div class="data NAdata"></div>
+      <!-- BarChart ROW2: groupNAmer -->
+      <div class="row">
+        <div id="h2" class="col-lg-2 headingClass"></div>
+        <div class="col-lg-12">
+          <div class="data NAdata"></div>
+        </div>
       </div>
-    </div>
 
-    <!-- BarChart ROW3: groupEurope and groupSEAsia -->
-    <div class="row">
-      <div id="h3" class="col-lg-8 headingClass"></div>
-      <div id="h4" class="col-lg-4 headingClass"></div>
-      <div class="col-lg-12">
-        <div class="data EUdata"></div>
+      <!-- BarChart ROW3: groupEurope and groupSEAsia -->
+      <div class="row">
+        <div id="h3" class="col-lg-8 headingClass"></div>
+        <div id="h4" class="col-lg-4 headingClass"></div>
+        <div class="col-lg-12">
+          <div class="data EUdata"></div>
+        </div>
       </div>
-    </div>
 
-    <!-- BarChart ROW4: groupLatinAmer, groupSEAsia, groupSAsia -->
-     <div class="row">
-      <div class="col-lg-12">
-        <div id="h5" class="col-lg-3 headingClass"></div>
-        <div id="h6" class="col-lg-2 headingClass"></div>
-        <div id="h7" class="col-lg-3 headingClass"></div>
-        <div id="h8" class="col-lg-2 headingClass"></div>
-        <div id="h9" class="col-lg-2 headingClass"></div>
-        <div class="data dataRow4"></div>
+      <!-- BarChart ROW4: groupLatinAmer, groupSEAsia, groupSAsia -->
+       <div class="row">
+        <div class="col-lg-12">
+          <div id="h5" class="col-lg-3 headingClass"></div>
+          <div id="h6" class="col-lg-2 headingClass"></div>
+          <div id="h7" class="col-lg-3 headingClass"></div>
+          <div id="h8" class="col-lg-2 headingClass"></div>
+          <div id="h9" class="col-lg-2 headingClass"></div>
+          <div class="data dataRow4"></div>
+        </div>
       </div>
     </div>
 
@@ -141,7 +132,6 @@
       <div class="col-lg-2 footerClass" id="logo_CDP"> <!-- ratio 1:2.8 -->
         <a target="_blank" href="https://www.cdp.net/en"><img src="img/CDP.png" title="CDP" width="114" height="40"/></a>
       </div>
-
     </footer>
 
     <script src="lib/jquery.min.js"></script>
@@ -163,8 +153,6 @@
     <script src="src/index.js"></script>
 
   </div>  <!-- ./container -->
-
-
 
 </body>
 </html>
