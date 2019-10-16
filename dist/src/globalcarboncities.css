@@ -73,19 +73,19 @@ ul {
 /*--------------------------*/
 /* buttons and menus */
 .nytg-sort li {
-  background: none repeat scroll 0 0 #f9f9f9;
-  border-bottom: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  color: #555;
+	background: none repeat scroll 0 0 #f9f9f9;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	color: #555;
   font-weight: bold;
-  cursor: pointer;
-  float: left;
-  font-size: 12px;
-  margin: 2;
-  padding: 0px 9px;
-  border-radius: 6px 6px 6px 6px;
+	cursor: pointer;
+	float: left;
+	font-size: 12px;
+	margin: 2;
+	padding: 0px 9px;
+	border-radius: 6px 6px 6px 6px;
 }
 /*drop-down menu*/
 .dropbtn {
@@ -193,8 +193,8 @@ div.tooltip {
 }
 
 #pageTitle {
-  text-align: center;
-  left: 38px;
+  /*text-align: center;*/
+  left: 70px;
   padding-bottom: 5px;
 }
 
@@ -208,7 +208,7 @@ div.tooltip {
   color: #000;
 }
 #helpButton {
-  left: 10px;
+  left: 70px;
 }
 #backButton{
   left: 90px;
@@ -330,12 +330,12 @@ div.rtooltip {
 .barMarker marker {
   fill: #555;
 }
-.barMarker path {
-  stroke: #555;
-}
 .barMarker text {
   fill: #555;
   font-size: 13px;
+}
+.barMarker path {
+  stroke: #555;
 }
 .offscaleText {
   fill: #565656;
@@ -438,9 +438,6 @@ div.rtooltip {
 }
 
 /* barChart legend */
-#selector {
-  margin-left: -80px;
-}
 .legendText {
   fill: rgb(86, 86, 86);
   stroke: none;
@@ -448,7 +445,7 @@ div.rtooltip {
   display: inline;
 }
 #dropdownMenu {
-  margin-left: -11px;
+  margin-left: 20px;
   margin-top: -11px;
   color: #565656;
   text-align: left;
@@ -470,7 +467,7 @@ label {
 }
 .units {
   position: relative;
-  left: 104px;
+  left: 0px;
   fill: rgb(86, 86, 86);
   font-size: 12px;
 }
@@ -514,6 +511,10 @@ label {
   min-height: 290px;
 }
 
+#mycityCardDiv {
+  background: #c7d1d9;
+}
+
 .cityCardSubrowTitle {
   font-weight: 700;
   font-size: 11px;
@@ -529,9 +530,6 @@ label {
   fill: #fff;
   text-align: right;
 }
-
-
-.style("text-transform", "uppercase")
 
 td, th {
   padding: 1px 4px;

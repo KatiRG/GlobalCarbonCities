@@ -1569,7 +1569,7 @@
 	    bottom: 0,
 	    left: 0
 	  };
-	  var cbWidth = 520 - margin.left - margin.right;
+	  var cbWidth = 480 - margin.left - margin.right;
 	  var cbHeight = 35 - margin.top - margin.bottom; // Bar charts
 
 	  var chartEA = d3.select(".data.EAdata").append("svg").attr("id", "barChart_groupEastAsia");
@@ -1577,8 +1577,16 @@
 	  var chartEU = d3.select(".data.EUdata").append("svg").attr("id", "barChart_groupRow3");
 	  var chartRow4 = d3.select(".data.dataRow4").append("svg").attr("id", "barChart_groupRow4"); // Colour Bar
 
-	  var svgCB = d3.select("#barChartLegend").select("svg").attr("width", cbWidth).attr("height", cbHeight).attr("transform", "translate(120,0)").style("vertical-align", "middle"); // ----------------------------------------------------------------
-	  // Help button
+	  var svgCB = d3.select("#barChartLegend").select("svg").attr("width", cbWidth).attr("height", cbHeight).attr("transform", "translate(50,0)").style("vertical-align", "middle"); // ----------------------------------------------------------------
+
+	  d3.select(".barChartContainer").on("click", function () {
+	    // Remove any tooltips that will get in the way of cursor
+	    d3.selectAll(".tooltip-bar").remove(); // Clear previous enlarged text and selected bar
+
+	    d3.selectAll(".enlarged").classed("enlarged", false);
+	    d3.selectAll("rect.active").classed("active", false);
+	    d3.selectAll(".cityactive").classed("cityactive", false);
+	  }); // Help button
 
 	  d3.select("#helpButton").on("click", function () {
 	    createHelp();
@@ -1725,18 +1733,7 @@
 	      }
 	    });
 	  } // ----------------------------------------------------------------
-	  // Map reset button
 
-
-	  d3.select("#mapResetButton").on("click", function () {
-	    // Reset zoom. NB: must apply reset to svg not g
-	    // const svg = d3.select("#map").select("svg");
-	    // zoom.transform(svg, d3.zoomIdentity);
-	    // Clear previous enlarged text and selected bar
-	    d3.selectAll(".enlarged").classed("enlarged", false);
-	    d3.selectAll("rect.active").classed("active", false);
-	    d3.selectAll(".cityactive").classed("cityactive", false);
-	  });
 
 	  function drawMap() {
 	    var options = [{
@@ -1746,7 +1743,7 @@
 	    options.forEach(function (o) {
 	      o.projection.rotate([0, 0]).center([40, 0]);
 	    });
-	    var projection = options[0].projection.scale(151).translate([mapWidth / 1.655, mapHeight / 1.67]);
+	    var projection = options[0].projection.scale(151).translate([mapWidth / 1.61, mapHeight / 1.67]);
 	    path = d3.geoPath().projection(projection).pointRadius([defaultRadius]);
 	    var graticule = d3.geoGraticule();
 	    var svg = d3.select("#map").append("svg").attr("width", mapWidth).attr("height", mapHeight).attr("transform", "translate(" + -25 + "," + 0 + ")");
@@ -1970,7 +1967,7 @@
 	    }); // add rects
 
 	    newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
-	      return 51 + i * 85;
+	      return 58 + i * 85;
 	    }).attr("fill", getFill); // hover
 
 	    newGroup.selectAll(".legend rect").on("touchmove mousemove", function (d, j) {
@@ -2106,7 +2103,7 @@
 
 	          if (selectedAttribute !== "protocol" && selectedAttribute !== "year") {
 	            var cityName = d3.selectAll(".enlarged").text();
-	            addNewText(selectedAttribute, cityName);
+	            showAttr(selectedAttribute, cityName);
 	            showCityCard(newText);
 	          }
 	        }
@@ -2219,9 +2216,15 @@
 	    var thisProtocol = dataGHG.filter(function (d) {
 	      return d.city === cityName;
 	    })[0]["protocol"];
+	    var thisRegion = dataGHG.filter(function (d) {
+	      return d.city === cityName;
+	    })[0]["region"];
 	    var displayName = i18next.t(cityName, {
 	      ns: "displayName"
 	    });
+	    var comboRow = "".concat(thisYear, ", ").concat(i18next.t(thisProtocol, {
+	      ns: "protocol"
+	    }));
 	    newText = [{
 	      id: 1,
 	      text: "".concat(displayName, ", ").concat(thisCountry)
@@ -2244,7 +2247,7 @@
 	      })
 	    }, {
 	      id: 5,
-	      text: thisYear
+	      text: comboRow
 	    }, {
 	      id: 6,
 	      text: i18next.t("datasetRow", {
@@ -2257,19 +2260,15 @@
 	      })
 	    }, {
 	      id: 8,
-	      text: i18next.t("protocolRow", {
-	        ns: "cityCard"
-	      })
+	      text: "region"
 	    }, {
 	      id: 9,
-	      text: i18next.t(thisProtocol, {
-	        ns: "protocol"
-	      })
+	      text: thisRegion
 	    }];
 
 	    if (data[selectedAttribute]) {
 	      if (selectedAttribute !== "protocol" & selectedAttribute !== "year") {
-	        addNewText(selectedAttribute, cityName);
+	        showAttr(selectedAttribute, cityName);
 	      }
 	    }
 
@@ -2282,10 +2281,10 @@
 	    d3.selectAll(".worldcountry:not(#map".concat(i18next.t(thisCountry, {
 	      ns: "countries"
 	    }), ")")).classed("countryfade", true);
-	  } // Adds to newText obj array for city card
+	  } // Show attr in city card
 
 
-	  function addNewText(attr, cityName) {
+	  function showAttr(attr, cityName) {
 	    var thisAttr;
 	    var val = data[attr].filter(function (d) {
 	      return d.city === cityName;
@@ -2299,16 +2298,12 @@
 
 	    var thisUnit = thisAttr === "N/A" ? "" : i18next.t(attr, {
 	      ns: "units"
+	    }); // Replace region rows with selected attr
+
+	    newText[7].text = i18next.t(attr, {
+	      ns: "attributes"
 	    });
-	    newText.push({
-	      id: 10,
-	      text: i18next.t(attr, {
-	        ns: "attributes"
-	      })
-	    }, {
-	      id: 11,
-	      text: "".concat(thisAttr, " ").concat(thisUnit)
-	    });
+	    newText[8].text = "".concat(thisAttr, " ").concat(thisUnit);
 	  } // Reset elements to original style before selection
 
 
