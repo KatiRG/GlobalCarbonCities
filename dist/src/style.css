@@ -43,6 +43,12 @@
   margin-left: 20px;
 }
 
+.helpOverlayFooter a:link,
+.helpOverlayFooter a:active,
+.helpOverlayFooter a:visited {
+  color: #fff;
+}
+
 ul {
     list-style: outside none none;
 }
