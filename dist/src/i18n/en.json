@@ -1,13 +1,13 @@
 {
   "en": {
     "helpOverlay": {
-      "helpTitle": "These interactive bar charts show the per capita CO<sub>2</sub> emissions for hundreds of cities world-wide, organized by geographical region.",
+      "helpTitle": "These interactive bar charts show the per capita CO₂ emissions for hundreds of cities world-wide, organized by geographical region.",
       "helpCardName": "Statistics for a selected city will be displayed in this info area, including the value of the attribute selected in the dropdown menu.",
       "helpFooter": "Data published in <a target='_blank' href='https://www.nature.com/articles/sdata2018280'>Nangini et al., 2019</a> and publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>.",
       "helpMapName": "Hover over any cirlce on the map to highlight it's per capita emissions in the corresponding bar chart below.",
       "helpMenuName": "Colour the bars by selecting an attribute. The colour scale will be displayed to the right of the dropdown menu.",
       "helpUnitsName": "Attributes BUA, CDD and HDD are explained by hovering over the unit displayed in the legend.",
-      "helpBarsName": "Bar charts show the per capita CO<sub>2</sub> emissions of each city, organized by geographical region.",
+      "helpBarsName": "Bar charts show the per capita CO₂ emissions of each city, organized by geographical region.",
       "helpBarHover": "Hover over a bar to highlight a city on the bar chart and the map, and display its statistics in the info area."
     },
     "units": {
@@ -33,7 +33,7 @@
       "titletag": "City Emissions",
       "title": "A global dataset of CO₂ emissions and related ancillary data",
       "subtitle": "Total inland water carbon fluxes: 1292.0 Tg C yr<sup>-1</sup>",
-      "downloadText": "Data publicly available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>"
+      "downloadText": "Data available on <a target='_blank' href='https://doi.pangaea.de/10.1594/PANGAEA.884141'>PANGAEA</a>"
     },
     "chartHeadings": {
       "h1": "East Asia",
@@ -54,7 +54,7 @@
       "initRow3": "to display emission values",
       "initRow4": "and related ancillary data.",
       "scope1Row": "scope-1 emissions",
-      "yearRow": "measurement year",
+      "yearRow": "year, protocol",
       "datasetRow": "dataset source",
       "protocolRow": "protocol"
     },
@@ -229,6 +229,7 @@
       "Seberang": "Sebe",
       "Semarang": "Sema",
       "Singapore": "Sing",
+      "Shenzen": "Shnz",
 
       "Aguascalientes": "Agua",
       "Barranquilla": "Barr",
@@ -384,7 +385,7 @@
       "Shng": "Shanghai",
       "Shan": "Shantou",
       "Shny": "Shenyang",
-      "Shnz": "Shnzhen",
+      "Shnz": "Shenzhen",
       "Shij": "Shijiazhuang",
       "Suwo": "Suwon",
       "Suzh": "Suzhou",
