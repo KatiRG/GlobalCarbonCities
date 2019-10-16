@@ -149,7 +149,7 @@ const init = (urlRoot = "") => {
         textLengthByLine: 35
       },
       {
-        linkType: "left",
+        linkType: "right",
         divToHelpId: "helpBarHoverName",
         text: i18next.t("helpBarHover", {ns: "helpOverlay"}),
         marginTop: 600,
