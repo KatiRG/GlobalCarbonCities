@@ -88,7 +88,7 @@ var Help = Class.create( {
      * This function creates the main div with the maxIndex and opacity
      */
     createWrapper: function()
-    {        
+    {
         var wrapperId = "helpWrapper_" + this.timeForId;
         this.maxIndex = this.getMaxIndex() + 1;
         var wrapperDiv = $( '<div class="helpOverlay" id="' + wrapperId + '" style="' +
@@ -278,7 +278,7 @@ var Help = Class.create( {
                 .append( 'svg' )
                 .attr( "height", svgHeight )
                 .attr( "width", svgWidth );
-        if (element.linkType != "dotOnly") {        
+        if (element.linkType != "dotOnly") {
             helpSvg.append( 'path' )
                     .style( "fill", "none" )
                     .style( "stroke", "#CCCCCC" )
@@ -288,18 +288,18 @@ var Help = Class.create( {
                 .style( 'fill', "white" )
                 .attr( "cx", x2 )
                 .attr( "cy", y2 )
-                .attr( "r", this.circleRadius );        
+                .attr( "r", this.circleRadius );
         }
         helpSvg.append( "circle" )
                 .style( 'fill', "white" )
                 .attr( "cx", x1 )
                 .attr( "cy", y1 )
                 .attr( "r", this.circleRadius );
-        
+
 
         // Add a small "i" in the circle to inform linkedHelp
         if( element.linkedHelp )
-        {            
+        {
             var xx = "simpleLeft" != element.linkType ? x2 - 2 : x1 - 2;
             var yy = "simpleLeft" != element.linkType ? y2 + 3 : y2 + 3;
             helpSvg.append( "text" )
@@ -326,7 +326,7 @@ var Help = Class.create( {
                     helpSvgText.attr( 'x', x1 + this.textGap)
                             .attr( 'y', y2 + 5 + 15 * linesNumber );
                     break;
-                case "simple":                   
+                case "simple":
                     helpSvgText.attr( 'x', x2 + this.textGap)
                             .attr( 'y', y2 + 5 + 15 * linesNumber );
                     break;
@@ -446,9 +446,9 @@ var Help = Class.create( {
      */
     findPosition: function( div )
     {
-        var posX = div.offset().left;
-        var posY = div.offset().top;
-        return { posX:posX, posY:posY };
+      var posX = div.get(0).offsetLeft;
+      var posY = div.get(0).offsetTop;
+      return { posX:posX, posY:posY };
     },
 
     /**
