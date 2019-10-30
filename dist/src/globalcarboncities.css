@@ -1,3 +1,7 @@
+#thisContainer {
+  position: relative;
+}
+
 #thisContainer [class*="col-"],
 #thisContainer footer {
   border: 0px solid white;
