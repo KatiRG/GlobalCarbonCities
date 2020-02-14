@@ -111,7 +111,7 @@ const init = (urlRoot = "") => {
         divToHelpId: "helpTitleName",
         text: i18next.t("helpMapName", {ns: "helpOverlay"}),
         marginTop: 100,
-        marginLeft: 250,
+        marginLeft: 580,
         textLengthByLine: 60,
         myTitle: i18next.t("helpTitle", {ns: "helpOverlay"}),
         myfooter: i18next.t("helpFooter", {ns: "helpOverlay"})
@@ -121,23 +121,23 @@ const init = (urlRoot = "") => {
         divToHelpId: "helpCardName",
         text: i18next.t("helpCardName", {ns: "helpOverlay"}),
         marginTop: 100,
-        marginLeft: -312,
+        marginLeft: 20,
         textLengthByLine: 30
       },
       {
         linkType: "dotOnly",
         divToHelpId: "helpMenuName",
         text: i18next.t("helpMenuName", {ns: "helpOverlay"}),
-        marginTop: 340,
-        marginLeft: 290,
+        marginTop: 367,
+        marginLeft: 400,
         textLengthByLine: 60
       },
       {
         linkType: "left",
         divToHelpId: "helpUnitsName",
         text: i18next.t("helpUnitsName", {ns: "helpOverlay"}),
-        marginTop: 370,
-        marginLeft: 720,
+        marginTop: 380,
+        marginLeft: 920,
         textLengthByLine: 35
       },
       {
